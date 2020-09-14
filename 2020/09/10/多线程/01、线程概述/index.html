@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>01、线程概述 | D丶Cheng的博客</title><meta name="description" content="线程相关概念进程​        进程(Process)是计算机中的程序关于某数据集合上的一次运行活动，是操作系统进行资源分配与调度的基本单位，可以把进程简单的理解为正在操作系统中运行的一个程序。   线程​        线程(thread)是进程的一个执行单元。一个线程就是进程中一个单一顺序的控制流, 进程的一个执行分支进程是线程的容器，一个进程至少有一个线程。一个进程中也可以 有多个线程。在"><meta name="keywords" content="多线程"><meta name="author" content="D丶Cheng"><meta name="copyright" content="D丶Cheng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chave-z.github.io/2020/09/10/%E5%A4%9A%E7%BA%BF%E7%A8%8B/01%E3%80%81%E7%BA%BF%E7%A8%8B%E6%A6%82%E8%BF%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="01、线程概述"><meta property="og:url" content="https://chave-z.github.io/2020/09/10/%E5%A4%9A%E7%BA%BF%E7%A8%8B/01%E3%80%81%E7%BA%BF%E7%A8%8B%E6%A6%82%E8%BF%B0/"><meta property="og:site_name" content="D丶Cheng的博客"><meta property="og:description" content="线程相关概念进程​        进程(Process)是计算机中的程序关于某数据集合上的一次运行活动，是操作系统进行资源分配与调度的基本单位，可以把进程简单的理解为正在操作系统中运行的一个程序。   线程​        线程(thread)是进程的一个执行单元。一个线程就是进程中一个单一顺序的控制流, 进程的一个执行分支进程是线程的容器，一个进程至少有一个线程。一个进程中也可以 有多个线程。在"><meta property="og:image" content="https://chave-z.github.io/null"><meta property="article:published_time" content="2020-09-10T11:45:25.268Z"><meta property="article:modified_time" content="2020-09-14T06:41:43.272Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.1.1',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '天',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: {"limitCount":50,"languages":{"author":"作者: D丶Cheng","link":"链接: ","source":"来源: D丶Cheng的博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2020-09-14 14:41:43'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.1.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/null" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">4</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">1</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">1</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">线程相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%AD%90%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">主线程与子线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%B2%E8%A1%8C%E3%80%81%E5%B9%B6%E5%8F%91%E4%B8%8E%E5%B9%B6%E8%A1%8C"><span class="toc-number">1.4.</span> <span class="toc-text">串行、并发与并行</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%90%AF%E5%8A%A8"><span class="toc-number">2.</span> <span class="toc-text">线程的创建与启动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">线程常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">3.1.</span> <span class="toc-text">线程的生命周期</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8E%E4%BB%A3%E4%BB%B7"><span class="toc-number">4.</span> <span class="toc-text">多线程编程的优势与代价</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-number">4.1.</span> <span class="toc-text">优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E4%BB%B7"><span class="toc-number">4.2.</span> <span class="toc-text">代价</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">D丶Cheng的博客</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">01、线程概述</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-09-10T11:45:25.268Z" title="发表于 2020-09-10 19:45:25">2020-09-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-09-14T06:41:43.272Z" title="更新于 2020-09-14 14:41:43">2020-09-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="线程相关概念"><a href="#线程相关概念" class="headerlink" title="线程相关概念"></a>线程相关概念</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>​        进程(Process)是计算机中的程序关于某数据集合上的一次运行活动，是操作系统进行资源分配与调度的基本单位，可以把进程简单的理解为正在操作系统中运行的一个程序。</p>
+<a id="more"></a>
+
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>​        线程(thread)是进程的一个执行单元。一个线程就是进程中一个单一顺序的控制流, 进程的一个执行分支进程是线程的容器，一个进程至少有一个线程。一个进程中也可以 有多个线程。在操作系统中是以进程为单位分配资源，如虚拟存储空间，文件描述符等。 每个线程都有各自的线程栈，自己的寄存器环境，自己的线程 本地存储。</p>
+<h2 id="主线程与子线程"><a href="#主线程与子线程" class="headerlink" title="主线程与子线程"></a>主线程与子线程</h2><p>​        JVM 启动时会创建一个主线程，该主线程负责执行 main 方法 。 主线程就是运行 main 方法的线程Java中的线程不孤立的，线程之间存在一些联系。 如果在 A 线程中创建了B线程, 称B线程为A线程的子线程, 相应的A线程就是B线程的父线程</p>
+<h2 id="串行、并发与并行"><a href="#串行、并发与并行" class="headerlink" title="串行、并发与并行"></a>串行、并发与并行</h2><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20200910195621396.png" alt="image-20200910195621396">                          </p>
+<p>并发可以提高以事物的处理效率，即一段时间内可以处理或者完成更多的事情。</p>
+<p>并行是一种更为严格，理想的并发，从硬件角度来说, 如果单核 CPU，一个处理器一次只能执行一个线程的情况下，处理器可以使用时间片轮转技术，可以让 CPU 快速的在 各个线程之间进行切换， 对于用来来说，感觉是三个线程在同时执行。 如果是多核心 CPU，可以为不同的线程分配不同的 CPU 内核。</p>
+<h1 id="线程的创建与启动"><a href="#线程的创建与启动" class="headerlink" title="线程的创建与启动"></a>线程的创建与启动</h1><ul>
+<li><p>定义 Thread 类的子类</p>
+</li>
+<li><p>定义一个 Runnable 接口的实现类</p>
+</li>
+</ul>
+<h1 id="线程常用方法"><a href="#线程常用方法" class="headerlink" title="线程常用方法"></a>线程常用方法</h1><ul>
+<li>currentThread()</li>
+</ul>
+<blockquote>
+<p>Thread.currentThread()方法可以获得当前线程，Java 中的任何一段代码都是执行在某个线程当中的. 执行当前代码的线程就是当前线程。同一段代码可能被不同的线程执行 ，因此当前线程是相对的,Thread.currentThread()方法的返回值是在代码实际运行时候的线程对象</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SubThread02</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SubThread02</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;构造方法中，Thread.currentThread().getName():&quot;</span> + Thread.currentThread().getName());</span><br><span class="line">        System.out.println(<span class="string">&quot;构造方法中，this.getName():&quot;</span> + <span class="keyword">this</span>.getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;run方法中，Thread.currentThread().getName():&quot;</span> + Thread.currentThread().getName());</span><br><span class="line">        System.out.println(<span class="string">&quot;run方法中，this.getName():&quot;</span> + <span class="keyword">this</span>.getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SubThreadTest02</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        SubThread02 subThread02 = <span class="keyword">new</span> SubThread02();</span><br><span class="line">        subThread02.setName(<span class="string">&quot;subThread&quot;</span>);</span><br><span class="line">        subThread02.start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Thread.sleep(<span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Thread(Runnable)接口传递的形参是Runnable接口，但是传递的实参是Runnable接口的实现类</span></span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(subThread02);</span><br><span class="line">        thread.start();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 结果</span></span><br><span class="line">构造方法中，Thread.currentThread().getName():main</span><br><span class="line">构造方法中，<span class="keyword">this</span>.getName():Thread-<span class="number">0</span></span><br><span class="line">run方法中，Thread.currentThread().getName():subThread</span><br><span class="line">run方法中，<span class="keyword">this</span>.getName():subThread</span><br><span class="line">run方法中，Thread.currentThread().getName():Thread-<span class="number">1</span></span><br><span class="line">run方法中，<span class="keyword">this</span>.getName():subThread</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>isAlive()</li>
+</ul>
+<blockquote>
+<p>判断当前线程是否处于活动状态，活动状态就是线程已启动并且尚未终止</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IsAliveThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;sub thread isAlive:&quot;</span> + <span class="keyword">this</span>.isAlive());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IsAliveThreadTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        IsAliveThread isAliveThread = <span class="keyword">new</span> IsAliveThread();</span><br><span class="line">        System.out.println(<span class="string">&quot;isAliveThread isAlive:&quot;</span> + isAliveThread.isAlive());</span><br><span class="line">        isAliveThread.start();</span><br><span class="line"><span class="comment">//        Thread.sleep(2000);</span></span><br><span class="line">        <span class="comment">// 这一段执行结果不确定</span></span><br><span class="line">        System.out.println(<span class="string">&quot;isAliveThread isAlive:&quot;</span> + isAliveThread.isAlive());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 结果</span></span><br><span class="line">isAliveThread isAlive:<span class="keyword">false</span></span><br><span class="line">isAliveThread isAlive:<span class="keyword">true</span></span><br><span class="line">sub thread isAlive:<span class="keyword">true</span> <span class="comment">// 这个是不确定的</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>sleep()  线程休眠 </li>
+<li>getId() </li>
+</ul>
+<blockquote>
+<p>获得线程的唯一标识</p>
+<p>注意:</p>
+<p>某个编号的线程运行结束后,该编号可能被后续创建的线程使用</p>
+<p>重启的 JVM 后,同一个线程的编号可能不一样</p>
+</blockquote>
+<ul>
+<li>yield</li>
+</ul>
+<blockquote>
+<p>Thread.yield()方法的作用是放弃当前的 CPU 资源</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">YieldThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> begin = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">long</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">1000000</span>; i++) &#123;</span><br><span class="line">            sum += i;</span><br><span class="line">            Thread.yield(); <span class="comment">//线程让步,</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line"><span class="comment">//        放弃 CPU 执行权</span></span><br><span class="line">        System.out.println(<span class="string">&quot;yield用时: &quot;</span> + (end - begin));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">YieldThreadTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//开启子线程,计算累加和</span></span><br><span class="line">        YieldThread yieldThread = <span class="keyword">new</span> YieldThread();</span><br><span class="line">        yieldThread.start();</span><br><span class="line">        <span class="comment">//在 main 线程中计算累加和</span></span><br><span class="line">        <span class="keyword">long</span> begin = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">long</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">1000000</span>; i++) &#123;</span><br><span class="line">            sum += i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">&quot;main 方法 , 用时: &quot;</span> + (end - begin));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// </span></span><br><span class="line">main 方法 , 用时: <span class="number">4</span></span><br><span class="line">yield用时: <span class="number">365</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>setPriority(num)</li>
+</ul>
+<blockquote>
+<p>设置线程的优先级，java 线程的优先级取值范围是1 ~ 10， 如果超出这个范围会抛出异常 IllegalArgumentException，一般不要设置。</p>
+<p>注意：</p>
+<p>线程的优先级具有继承性，在 A 线程中创建了 B 线程，则 B 线程的优先级与 A 线程是一样的</p>
+</blockquote>
+<ul>
+<li>interrupt()</li>
+</ul>
+<blockquote>
+<p>中断线程，但注意调用 interrupt()方法仅仅是在当前线程打一个停止标志，并不是真正的停止线程</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class InterruptThread extends Thread &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; 100000; i++) &#123;</span><br><span class="line">            &#x2F;&#x2F; 不加这个判断，test中设置interrupt无效</span><br><span class="line">            if (this.isInterrupted()) &#123;</span><br><span class="line">                System.out.println(&quot;当前线程终止&quot;);</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(&quot;sub thread --&gt; &quot; + i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class InterruptThreadTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        InterruptThread t1 &#x3D; new InterruptThread();</span><br><span class="line">        t1.start(); &#x2F;&#x2F;&#x2F;开启子线程</span><br><span class="line">        &#x2F;&#x2F;当前线程是 main 线程</span><br><span class="line">        for (int i &#x3D; 1; i &lt;&#x3D; 100; i++) &#123;</span><br><span class="line">            System.out.println(&quot;main &#x3D;&#x3D;&gt; &quot; + i);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;中断子线程</span><br><span class="line">        t1.interrupt(); &#x2F;&#x2F;仅仅是给子线程标记中断,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>setDaemon()</li>
+</ul>
+<blockquote>
+<p>设置守护线程，Java 中的线程分为用户线程与守护线程，守护线程是为其他线程提供服务的线程，如垃圾回收器(GC)就是一</p>
+<p>个典型的守护线程，守护线程不能单独运行，当 JVM 中没有其他用户线程，只有守护线程时，守护线程会自动销毁， JVM 会退出。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class DaemonThread extends Thread &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        while (true)&#123;</span><br><span class="line">            System.out.println(&quot;sub thread...&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DaemonTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        DaemonThread thread &#x3D; new DaemonThread();</span><br><span class="line">        &#x2F;&#x2F;设置线程为守护线程</span><br><span class="line">        &#x2F;&#x2F;设置守护线程的代码应该在线程启动前</span><br><span class="line">        thread.setDaemon(true);</span><br><span class="line">        thread.start();</span><br><span class="line">        &#x2F;&#x2F;当前线程为 main 线程</span><br><span class="line">        for (int i &#x3D; 1; i &lt;&#x3D; 10; i++) &#123;</span><br><span class="line">            System.out.println(&quot;main&#x3D;&#x3D; &quot; + i);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; 设置了setDaemon(true)以后，主线程停止，子线程也销毁，但是不是立即销毁</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>getState()</li>
+</ul>
+<blockquote>
+<p>获取线程的状态</p>
+</blockquote>
+<h2 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h2><ul>
+<li>NEW 新建状态</li>
+</ul>
+<blockquote>
+<p>创建了线程对象,在调用 start()启动之前的状态;</p>
+</blockquote>
+<ul>
+<li>RUNNABLE 可运行状态 . </li>
+</ul>
+<blockquote>
+<p>它是一个复合状态 ，包含: READY 和RUNNING 两个状态。READY 状态该线程可以被线程调度器进行调度使</p>
+<p>它处 于RUNNING状 态, RUNING 状 态 表 示 该 线 程 正 在 执 行。Thread.yield()方法可以把线程由 RUNNING 状态转换为 READY 状态</p>
+</blockquote>
+<ul>
+<li>BLOCKED 阻塞状态</li>
+</ul>
+<blockquote>
+<p>线程发起阻塞的 I/O 操作，或者申请由其他线程占用的独占资源,线程会转换为 BLOCKED 阻塞状态. 处于阻塞状态的线程不会占用 CPU资源。当阻塞 I/O操作执行完,或者线程获得了其申请的资源,线程可以转换为RUNNABLE。 </p>
+</blockquote>
+<ul>
+<li>WAITING 等待状态</li>
+</ul>
+<blockquote>
+<p>线程执行了 object.wait(), thread.join()方法会把线程转换为 WAITING 等待状态, 执行 object.notify()方法,或者加入的线程执行完毕,当前线程会转换为 RUNNABLE 状态</p>
+</blockquote>
+<ul>
+<li>TIMED_WAITING 状态</li>
+</ul>
+<blockquote>
+<p>与 WAITING 状态类似,都是等待状态.区别在于处于该状态的线程不会无限的等待,如果线程没有在指定的时间范围内完成期望的操作,该线程自动转换为RUNNABLE，TERMINATED 终止状态，线程结束处于终止状态</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20200910205636369.png" alt="image-20200910205636369"></p>
+<h1 id="多线程编程的优势与代价"><a href="#多线程编程的优势与代价" class="headerlink" title="多线程编程的优势与代价"></a>多线程编程的优势与代价</h1><h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><ol>
+<li>提高系统的吞吐率(Throughout). 多线程编程可以使一个进程有多个并发(concurrent,即同时进行的)的操作</li>
+<li>提高响应性(Responsiveness).Web 服务器会采用一些专门的线程负责用户的请求处理,缩短了用户的等待时间</li>
+<li>充分利用多核(Multicore)处理器资源. 通过多线程可以充分的利用 CPU 资源</li>
+</ol>
+<h2 id="代价"><a href="#代价" class="headerlink" title="代价"></a>代价</h2><ol>
+<li><p>线程安全(Thread safe)问题：多线程共享数据时，如果没有采取正确的并发访问控制措施，就可能会产生数据一致性问题，如读取脏数据(过期的数据)， 如丢失数据更新。</p>
+</li>
+<li><p>线程活性(thread liveness)问题：由于程序自身的缺陷或者由资源稀缺性导致线程一直处于非 RUNNABLE 状态，这就是线程活性问题。</p>
+<p>常见的活性故障有以下几种:</p>
+<p>(1) 死锁(Deadlock) 类似鹬蚌相争</p>
+<p>(2) 锁死(Lockout) 类似于睡美人故事中王子挂了</p>
+<p>(3) 活锁(Livelock) 类似于小猫咬自己尾巴，一直咬不到</p>
+<p>(4) 饥饿(Starvation) 类似于健壮的雏鸟总是从母鸟嘴中抢到所有食物</p>
+</li>
+<li><p>增大上下文切换(Context Switch) 开销：处理器从执行一个线程切换到执行另外一个线程</p>
+</li>
+<li><p>可靠性：可能会由一个线程导致 JVM 意外终止，其他的线程也无法执行</p>
+</li>
+</ol>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">D丶Cheng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://chave-z.github.io/2020/09/10/%E5%A4%9A%E7%BA%BF%E7%A8%8B/01%E3%80%81%E7%BA%BF%E7%A8%8B%E6%A6%82%E8%BF%B0/">https://chave-z.github.io/2020/09/10/%E5%A4%9A%E7%BA%BF%E7%A8%8B/01%E3%80%81%E7%BA%BF%E7%A8%8B%E6%A6%82%E8%BF%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://chave-z.github.io" target="_blank">D丶Cheng的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a></div><div class="post_share"><div class="social-share" data-image="/null" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/09/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/02%E3%80%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7%E9%97%AE%E9%A2%98/"><img class="prev-cover" src="/null" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">02、线程安全性问题</div></div></a></div><div class="next-post pull-right"><a href="/2020/07/24/%E5%A4%9A%E7%BA%BF%E7%A8%8B/04%E3%80%81%E5%B8%B8%E8%A7%81%E5%8E%9F%E5%AD%90%E7%B1%BB/"><img class="next-cover" src="/null" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info"></div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/09/11/多线程/02、线程安全性问题/" title="02、线程安全性问题"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-09-11</div><div class="title">02、线程安全性问题</div></div></a></div><div><a href="/2020/09/11/多线程/03、线程同步/" title="03、线程同步"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-09-11</div><div class="title">03、线程同步</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By D丶Cheng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/search/local-search.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/js/third-party/canvas-nest.js"></script></div></body></html>
