@@ -1,222 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>03.SpringAOP</title>
-    <url>/2020/07/21/Spring/01%20AOP/</url>
-    <content><![CDATA[<h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。</p>
-<h4 id="AOP-即-Aspect-Oriented-Program-面向切面编程"><a href="#AOP-即-Aspect-Oriented-Program-面向切面编程" class="headerlink" title="AOP 即 Aspect Oriented Program 面向切面编程"></a>AOP 即 Aspect Oriented Program 面向切面编程</h4><p>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。</p>
-<ul>
-<li><strong>所谓的核心业务</strong>，比如登陆，增加数据，删除数据都叫核心业务</li>
-<li><strong>所谓的周边功能</strong>，比如性能统计，日志，事务管理等等</li>
-</ul>
-<p>周边功能在 Spring 的面向切面编程AOP思想里，即被定义为切面</p>
-<p>在面向切面编程AOP的思想里面，核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫AOP</p>
-<h4 id="AOP-的目的"><a href="#AOP-的目的" class="headerlink" title="AOP 的目的"></a>AOP 的目的</h4><p>AOP能够将那些与业务无关，<strong>却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来</strong>，便于<strong>减少系统的重复代码</strong>，<strong>降低模块间的耦合度</strong>，并<strong>有利于未来的可拓展性和可维护性</strong>。</p>
-<h4 id="AOP-当中的概念："><a href="#AOP-当中的概念：" class="headerlink" title="AOP 当中的概念："></a>AOP 当中的概念：</h4><ul>
-<li>切入点（Pointcut）<br>在哪些类，哪些方法上切入（<strong>where</strong>）</li>
-<li>通知（Advice）<br>在方法执行的什么实际（<strong>when:**方法前/方法后/方法前后）做什么（</strong>what:**增强的功能）</li>
-<li>切面（Aspect）<br>切面 = 切入点 + 通知，通俗点就是：<strong>在什么时机，什么地方，做什么增强！</strong></li>
-<li>织入（Weaving）<br>把切面加入到对象，并创建出代理对象的过程。（由 Spring 来完成）</li>
-</ul>
-<h4 id="AOP-编程"><a href="#AOP-编程" class="headerlink" title="AOP 编程"></a>AOP 编程</h4><ul>
-<li>在 Packge【service】下创建 【ProductService】类：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomeService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;doSomeService&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在 xml 文件中装配该 bean：</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在【TestSpring】中编写测试代码，运行：</li>
-</ul>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-c190e07d3a051a65.png" alt="img"></p>
-<ul>
-<li>在 Packge【aspect】下准备日志切面 【LoggerAspect】类：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage aspect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggerAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">log</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;start log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        Object object = joinPoint.proceed();</span><br><span class="line">        System.out.println(<span class="string">&quot;end log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        <span class="keyword">return</span> object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在 xml 文件中声明业务对象和日志切面：</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:tx</span>=<span class="string">&quot;http://www.springframework.org/schema/tx&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;loggerAspect&quot;</span> <span class="attr">class</span>=<span class="string">&quot;aspect.LoggerAspect&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 配置AOP --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- where：在哪些地方（包.类.方法）做增加 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;loggerCutpoint&quot;</span></span></span><br><span class="line"><span class="tag">                      <span class="attr">expression</span>=<span class="string">&quot;execution(* service.ProductService.*(..)) &quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- what:做什么增强 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">id</span>=<span class="string">&quot;logAspect&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;loggerAspect&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- when:在什么时机（方法前/后/前后） --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">aop:around</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;loggerCutpoint&quot;</span> <span class="attr">method</span>=<span class="string">&quot;log&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>再次运行 TestSpring 中的测试代码，代码并没有改变，但是在业务方法运行之前和运行之后，都分别输出了日志信息：</li>
-</ul>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-343746f0a4eb7ce0.png" alt="img"></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>01.Spring基础</title>
-    <url>/2020/07/21/Spring/01%20%E4%BB%80%E4%B9%88%E6%98%AFSpring/</url>
-    <content><![CDATA[<h3 id="什么是spring"><a href="#什么是spring" class="headerlink" title="什么是spring?"></a>什么是spring?</h3><p>Spring 是一个<strong>轻量级的 DI / IoC 和 AOP 容器的开源框架</strong>，目的是为了解决企业级应用开发的业务逻辑层和其他各层的耦合问题。它是一个轻量级开源框架，为开发Java应用程序提供全面的基础架构支持。Spring负责基础架构，因此Java开发者可以专注于应用程序的开发。</p>
-<p>Spring最根本的使命是<strong>解决企业级应用开发的复杂性，即简化Java开发</strong>。</p>
-<h3 id="Spring的优缺点是什么？"><a href="#Spring的优缺点是什么？" class="headerlink" title="Spring的优缺点是什么？"></a>Spring的优缺点是什么？</h3><p><strong>优点</strong></p>
-<ul>
-<li><p>方便解耦，简化开发</p>
-<p>Spring就是一个大工厂，可以将所有对象的创建和依赖关系的维护，交给Spring管理。</p>
-</li>
-<li><p>AOP编程的支持</p>
-<p>Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能。</p>
-</li>
-<li><p>声明式事务的支持</p>
-<p>只需要通过配置就可以完成对事务的管理，而无需手动编程。</p>
-</li>
-<li><p>方便程序的测试</p>
-<p>Spring对Junit4支持，可以通过注解方便的测试Spring程序。</p>
-</li>
-<li><p>方便集成各种优秀框架</p>
-<p>Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架的直接支持（如：Struts、Hibernate、MyBatis等）。</p>
-</li>
-<li><p>降低JavaEE API的使用难度</p>
-<p>Spring对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低。</p>
-</li>
-</ul>
-<p><strong>缺点</strong></p>
-<ul>
-<li>Spring明明一个很轻量级的框架，却给人感觉大而全</li>
-<li>Spring依赖反射，反射影响性能</li>
-<li>使用门槛升高，入门Spring需要较长时间</li>
-</ul>
-<h3 id="Spring核心模块"><a href="#Spring核心模块" class="headerlink" title="Spring核心模块"></a>Spring核心模块</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2019102923475419.png" alt="在这里插入图片描述"></p>
-<ul>
-<li><strong>spring core</strong>：提供了框架的基本组成部分，包括<strong>控制反转</strong>（Inversion of Control，IOC）和<strong>依赖注入</strong>（Dependency Injection，DI）功能。</li>
-<li><strong>spring beans</strong>：提供了BeanFactory，是工厂模式的一个经典实现，Spring将管理对象称为Bean。</li>
-<li><strong>spring context</strong>：构建于 core 封装包基础上的 context 封装包，提供了一种框架式的对象访问方法。</li>
-<li><strong>spring jdbc</strong>：提供了一个JDBC的抽象层，消除了烦琐的JDBC编码和数据库厂商特有的错误代码解析， 用于简化JDBC。</li>
-<li><strong>spring aop</strong>：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。</li>
-<li><strong>spring Web</strong>：提供了针对 Web 开发的集成特性，例如文件上传，利用 servlet listeners 进行 ioc 容器初始化和针对 Web 的 ApplicationContext。</li>
-<li><strong>spring test</strong>：主要为测试提供支持的，支持使用JUnit或TestNG对Spring组件进行单元测试和集成测试。</li>
-</ul>
-<h3 id="Spring-框架中都用到了哪些设计模式？"><a href="#Spring-框架中都用到了哪些设计模式？" class="headerlink" title="Spring 框架中都用到了哪些设计模式？"></a>Spring 框架中都用到了哪些设计模式？</h3><ol>
-<li><strong>工厂模式</strong>：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；</li>
-<li><strong>单例模式</strong>：Bean默认为单例模式。</li>
-<li><strong>代理模式</strong>：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；</li>
-<li><strong>模板方法</strong>：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。</li>
-<li><strong>观察者模式</strong>：定义对象键一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知被制动更新，如Spring中listener的实现–ApplicationListener。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>02.MySQL索引及sql优化</title>
-    <url>/2020/07/01/mysql/02.MySQL%E7%B4%A2%E5%BC%95%E5%8F%8Asql%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<blockquote>
-<p>MySQL索引使用的数据结构主要有<strong>BTree</strong>索引 和 哈希索引 。对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快;其余大部分 场景，建议选择BTree索引。</p>
-</blockquote>
-<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="底层结构"><a href="#底层结构" class="headerlink" title="底层结构"></a>底层结构</h3><h3 id="最左前缀"><a href="#最左前缀" class="headerlink" title="最左前缀"></a>最左前缀</h3><h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="MySQL高性能优化规范建议"><a href="#MySQL高性能优化规范建议" class="headerlink" title="MySQL高性能优化规范建议"></a>MySQL高性能优化规范建议</h3><blockquote>
-<p><a href="https://www.cnblogs.com/huchong/p/10219318.html">MySQL高性能优化规范建议（原文）</a></p>
-<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485117&idx=1&sn=92361755b7c3de488b415ec4c5f46d73&chksm=cea24976f9d5c060babe50c3747616cce63df5d50947903a262704988143c2eeb4069ae45420&token=79317275&lang=zh_CN%23rd">MySQL高性能优化规范建议</a></p>
-</blockquote>
-<p>数据库 SQL 开发规范部分不搬运了，要多看看，多理解</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="常见"><a href="#常见" class="headerlink" title="常见"></a>常见</h3><ul>
-<li><p>避免冗余、重复索引</p>
-</li>
-<li><p>联合索引，最左前缀</p>
-</li>
-<li><p>多表join的关联列</p>
-</li>
-<li><p>区分度最高的放在联合索引的最左侧（区分度=列中不同值的数量/列的总行数）</p>
-</li>
-<li><p>尽量把字段长度小的列放在联合索引的最左侧（因为字段长度越小，一页能存储的数据量越大，IO 性能也就越好）</p>
-</li>
-<li><p>使用最频繁的列放到联合索引的左侧（这样可以比较少的建立一些索引）</p>
-</li>
-<li><p>避免数据类型的隐式转换</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select name,phone from customer where id &#x3D; &#39;111&#39;; # 隐式转换会导致索引失效</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>禁止对列进行函数转换和计算</p>
-</li>
-</ul>
-<h4 id="对于频繁的查询优先考虑使用覆盖索引"><a href="#对于频繁的查询优先考虑使用覆盖索引" class="headerlink" title="对于频繁的查询优先考虑使用覆盖索引"></a>对于频繁的查询优先考虑使用覆盖索引</h4><blockquote>
-<p>覆盖索引：就是包含了所有查询字段 (where,select,ordery by,group by 包含的字段) 的索引</p>
-</blockquote>
-<p><strong>覆盖索引的好处：</strong></p>
-<ul>
-<li><strong>避免 Innodb 表进行索引的二次查询:</strong> Innodb 是以聚集索引的顺序来存储的，对于 Innodb 来说，二级索引在叶子节点中所保存的是行的主键信息，如果是用二级索引查询数据的话，在查找到相应的键值后，还要通过主键进行二次查询才能获取我们真实所需要的数据。而在覆盖索引中，二级索引的键值中可以获取所有的数据，避免了对主键的二次查询 ，减少了 IO 操作，提升了查询效率。</li>
-<li><strong>可以把随机 IO 变成顺序 IO 加快查询效率:</strong> 由于覆盖索引是按键值的顺序存储的，对于 IO 密集型的范围查找来说，对比随机从磁盘读取每一行的数据 IO 要少的多，因此利用覆盖索引在访问时也可以把磁盘的随机读取的 IO 转变成索引查找的顺序 IO。</li>
-</ul>
-<h3 id="SQL执行慢的原因"><a href="#SQL执行慢的原因" class="headerlink" title="SQL执行慢的原因"></a>SQL执行慢的原因</h3><blockquote>
-<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485185&idx=1&sn=66ef08b4ab6af5757792223a83fc0d45&chksm=cea248caf9d5c1dc72ec8a281ec16aa3ec3e8066dbb252e27362438a26c33fbe842b0e0adf47&token=79317275&lang=zh_CN%23rd">SQL执行慢的原因</a></p>
-</blockquote>
-<h3 id="书写高质量SQL的30条建议"><a href="#书写高质量SQL的30条建议" class="headerlink" title="书写高质量SQL的30条建议"></a>书写高质量SQL的30条建议</h3><blockquote>
-<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247486461&idx=1&sn=60a22279196d084cc398936fe3b37772&chksm=cea24436f9d5cd20a4fa0e907590f3e700d7378b3f608d7b33bb52cfb96f503b7ccb65a1deed&token=1987003517&lang=zh_CN%23rd">书写高质量SQL的30条建议</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>02、线程安全性问题</title>
-    <url>/2020/07/21/%E5%A4%9A%E7%BA%BF%E7%A8%8B/02%E3%80%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="线程安全性问题"><a href="#线程安全性问题" class="headerlink" title="线程安全性问题"></a>线程安全性问题</h1><blockquote>
-<p>多个线程对同一个对象的实例变量进行操作时，会出现值被更改，值不同步的情况。线程安全问题表现为三个方面: 原子性，可见性和有序性。</p>
-</blockquote>
-<h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p>原子(Atomic)就是不可分割的意思，原子操作的不可分割有两层含义:</p>
-<ol>
-<li><p>访问(读、写)某个共享变量的操作从其他线程来看，该操作要么已经执行完毕，要么尚未发生， 即其他线程得不到当前操作的中间结果。</p>
-</li>
-<li><p>访问同一组共享变量的原子操作是不能够交错的，如现实生活中从 ATM 机取款， 对于用户来说,要么操作成功，用户拿到钱， 余额减少了，增加了一条交易记录; 要么没拿到钱，相当于取款操作没有发生。</p>
-</li>
-</ol>
-<p>​        Java 有两种方式实现原子性: 一种是使用锁; 另一种利用处理器的 CAS(Compare and Swap)指令。锁具有排它性,保证共享变量在某一时刻只能被一个线程访问。CAS 指令直接在硬件(处理器和内存)层次上实现,看作是硬件锁</p>
-<h2 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h2><blockquote>
-<p>在多线程环境中, 一个线程对某个共享变量进行更新之后 , 后续其他的线程可能无法立即读到这个更新的结果,这就是线程安全问题的可见性。</p>
-</blockquote>
-<p>​        如果一个线程对共享变量更新后， 后续访问该变量的其他线程可以读到更新的结果， 称这个线程对共享变量的更新对其他线程可见，否则称这个线程对共享变量的更新对其他线程不可见。多线程程序因为可见性问题可能会导致其他线程读取到了旧数据(脏数据)。</p>
-<h2 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h2><p>​        有序性(Ordering)是指在什么情况下一个处理器上运行的一个线程所执行的内存访问操作在另外一个处理器运行的其他线程看来是</p>
-<p>乱序的(Out of Order)。</p>
-<p>​        乱序是指内存访问操作的顺序看起来发生了变化。</p>
-<ul>
-<li><p>重排序</p>
-<p>在多核处理器的环境下，编写的顺序结构，这种操作执行的顺序可能是没有保障的：</p>
-<ul>
-<li><p>编译器可能会改变两个操作的先后顺序</p>
-</li>
-<li><p>处理器也可能不会按照目标代码的顺序执行</p>
-</li>
-</ul>
-<p>这种一个处理器上执行的多个操作，在其他处理器来看它的顺序与目标代码指定的顺序可能不一样，这种现象称为重排序。</p>
-</li>
-</ul>
-<p>重排序是对内存访问有序操作的一种优化，可以在不影响单线程程序正确的情况下提升程序的性能。但是，可能对多线程程序的正确</p>
-<p>性产生影响，即可能导致线程安全问题，重排序与可见性问题类似,不是必然出现的。</p>
-<p>与内存操作顺序有关的几个概念:</p>
-<p>​        源代码顺序： 就是源码中指定的内存访问顺序</p>
-<p>​        程序顺序：处理器上运行的目标代码所指定的内存访问顺序</p>
-<p>​        执行顺序：内存访问操作在处理器上的实际执行顺序</p>
-<p>​        感知顺序：给定处理器所感知到的该处理器及其他处理器的内存</p>
-<p>访问操作的顺序</p>
-<p>可以把重排序分为指令重排序与存储子系统重排序两种。指令重排序主要是由 JIT 编译器，处理器引起的， 指程序顺序与执行顺序不一样存储子系统重排序是由高速缓存,写缓冲器引起的,感知顺序与执行顺序 不一致</p>
-<ul>
-<li>指令重排序</li>
-</ul>
-]]></content>
-      <categories>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>01.MySQL基础</title>
     <url>/2020/07/01/mysql/01.MySQL%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h2 id="sql执行流程"><a href="#sql执行流程" class="headerlink" title="sql执行流程"></a>sql执行流程</h2><blockquote>
@@ -269,6 +53,58 @@
 <p>不可重复读和幻读区别:</p>
 <p>不可重复读的重点是修改比如多次读取一条记录发现其中某些列的值被修改，幻读的重点在于新增或者 删除比如多次读取一条记录发现记录增多或减少了。</p>
 <h3 id="MySQL锁"><a href="#MySQL锁" class="headerlink" title="MySQL锁"></a>MySQL锁</h3><p>todo</p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>02.MySQL索引及sql优化</title>
+    <url>/2020/07/01/mysql/02.MySQL%E7%B4%A2%E5%BC%95%E5%8F%8Asql%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<blockquote>
+<p>MySQL索引使用的数据结构主要有<strong>BTree</strong>索引 和 哈希索引 。对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快;其余大部分 场景，建议选择BTree索引。</p>
+</blockquote>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="底层结构"><a href="#底层结构" class="headerlink" title="底层结构"></a>底层结构</h3><h3 id="最左前缀"><a href="#最左前缀" class="headerlink" title="最左前缀"></a>最左前缀</h3><h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="MySQL高性能优化规范建议"><a href="#MySQL高性能优化规范建议" class="headerlink" title="MySQL高性能优化规范建议"></a>MySQL高性能优化规范建议</h3><blockquote>
+<p><a href="https://www.cnblogs.com/huchong/p/10219318.html">MySQL高性能优化规范建议（原文）</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485117&idx=1&sn=92361755b7c3de488b415ec4c5f46d73&chksm=cea24976f9d5c060babe50c3747616cce63df5d50947903a262704988143c2eeb4069ae45420&token=79317275&lang=zh_CN%23rd">MySQL高性能优化规范建议</a></p>
+</blockquote>
+<p>数据库 SQL 开发规范部分不搬运了，要多看看，多理解</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="常见"><a href="#常见" class="headerlink" title="常见"></a>常见</h3><ul>
+<li><p>避免冗余、重复索引</p>
+</li>
+<li><p>联合索引，最左前缀</p>
+</li>
+<li><p>多表join的关联列</p>
+</li>
+<li><p>区分度最高的放在联合索引的最左侧（区分度=列中不同值的数量/列的总行数）</p>
+</li>
+<li><p>尽量把字段长度小的列放在联合索引的最左侧（因为字段长度越小，一页能存储的数据量越大，IO 性能也就越好）</p>
+</li>
+<li><p>使用最频繁的列放到联合索引的左侧（这样可以比较少的建立一些索引）</p>
+</li>
+<li><p>避免数据类型的隐式转换</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select name,phone from customer where id &#x3D; &#39;111&#39;; # 隐式转换会导致索引失效</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>禁止对列进行函数转换和计算</p>
+</li>
+</ul>
+<h4 id="对于频繁的查询优先考虑使用覆盖索引"><a href="#对于频繁的查询优先考虑使用覆盖索引" class="headerlink" title="对于频繁的查询优先考虑使用覆盖索引"></a>对于频繁的查询优先考虑使用覆盖索引</h4><blockquote>
+<p>覆盖索引：就是包含了所有查询字段 (where,select,ordery by,group by 包含的字段) 的索引</p>
+</blockquote>
+<p><strong>覆盖索引的好处：</strong></p>
+<ul>
+<li><strong>避免 Innodb 表进行索引的二次查询:</strong> Innodb 是以聚集索引的顺序来存储的，对于 Innodb 来说，二级索引在叶子节点中所保存的是行的主键信息，如果是用二级索引查询数据的话，在查找到相应的键值后，还要通过主键进行二次查询才能获取我们真实所需要的数据。而在覆盖索引中，二级索引的键值中可以获取所有的数据，避免了对主键的二次查询 ，减少了 IO 操作，提升了查询效率。</li>
+<li><strong>可以把随机 IO 变成顺序 IO 加快查询效率:</strong> 由于覆盖索引是按键值的顺序存储的，对于 IO 密集型的范围查找来说，对比随机从磁盘读取每一行的数据 IO 要少的多，因此利用覆盖索引在访问时也可以把磁盘的随机读取的 IO 转变成索引查找的顺序 IO。</li>
+</ul>
+<h3 id="SQL执行慢的原因"><a href="#SQL执行慢的原因" class="headerlink" title="SQL执行慢的原因"></a>SQL执行慢的原因</h3><blockquote>
+<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485185&idx=1&sn=66ef08b4ab6af5757792223a83fc0d45&chksm=cea248caf9d5c1dc72ec8a281ec16aa3ec3e8066dbb252e27362438a26c33fbe842b0e0adf47&token=79317275&lang=zh_CN%23rd">SQL执行慢的原因</a></p>
+</blockquote>
+<h3 id="书写高质量SQL的30条建议"><a href="#书写高质量SQL的30条建议" class="headerlink" title="书写高质量SQL的30条建议"></a>书写高质量SQL的30条建议</h3><blockquote>
+<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247486461&idx=1&sn=60a22279196d084cc398936fe3b37772&chksm=cea24436f9d5cd20a4fa0e907590f3e700d7378b3f608d7b33bb52cfb96f503b7ccb65a1deed&token=1987003517&lang=zh_CN%23rd">书写高质量SQL的30条建议</a></p>
+</blockquote>
 ]]></content>
       <categories>
         <category>mysql</category>
@@ -418,6 +254,59 @@
       </tags>
   </entry>
   <entry>
+    <title>02、线程安全性问题</title>
+    <url>/2020/07/21/%E5%A4%9A%E7%BA%BF%E7%A8%8B/02%E3%80%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="线程安全性问题"><a href="#线程安全性问题" class="headerlink" title="线程安全性问题"></a>线程安全性问题</h1><blockquote>
+<p>多个线程对同一个对象的实例变量进行操作时，会出现值被更改，值不同步的情况。线程安全问题表现为三个方面: 原子性，可见性和有序性。</p>
+</blockquote>
+<h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p>原子(Atomic)就是不可分割的意思，原子操作的不可分割有两层含义:</p>
+<ol>
+<li><p>访问(读、写)某个共享变量的操作从其他线程来看，该操作要么已经执行完毕，要么尚未发生， 即其他线程得不到当前操作的中间结果。</p>
+</li>
+<li><p>访问同一组共享变量的原子操作是不能够交错的，如现实生活中从 ATM 机取款， 对于用户来说,要么操作成功，用户拿到钱， 余额减少了，增加了一条交易记录; 要么没拿到钱，相当于取款操作没有发生。</p>
+</li>
+</ol>
+<p>​        Java 有两种方式实现原子性: 一种是使用锁; 另一种利用处理器的 CAS(Compare and Swap)指令。锁具有排它性,保证共享变量在某一时刻只能被一个线程访问。CAS 指令直接在硬件(处理器和内存)层次上实现,看作是硬件锁</p>
+<h2 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h2><blockquote>
+<p>在多线程环境中, 一个线程对某个共享变量进行更新之后 , 后续其他的线程可能无法立即读到这个更新的结果,这就是线程安全问题的可见性。</p>
+</blockquote>
+<p>​        如果一个线程对共享变量更新后， 后续访问该变量的其他线程可以读到更新的结果， 称这个线程对共享变量的更新对其他线程可见，否则称这个线程对共享变量的更新对其他线程不可见。多线程程序因为可见性问题可能会导致其他线程读取到了旧数据(脏数据)。</p>
+<h2 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h2><p>​        有序性(Ordering)是指在什么情况下一个处理器上运行的一个线程所执行的内存访问操作在另外一个处理器运行的其他线程看来是</p>
+<p>乱序的(Out of Order)。</p>
+<p>​        乱序是指内存访问操作的顺序看起来发生了变化。</p>
+<ul>
+<li><p>重排序</p>
+<p>在多核处理器的环境下，编写的顺序结构，这种操作执行的顺序可能是没有保障的：</p>
+<ul>
+<li><p>编译器可能会改变两个操作的先后顺序</p>
+</li>
+<li><p>处理器也可能不会按照目标代码的顺序执行</p>
+</li>
+</ul>
+<p>这种一个处理器上执行的多个操作，在其他处理器来看它的顺序与目标代码指定的顺序可能不一样，这种现象称为重排序。</p>
+</li>
+</ul>
+<p>重排序是对内存访问有序操作的一种优化，可以在不影响单线程程序正确的情况下提升程序的性能。但是，可能对多线程程序的正确</p>
+<p>性产生影响，即可能导致线程安全问题，重排序与可见性问题类似,不是必然出现的。</p>
+<p>与内存操作顺序有关的几个概念:</p>
+<p>​        源代码顺序： 就是源码中指定的内存访问顺序</p>
+<p>​        程序顺序：处理器上运行的目标代码所指定的内存访问顺序</p>
+<p>​        执行顺序：内存访问操作在处理器上的实际执行顺序</p>
+<p>​        感知顺序：给定处理器所感知到的该处理器及其他处理器的内存</p>
+<p>访问操作的顺序</p>
+<p>可以把重排序分为指令重排序与存储子系统重排序两种。指令重排序主要是由 JIT 编译器，处理器引起的， 指程序顺序与执行顺序不一样存储子系统重排序是由高速缓存,写缓冲器引起的,感知顺序与执行顺序 不一致</p>
+<ul>
+<li>指令重排序</li>
+</ul>
+]]></content>
+      <categories>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>01.多线程基础</title>
     <url>/2020/07/01/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B01-%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<blockquote>
@@ -449,6 +338,131 @@
 <p>某一线程因为调用带有指定正等待时间的Object的wait()方法、Thread的join()方法、Thread的sleep()方法、LockSupport的parkNanos()方法、LockSupport的parkUntil()方法，就会处于超时等待TIMED_WAITING状态</p>
 <p>6、终止状态TERMINATED</p>
 <p>线程调用终止或者run()方法执行结束后，线程即处于终止状态。处于终止状态的线程不具备继续运行的能力</p>
+]]></content>
+      <categories>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多线程02-Thread常见方法</title>
+    <url>/2020/07/01/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B02-Thread%E5%B8%B8%E8%A7%81%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h3 id="Thread中的实例方法"><a href="#Thread中的实例方法" class="headerlink" title="Thread中的实例方法"></a>Thread中的实例方法</h3><blockquote>
+<p>调用Thread中的方法的时候，在线程类中，有两种方式，一定要理解这两种方式的区别</p>
+<p>（1）this.XXX()</p>
+<p>这种调用方式表示的线程是<strong>线程实例本身</strong></p>
+<p>（2）Thread.currentThread.XXX()或Thread.XXX()</p>
+<p>上面两种写法是一样的意思。这种调用方式表示的线程是<strong>正在执行Thread.currentThread.XXX()所在代码块的线程</strong></p>
+</blockquote>
+<h4 id="start"><a href="#start" class="headerlink" title="start()"></a>start()</h4><p>start()方法的作用讲得直白点就是通知”线程规划器”，此线程可以运行了，正在等待CPU调用线程对象得run()方法，产生一个<strong>异步执行</strong>的效果。</p>
+<h4 id="isAlive"><a href="#isAlive" class="headerlink" title="isAlive()"></a>isAlive()</h4><p>测试线程是否处于活动状态，只要线程启动且没有终止，方法返回的就是true</p>
+<h4 id="getId"><a href="#getId" class="headerlink" title="getId()"></a>getId()</h4><p>在一个Java应用中，有一个long型的全局唯一的线程ID生成器threadSeqNumber，每new出来一个线程都会把这个自增一次，并赋予线程的tid属性，这个是Thread自己做的，用户无法执行一个线程的Id。</p>
+<h4 id="getName"><a href="#getName" class="headerlink" title="getName()"></a>getName()</h4><p>new一个线程的时候，可以指定该线程的名字，也可以不指定。如果指定，那么线程的名字就是我们自己指定的，getName()返回的也是开发者指定的线程的名字；如果不指定，那么Thread中有一个int型全局唯一的线程初始号生成器threadInitNum，Java先把threadInitNum自增，然后以”Thread-threadInitNum”的方式来命名新生成的线程</p>
+<h4 id="getPriority-和setPriority-int-newPriority"><a href="#getPriority-和setPriority-int-newPriority" class="headerlink" title="getPriority()和setPriority(int newPriority)"></a>getPriority()和setPriority(int newPriority)</h4><p>这两个方法用于获取和设置线程的优先级，优先级高的CPU得到的CPU资源比较多，设置优先级有助于帮”线程规划器”确定下一次选择哪一个线程优先执行。换句话说，<strong>两个在等待CPU的线程，优先级高的线程越容易被CU选择执行</strong>。</p>
+<h4 id="isDaeMon、setDaemon-boolean-on"><a href="#isDaeMon、setDaemon-boolean-on" class="headerlink" title="isDaeMon、setDaemon(boolean on)"></a>isDaeMon、setDaemon(boolean on)</h4><p>Java中有两种线程，一种是用户线程，一种是守护线程。守护线程是一种特殊的线程，它的作用是为其他线程的运行提供便利的服务，最典型的应用便是GC线程。如果进程中不存在非守护线程了，那么守护线程自动销毁，因为没有存在的必要，为别人服务，结果服务的对象都没了，当然就销毁了。理解了这个概念后，看一下例子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyThread11 extends Thread&#123;</span><br><span class="line">    private int i &#x3D; 0;</span><br><span class="line">    public void run()&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            while (true)&#123;</span><br><span class="line">                i++;</span><br><span class="line">                System.out.println(&quot;i &#x3D; &quot; + i);</span><br><span class="line">                Thread.sleep(1000);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static void main(String[] args)&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            MyThread11 mt &#x3D; new MyThread11();</span><br><span class="line">            mt.setDaemon(true);</span><br><span class="line">            mt.start();</span><br><span class="line">            Thread.sleep(5000);</span><br><span class="line">            System.out.println(&quot;我离开thread对象再也不打印了，我停止了！&quot;);</span><br><span class="line">        &#125;catch (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">i &#x3D; 1</span><br><span class="line">i &#x3D; 2</span><br><span class="line">i &#x3D; 3</span><br><span class="line">i &#x3D; 4</span><br><span class="line">i &#x3D; 5</span><br><span class="line">我离开thread对象再也不打印了，我停止了！</span><br><span class="line">i &#x3D; 6</span><br></pre></td></tr></table></figure>
+
+<h4 id="interrupt"><a href="#interrupt" class="headerlink" title="interrupt()"></a>interrupt()</h4><p><strong>在线程受到阻塞时抛出一个中断信号，这样线程就得以退出阻塞状态</strong>。换句话说，没有被阻塞的线程，调用interrupt()方法是不起作用的。</p>
+<h4 id="isInterrupted"><a href="#isInterrupted" class="headerlink" title="isInterrupted()"></a>isInterrupted()</h4><p>测试线程是否已经中断，但不清除状态标识。这个和interrupt()方法一样。</p>
+<h4 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h4><p>讲解join()方法之前请确保对于<a href="http://www.cnblogs.com/xrq730/p/4853932.html%E4%B8%80%E6%96%87%EF%BC%8C%E5%8D%B3wait()/notify()/notifyAll()%E6%9C%BA%E5%88%B6%E5%B7%B2%E7%86%9F%E7%BB%83%E6%8E%8C%E6%8F%A1%E3%80%82">http://www.cnblogs.com/xrq730/p/4853932.html一文，即wait()/notify()/notifyAll()机制已熟练掌握。</a></p>
+<p><strong>join()方法的作用是等待线程销毁</strong>。join()方法反应的是一个很现实的问题，比如main线程的执行时间是1s，子线程的执行时间是10s，但是主线程依赖子线程执行完的结果，这时怎么办？可以像生产者/消费者模型一样，搞一个缓冲区，子线程执行完把数据放在缓冲区中，通知main线程，main线程去拿，这样就不会浪费main线程的时间了。另外一种方法，就是join()了。先看一下例子： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyThread36 extends Thread&#123;</span><br><span class="line">    public void run()&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            int secondValue &#x3D; (int)(Math.random() * 10000);</span><br><span class="line">            System.out.println(secondValue);</span><br><span class="line">            Thread.sleep(secondValue);</span><br><span class="line">        &#125;catch (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void main(String[] args) throws Exception&#123;</span><br><span class="line">    MyThread36 mt &#x3D; new MyThread36();</span><br><span class="line">    mt.start();</span><br><span class="line">    mt.join();</span><br><span class="line">    System.out.println(&quot;我想当mt对象执行完毕之后我再执行，我做到了&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">3111</span><br><span class="line">我想当mt对象执行完毕之后我再执行，我做到了</span><br></pre></td></tr></table></figure>
+
+<p>意思是，join()方法会使调用join()方法的线程（也就是mt线程）所在的线程（也就是main线程）无限阻塞，直到调用join()方法的线程销毁为止，此例中main线程就会无限期阻塞直到mt的run()方法执行完毕。</p>
+<p>join()方法的一个重点是要区分出和sleep()方法的区别。join(2000)也是可以的，表示调用join()方法所在的线程最多等待2000ms，两者的区别在于：</p>
+<p><strong>sleep(2000)不释放锁，join(2000)释放锁</strong>，因为join()方法内部使用的是wait()，因此会释放锁。看一下join(2000)的源码就知道了，join()其实和join(2000)一样，无非是join(0)而已：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public final synchronized void join(long millis)</span><br><span class="line">    throws InterruptedException &#123;</span><br><span class="line">    long base &#x3D; System.currentTimeMillis();</span><br><span class="line">    long now &#x3D; 0;</span><br><span class="line"></span><br><span class="line">    if (millis &lt; 0) &#123;</span><br><span class="line">            throw new IllegalArgumentException(&quot;timeout value is negative&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (millis &#x3D;&#x3D; 0) &#123;</span><br><span class="line">        while (isAlive()) &#123;</span><br><span class="line">        wait(0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        while (isAlive()) &#123;</span><br><span class="line">        long delay &#x3D; millis - now;</span><br><span class="line">        if (delay &lt;&#x3D; 0) &#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        wait(delay);</span><br><span class="line">        now &#x3D; System.currentTimeMillis() - base;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Thread中的静态方法"><a href="#Thread中的静态方法" class="headerlink" title="Thread中的静态方法"></a>Thread中的静态方法</h3><p>Thread类中的静态方法表示操作的线程是”<strong>正在执行静态方法所在的代码块的线程</strong>“。为什么Thread类中的静态方法是为了能对CPU<strong>当前正在运行的线程</strong>进行操作。</p>
+<h4 id="currentThread"><a href="#currentThread" class="headerlink" title="currentThread()"></a>currentThread()</h4><p>currentThread()方法返回的是<strong>对当前正在执行线程对象的引用</strong>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread04</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;静态块的打印：&quot;</span> +</span><br><span class="line">                Thread.currentThread().getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThread04</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;构造方法的打印：&quot;</span> +</span><br><span class="line">                Thread.currentThread().getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;run()方法的打印：&quot;</span> +</span><br><span class="line">                Thread.currentThread().getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread01</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyThread04 mt = <span class="keyword">new</span> MyThread04();</span><br><span class="line">        mt.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行结果</span></span><br><span class="line">静态块的打印：main</span><br><span class="line">构造方法的打印：main</span><br><span class="line">run()方法的打印：Thread-<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>这个例子说明了，<strong>线程类的构造方法、静态块是被main线程调用的，而线程类的run()方法才是应用线程自己调用的</strong>。在这个例子的基础上，再深入：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread05</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThread05</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;MyThread5-----&gt;Begin&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;Thread.currentThread().getName()-----&gt;&quot;</span> +</span><br><span class="line">                Thread.currentThread().getName());</span><br><span class="line">        System.out.println(<span class="string">&quot;this.getName()-----&gt;&quot;</span> + <span class="keyword">this</span>.getName());</span><br><span class="line">        System.out.println(<span class="string">&quot;MyThread5-----&gt;end&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;run-----&gt;Begin&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;Thread.currentThread().getName()-----&gt;&quot;</span> +</span><br><span class="line">                Thread.currentThread().getName());</span><br><span class="line">        System.out.println(<span class="string">&quot;this.getName()-----&gt;&quot;</span> + <span class="keyword">this</span>.getName());</span><br><span class="line">        System.out.println(<span class="string">&quot;run-----&gt;end&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread01</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyThread05 thread05 = <span class="keyword">new</span> MyThread05();</span><br><span class="line">        thread05.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行结果</span></span><br><span class="line">MyThread5-----&gt;Begin</span><br><span class="line">Thread.currentThread().getName()-----&gt;main</span><br><span class="line"><span class="keyword">this</span>.getName()-----&gt;Thread-<span class="number">0</span></span><br><span class="line">MyThread5-----&gt;end</span><br><span class="line">run-----&gt;Begin</span><br><span class="line">Thread.currentThread().getName()-----&gt;Thread-<span class="number">0</span></span><br><span class="line"><span class="keyword">this</span>.getName()-----&gt;Thread-<span class="number">0</span></span><br><span class="line">run-----&gt;end</span><br></pre></td></tr></table></figure>
+
+<p>就是”this.XXX()”和”Thread.currentThread().XXX()”的区别，这个就是最好的例子。必须要清楚的一点就是：<strong>当前执行的Thread未必就是Thread本身</strong>。</p>
+<h4 id="sleep-long-millis"><a href="#sleep-long-millis" class="headerlink" title="sleep(long millis)"></a>sleep(long millis)</h4><p>sleep(long millis)方法的作用是在指定的毫秒内让当前”<strong>正在执行的线程</strong>“休眠（暂停执行）。这个”<strong>正在执行的线程</strong>“是关键，指的是Thread.currentThread()返回的线程。根据JDK API的说法，”该线程不丢失任何监视器的所属权”，简单说就是sleep代码上下文如果被加锁了，锁依然在，但是CPU资源会让出给其他线程。看一下例子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class MyThread06 extends Thread &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            System.out.println(&quot;run threadName &#x3D; &quot; +</span><br><span class="line">                    this.getName() + &quot; begin&quot;);</span><br><span class="line">            Thread.sleep(2000);</span><br><span class="line">            System.out.println(&quot;run threadName &#x3D; &quot; +</span><br><span class="line">                    this.getName() + &quot; end&quot;);</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class MyThread01 extends Thread &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        MyThread06 mt &#x3D; new MyThread06();</span><br><span class="line">        System.out.println(&quot;begin &#x3D; &quot; + System.currentTimeMillis());</span><br><span class="line">        mt.start();</span><br><span class="line">        System.out.println(&quot;end &#x3D; &quot; + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 运行结果</span><br><span class="line">begin &#x3D; 1604373745809</span><br><span class="line">end &#x3D; 1604373745810</span><br><span class="line">run threadName &#x3D; Thread-0 begin</span><br><span class="line">run threadName &#x3D; Thread-0 end</span><br></pre></td></tr></table></figure>
+
+<h4 id="yield"><a href="#yield" class="headerlink" title="yield()"></a>yield()</h4><p>暂停当前执行的线程对象，并执行其他线程。<strong>这个暂停是会放弃CPU资源的，并且放弃CPU的时间不确定</strong>，有可能刚放弃，就获得CPU资源了，也有可能放弃好一会儿，才会被CPU执行。看一下例子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class MyThread07 extends Thread &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        long beginTime &#x3D; System.currentTimeMillis();</span><br><span class="line">        int count &#x3D; 0;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; 500000000; i++) &#123;</span><br><span class="line">            Thread.yield();</span><br><span class="line">            count &#x3D; count + i + 1;</span><br><span class="line">        &#125;</span><br><span class="line">        long endTime &#x3D; System.currentTimeMillis();</span><br><span class="line">        System.out.println(&quot;用时：&quot; + (endTime - beginTime) + &quot;毫秒！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class MyThread01 extends Thread &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        MyThread07 mt &#x3D; new MyThread07();</span><br><span class="line">        mt.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 这个可以自己运行看看 每次的结果可能都不一样，证明了yield()方法放弃CPU的时间并不确定</span><br></pre></td></tr></table></figure>
+
+<h4 id="interrupted"><a href="#interrupted" class="headerlink" title="interrupted()"></a>interrupted()</h4><p>测试当前线程是否已经中断，执行后具有将状态标识清除为false的功能。换句话说，如果连续两次调用该方法，那么返回的必定是false：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    Thread.currentThread().interrupt();</span><br><span class="line">    System.out.println(&quot;是否停止1？&quot; + Thread.interrupted());</span><br><span class="line">    System.out.println(&quot;是否停止2？&quot; + Thread.interrupted());</span><br><span class="line">    System.out.println(&quot;end!&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 运行结果</span><br><span class="line">是否停止1？true</span><br><span class="line">是否停止2？false</span><br><span class="line">end!</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多线程03-synchronized及volatile关键字</title>
+    <url>/2020/07/01/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B03-synchronized%E5%8F%8Avolatile%E5%85%B3%E9%94%AE%E5%AD%97/</url>
+    <content><![CDATA[<h3 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h3><h4 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h4><p>线程死锁描述的是这样⼀种情况：多个线程同时被阻塞，它们中的⼀个或者全部都在等待某个资源被释</p>
+<p>放。由于线程被⽆限期地阻塞，因此程序不可能正常终⽌。</p>
+<p>如下图所示，线程 A 持有资源 2，线程 B 持有资源 1，他们同时都想申请对⽅的资源，所以这两个线</p>
+<p>程就会互相等待⽽进⼊死锁状态。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201103114352346.png" alt="image-20201103114352346"></p>
+<p>举个例子：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread01</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Object resource1 = <span class="keyword">new</span> Object();<span class="comment">//资源 1</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Object resource2 = <span class="keyword">new</span> Object();<span class="comment">//资源 2</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (resource1) &#123;</span><br><span class="line">                System.out.println(Thread.currentThread() + <span class="string">&quot;get resource1&quot;</span>);</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(Thread.currentThread() + <span class="string">&quot;waiting get resource2&quot;</span>);</span><br><span class="line">                <span class="keyword">synchronized</span> (resource2) &#123;</span><br><span class="line">                    System.out.println(Thread.currentThread() + <span class="string">&quot;get resource2&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="string">&quot;线程 1&quot;</span>).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (resource2) &#123;</span><br><span class="line">                System.out.println(Thread.currentThread() + <span class="string">&quot;get resource2&quot;</span>);</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(Thread.currentThread() + <span class="string">&quot;waiting get resource1&quot;</span>);</span><br><span class="line">                <span class="keyword">synchronized</span> (resource1) &#123;</span><br><span class="line">                    System.out.println(Thread.currentThread() + <span class="string">&quot;get resource1&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="string">&quot;线程 2&quot;</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Thread[线程 1,5,main]get resource1</span><br><span class="line">Thread[线程 2,5,main]get resource2</span><br><span class="line">Thread[线程 1,5,main]waiting get resource2</span><br><span class="line">Thread[线程 2,5,main]waiting get resource1</span><br></pre></td></tr></table></figure>
+
+<h3 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h3><blockquote>
+<p>synchronized关键字解决的是多个线程之间访问资源的同步性，synchronized关键字可以保证被它修饰</p>
+<p>的⽅法或者代码块在任意时刻只能有⼀个线程执⾏。</p>
+</blockquote>
+<p><strong>synchronized关键字最主要的三种使⽤⽅式</strong></p>
+<ul>
+<li><p><strong>修饰实例⽅法:</strong> 作⽤于当前对象实例加锁，进⼊同步代码前要获得当前对象实例的锁</p>
+</li>
+<li><p><strong>修饰静态⽅法:</strong> 也就是给当前类加锁，会作⽤于类的所有对象实例，因为静态成员不属于任何⼀个实例对象，是类成员（ static 表明这是该类的⼀个静态资源，不管new了多少个对象，只有⼀份）。所以如果⼀个线程A调⽤⼀个实例对象的⾮静态 synchronized ⽅法，⽽线程B需要调⽤这个实例对象所属类的静态 synchronized ⽅法，是允许的，不会发⽣互斥现象，因为访问静态<strong>synchronized</strong> ⽅法占⽤的锁是当前类的锁，⽽访问⾮静态 <strong>synchronized</strong> ⽅法占⽤的锁是当前实例对象锁。</p>
+</li>
+<li><p><strong>修饰代码块:</strong> 指定加锁对象，对给定对象加锁，进⼊同步代码库前要获得给定对象的锁。</p>
+</li>
+</ul>
+<p><strong>注意：</strong> synchronized 关键字加到 static 静态⽅法和 synchronized(class)代码块上都是是给 Class类上锁。synchronized 关键字加到实例⽅法上是给对象实例上锁。尽量<strong>不要使⽤synchronized(String a)</strong> 因为JVM中，字符串常量池具有缓存功能！</p>
+<p><strong>双重校验锁实现对象单例（线程安全）</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton uniqueInstance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> Singleton <span class="title">getUniqueInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//先判断对象是否已经实例过，没有实例化过才进⼊加锁代码</span></span><br><span class="line">        <span class="keyword">if</span> (uniqueInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//类对象加锁</span></span><br><span class="line">            <span class="keyword">synchronized</span> (Singleton.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (uniqueInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    uniqueInstance = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> uniqueInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h3><h4 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h4><p>在 JDK1.2 之前，Java的内存模型实现总是从主存（即共享内存）读取变量，是不需要进⾏特别的注意的。⽽在当前的 Java 内存模型下，线程可以把变量保存本地内存（⽐如机器的寄存器）中，⽽不是直接在主存中进⾏读写。这就可能造成⼀个线程在主存中修改了⼀个变量的值，⽽另外⼀个线程还继续使⽤它在寄存器中的变量值的拷⻉，造成数据的不⼀致。要解决这个问题，就需要把变量声明为<strong>volatile</strong>，这就指示 JVM，这个变量是不稳定的，每次使⽤它都到主存中进⾏读取。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201103140833702.png" alt="image-20201103140833702"></p>
+<p>说⽩了， <strong>volatile</strong> 关键字的主要作⽤就是保证变量的可⻅性然后还有⼀个作⽤是防⽌指令重排序。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201103140901075.png" alt="image-20201103140901075"></p>
+<h4 id="并发编程的三个重要特性"><a href="#并发编程的三个重要特性" class="headerlink" title="并发编程的三个重要特性"></a>并发编程的三个重要特性</h4><ol>
+<li><p><strong>原⼦性</strong> : ⼀个的操作或者多次操作，要么所有的操作全部都得到执⾏并且不会收到任何因素的⼲扰⽽中断，要么所有的操作都执⾏，要么都不执⾏。 <strong>synchronized</strong> 可以保证代码⽚段的<strong>原⼦性</strong>。</p>
+</li>
+<li><p><strong>可⻅性</strong> ：当⼀个变量对共享变量进⾏了修改，那么另外的线程都是⽴即可以看到修改后的最新值。 <strong>volatile</strong> 关键字可以保证<strong>共享变量</strong>的<strong>可⻅性</strong>。</p>
+</li>
+<li><p><strong>有序性</strong> ：代码在执⾏的过程中的先后顺序，Java 在编译器以及运⾏期间的优化，代码的执⾏顺序未必就是编写代码时候的顺序。 <strong>volatile 关键字可以禁⽌指令进⾏重排序优化</strong>。</p>
+</li>
+</ol>
+<h4 id="synchronized-关键字和-volatile-关键字的区别"><a href="#synchronized-关键字和-volatile-关键字的区别" class="headerlink" title="synchronized 关键字和 volatile 关键字的区别"></a>synchronized 关键字和 volatile 关键字的区别</h4><ul>
+<li><p><strong>volatile</strong>关键字是线程同步的<strong>轻量级实现</strong>，所以<strong>volatile</strong>性能肯定⽐<strong>synchronized</strong>关键字要好。但是<strong>volatile</strong>关键字<strong>只能⽤于变量</strong>⽽<strong>synchronized</strong>关键字可以<strong>修饰⽅法以及代码块</strong>。</p>
+<p>synchronized关键字在JavaSE1.6之后进⾏了主要包括为了减少获得锁和释放锁带来的性能消耗⽽引⼊的偏向锁和轻量级锁以及其它各种优化之后执⾏效率有了显著提升，实际开发中使⽤</p>
+</li>
+<li><p><strong>synchronized</strong> 关键字的场景还是更多⼀些。</p>
+<p>多线程访问<strong>volatile</strong>关键字不会发⽣阻塞，⽽<strong>synchronized</strong>关键字可能会发⽣阻塞</p>
+</li>
+<li><p><strong>volatile</strong>关键字能保证数据的可⻅性，但不能保证数据的原⼦性。<strong>synchronized</strong>关键字两者都能保证。</p>
+</li>
+<li><p><strong>volatile</strong>关键字主要⽤于解决变量在多个线程之间的可⻅性，⽽ <strong>synchronized</strong>关键字解决的是多个线程之间访问资源的同步性。</p>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>多线程</category>
@@ -727,140 +741,108 @@
       </tags>
   </entry>
   <entry>
-    <title>03.Spring IOC</title>
-    <url>/2020/07/21/Spring/02%20IOC%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<h3 id="Spring-IoC-和-DI-简介"><a href="#Spring-IoC-和-DI-简介" class="headerlink" title="Spring IoC 和 DI 简介"></a>Spring IoC 和 DI 简介</h3><h4 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h4><ul>
-<li>读作 <strong>“反转控制”</strong>，更好理解，不是什么技术，而是一种<strong>设计思想</strong>，就是<strong>将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</strong></li>
-<li><strong>正控：</strong>若要使用某个对象，需要<strong>自己去负责对象的创建</strong></li>
-<li><strong>反控：</strong>若要使用某个对象，只需要<strong>从 Spring 容器中获取需要使用的对象，不关心对象的创建过程</strong>，也就是把<strong>创建对象的控制权反转给了Spring框架</strong></li>
-<li><strong>好莱坞法则：</strong> Don’t call me ,I’ll call you</li>
-</ul>
-<blockquote>
-<h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><p>控制反转显然是一个抽象的概念，我们举一个鲜明的例子来说明。</p>
-</blockquote>
-<blockquote>
-<p>在现实生活中，人们要用到一样东西的时候，第一反应就是去找到这件东西，比如想喝新鲜橙汁，在没有饮品店的日子里，最直观的做法就是：买果汁机、买橙子，然后准备开水。值得注意的是：这些都是你自己<strong>“主动”创造</strong>的过程，也就是说一杯橙汁需要你自己创造。</p>
-</blockquote>
-<blockquote>
-<p>然而到了今时今日，由于饮品店的盛行，当我们想喝橙汁时，第一想法就转换成了找到饮品店的联系方式，通过电话等渠道描述你的需要、地址、联系方式等，下订单等待，过一会儿就会有人送来橙汁了。请注意你并没有“主动”去创造橙汁，橙汁是由饮品店创造的，而不是你，然而也完全达到了你的要求，甚至比你创造的要好上那么一些。</p>
-</blockquote>
-<h4 id="更经典全方位的理解"><a href="#更经典全方位的理解" class="headerlink" title="更经典全方位的理解"></a>更经典全方位的理解</h4><p>要了解<strong>控制反转( Inversion of Control )</strong>, 我觉得有必要先了解软件设计的一个重要思想：<strong>依赖倒置原则（Dependency Inversion Principle ）</strong>。</p>
-<p><img src="https://pic3.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p><strong>什么是依赖倒置原则？</strong>假设我们设计一辆汽车：先设计轮子，然后根据轮子大小设计底盘，接着根据底盘设计车身，最后根据车身设计好整个汽车。这里就出现了一个“依赖”关系：汽车依赖车身，车身依赖底盘，底盘依赖轮子。</p>
-<p><img src="https://pic1.zhimg.com/v2-c68248bb5d9b4d64d22600571e996446_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这样的设计看起来没问题，但是可维护性却很低。假设设计完工之后，上司却突然说根据市场需求的变动，要我们把车子的轮子设计都改大一码。这下我们就蛋疼了：因为我们是根据轮子的尺寸设计的底盘，轮子的尺寸一改，底盘的设计就得修改；同样因为我们是根据底盘设计的车身，那么车身也得改，同理汽车设计也得改——整个设计几乎都得改！</p>
-<p>我们现在换一种思路。我们先设计汽车的大概样子，然后根据汽车的样子来设计车身，根据车身来设计底盘，最后根据底盘来设计轮子。这时候，依赖关系就倒置过来了：轮子依赖底盘， 底盘依赖车身， 车身依赖汽车。</p>
-<p><img src="https://pic4.zhimg.com/v2-e64bf72c5c04412f626b21753aa9e1a1_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这时候，上司再说要改动轮子的设计，我们就只需要改动轮子的设计，而不需要动底盘，车身，汽车的设计了。</p>
-<p>这就是<strong>依赖倒置原则——把原本的高层建筑依赖底层建筑“倒置”过来，变成底层建筑依赖高层建筑。高层建筑决定需要什么，底层去实现这样的需求，但是高层并不用管底层是怎么实现的。</strong>这样就不会出现前面的“牵一发动全身”的情况。</p>
-<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p><strong>控制反转（Inversion of Control）</strong> 就是依赖倒置原则的一种代码设计的思路。具体采用的方法就是所谓的<strong>依赖注入（Dependency Injection）</strong>。其实这些概念初次接触都会感到云里雾里的。说穿了，这几种概念的关系大概如下：</p>
-<p><img src="https://pic1.zhimg.com/v2-ee924f8693cff51785ad6637ac5b21c1_r.jpg?source=1940ef5c" alt="img"></p>
-<p>为了理解这几个概念，我们还是用上面汽车的例子。只不过这次换成代码。我们先定义四个Class，车，车身，底盘，轮胎。然后初始化这辆车，最后跑这辆车。代码结构如下：</p>
-<p><img src="https://pic2.zhimg.com/v2-8ec294de7d0f9013788e3fb5c76069ef_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这样，就相当于上面第一个例子，上层建筑依赖下层建筑——每一个类的构造函数都直接调用了底层代码的构造函数。假设我们需要改动一下轮胎（Tire）类，把它的尺寸变成动态的，而不是一直都是30。我们需要这样改：</p>
-<p><img src="https://pic1.zhimg.com/50/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_hd.jpg?source=1940ef5c" alt="img"><img src="https://pic4.zhimg.com/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_r.jpg?source=1940ef5c" alt="img"></p>
-<p>由于我们修改了轮胎的定义，为了让整个程序正常运行，我们需要做以下改动：</p>
-<p><img src="https://pic4.zhimg.com/v2-82e0c12a1b26f7979ed9241e169affda_r.jpg?source=1940ef5c" alt="img"></p>
-<p>由此我们可以看到，仅仅是为了修改轮胎的构造函数，这种设计却需要<strong>修改整个上层所有类的构造函数</strong>！在软件工程中，<strong>这样的设计几乎是不可维护的</strong>——在实际工程项目中，有的类可能会是几千个类的底层，如果每次修改这个类，我们都要修改所有以它作为依赖的类，那软件的维护成本就太高了。</p>
-<p>所以我们需要进行控制反转（IoC），及上层控制下层，而不是下层控制着上层。我们用依赖注入（Dependency Injection）这种方式来实现控制反转。<strong>所谓依赖注入，就是把底层类作为参数传入上层类，实现上层类对下层类的“控制</strong>”。这里我们用<strong>构造方法传递的依赖注入方式</strong>重新写车类的定义：</p>
-<p><img src="https://pic4.zhimg.com/v2-c920a0540ce0651003a5326f6ef9891d_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这里我们再把轮胎尺寸变成动态的，同样为了让整个系统顺利运行，我们需要做如下修改：</p>
-<p><img src="https://pic2.zhimg.com/v2-99ad2cd809fcb86dd791ff7f65fb1779_r.jpg?source=1940ef5c" alt="img"></p>
-<p>看到没？这里<strong>我只需要修改轮胎类就行了，不用修改其他任何上层类。</strong>这显然是更容易维护的代码。不仅如此，在实际的工程中，这种设计模式还有利于<strong>不同组的协同合作和单元测试：</strong>比如开发这四个类的分别是四个不同的组，那么只要定义好了接口，四个不同的组可以同时进行开发而不相互受限制；而对于单元测试，如果我们要写Car类的单元测试，就只需要Mock一下Framework类传入Car就行了，而不用把Framework, Bottom, Tire全部new一遍再来构造Car。</p>
-<p>这里我们是采用的<strong>构造函数传入</strong>的方式进行的依赖注入。其实还有另外两种方法：<strong>Setter传递</strong>和<strong>接口传递</strong>。这里就不多讲了，核心思路都是一样的，都是为了实现<strong>控制反转</strong>。</p>
-<p><img src="https://pic1.zhimg.com/v2-861683acac47577c81f2b7493dd05649_r.jpg?source=1940ef5c" alt="img"></p>
-<p><img src="https://pic1.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p>看到这里你应该能理解什么控制反转和依赖注入了。那什么是**控制反转容器(IoC Container)**呢？其实上面的例子中，对车类进行初始化的那段代码发生的地方，就是控制反转容器。</p>
-<p><img src="https://pic2.zhimg.com/v2-c845802f9187953ed576e0555f76da42_r.jpg?source=1940ef5c" alt="img"></p>
-<p>显然你也应该观察到了，因为采用了依赖注入，在初始化的过程中就不可避免的会写大量的new。这里IoC容器就解决了这个问题。<strong>这个容器可以自动对你的代码进行初始化，你只需要维护一个Configuration（可以是xml可以是一段代码），而不用每次初始化一辆车都要亲手去写那一大段初始化的代码</strong>。这是引入IoC Container的第一个好处。</p>
-<p>IoC Container的第二个好处是：<strong>我们在创建实例的时候不需要了解其中的细节。</strong>在上面的例子中，我们自己手动创建一个车instance时候，是从底层往上层new的：</p>
-<p><img src="https://pic1.zhimg.com/v2-555b2be7d76e78511a6d6fed3304927f_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这个过程中，我们需要了解整个Car/Framework/Bottom/Tire类构造函数是怎么定义的，才能一步一步new/注入。</p>
-<p>而IoC Container在进行这个工作的时候是反过来的，它先从最上层开始往下找依赖关系，到达最底层之后再往上一步一步new（有点像深度优先遍历）：</p>
-<p><img src="https://pic4.zhimg.com/v2-24a96669241e81439c636e83976ba152_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这里IoC Container可以直接隐藏具体的创建实例的细节，在我们来看它就像一个工厂：</p>
-<p><img src="https://pic4.zhimg.com/v2-5ca61395f37cef73c7bbe7808f9ea219_r.jpg?source=1940ef5c" alt="img"></p>
-<p>我们就像是工厂的客户。我们只需要向工厂请求一个Car实例，然后它就给我们按照Config创建了一个Car实例。我们完全不用管这个Car实例是怎么一步一步被创建出来。</p>
-<p>实际项目中，有的Service Class可能是十年前写的，有几百个类作为它的底层。假设我们新写的一个API需要实例化这个Service，我们总不可能回头去搞清楚这几百个类的构造函数吧？IoC Container的这个特性就很完美的解决了这类问题——<strong>因为这个架构要求你在写class的时候需要写相应的Config文件，所以你要初始化很久以前的Service类的时候，前人都已经写好了Config文件，你直接在需要用的地方注入这个Service就可以了</strong>。这大大增加了项目的可维护性且降低了开发难度。</p>
-<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这里只是很粗略的讲了一下我自己对IoC和DI的理解。主要的目的是在于<strong>最大限度避免晦涩难懂的专业词汇，用尽量简洁，通俗，直观的例子</strong>来解释这些概念。如果让大家能有一个类似“哦！原来就是这么个玩意嘛！”的印象，我觉得就OK了。想要深入了解的话，可以上网查阅一些更权威的资料。这里推荐一下 <a href="https://link.zhihu.com/?target=https://en.wikipedia.org/wiki/Dependency_injection">Dependency injection </a> 和 <a href="https://link.zhihu.com/?target=https://martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency Injection pattern</a> 这两篇文章，讲的很好很详细。</p>
-<h3 id="Spring-IOC-容器源码分析"><a href="#Spring-IOC-容器源码分析" class="headerlink" title="Spring IOC 容器源码分析"></a>Spring IOC 容器源码分析</h3><h4 id="Spring-IoC-容器的设计"><a href="#Spring-IoC-容器的设计" class="headerlink" title="Spring IoC 容器的设计"></a>Spring IoC 容器的设计</h4><p>Spring IoC 容器的设计主要是基于以下两个接口：</p>
+    <title>03.SpringAOP</title>
+    <url>/2020/07/21/Spring/01%20AOP/</url>
+    <content><![CDATA[<h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。</p>
+<h4 id="AOP-即-Aspect-Oriented-Program-面向切面编程"><a href="#AOP-即-Aspect-Oriented-Program-面向切面编程" class="headerlink" title="AOP 即 Aspect Oriented Program 面向切面编程"></a>AOP 即 Aspect Oriented Program 面向切面编程</h4><p>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。</p>
 <ul>
-<li><strong>BeanFactory</strong></li>
-<li><strong>ApplicationContext</strong></li>
+<li><strong>所谓的核心业务</strong>，比如登陆，增加数据，删除数据都叫核心业务</li>
+<li><strong>所谓的周边功能</strong>，比如性能统计，日志，事务管理等等</li>
 </ul>
-<p>其中 ApplicationContext 是 BeanFactory 的子接口之一，换句话说：<strong>BeanFactory 是 Spring IoC 容器所定义的最底层接口，</strong>而 ApplicationContext 是其最高级接口之一，并对 BeanFactory 功能做了许多的扩展，所以在<strong>绝大部分的工作场景下</strong>，都会使用 ApplicationContext 作为 Spring IoC 容器。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-539d3860abb6b3f7.png"></p>
-<h5 id="BeanFactory"><a href="#BeanFactory" class="headerlink" title="BeanFactory"></a>BeanFactory</h5><p>从上图中我们可以几乎看到， BeanFactory 位于设计的最底层，它提供了 Spring IoC 最底层的设计，为此，我们先来看看该类中提供了哪些方法：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-ec7f8eb4cc563216.png"></p>
-<p>由于这个接口的重要性，所以有必要在这里作一下简短的说明：</p>
+<p>周边功能在 Spring 的面向切面编程AOP思想里，即被定义为切面</p>
+<p>在面向切面编程AOP的思想里面，核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫AOP</p>
+<h4 id="AOP-的目的"><a href="#AOP-的目的" class="headerlink" title="AOP 的目的"></a>AOP 的目的</h4><p>AOP能够将那些与业务无关，<strong>却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来</strong>，便于<strong>减少系统的重复代码</strong>，<strong>降低模块间的耦合度</strong>，并<strong>有利于未来的可拓展性和可维护性</strong>。</p>
+<h4 id="AOP-当中的概念："><a href="#AOP-当中的概念：" class="headerlink" title="AOP 当中的概念："></a>AOP 当中的概念：</h4><ul>
+<li>切入点（Pointcut）<br>在哪些类，哪些方法上切入（<strong>where</strong>）</li>
+<li>通知（Advice）<br>在方法执行的什么实际（<strong>when:**方法前/方法后/方法前后）做什么（</strong>what:**增强的功能）</li>
+<li>切面（Aspect）<br>切面 = 切入点 + 通知，通俗点就是：<strong>在什么时机，什么地方，做什么增强！</strong></li>
+<li>织入（Weaving）<br>把切面加入到对象，并创建出代理对象的过程。（由 Spring 来完成）</li>
+</ul>
+<h4 id="AOP-编程"><a href="#AOP-编程" class="headerlink" title="AOP 编程"></a>AOP 编程</h4><ul>
+<li>在 Packge【service】下创建 【ProductService】类：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomeService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;doSomeService&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li><p>【getBean】 对应了多个方法来获取配置给 Spring IoC 容器的 Bean。<br>① 按照类型拿 bean：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(Bean.class)</span><br></pre></td></tr></table></figure>
+<li>在 xml 文件中装配该 bean：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>注意：</strong> 要求在 Spring 中只配置了一个这种类型的实例，否则报错。（如果有多个那 Spring 就懵了，不知道该获取哪一个）<br>② 按照 bean 的名字拿 bean:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在【TestSpring】中编写测试代码，运行：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-c190e07d3a051a65.png" alt="img"></p>
+<ul>
+<li>在 Packge【aspect】下准备日志切面 【LoggerAspect】类：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage aspect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggerAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">log</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;start log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        Object object = joinPoint.proceed();</span><br><span class="line">        System.out.println(<span class="string">&quot;end log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        <span class="keyword">return</span> object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>注意：</strong> 这种方法不太安全，IDE 不会检查其安全性（关联性）<br>③ 按照名字和类型拿 bean：<strong>（推荐）</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>, Bean.class);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 xml 文件中声明业务对象和日志切面：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:tx</span>=<span class="string">&quot;http://www.springframework.org/schema/tx&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;loggerAspect&quot;</span> <span class="attr">class</span>=<span class="string">&quot;aspect.LoggerAspect&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 配置AOP --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- where：在哪些地方（包.类.方法）做增加 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;loggerCutpoint&quot;</span></span></span><br><span class="line"><span class="tag">                      <span class="attr">expression</span>=<span class="string">&quot;execution(* service.ProductService.*(..)) &quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- what:做什么增强 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">id</span>=<span class="string">&quot;logAspect&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;loggerAspect&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- when:在什么时机（方法前/后/前后） --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">aop:around</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;loggerCutpoint&quot;</span> <span class="attr">method</span>=<span class="string">&quot;log&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>再次运行 TestSpring 中的测试代码，代码并没有改变，但是在业务方法运行之前和运行之后，都分别输出了日志信息：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-343746f0a4eb7ce0.png" alt="img"></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>01.Spring基础</title>
+    <url>/2020/07/21/Spring/01%20%E4%BB%80%E4%B9%88%E6%98%AFSpring/</url>
+    <content><![CDATA[<h3 id="什么是spring"><a href="#什么是spring" class="headerlink" title="什么是spring?"></a>什么是spring?</h3><p>Spring 是一个<strong>轻量级的 DI / IoC 和 AOP 容器的开源框架</strong>，目的是为了解决企业级应用开发的业务逻辑层和其他各层的耦合问题。它是一个轻量级开源框架，为开发Java应用程序提供全面的基础架构支持。Spring负责基础架构，因此Java开发者可以专注于应用程序的开发。</p>
+<p>Spring最根本的使命是<strong>解决企业级应用开发的复杂性，即简化Java开发</strong>。</p>
+<h3 id="Spring的优缺点是什么？"><a href="#Spring的优缺点是什么？" class="headerlink" title="Spring的优缺点是什么？"></a>Spring的优缺点是什么？</h3><p><strong>优点</strong></p>
+<ul>
+<li><p>方便解耦，简化开发</p>
+<p>Spring就是一个大工厂，可以将所有对象的创建和依赖关系的维护，交给Spring管理。</p>
 </li>
-<li><p>【isSingleton】 用于判断是否单例，如果判断为真，其意思是该 Bean 在容器中是作为一个唯一单例存在的。而【isPrototype】则相反，如果判断为真，意思是当你从容器中获取 Bean，容器就为你生成一个新的实例。</p>
-<p><strong>注意：</strong> 在默认情况下，【isSingleton】为 ture，而【isPrototype】为 false</p>
+<li><p>AOP编程的支持</p>
+<p>Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能。</p>
 </li>
-<li><p>关于 type 的匹配，这是一个按 Java 类型匹配的方式</p>
+<li><p>声明式事务的支持</p>
+<p>只需要通过配置就可以完成对事务的管理，而无需手动编程。</p>
 </li>
-<li><p>【getAliases】方法是获取别名的方法</p>
+<li><p>方便程序的测试</p>
+<p>Spring对Junit4支持，可以通过注解方便的测试Spring程序。</p>
+</li>
+<li><p>方便集成各种优秀框架</p>
+<p>Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架的直接支持（如：Struts、Hibernate、MyBatis等）。</p>
+</li>
+<li><p>降低JavaEE API的使用难度</p>
+<p>Spring对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低。</p>
 </li>
 </ul>
-<p>这就是 Spring IoC 最底层的设计，所有关于 Spring IoC 的容器将会遵守它所定义的方法</p>
-<h5 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h5><p>根据 ApplicationContext 的类继承关系图，可以看到 ApplicationContext 接口扩展了许许多多的接口，因此它的功能十分强大，所以在实际应用中常常会使用到的是 ApplicationContext 接口，因为 BeanFactory 的方法和功能较少，而 ApplicationContext 的方法和功能较多。</p>
-<p>我们来认识一个 ApplicationContext 的子类——ClassPathXmlApplicationContext。</p>
-<ol>
-<li>先在【src】目录下创建一个 【bean.xml】 文件：</li>
+<p><strong>缺点</strong></p>
+<ul>
+<li>Spring明明一个很轻量级的框架，却给人感觉大而全</li>
+<li>Spring依赖反射，反射影响性能</li>
+<li>使用门槛升高，入门Spring需要较长时间</li>
+</ul>
+<h3 id="Spring核心模块"><a href="#Spring核心模块" class="headerlink" title="Spring核心模块"></a>Spring核心模块</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2019102923475419.png" alt="在这里插入图片描述"></p>
+<ul>
+<li><strong>spring core</strong>：提供了框架的基本组成部分，包括<strong>控制反转</strong>（Inversion of Control，IOC）和<strong>依赖注入</strong>（Dependency Injection，DI）功能。</li>
+<li><strong>spring beans</strong>：提供了BeanFactory，是工厂模式的一个经典实现，Spring将管理对象称为Bean。</li>
+<li><strong>spring context</strong>：构建于 core 封装包基础上的 context 封装包，提供了一种框架式的对象访问方法。</li>
+<li><strong>spring jdbc</strong>：提供了一个JDBC的抽象层，消除了烦琐的JDBC编码和数据库厂商特有的错误代码解析， 用于简化JDBC。</li>
+<li><strong>spring aop</strong>：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。</li>
+<li><strong>spring Web</strong>：提供了针对 Web 开发的集成特性，例如文件上传，利用 servlet listeners 进行 ioc 容器初始化和针对 Web 的 ApplicationContext。</li>
+<li><strong>spring test</strong>：主要为测试提供支持的，支持使用JUnit或TestNG对Spring组件进行单元测试和集成测试。</li>
+</ul>
+<h3 id="Spring-框架中都用到了哪些设计模式？"><a href="#Spring-框架中都用到了哪些设计模式？" class="headerlink" title="Spring 框架中都用到了哪些设计模式？"></a>Spring 框架中都用到了哪些设计模式？</h3><ol>
+<li><strong>工厂模式</strong>：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；</li>
+<li><strong>单例模式</strong>：Bean默认为单例模式。</li>
+<li><strong>代理模式</strong>：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；</li>
+<li><strong>模板方法</strong>：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。</li>
+<li><strong>观察者模式</strong>：定义对象键一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知被制动更新，如Spring中listener的实现–ApplicationListener。</li>
 </ol>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 通过 xml 方式装配 bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;source&quot;</span> <span class="attr">class</span>=<span class="string">&quot;pojo.Source&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;橙子&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sugar&quot;</span> <span class="attr">value</span>=<span class="string">&quot;多糖&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;size&quot;</span> <span class="attr">value</span>=<span class="string">&quot;超大杯&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>这里定义了一个 bean ，这样 Spring IoC 容器在初始化的时候就能找到它们，然后使用ClassPathXmlApplicationContext 容器就可以将其初始化：</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;bean.xml&quot;</span>);</span><br><span class="line">Source source = (Source) context.getBean(<span class="string">&quot;source&quot;</span>, Source.class);</span><br><span class="line"></span><br><span class="line">System.out.println(source.getFruit());</span><br><span class="line">System.out.println(source.getSugar());</span><br><span class="line">System.out.println(source.getSize());</span><br></pre></td></tr></table></figure>
-
-<p>这样就会使用 Application 的实现类 <code>ClassPathXmlApplicationContext</code> 去初始化 Spring IoC 容器，然后开发者就可以通过 IoC 容器来获取资源了！</p>
-<p><strong>ApplicationContext 常见实现类：</strong></p>
-<p><strong>ClassPathXmlApplicationContext：</strong><br>读取classpath中的资源</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>FileSystemXmlApplicationContext:-</strong><br>读取指定路径的资源</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ac = <span class="keyword">new</span> FileSystemXmlApplicationContext(<span class="string">&quot;c:/applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>XmlWebApplicationContext:</strong><br>需要在Web的环境下才可以运行</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYXmlWebApplicationContext ac = <span class="keyword">new</span> XmlWebApplicationContext(); <span class="comment">// 这时并没有初始化容器</span></span><br><span class="line">ac.setServletContext(servletContext); <span class="comment">// 需要指定ServletContext对象</span></span><br><span class="line">ac.setConfigLocation(<span class="string">&quot;/WEB-INF/applicationContext.xml&quot;</span>); <span class="comment">// 指定配置文件路径，开头的斜线表示Web应用的根目录</span></span><br><span class="line">ac.refresh(); <span class="comment">// 初始化容器</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="BeanFactory-和-ApplicationContext-的区别："><a href="#BeanFactory-和-ApplicationContext-的区别：" class="headerlink" title="BeanFactory 和 ApplicationContext 的区别："></a>BeanFactory 和 ApplicationContext 的区别：</h5><ul>
-<li><p><strong>BeanFactory：</strong> 是Spring中最底层的接口，只提供了最简单的IoC功能,负责配置，创建和管理bean。<br>在应用中，一般不使用 BeanFactory，而推荐使用ApplicationContext（应用上下文），原因如下。</p>
-</li>
-<li><p><strong>ApplicationContext：</strong></p>
-<p>1.继承了 BeanFactory，拥有了基本的 IoC 功能；<br>2.除此之外，ApplicationContext 还提供了以下功能：<br>① 支持国际化；<br>② 支持消息机制；<br>③ 支持统一的资源加载；<br>④ 支持AOP功能；</p>
-</li>
-</ul>
-<h3 id="Spring-IoC-的容器的初始化和依赖注入"><a href="#Spring-IoC-的容器的初始化和依赖注入" class="headerlink" title="Spring IoC 的容器的初始化和依赖注入"></a>Spring IoC 的容器的初始化和依赖注入</h3><p>虽然 Spring IoC 容器的生成十分的复杂，但是大体了解一下 Spring IoC 初始化的过程还是必要的。这对于理解 Spring 的一系列行为是很有帮助的。</p>
-<p><strong>注意：</strong> Bean 的定义和初始化在 Spring IoC 容器是两大步骤，它是先定义，然后初始化和依赖注入的。</p>
-<ul>
-<li><p><strong>Bean 的定义分为 3 步：定位、加载、注册</strong></p>
-</li>
-<li><p>Resource 定位<br>Spring IoC 容器先根据开发者的配置，进行资源的定位，在 Spring 的开发中，通过 XML 或者注解都是十分常见的方式，定位的内容是由开发者提供的。</p>
-</li>
-<li><p>BeanDefinition 的加载<br>这个时候只是将 Resource 定位到的信息，保存到 Bean 定义（BeanDefinition）中，此时并不会创建 Bean 的实例</p>
-</li>
-<li><p>BeanDefinition 的注册<br>这个过程就是将 BeanDefinition 的信息发布到 Spring IoC 容器中<br><strong>注意：</strong>此时仍然没有对应的 Bean 的实例。</p>
-</li>
-</ul>
-<p>做完了以上 3 步，Bean 就在 Spring IoC 容器中被定义了，而没有被初始化，更没有完成依赖注入，也就是没有注入其配置的资源给 Bean，那么它还不能完全使用。</p>
-<p>对于初始化和依赖注入，Spring Bean 还有一个配置选项——<strong>【lazy-init】</strong>，其含义就是<strong>是否初始化 Spring Bean</strong>。在没有任何配置的情况下，它的默认值为 default，实际值为 false，也就是 <strong>Spring IoC 默认会自动初始化 Bean</strong>。如果将其设置为 true，那么只有当我们使用 Spring IoC 容器的 getBean 方法获取它时，它才会进行 Bean 的初始化，完成依赖注入。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zhihu.com/question/23277575/answer/169698662">https://www.zhihu.com/question/23277575/answer/169698662</a></p>
-<p><a href="https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/">https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/</a></p>
-<p><a href="https://javadoop.com/post/spring-ioc">https://javadoop.com/post/spring-ioc</a></p>
 ]]></content>
       <categories>
         <category>Spring</category>
@@ -1219,6 +1201,149 @@
       </categories>
       <tags>
         <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>03.Spring IOC</title>
+    <url>/2020/07/21/Spring/02%20IOC%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="Spring-IoC-和-DI-简介"><a href="#Spring-IoC-和-DI-简介" class="headerlink" title="Spring IoC 和 DI 简介"></a>Spring IoC 和 DI 简介</h3><h4 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h4><ul>
+<li>读作 <strong>“反转控制”</strong>，更好理解，不是什么技术，而是一种<strong>设计思想</strong>，就是<strong>将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</strong></li>
+<li><strong>正控：</strong>若要使用某个对象，需要<strong>自己去负责对象的创建</strong></li>
+<li><strong>反控：</strong>若要使用某个对象，只需要<strong>从 Spring 容器中获取需要使用的对象，不关心对象的创建过程</strong>，也就是把<strong>创建对象的控制权反转给了Spring框架</strong></li>
+<li><strong>好莱坞法则：</strong> Don’t call me ,I’ll call you</li>
+</ul>
+<blockquote>
+<h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><p>控制反转显然是一个抽象的概念，我们举一个鲜明的例子来说明。</p>
+</blockquote>
+<blockquote>
+<p>在现实生活中，人们要用到一样东西的时候，第一反应就是去找到这件东西，比如想喝新鲜橙汁，在没有饮品店的日子里，最直观的做法就是：买果汁机、买橙子，然后准备开水。值得注意的是：这些都是你自己<strong>“主动”创造</strong>的过程，也就是说一杯橙汁需要你自己创造。</p>
+</blockquote>
+<blockquote>
+<p>然而到了今时今日，由于饮品店的盛行，当我们想喝橙汁时，第一想法就转换成了找到饮品店的联系方式，通过电话等渠道描述你的需要、地址、联系方式等，下订单等待，过一会儿就会有人送来橙汁了。请注意你并没有“主动”去创造橙汁，橙汁是由饮品店创造的，而不是你，然而也完全达到了你的要求，甚至比你创造的要好上那么一些。</p>
+</blockquote>
+<h4 id="更经典全方位的理解"><a href="#更经典全方位的理解" class="headerlink" title="更经典全方位的理解"></a>更经典全方位的理解</h4><p>要了解<strong>控制反转( Inversion of Control )</strong>, 我觉得有必要先了解软件设计的一个重要思想：<strong>依赖倒置原则（Dependency Inversion Principle ）</strong>。</p>
+<p><img src="https://pic3.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p><strong>什么是依赖倒置原则？</strong>假设我们设计一辆汽车：先设计轮子，然后根据轮子大小设计底盘，接着根据底盘设计车身，最后根据车身设计好整个汽车。这里就出现了一个“依赖”关系：汽车依赖车身，车身依赖底盘，底盘依赖轮子。</p>
+<p><img src="https://pic1.zhimg.com/v2-c68248bb5d9b4d64d22600571e996446_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这样的设计看起来没问题，但是可维护性却很低。假设设计完工之后，上司却突然说根据市场需求的变动，要我们把车子的轮子设计都改大一码。这下我们就蛋疼了：因为我们是根据轮子的尺寸设计的底盘，轮子的尺寸一改，底盘的设计就得修改；同样因为我们是根据底盘设计的车身，那么车身也得改，同理汽车设计也得改——整个设计几乎都得改！</p>
+<p>我们现在换一种思路。我们先设计汽车的大概样子，然后根据汽车的样子来设计车身，根据车身来设计底盘，最后根据底盘来设计轮子。这时候，依赖关系就倒置过来了：轮子依赖底盘， 底盘依赖车身， 车身依赖汽车。</p>
+<p><img src="https://pic4.zhimg.com/v2-e64bf72c5c04412f626b21753aa9e1a1_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这时候，上司再说要改动轮子的设计，我们就只需要改动轮子的设计，而不需要动底盘，车身，汽车的设计了。</p>
+<p>这就是<strong>依赖倒置原则——把原本的高层建筑依赖底层建筑“倒置”过来，变成底层建筑依赖高层建筑。高层建筑决定需要什么，底层去实现这样的需求，但是高层并不用管底层是怎么实现的。</strong>这样就不会出现前面的“牵一发动全身”的情况。</p>
+<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p><strong>控制反转（Inversion of Control）</strong> 就是依赖倒置原则的一种代码设计的思路。具体采用的方法就是所谓的<strong>依赖注入（Dependency Injection）</strong>。其实这些概念初次接触都会感到云里雾里的。说穿了，这几种概念的关系大概如下：</p>
+<p><img src="https://pic1.zhimg.com/v2-ee924f8693cff51785ad6637ac5b21c1_r.jpg?source=1940ef5c" alt="img"></p>
+<p>为了理解这几个概念，我们还是用上面汽车的例子。只不过这次换成代码。我们先定义四个Class，车，车身，底盘，轮胎。然后初始化这辆车，最后跑这辆车。代码结构如下：</p>
+<p><img src="https://pic2.zhimg.com/v2-8ec294de7d0f9013788e3fb5c76069ef_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这样，就相当于上面第一个例子，上层建筑依赖下层建筑——每一个类的构造函数都直接调用了底层代码的构造函数。假设我们需要改动一下轮胎（Tire）类，把它的尺寸变成动态的，而不是一直都是30。我们需要这样改：</p>
+<p><img src="https://pic1.zhimg.com/50/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_hd.jpg?source=1940ef5c" alt="img"><img src="https://pic4.zhimg.com/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_r.jpg?source=1940ef5c" alt="img"></p>
+<p>由于我们修改了轮胎的定义，为了让整个程序正常运行，我们需要做以下改动：</p>
+<p><img src="https://pic4.zhimg.com/v2-82e0c12a1b26f7979ed9241e169affda_r.jpg?source=1940ef5c" alt="img"></p>
+<p>由此我们可以看到，仅仅是为了修改轮胎的构造函数，这种设计却需要<strong>修改整个上层所有类的构造函数</strong>！在软件工程中，<strong>这样的设计几乎是不可维护的</strong>——在实际工程项目中，有的类可能会是几千个类的底层，如果每次修改这个类，我们都要修改所有以它作为依赖的类，那软件的维护成本就太高了。</p>
+<p>所以我们需要进行控制反转（IoC），及上层控制下层，而不是下层控制着上层。我们用依赖注入（Dependency Injection）这种方式来实现控制反转。<strong>所谓依赖注入，就是把底层类作为参数传入上层类，实现上层类对下层类的“控制</strong>”。这里我们用<strong>构造方法传递的依赖注入方式</strong>重新写车类的定义：</p>
+<p><img src="https://pic4.zhimg.com/v2-c920a0540ce0651003a5326f6ef9891d_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里我们再把轮胎尺寸变成动态的，同样为了让整个系统顺利运行，我们需要做如下修改：</p>
+<p><img src="https://pic2.zhimg.com/v2-99ad2cd809fcb86dd791ff7f65fb1779_r.jpg?source=1940ef5c" alt="img"></p>
+<p>看到没？这里<strong>我只需要修改轮胎类就行了，不用修改其他任何上层类。</strong>这显然是更容易维护的代码。不仅如此，在实际的工程中，这种设计模式还有利于<strong>不同组的协同合作和单元测试：</strong>比如开发这四个类的分别是四个不同的组，那么只要定义好了接口，四个不同的组可以同时进行开发而不相互受限制；而对于单元测试，如果我们要写Car类的单元测试，就只需要Mock一下Framework类传入Car就行了，而不用把Framework, Bottom, Tire全部new一遍再来构造Car。</p>
+<p>这里我们是采用的<strong>构造函数传入</strong>的方式进行的依赖注入。其实还有另外两种方法：<strong>Setter传递</strong>和<strong>接口传递</strong>。这里就不多讲了，核心思路都是一样的，都是为了实现<strong>控制反转</strong>。</p>
+<p><img src="https://pic1.zhimg.com/v2-861683acac47577c81f2b7493dd05649_r.jpg?source=1940ef5c" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p>看到这里你应该能理解什么控制反转和依赖注入了。那什么是**控制反转容器(IoC Container)**呢？其实上面的例子中，对车类进行初始化的那段代码发生的地方，就是控制反转容器。</p>
+<p><img src="https://pic2.zhimg.com/v2-c845802f9187953ed576e0555f76da42_r.jpg?source=1940ef5c" alt="img"></p>
+<p>显然你也应该观察到了，因为采用了依赖注入，在初始化的过程中就不可避免的会写大量的new。这里IoC容器就解决了这个问题。<strong>这个容器可以自动对你的代码进行初始化，你只需要维护一个Configuration（可以是xml可以是一段代码），而不用每次初始化一辆车都要亲手去写那一大段初始化的代码</strong>。这是引入IoC Container的第一个好处。</p>
+<p>IoC Container的第二个好处是：<strong>我们在创建实例的时候不需要了解其中的细节。</strong>在上面的例子中，我们自己手动创建一个车instance时候，是从底层往上层new的：</p>
+<p><img src="https://pic1.zhimg.com/v2-555b2be7d76e78511a6d6fed3304927f_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这个过程中，我们需要了解整个Car/Framework/Bottom/Tire类构造函数是怎么定义的，才能一步一步new/注入。</p>
+<p>而IoC Container在进行这个工作的时候是反过来的，它先从最上层开始往下找依赖关系，到达最底层之后再往上一步一步new（有点像深度优先遍历）：</p>
+<p><img src="https://pic4.zhimg.com/v2-24a96669241e81439c636e83976ba152_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里IoC Container可以直接隐藏具体的创建实例的细节，在我们来看它就像一个工厂：</p>
+<p><img src="https://pic4.zhimg.com/v2-5ca61395f37cef73c7bbe7808f9ea219_r.jpg?source=1940ef5c" alt="img"></p>
+<p>我们就像是工厂的客户。我们只需要向工厂请求一个Car实例，然后它就给我们按照Config创建了一个Car实例。我们完全不用管这个Car实例是怎么一步一步被创建出来。</p>
+<p>实际项目中，有的Service Class可能是十年前写的，有几百个类作为它的底层。假设我们新写的一个API需要实例化这个Service，我们总不可能回头去搞清楚这几百个类的构造函数吧？IoC Container的这个特性就很完美的解决了这类问题——<strong>因为这个架构要求你在写class的时候需要写相应的Config文件，所以你要初始化很久以前的Service类的时候，前人都已经写好了Config文件，你直接在需要用的地方注入这个Service就可以了</strong>。这大大增加了项目的可维护性且降低了开发难度。</p>
+<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里只是很粗略的讲了一下我自己对IoC和DI的理解。主要的目的是在于<strong>最大限度避免晦涩难懂的专业词汇，用尽量简洁，通俗，直观的例子</strong>来解释这些概念。如果让大家能有一个类似“哦！原来就是这么个玩意嘛！”的印象，我觉得就OK了。想要深入了解的话，可以上网查阅一些更权威的资料。这里推荐一下 <a href="https://link.zhihu.com/?target=https://en.wikipedia.org/wiki/Dependency_injection">Dependency injection </a> 和 <a href="https://link.zhihu.com/?target=https://martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency Injection pattern</a> 这两篇文章，讲的很好很详细。</p>
+<h3 id="Spring-IOC-容器源码分析"><a href="#Spring-IOC-容器源码分析" class="headerlink" title="Spring IOC 容器源码分析"></a>Spring IOC 容器源码分析</h3><h4 id="Spring-IoC-容器的设计"><a href="#Spring-IoC-容器的设计" class="headerlink" title="Spring IoC 容器的设计"></a>Spring IoC 容器的设计</h4><p>Spring IoC 容器的设计主要是基于以下两个接口：</p>
+<ul>
+<li><strong>BeanFactory</strong></li>
+<li><strong>ApplicationContext</strong></li>
+</ul>
+<p>其中 ApplicationContext 是 BeanFactory 的子接口之一，换句话说：<strong>BeanFactory 是 Spring IoC 容器所定义的最底层接口，</strong>而 ApplicationContext 是其最高级接口之一，并对 BeanFactory 功能做了许多的扩展，所以在<strong>绝大部分的工作场景下</strong>，都会使用 ApplicationContext 作为 Spring IoC 容器。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-539d3860abb6b3f7.png"></p>
+<h5 id="BeanFactory"><a href="#BeanFactory" class="headerlink" title="BeanFactory"></a>BeanFactory</h5><p>从上图中我们可以几乎看到， BeanFactory 位于设计的最底层，它提供了 Spring IoC 最底层的设计，为此，我们先来看看该类中提供了哪些方法：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-ec7f8eb4cc563216.png"></p>
+<p>由于这个接口的重要性，所以有必要在这里作一下简短的说明：</p>
+<ul>
+<li><p>【getBean】 对应了多个方法来获取配置给 Spring IoC 容器的 Bean。<br>① 按照类型拿 bean：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(Bean.class)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 要求在 Spring 中只配置了一个这种类型的实例，否则报错。（如果有多个那 Spring 就懵了，不知道该获取哪一个）<br>② 按照 bean 的名字拿 bean:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 这种方法不太安全，IDE 不会检查其安全性（关联性）<br>③ 按照名字和类型拿 bean：<strong>（推荐）</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>, Bean.class);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【isSingleton】 用于判断是否单例，如果判断为真，其意思是该 Bean 在容器中是作为一个唯一单例存在的。而【isPrototype】则相反，如果判断为真，意思是当你从容器中获取 Bean，容器就为你生成一个新的实例。</p>
+<p><strong>注意：</strong> 在默认情况下，【isSingleton】为 ture，而【isPrototype】为 false</p>
+</li>
+<li><p>关于 type 的匹配，这是一个按 Java 类型匹配的方式</p>
+</li>
+<li><p>【getAliases】方法是获取别名的方法</p>
+</li>
+</ul>
+<p>这就是 Spring IoC 最底层的设计，所有关于 Spring IoC 的容器将会遵守它所定义的方法</p>
+<h5 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h5><p>根据 ApplicationContext 的类继承关系图，可以看到 ApplicationContext 接口扩展了许许多多的接口，因此它的功能十分强大，所以在实际应用中常常会使用到的是 ApplicationContext 接口，因为 BeanFactory 的方法和功能较少，而 ApplicationContext 的方法和功能较多。</p>
+<p>我们来认识一个 ApplicationContext 的子类——ClassPathXmlApplicationContext。</p>
+<ol>
+<li>先在【src】目录下创建一个 【bean.xml】 文件：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 通过 xml 方式装配 bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;source&quot;</span> <span class="attr">class</span>=<span class="string">&quot;pojo.Source&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;橙子&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sugar&quot;</span> <span class="attr">value</span>=<span class="string">&quot;多糖&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;size&quot;</span> <span class="attr">value</span>=<span class="string">&quot;超大杯&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>这里定义了一个 bean ，这样 Spring IoC 容器在初始化的时候就能找到它们，然后使用ClassPathXmlApplicationContext 容器就可以将其初始化：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;bean.xml&quot;</span>);</span><br><span class="line">Source source = (Source) context.getBean(<span class="string">&quot;source&quot;</span>, Source.class);</span><br><span class="line"></span><br><span class="line">System.out.println(source.getFruit());</span><br><span class="line">System.out.println(source.getSugar());</span><br><span class="line">System.out.println(source.getSize());</span><br></pre></td></tr></table></figure>
+
+<p>这样就会使用 Application 的实现类 <code>ClassPathXmlApplicationContext</code> 去初始化 Spring IoC 容器，然后开发者就可以通过 IoC 容器来获取资源了！</p>
+<p><strong>ApplicationContext 常见实现类：</strong></p>
+<p><strong>ClassPathXmlApplicationContext：</strong><br>读取classpath中的资源</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>FileSystemXmlApplicationContext:-</strong><br>读取指定路径的资源</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ac = <span class="keyword">new</span> FileSystemXmlApplicationContext(<span class="string">&quot;c:/applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>XmlWebApplicationContext:</strong><br>需要在Web的环境下才可以运行</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYXmlWebApplicationContext ac = <span class="keyword">new</span> XmlWebApplicationContext(); <span class="comment">// 这时并没有初始化容器</span></span><br><span class="line">ac.setServletContext(servletContext); <span class="comment">// 需要指定ServletContext对象</span></span><br><span class="line">ac.setConfigLocation(<span class="string">&quot;/WEB-INF/applicationContext.xml&quot;</span>); <span class="comment">// 指定配置文件路径，开头的斜线表示Web应用的根目录</span></span><br><span class="line">ac.refresh(); <span class="comment">// 初始化容器</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="BeanFactory-和-ApplicationContext-的区别："><a href="#BeanFactory-和-ApplicationContext-的区别：" class="headerlink" title="BeanFactory 和 ApplicationContext 的区别："></a>BeanFactory 和 ApplicationContext 的区别：</h5><ul>
+<li><p><strong>BeanFactory：</strong> 是Spring中最底层的接口，只提供了最简单的IoC功能,负责配置，创建和管理bean。<br>在应用中，一般不使用 BeanFactory，而推荐使用ApplicationContext（应用上下文），原因如下。</p>
+</li>
+<li><p><strong>ApplicationContext：</strong></p>
+<p>1.继承了 BeanFactory，拥有了基本的 IoC 功能；<br>2.除此之外，ApplicationContext 还提供了以下功能：<br>① 支持国际化；<br>② 支持消息机制；<br>③ 支持统一的资源加载；<br>④ 支持AOP功能；</p>
+</li>
+</ul>
+<h3 id="Spring-IoC-的容器的初始化和依赖注入"><a href="#Spring-IoC-的容器的初始化和依赖注入" class="headerlink" title="Spring IoC 的容器的初始化和依赖注入"></a>Spring IoC 的容器的初始化和依赖注入</h3><p>虽然 Spring IoC 容器的生成十分的复杂，但是大体了解一下 Spring IoC 初始化的过程还是必要的。这对于理解 Spring 的一系列行为是很有帮助的。</p>
+<p><strong>注意：</strong> Bean 的定义和初始化在 Spring IoC 容器是两大步骤，它是先定义，然后初始化和依赖注入的。</p>
+<ul>
+<li><p><strong>Bean 的定义分为 3 步：定位、加载、注册</strong></p>
+</li>
+<li><p>Resource 定位<br>Spring IoC 容器先根据开发者的配置，进行资源的定位，在 Spring 的开发中，通过 XML 或者注解都是十分常见的方式，定位的内容是由开发者提供的。</p>
+</li>
+<li><p>BeanDefinition 的加载<br>这个时候只是将 Resource 定位到的信息，保存到 Bean 定义（BeanDefinition）中，此时并不会创建 Bean 的实例</p>
+</li>
+<li><p>BeanDefinition 的注册<br>这个过程就是将 BeanDefinition 的信息发布到 Spring IoC 容器中<br><strong>注意：</strong>此时仍然没有对应的 Bean 的实例。</p>
+</li>
+</ul>
+<p>做完了以上 3 步，Bean 就在 Spring IoC 容器中被定义了，而没有被初始化，更没有完成依赖注入，也就是没有注入其配置的资源给 Bean，那么它还不能完全使用。</p>
+<p>对于初始化和依赖注入，Spring Bean 还有一个配置选项——<strong>【lazy-init】</strong>，其含义就是<strong>是否初始化 Spring Bean</strong>。在没有任何配置的情况下，它的默认值为 default，实际值为 false，也就是 <strong>Spring IoC 默认会自动初始化 Bean</strong>。如果将其设置为 true，那么只有当我们使用 Spring IoC 容器的 getBean 方法获取它时，它才会进行 Bean 的初始化，完成依赖注入。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zhihu.com/question/23277575/answer/169698662">https://www.zhihu.com/question/23277575/answer/169698662</a></p>
+<p><a href="https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/">https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/</a></p>
+<p><a href="https://javadoop.com/post/spring-ioc">https://javadoop.com/post/spring-ioc</a></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
       </tags>
   </entry>
 </search>
