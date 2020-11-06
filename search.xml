@@ -1,135 +1,280 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>03.原型模式</title>
-    <url>/2020/08/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/03.%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h1><p>原型模式（Prototype Pattern）属于创建型模式，主要用于创建重复的对象，我们通常创建重复对象的时候都是通过set方法一个一个copy属性值的，这样如果类中属性特别多的话非常不好用，而且效率也不高在日常开发中，例如：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">submitRepair</span><span class="params">(RepairForm repairForm)</span> </span>&#123;</span><br><span class="line">        Repair repair = <span class="keyword">new</span> Repair();</span><br><span class="line">        repair.setAppraisal(repairForm.getAppraisal());</span><br><span class="line">        repair.setContent(repairForm.getContent());</span><br><span class="line">        repair.setReply(repairForm.getReply());</span><br><span class="line">        repair.setReplyTime(repairForm.getReplyTime());</span><br><span class="line">        repair.setStarNum(repairForm.getStarNum());</span><br><span class="line">        repair.setState(repairForm.getState());</span><br><span class="line">        repair.setVisitTime(repairForm.getVisitTime());</span><br><span class="line">        repair.setTime(repairForm.getCreateTime());</span><br><span class="line">        repair.setTitle(RepairTypeEnums.getTextByType(repairForm.getType()));</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        xxxService.submit(repair);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样的代码，一旦类属性过多，就会显得很臃肿，而原型模式，能帮助我们解决这样的问题。</p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>原型模式(Prototype Pattern)是指原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。</p>
-<p>原型模式主要适用于以下场景:</p>
+    <title>03.SpringAOP</title>
+    <url>/2020/07/21/Spring/01%20AOP/</url>
+    <content><![CDATA[<h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。</p>
+<h4 id="AOP-即-Aspect-Oriented-Program-面向切面编程"><a href="#AOP-即-Aspect-Oriented-Program-面向切面编程" class="headerlink" title="AOP 即 Aspect Oriented Program 面向切面编程"></a>AOP 即 Aspect Oriented Program 面向切面编程</h4><p>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。</p>
 <ul>
-<li><p>类初始化消耗资源较多。</p>
-</li>
-<li><p>new 产生的一个对象需要非常繁琐的过程(数据准备、访问权限等)</p>
-</li>
-<li><p>构造函数比较复杂。</p>
-</li>
-<li><p>循环体中生产大量对象时。</p>
-</li>
+<li><strong>所谓的核心业务</strong>，比如登陆，增加数据，删除数据都叫核心业务</li>
+<li><strong>所谓的周边功能</strong>，比如性能统计，日志，事务管理等等</li>
 </ul>
-<p>在 Spring 中，原型模式应用得非常广泛。例如 scope=“prototype”，在我们经常用 的 JSON.parseObject()也是一种原型模式。下面，我们来看看原型模式类结构图:</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20200918101451519.png" alt="image-20200918101451519"></p>
-<h2 id="简单克隆"><a href="#简单克隆" class="headerlink" title="简单克隆"></a>简单克隆</h2><p>简单原型模式的设计代码如下：</p>
-<ul>
-<li>定义一个Prototype接口</li>
+<p>周边功能在 Spring 的面向切面编程AOP思想里，即被定义为切面</p>
+<p>在面向切面编程AOP的思想里面，核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫AOP</p>
+<h4 id="AOP-的目的"><a href="#AOP-的目的" class="headerlink" title="AOP 的目的"></a>AOP 的目的</h4><p>AOP能够将那些与业务无关，<strong>却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来</strong>，便于<strong>减少系统的重复代码</strong>，<strong>降低模块间的耦合度</strong>，并<strong>有利于未来的可拓展性和可维护性</strong>。</p>
+<h4 id="AOP-当中的概念："><a href="#AOP-当中的概念：" class="headerlink" title="AOP 当中的概念："></a>AOP 当中的概念：</h4><ul>
+<li>切入点（Pointcut）<br>在哪些类，哪些方法上切入（<strong>where</strong>）</li>
+<li>通知（Advice）<br>在方法执行的什么实际（<strong>when:**方法前/方法后/方法前后）做什么（</strong>what:**增强的功能）</li>
+<li>切面（Aspect）<br>切面 = 切入点 + 通知，通俗点就是：<strong>在什么时机，什么地方，做什么增强！</strong></li>
+<li>织入（Weaving）<br>把切面加入到对象，并创建出代理对象的过程。（由 Spring 来完成）</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Prototype</span> </span>&#123;</span><br><span class="line">    <span class="function">Prototype <span class="title">clone</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="AOP-编程"><a href="#AOP-编程" class="headerlink" title="AOP 编程"></a>AOP 编程</h4><ul>
+<li>在 Packge【service】下创建 【ProductService】类：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomeService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;doSomeService&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>创建需要被克隆的类</li>
+<li>在 xml 文件中装配该 bean：</li>
 </ul>
-<p>有多个可以使用类似的方法</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrototypeA</span> <span class="keyword">implements</span> <span class="title">Prototype</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> List hobbies;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// getter...</span></span><br><span class="line">    <span class="comment">// setter...</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Prototype <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        PrototypeA concretePrototype = <span class="keyword">new</span> PrototypeA();</span><br><span class="line">        concretePrototype.setAge(<span class="keyword">this</span>.age);</span><br><span class="line">        concretePrototype.setName(<span class="keyword">this</span>.name);</span><br><span class="line">        concretePrototype.setHobbies(<span class="keyword">this</span>.hobbies);</span><br><span class="line">        <span class="keyword">return</span> concretePrototype;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>创建一个client</li>
+<li>在【TestSpring】中编写测试代码，运行：</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Prototype prototype;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Client</span><span class="params">(Prototype prototype)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.prototype = prototype;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Prototype <span class="title">startClone</span><span class="params">(Prototype concretePrototype)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (Prototype) concretePrototype.clone();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-c190e07d3a051a65.png" alt="img"></p>
+<ul>
+<li>在 Packge【aspect】下准备日志切面 【LoggerAspect】类：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage aspect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggerAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">log</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;start log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        Object object = joinPoint.proceed();</span><br><span class="line">        System.out.println(<span class="string">&quot;end log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        <span class="keyword">return</span> object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>测试</li>
+<li>在 xml 文件中声明业务对象和日志切面：</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrototypeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建一个具体的需要克隆的对象</span></span><br><span class="line">        PrototypeA concretePrototype = <span class="keyword">new</span> PrototypeA();</span><br><span class="line">        <span class="comment">// 填充属性，方便测试</span></span><br><span class="line">        concretePrototype.setAge(<span class="number">18</span>);</span><br><span class="line">        concretePrototype.setName(<span class="string">&quot;prototype&quot;</span>);</span><br><span class="line">        List hobbies = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">        concretePrototype.setHobbies(hobbies);</span><br><span class="line">        System.out.println(concretePrototype);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建 Client 对象，准备开始克隆</span></span><br><span class="line">        Client client = <span class="keyword">new</span> Client(concretePrototype);</span><br><span class="line">        PrototypeA concretePrototypeClone = (PrototypeA)</span><br><span class="line">                client.startClone(concretePrototype);</span><br><span class="line">        System.out.println(concretePrototypeClone);</span><br><span class="line">        System.out.println(<span class="string">&quot;克隆对象中的引用类型地址值:&quot;</span> + concretePrototypeClone.getHobbies());</span><br><span class="line">        System.out.println(<span class="string">&quot;原对象中的引用类型地址值:&quot;</span> + concretePrototype.getHobbies());</span><br><span class="line">        System.out.println(<span class="string">&quot;对象地址比较:&quot;</span> + (concretePrototypeClone.getHobbies() ==</span><br><span class="line">                concretePrototype.getHobbies()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:tx</span>=<span class="string">&quot;http://www.springframework.org/schema/tx&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;loggerAspect&quot;</span> <span class="attr">class</span>=<span class="string">&quot;aspect.LoggerAspect&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 配置AOP --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- where：在哪些地方（包.类.方法）做增加 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;loggerCutpoint&quot;</span></span></span><br><span class="line"><span class="tag">                      <span class="attr">expression</span>=<span class="string">&quot;execution(* service.ProductService.*(..)) &quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- what:做什么增强 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">id</span>=<span class="string">&quot;logAspect&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;loggerAspect&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- when:在什么时机（方法前/后/前后） --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">aop:around</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;loggerCutpoint&quot;</span> <span class="attr">method</span>=<span class="string">&quot;log&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>运行结果</li>
+<li>再次运行 TestSpring 中的测试代码，代码并没有改变，但是在业务方法运行之前和运行之后，都分别输出了日志信息：</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">com.design.pattern.prototype.simple.PrototypeA@<span class="number">24d</span>46ca6</span><br><span class="line">com.design.pattern.prototype.simple.PrototypeA@<span class="number">4517d</span>9a3</span><br><span class="line">克隆对象中的引用类型地址值:[]</span><br><span class="line">原对象中的引用类型地址值:[]</span><br><span class="line">对象地址比较:<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
-
-<p>从测试结果看出 hobbies 的引用地址是相同的，意味着复制的不是值，而是引用的地址。 这样的话，如果我们修改任意一个对象中的属性值，concretePrototype 和 concretePrototypeCone 的 hobbies 值都会改变，这个就是我们说的浅克隆。</p>
-<h2 id="深克隆"><a href="#深克隆" class="headerlink" title="深克隆"></a>深克隆</h2><p>我们知道公司的员工除了自己的信息以外，都会有一个工位，但是每个人的工位都是不相同的，我们用深克隆来实现这个场景。</p>
-<ul>
-<li>定义员工信息类</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaffInfo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>工位类</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Station</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 区域</span></span><br><span class="line">    <span class="keyword">public</span> String area;</span><br><span class="line">    <span class="comment">// 号码</span></span><br><span class="line">    <span class="keyword">public</span> String number;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>员工类</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Staff</span> <span class="keyword">extends</span> <span class="title">StaffInfo</span> <span class="keyword">implements</span> <span class="title">Serializable</span>, <span class="title">Cloneable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Station station;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Staff</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        station = <span class="keyword">new</span> Station();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Object <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.deepClone();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 深克隆</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">deepClone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ByteArrayOutputStream bos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">            ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(bos);</span><br><span class="line">            oos.writeObject(<span class="keyword">this</span>);</span><br><span class="line">            ByteArrayInputStream bis = <span class="keyword">new</span> ByteArrayInputStream(bos.toByteArray());</span><br><span class="line">            ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(bis);</span><br><span class="line">            Staff copy = (Staff) ois.readObject();</span><br><span class="line">            <span class="keyword">return</span> copy;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 浅克隆</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> target</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Staff <span class="title">shallowClone</span><span class="params">(Staff target)</span> </span>&#123;</span><br><span class="line">        Staff staff = <span class="keyword">new</span> Staff();</span><br><span class="line">        staff.age = target.age;</span><br><span class="line">        staff.name = target.name;</span><br><span class="line">        staff.station = target.station;</span><br><span class="line">        <span class="keyword">return</span> staff;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>测试</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeepCloneTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Staff staff = <span class="keyword">new</span> Staff();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Staff clone = (Staff) staff.clone();</span><br><span class="line">            System.out.println(<span class="string">&quot;深克隆:&quot;</span> + (staff.station == clone.station));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        Staff q = <span class="keyword">new</span> Staff();</span><br><span class="line">        Staff n = q.shallowClone(q);</span><br><span class="line">        System.out.println(<span class="string">&quot;浅克隆:&quot;</span> + (q.station == n.station));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>结果</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">深克隆:false</span><br><span class="line">浅克隆:true</span><br></pre></td></tr></table></figure>
-
-
-
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-343746f0a4eb7ce0.png" alt="img"></p>
 ]]></content>
       <categories>
-        <category>设计模式</category>
+        <category>Spring</category>
       </categories>
       <tags>
-        <tag>设计模式</tag>
+        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
-    <title>01.设计模式概念及工厂模式</title>
-    <url>/2020/08/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/01.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E5%BF%B5%E5%8F%8A%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="软件设计原则"><a href="#软件设计原则" class="headerlink" title="软件设计原则"></a>软件设计原则</h2><table>
-<thead>
-<tr>
-<th>设计原则</th>
-<th>解释</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>开闭原则</td>
-<td>对扩展开放，对修改关闭。</td>
-</tr>
-<tr>
-<td>依赖倒置原则</td>
-<td>通过抽象使各个类或者模块不相互影响，实现松耦合。</td>
-</tr>
-<tr>
-<td>单一职责原则</td>
-<td>一个类、接口、方法只做一件事。</td>
-</tr>
-<tr>
-<td>接口隔离原则</td>
-<td>尽量保证接口的纯洁性，客户端不应该依赖不需要的接口。</td>
-</tr>
-<tr>
-<td>迪米特法则</td>
-<td>又叫最少知道原则，一个类对其所依赖的类知道得越少越好。</td>
-</tr>
-<tr>
-<td>里氏替换原则</td>
-<td>子类可以扩展父类的功能但不能改变父类原有的功能。</td>
-</tr>
-<tr>
-<td>合成复用原则</td>
-<td>尽量使用对象组合、聚合，而不使用继承关系达到代码复用的目的。</td>
-</tr>
-</tbody></table>
+    <title>01.Spring基础</title>
+    <url>/2020/07/21/Spring/01%20%E4%BB%80%E4%B9%88%E6%98%AFSpring/</url>
+    <content><![CDATA[<h3 id="什么是spring"><a href="#什么是spring" class="headerlink" title="什么是spring?"></a>什么是spring?</h3><p>Spring 是一个<strong>轻量级的 DI / IoC 和 AOP 容器的开源框架</strong>，目的是为了解决企业级应用开发的业务逻辑层和其他各层的耦合问题。它是一个轻量级开源框架，为开发Java应用程序提供全面的基础架构支持。Spring负责基础架构，因此Java开发者可以专注于应用程序的开发。</p>
+<p>Spring最根本的使命是<strong>解决企业级应用开发的复杂性，即简化Java开发</strong>。</p>
+<h3 id="Spring的优缺点是什么？"><a href="#Spring的优缺点是什么？" class="headerlink" title="Spring的优缺点是什么？"></a>Spring的优缺点是什么？</h3><p><strong>优点</strong></p>
+<ul>
+<li><p>方便解耦，简化开发</p>
+<p>Spring就是一个大工厂，可以将所有对象的创建和依赖关系的维护，交给Spring管理。</p>
+</li>
+<li><p>AOP编程的支持</p>
+<p>Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能。</p>
+</li>
+<li><p>声明式事务的支持</p>
+<p>只需要通过配置就可以完成对事务的管理，而无需手动编程。</p>
+</li>
+<li><p>方便程序的测试</p>
+<p>Spring对Junit4支持，可以通过注解方便的测试Spring程序。</p>
+</li>
+<li><p>方便集成各种优秀框架</p>
+<p>Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架的直接支持（如：Struts、Hibernate、MyBatis等）。</p>
+</li>
+<li><p>降低JavaEE API的使用难度</p>
+<p>Spring对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低。</p>
+</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>Spring明明一个很轻量级的框架，却给人感觉大而全</li>
+<li>Spring依赖反射，反射影响性能</li>
+<li>使用门槛升高，入门Spring需要较长时间</li>
+</ul>
+<h3 id="Spring核心模块"><a href="#Spring核心模块" class="headerlink" title="Spring核心模块"></a>Spring核心模块</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2019102923475419.png" alt="在这里插入图片描述"></p>
+<ul>
+<li><strong>spring core</strong>：提供了框架的基本组成部分，包括<strong>控制反转</strong>（Inversion of Control，IOC）和<strong>依赖注入</strong>（Dependency Injection，DI）功能。</li>
+<li><strong>spring beans</strong>：提供了BeanFactory，是工厂模式的一个经典实现，Spring将管理对象称为Bean。</li>
+<li><strong>spring context</strong>：构建于 core 封装包基础上的 context 封装包，提供了一种框架式的对象访问方法。</li>
+<li><strong>spring jdbc</strong>：提供了一个JDBC的抽象层，消除了烦琐的JDBC编码和数据库厂商特有的错误代码解析， 用于简化JDBC。</li>
+<li><strong>spring aop</strong>：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。</li>
+<li><strong>spring Web</strong>：提供了针对 Web 开发的集成特性，例如文件上传，利用 servlet listeners 进行 ioc 容器初始化和针对 Web 的 ApplicationContext。</li>
+<li><strong>spring test</strong>：主要为测试提供支持的，支持使用JUnit或TestNG对Spring组件进行单元测试和集成测试。</li>
+</ul>
+<h3 id="Spring-框架中都用到了哪些设计模式？"><a href="#Spring-框架中都用到了哪些设计模式？" class="headerlink" title="Spring 框架中都用到了哪些设计模式？"></a>Spring 框架中都用到了哪些设计模式？</h3><ol>
+<li><strong>工厂模式</strong>：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；</li>
+<li><strong>单例模式</strong>：Bean默认为单例模式。</li>
+<li><strong>代理模式</strong>：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；</li>
+<li><strong>模板方法</strong>：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。</li>
+<li><strong>观察者模式</strong>：定义对象键一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知被制动更新，如Spring中listener的实现–ApplicationListener。</li>
+</ol>
 ]]></content>
       <categories>
-        <category>设计模式</category>
+        <category>Spring</category>
       </categories>
       <tags>
-        <tag>设计模式</tag>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>02.MySQL索引及sql优化</title>
+    <url>/2020/07/01/mysql/02.MySQL%E7%B4%A2%E5%BC%95%E5%8F%8Asql%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<blockquote>
+<p>MySQL索引使用的数据结构主要有<strong>BTree</strong>索引 和 哈希索引 。对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快;其余大部分 场景，建议选择BTree索引。</p>
+</blockquote>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="底层结构"><a href="#底层结构" class="headerlink" title="底层结构"></a>底层结构</h3><h3 id="最左前缀"><a href="#最左前缀" class="headerlink" title="最左前缀"></a>最左前缀</h3><h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="MySQL高性能优化规范建议"><a href="#MySQL高性能优化规范建议" class="headerlink" title="MySQL高性能优化规范建议"></a>MySQL高性能优化规范建议</h3><blockquote>
+<p><a href="https://www.cnblogs.com/huchong/p/10219318.html">MySQL高性能优化规范建议（原文）</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485117&idx=1&sn=92361755b7c3de488b415ec4c5f46d73&chksm=cea24976f9d5c060babe50c3747616cce63df5d50947903a262704988143c2eeb4069ae45420&token=79317275&lang=zh_CN%23rd">MySQL高性能优化规范建议</a></p>
+</blockquote>
+<p>数据库 SQL 开发规范部分不搬运了，要多看看，多理解</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="常见"><a href="#常见" class="headerlink" title="常见"></a>常见</h3><ul>
+<li><p>避免冗余、重复索引</p>
+</li>
+<li><p>联合索引，最左前缀</p>
+</li>
+<li><p>多表join的关联列</p>
+</li>
+<li><p>区分度最高的放在联合索引的最左侧（区分度=列中不同值的数量/列的总行数）</p>
+</li>
+<li><p>尽量把字段长度小的列放在联合索引的最左侧（因为字段长度越小，一页能存储的数据量越大，IO 性能也就越好）</p>
+</li>
+<li><p>使用最频繁的列放到联合索引的左侧（这样可以比较少的建立一些索引）</p>
+</li>
+<li><p>避免数据类型的隐式转换</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select name,phone from customer where id &#x3D; &#39;111&#39;; # 隐式转换会导致索引失效</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>禁止对列进行函数转换和计算</p>
+</li>
+</ul>
+<h4 id="对于频繁的查询优先考虑使用覆盖索引"><a href="#对于频繁的查询优先考虑使用覆盖索引" class="headerlink" title="对于频繁的查询优先考虑使用覆盖索引"></a>对于频繁的查询优先考虑使用覆盖索引</h4><blockquote>
+<p>覆盖索引：就是包含了所有查询字段 (where,select,ordery by,group by 包含的字段) 的索引</p>
+</blockquote>
+<p><strong>覆盖索引的好处：</strong></p>
+<ul>
+<li><strong>避免 Innodb 表进行索引的二次查询:</strong> Innodb 是以聚集索引的顺序来存储的，对于 Innodb 来说，二级索引在叶子节点中所保存的是行的主键信息，如果是用二级索引查询数据的话，在查找到相应的键值后，还要通过主键进行二次查询才能获取我们真实所需要的数据。而在覆盖索引中，二级索引的键值中可以获取所有的数据，避免了对主键的二次查询 ，减少了 IO 操作，提升了查询效率。</li>
+<li><strong>可以把随机 IO 变成顺序 IO 加快查询效率:</strong> 由于覆盖索引是按键值的顺序存储的，对于 IO 密集型的范围查找来说，对比随机从磁盘读取每一行的数据 IO 要少的多，因此利用覆盖索引在访问时也可以把磁盘的随机读取的 IO 转变成索引查找的顺序 IO。</li>
+</ul>
+<h3 id="SQL执行慢的原因"><a href="#SQL执行慢的原因" class="headerlink" title="SQL执行慢的原因"></a>SQL执行慢的原因</h3><blockquote>
+<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485185&idx=1&sn=66ef08b4ab6af5757792223a83fc0d45&chksm=cea248caf9d5c1dc72ec8a281ec16aa3ec3e8066dbb252e27362438a26c33fbe842b0e0adf47&token=79317275&lang=zh_CN%23rd">SQL执行慢的原因</a></p>
+</blockquote>
+<h3 id="书写高质量SQL的30条建议"><a href="#书写高质量SQL的30条建议" class="headerlink" title="书写高质量SQL的30条建议"></a>书写高质量SQL的30条建议</h3><blockquote>
+<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247486461&idx=1&sn=60a22279196d084cc398936fe3b37772&chksm=cea24436f9d5cd20a4fa0e907590f3e700d7378b3f608d7b33bb52cfb96f503b7ccb65a1deed&token=1987003517&lang=zh_CN%23rd">书写高质量SQL的30条建议</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>02、线程安全性问题</title>
+    <url>/2020/07/21/%E5%A4%9A%E7%BA%BF%E7%A8%8B/02%E3%80%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="线程安全性问题"><a href="#线程安全性问题" class="headerlink" title="线程安全性问题"></a>线程安全性问题</h1><blockquote>
+<p>多个线程对同一个对象的实例变量进行操作时，会出现值被更改，值不同步的情况。线程安全问题表现为三个方面: 原子性，可见性和有序性。</p>
+</blockquote>
+<h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p>原子(Atomic)就是不可分割的意思，原子操作的不可分割有两层含义:</p>
+<ol>
+<li><p>访问(读、写)某个共享变量的操作从其他线程来看，该操作要么已经执行完毕，要么尚未发生， 即其他线程得不到当前操作的中间结果。</p>
+</li>
+<li><p>访问同一组共享变量的原子操作是不能够交错的，如现实生活中从 ATM 机取款， 对于用户来说,要么操作成功，用户拿到钱， 余额减少了，增加了一条交易记录; 要么没拿到钱，相当于取款操作没有发生。</p>
+</li>
+</ol>
+<p>​        Java 有两种方式实现原子性: 一种是使用锁; 另一种利用处理器的 CAS(Compare and Swap)指令。锁具有排它性,保证共享变量在某一时刻只能被一个线程访问。CAS 指令直接在硬件(处理器和内存)层次上实现,看作是硬件锁</p>
+<h2 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h2><blockquote>
+<p>在多线程环境中, 一个线程对某个共享变量进行更新之后 , 后续其他的线程可能无法立即读到这个更新的结果,这就是线程安全问题的可见性。</p>
+</blockquote>
+<p>​        如果一个线程对共享变量更新后， 后续访问该变量的其他线程可以读到更新的结果， 称这个线程对共享变量的更新对其他线程可见，否则称这个线程对共享变量的更新对其他线程不可见。多线程程序因为可见性问题可能会导致其他线程读取到了旧数据(脏数据)。</p>
+<h2 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h2><p>​        有序性(Ordering)是指在什么情况下一个处理器上运行的一个线程所执行的内存访问操作在另外一个处理器运行的其他线程看来是</p>
+<p>乱序的(Out of Order)。</p>
+<p>​        乱序是指内存访问操作的顺序看起来发生了变化。</p>
+<ul>
+<li><p>重排序</p>
+<p>在多核处理器的环境下，编写的顺序结构，这种操作执行的顺序可能是没有保障的：</p>
+<ul>
+<li><p>编译器可能会改变两个操作的先后顺序</p>
+</li>
+<li><p>处理器也可能不会按照目标代码的顺序执行</p>
+</li>
+</ul>
+<p>这种一个处理器上执行的多个操作，在其他处理器来看它的顺序与目标代码指定的顺序可能不一样，这种现象称为重排序。</p>
+</li>
+</ul>
+<p>重排序是对内存访问有序操作的一种优化，可以在不影响单线程程序正确的情况下提升程序的性能。但是，可能对多线程程序的正确</p>
+<p>性产生影响，即可能导致线程安全问题，重排序与可见性问题类似,不是必然出现的。</p>
+<p>与内存操作顺序有关的几个概念:</p>
+<p>​        源代码顺序： 就是源码中指定的内存访问顺序</p>
+<p>​        程序顺序：处理器上运行的目标代码所指定的内存访问顺序</p>
+<p>​        执行顺序：内存访问操作在处理器上的实际执行顺序</p>
+<p>​        感知顺序：给定处理器所感知到的该处理器及其他处理器的内存</p>
+<p>访问操作的顺序</p>
+<p>可以把重排序分为指令重排序与存储子系统重排序两种。指令重排序主要是由 JIT 编译器，处理器引起的， 指程序顺序与执行顺序不一样存储子系统重排序是由高速缓存,写缓冲器引起的,感知顺序与执行顺序 不一致</p>
+<ul>
+<li>指令重排序</li>
+</ul>
+]]></content>
+      <categories>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>01.MySQL基础</title>
+    <url>/2020/07/01/mysql/01.MySQL%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h2 id="sql执行流程"><a href="#sql执行流程" class="headerlink" title="sql执行流程"></a>sql执行流程</h2><blockquote>
+<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485097&idx=1&sn=84c89da477b1338bdf3e9fcd65514ac1&chksm=cea24962f9d5c074d8d3ff1ab04ee8f0d6486e3d015cfd783503685986485c11738ccb542ba7&token=79317275&lang=zh_CN%23rd">sql执行流程</a></p>
+</blockquote>
+<ul>
+<li><p><strong>连接器：</strong> 身份认证和权限相关(登录 MySQL 的时候)。</p>
+</li>
+<li><p><strong>查询缓存:</strong> 执行查询语句的时候，会先查询缓存（MySQL 8.0 版本后移除，因为这个功能不太实用）。</p>
+</li>
+<li><p><strong>分析器:</strong> 没有命中缓存的话，SQL 语句就会经过分析器，分析器说白了就是要先看你的 SQL 语句要干嘛，再检查你的 SQL 语句语法是否正确。</p>
+</li>
+<li><p><strong>优化器：</strong> 按照 MySQL 认为最优的方案去执行。</p>
+</li>
+<li><p><strong>执行器:</strong> 执行语句，然后从存储引擎返回数据。</p>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>MySQL 主要分为 Server 层和引擎层，Server 层主要包括连接器、查询缓存、分析器、优化器、执行器，同时还有一个日志模块（binlog），这个日志模块所有执行引擎都可以共用,redolog 只有 InnoDB 有。</li>
+<li>引擎层是插件式的，目前主要包括，MyISAM,InnoDB,Memory 等。</li>
+<li>SQL 等执行过程分为两类，一类对于查询等过程如下：权限校验—&gt;查询缓存—&gt;分析器—&gt;优化器—&gt;权限校验—&gt;执行器—&gt;引擎</li>
+<li>对于更新等语句执行流程如下：分析器—-&gt;权限校验—-&gt;执行器—&gt;引擎—redo log prepare—&gt;binlog—&gt;redo log commit</li>
+</ul>
+<h2 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务?"></a>什么是事务?</h2><blockquote>
+<p>事务是逻辑上的一组操作，要么都执行，要么都不执行。</p>
+</blockquote>
+<p>事务最经典也经常被拿出来说例子就是转账了。假如小明要给小红转账1000元，这个转账会涉及到两个 关键操作就是:将小明的余额减少1000元，将小红的余额增加1000元。万一在这两个操作之间突然出现 错误比如银行系统崩溃，导致小明余额减少而小红的余额没有增加，这样就不对了。事务就是保证这两个关键操作要么都成功，要么都要失败。</p>
+<h2 id="事物的四大特性-ACID"><a href="#事物的四大特性-ACID" class="headerlink" title="事物的四大特性(ACID)"></a>事物的四大特性(ACID)</h2><ul>
+<li><p>原子性(<strong>Atomicity</strong>): 事务是最小的执行单位，不允许分割。事务的原子性确保动作要么全部 完成，要么完全不起作用;</p>
+</li>
+<li><p>一致性(<strong>Consistency</strong>): 执行事务前后，数据保持一致，多个事务对同一个数据读取的结果是相同的;</p>
+</li>
+<li><p>隔离性(<strong>Isolation</strong>): 并发访问数据库时，一个用户的事务不被其他事务所干扰，各并发事务之间数据库是独立的;</p>
+</li>
+<li><p>持久性(<strong>Durability</strong>): 一个事务被提交之后。它对数据库中数据的改变是持久的，即使数据库发生故障也不应该对其有任何影响。</p>
+</li>
+</ul>
+<h2 id="并发事务带来哪些问题"><a href="#并发事务带来哪些问题" class="headerlink" title="并发事务带来哪些问题**?**"></a>并发事务带来哪些问题**?**</h2><ul>
+<li><p>脏读(<strong>Dirty read</strong>): </p>
+<p>当一个事务正在访问数据并且对数据进行了修改，而这种修改还没有提交 到数据库中，这时另外一个事务也访问了这个数据，然后使用了这个数据。因为这个数据是还没 有提交的数据，那么另外一个事务读到的这个数据是“脏数据”，依据“脏数据”所做的操作可能是 不正确的。</p>
+</li>
+<li><p>丢失修改(<strong>Lost to modify</strong>):</p>
+<p>指在一个事务读取一个数据时，另外一个事务也访问了该数据， 那么在第一个事务中修改了这个数据后，第二个事务也修改了这个数据。这样第一个事务内的修改结果就被丢失，因此称为丢失修改。 例如:事务1读取某表中的数据A=20，事务2也读取 A=20，事务1修改A=A-1，事务2也修改A=A-1，最终结果A=19，事务1的修改被丢失。</p>
+</li>
+<li><p>不可重复读(<strong>Unrepeatableread</strong>): 指在一个事务内多次读同一数据。在这个事务还没有结束 时，另一个事务也访问该数据。那么，在第一个事务中的两次读数据之间，由于第二个事务的修改导致第一个事务两次读取的数据可能不太一样。这就发生了在一个事务内两次读到的数据是不一样的情况，因此称为不可重复读。</p>
+</li>
+<li><p>幻读(<strong>Phantom read</strong>): 幻读与不可重复读类似。它发生在一个事务(T1)读取了几行数据，接着另一个并发事务(T2)插入了一些数据时。在随后的查询中，第一个事务(T1)就会发现多了 一些原本不存在的记录，就好像发生了幻觉一样，所以称为幻读。</p>
+</li>
+</ul>
+<p>不可重复读和幻读区别:</p>
+<p>不可重复读的重点是修改比如多次读取一条记录发现其中某些列的值被修改，幻读的重点在于新增或者 删除比如多次读取一条记录发现记录增多或减少了。</p>
+<h3 id="MySQL锁"><a href="#MySQL锁" class="headerlink" title="MySQL锁"></a>MySQL锁</h3><p>todo</p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -273,49 +418,173 @@
       </tags>
   </entry>
   <entry>
-    <title>02、线程安全性问题</title>
-    <url>/2020/07/21/%E5%A4%9A%E7%BA%BF%E7%A8%8B/02%E3%80%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="线程安全性问题"><a href="#线程安全性问题" class="headerlink" title="线程安全性问题"></a>线程安全性问题</h1><blockquote>
-<p>多个线程对同一个对象的实例变量进行操作时，会出现值被更改，值不同步的情况。线程安全问题表现为三个方面: 原子性，可见性和有序性。</p>
+    <title>01.多线程基础</title>
+    <url>/2020/07/01/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B01-%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<blockquote>
+<p><a href="https://www.cnblogs.com/xrq730/p/4850883.html">https://www.cnblogs.com/xrq730/p/4850883.html</a></p>
 </blockquote>
-<h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p>原子(Atomic)就是不可分割的意思，原子操作的不可分割有两层含义:</p>
-<ol>
-<li><p>访问(读、写)某个共享变量的操作从其他线程来看，该操作要么已经执行完毕，要么尚未发生， 即其他线程得不到当前操作的中间结果。</p>
+<h3 id="多线程好处"><a href="#多线程好处" class="headerlink" title="多线程好处"></a>多线程好处</h3><ul>
+<li><strong>发挥多处理器的强大能力</strong></li>
+<li><strong>在单处理器系统上获得更高的吞吐率</strong></li>
+<li><strong>建模的简单性</strong></li>
+<li><strong>异步事件的简化处理</strong></li>
+</ul>
+<h3 id="创建方法"><a href="#创建方法" class="headerlink" title="创建方法"></a>创建方法</h3><ul>
+<li><p>继承Thread类</p>
 </li>
-<li><p>访问同一组共享变量的原子操作是不能够交错的，如现实生活中从 ATM 机取款， 对于用户来说,要么操作成功，用户拿到钱， 余额减少了，增加了一条交易记录; 要么没拿到钱，相当于取款操作没有发生。</p>
-</li>
-</ol>
-<p>​        Java 有两种方式实现原子性: 一种是使用锁; 另一种利用处理器的 CAS(Compare and Swap)指令。锁具有排它性,保证共享变量在某一时刻只能被一个线程访问。CAS 指令直接在硬件(处理器和内存)层次上实现,看作是硬件锁</p>
-<h2 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h2><blockquote>
-<p>在多线程环境中, 一个线程对某个共享变量进行更新之后 , 后续其他的线程可能无法立即读到这个更新的结果,这就是线程安全问题的可见性。</p>
-</blockquote>
-<p>​        如果一个线程对共享变量更新后， 后续访问该变量的其他线程可以读到更新的结果， 称这个线程对共享变量的更新对其他线程可见，否则称这个线程对共享变量的更新对其他线程不可见。多线程程序因为可见性问题可能会导致其他线程读取到了旧数据(脏数据)。</p>
-<h2 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h2><p>​        有序性(Ordering)是指在什么情况下一个处理器上运行的一个线程所执行的内存访问操作在另外一个处理器运行的其他线程看来是</p>
-<p>乱序的(Out of Order)。</p>
-<p>​        乱序是指内存访问操作的顺序看起来发生了变化。</p>
-<ul>
-<li><p>重排序</p>
-<p>在多核处理器的环境下，编写的顺序结构，这种操作执行的顺序可能是没有保障的：</p>
-<ul>
-<li><p>编译器可能会改变两个操作的先后顺序</p>
-</li>
-<li><p>处理器也可能不会按照目标代码的顺序执行</p>
+<li><p>实现Runnable接口</p>
 </li>
 </ul>
-<p>这种一个处理器上执行的多个操作，在其他处理器来看它的顺序与目标代码指定的顺序可能不一样，这种现象称为重排序。</p>
-</li>
-</ul>
-<p>重排序是对内存访问有序操作的一种优化，可以在不影响单线程程序正确的情况下提升程序的性能。但是，可能对多线程程序的正确</p>
-<p>性产生影响，即可能导致线程安全问题，重排序与可见性问题类似,不是必然出现的。</p>
-<p>与内存操作顺序有关的几个概念:</p>
-<p>​        源代码顺序： 就是源码中指定的内存访问顺序</p>
-<p>​        程序顺序：处理器上运行的目标代码所指定的内存访问顺序</p>
-<p>​        执行顺序：内存访问操作在处理器上的实际执行顺序</p>
-<p>​        感知顺序：给定处理器所感知到的该处理器及其他处理器的内存</p>
-<p>访问操作的顺序</p>
-<p>可以把重排序分为指令重排序与存储子系统重排序两种。指令重排序主要是由 JIT 编译器，处理器引起的， 指程序顺序与执行顺序不一样存储子系统重排序是由高速缓存,写缓冲器引起的,感知顺序与执行顺序 不一致</p>
+<h4 id="Thread类和Runnable接口的对比"><a href="#Thread类和Runnable接口的对比" class="headerlink" title="Thread类和Runnable接口的对比"></a>Thread类和Runnable接口的对比</h4><p>​        Thread类也是实现的Runnable接口。两种实现方式对比的关键就在于extends和implements的对比，当然是后者好。因为第一，继承只能单继承，实现可以多实现；第二，实现的方式对比继承的方式，也有利于减小程序之间的耦合。因此，多线程的实现几乎都是使用的Runnable接口的方式。</p>
+<h3 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h3><p>虚拟机中的线程状态有六种，定义在Thread.State中：</p>
+<p>1、新建状态NEW</p>
+<p>new了但是没有启动的线程的状态。比如”Thread t = new Thread()”，t就是一个处于NEW状态的线程</p>
+<p>2、可运行状态RUNNABLE</p>
+<p>new出来线程，调用start()方法即处于RUNNABLE状态了。处于RUNNABLE状态的线程可能正在Java虚拟机中运行，也可能正在等待处理器的资源，因为一个线程必须获得CPU的资源后，才可以运行其run()方法中的内容，否则排队等待</p>
+<p>3、阻塞BLOCKED</p>
+<p>如果某一线程正在等待监视器锁，以便进入一个同步的块/方法，那么这个线程的状态就是阻塞BLOCKED</p>
+<p>4、等待WAITING</p>
+<p>某一线程因为调用不带超时的Object的wait()方法、不带超时的Thread的join()方法、LockSupport的park()方法，就会处于等待WAITING状态</p>
+<p>5、超时等待TIMED_WAITING</p>
+<p>某一线程因为调用带有指定正等待时间的Object的wait()方法、Thread的join()方法、Thread的sleep()方法、LockSupport的parkNanos()方法、LockSupport的parkUntil()方法，就会处于超时等待TIMED_WAITING状态</p>
+<p>6、终止状态TERMINATED</p>
+<p>线程调用终止或者run()方法执行结束后，线程即处于终止状态。处于终止状态的线程不具备继续运行的能力</p>
+]]></content>
+      <categories>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多线程04-ThreadLocal</title>
+    <url>/2020/07/01/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B04-ThreadLocal/</url>
+    <content><![CDATA[<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><blockquote>
+<p>我们创建的变量是可以被任何⼀个线程访问并修改的。而<strong>ThreadLocal</strong> 类主要解决的就是让每个线程绑定⾃⼰的值，可以将 <strong>ThreadLocal</strong> 类形象的⽐喻成存放数据的盒⼦，盒⼦中可以存储每个线程的私有数据。</p>
+<p>ThreadLocal类用来提供线程内部的局部变量，这种变量在多线程环境下访问（通过get和set方法访问）时能保证各个线程的变量相对独立于其他线程内的变量。</p>
+</blockquote>
+<p><strong>ThreadLocal的常用方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ThreadLocal()</td>
+<td>创建ThreadLocal对象</td>
+</tr>
+<tr>
+<td>public void set( T value)</td>
+<td>设置当前线程绑定的局部变量</td>
+</tr>
+<tr>
+<td>public T get()</td>
+<td>获取当前线程绑定的局部变量</td>
+</tr>
+<tr>
+<td>public void remove()</td>
+<td>移除当前线程绑定的局部变量</td>
+</tr>
+</tbody></table>
+<h4 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDemo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String content;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getContent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setContent</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.content = content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyDemo demo = <span class="keyword">new</span> MyDemo();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    demo.setContent(Thread.currentThread().getName() + <span class="string">&quot;的数据&quot;</span>);</span><br><span class="line">                    System.out.println(<span class="string">&quot;-----------------------&quot;</span>);</span><br><span class="line">             		System.out.println(Thread.currentThread().getName() + <span class="string">&quot;---&gt;&quot;</span> + demo.getContent());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            thread.setName(<span class="string">&quot;线程&quot;</span> + i);</span><br><span class="line">            thread.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行结果（不唯一）</span></span><br><span class="line">-----------------------</span><br><span class="line">-----------------------</span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">2</span>---&gt;线程<span class="number">4</span>的数据</span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">1</span>---&gt;线程<span class="number">4</span>的数据</span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">3</span>---&gt;线程<span class="number">3</span>的数据</span><br><span class="line">线程<span class="number">0</span>---&gt;线程<span class="number">3</span>的数据</span><br><span class="line">线程<span class="number">4</span>---&gt;线程<span class="number">4</span>的数据</span><br></pre></td></tr></table></figure>
+
+<p>从结果可以看出多个线程在访问同一个变量的时候出现的异常，线程间的数据没有隔离。</p>
+<p><strong>ThreadLocal 的方式来解决这个问题</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDemo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> ThreadLocal&lt;String&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String content;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getContent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> threadLocal.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setContent</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">        threadLocal.set(content);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyDemo demo = <span class="keyword">new</span> MyDemo();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    demo.setContent(Thread.currentThread().getName() + <span class="string">&quot;的数据&quot;</span>);</span><br><span class="line">                    System.out.println(<span class="string">&quot;-----------------------&quot;</span>);</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">&quot;---&gt;&quot;</span> + demo.getContent());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            thread.setName(<span class="string">&quot;线程&quot;</span> + i);</span><br><span class="line">            thread.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 运行结果</span></span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">0</span>---&gt;线程<span class="number">0</span>的数据</span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">1</span>---&gt;线程<span class="number">1</span>的数据</span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">2</span>---&gt;线程<span class="number">2</span>的数据</span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">3</span>---&gt;线程<span class="number">3</span>的数据</span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">4</span>---&gt;线程<span class="number">4</span>的数据</span><br></pre></td></tr></table></figure>
+
+<p>从结果来看，这样很好的解决了多线程之间数据隔离的问题，十分方便。</p>
+<p><strong>synchronized 的方式来解决这个问题</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo02</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> String content;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getContent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContent</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.content = content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Demo02 demo02 = <span class="keyword">new</span> Demo02();</span><br><span class="line">		  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">		        Thread t = <span class="keyword">new</span> Thread()&#123;</span><br><span class="line">		            <span class="meta">@Override</span></span><br><span class="line">		            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		                <span class="keyword">synchronized</span> (Demo02.class)&#123;</span><br><span class="line">		                    demo02.setContent(Thread.currentThread().getName() + <span class="string">&quot;的数据&quot;</span>);</span><br><span class="line">		                    System.out.println(<span class="string">&quot;-------------------------------------&quot;</span>);</span><br><span class="line">                        String content = demo02.getContent();</span><br><span class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">&quot;---&gt;&quot;</span> + content);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            t.setName(<span class="string">&quot;线程&quot;</span> + i);</span><br><span class="line">            t.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 运行结果</span></span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">0</span>---&gt;线程<span class="number">0</span>的数据</span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">3</span>---&gt;线程<span class="number">3</span>的数据</span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">2</span>---&gt;线程<span class="number">2</span>的数据</span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">1</span>---&gt;线程<span class="number">1</span>的数据</span><br><span class="line">-----------------------</span><br><span class="line">线程<span class="number">4</span>---&gt;线程<span class="number">4</span>的数据</span><br></pre></td></tr></table></figure>
+
+<p> 从结果可以发现, 加锁确实可以解决这个问题，但是在这里我们强调的是线程数据隔离的问题，并不是多线程共享数据的问题, 在这个案例中使用synchronized关键字是不合适的。</p>
+<h4 id="ThreadLocal与synchronized的区别"><a href="#ThreadLocal与synchronized的区别" class="headerlink" title="ThreadLocal与synchronized的区别"></a>ThreadLocal与synchronized的区别</h4><p> 虽然ThreadLocal模式与synchronized关键字都用于处理多线程并发访问变量的问题, 不过两者处理问题的角度和思路不同。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>synchronized</th>
+<th>ThreadLocal</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>原理</td>
+<td>同步机制采用’以时间换空间’的方式, <strong>只提供了一份变量,让不同的线程排队访问</strong></td>
+<td>ThreadLocal采用’以空间换时间’的方式, <strong>为每一个线程都提供了一份变量的副本</strong>,从而实现同时访问而相不干扰</td>
+</tr>
+<tr>
+<td>侧重点</td>
+<td>多个线程之间访问资源的同步性</td>
+<td>多线程中让每个线程之间的数据相互隔离</td>
+</tr>
+</tbody></table>
+<h3 id="内部结构"><a href="#内部结构" class="headerlink" title="内部结构"></a>内部结构</h3><p>JDK8 <code>ThreadLocal</code>的设计是：每个<code>Thread</code>维护一个<code>ThreadLocalMap</code>哈希表，这个哈希表的<code>key</code>是<code>ThreadLocal</code>实例本身，<code>value</code>才是真正要存储的值<code>Object</code>。</p>
+<p> （1） 每个Thread线程内部都有一个Map (ThreadLocalMap)<br>​ （2） Map里面存储ThreadLocal对象（key）和线程的变量副本（value）<br>​ （3）Thread内部的Map是由ThreadLocal维护的，由ThreadLocal负责向map获取和设置线程的变量值。<br>​ （4）对于不同的线程，每次获取副本值时，别的线程并不能获取到当前线程的副本值，形成了副本的隔离，互不干扰。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JleW9uZGN6bg==,size_16,color_FFFFFF,t_70.png" alt="在这里插入图片描述"></p>
+<h3 id="ThreadLocal核心方法源码"><a href="#ThreadLocal核心方法源码" class="headerlink" title="ThreadLocal核心方法源码"></a>ThreadLocal核心方法源码</h3><p> 基于ThreadLocal的内部结构，我们继续探究一下ThreadLocal的核心方法源码，更深入的了解其操作原理。</p>
+<p>除了构造之外， ThreadLocal对外暴露的方法有以下4个：</p>
+<table>
+<thead>
+<tr>
+<th>方法声明</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>protected T initialValue()</td>
+<td>返回当前线程局部变量的初始值</td>
+</tr>
+<tr>
+<td>public void set( T value)</td>
+<td>设置当前线程绑定的局部变量</td>
+</tr>
+<tr>
+<td>public T get()</td>
+<td>获取当前线程绑定的局部变量</td>
+</tr>
+<tr>
+<td>public void remove()</td>
+<td>移除当前线程绑定的局部变量</td>
+</tr>
+</tbody></table>
+<h4 id="get方法"><a href="#get方法" class="headerlink" title="get方法"></a>get方法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 返回当前线程中保存ThreadLocal的值</span></span><br><span class="line"><span class="comment">    * 如果当前线程没有此ThreadLocal变量，</span></span><br><span class="line"><span class="comment">    * 则它会通过调用&#123;<span class="doctag">@link</span> #initialValue&#125; 方法进行初始化值</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> 返回当前线程对应此ThreadLocal的值</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="comment">// 获取当前线程对象</span></span><br><span class="line">       Thread t = Thread.currentThread();</span><br><span class="line">       <span class="comment">// 获取此线程对象中维护的ThreadLocalMap对象</span></span><br><span class="line">       ThreadLocalMap map = getMap(t);</span><br><span class="line">       <span class="comment">// 如果此map存在</span></span><br><span class="line">       <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="comment">// 以当前的ThreadLocal 为 key，调用getEntry获取对应的存储实体e</span></span><br><span class="line">           ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">           <span class="comment">// 找到对应的存储实体 e </span></span><br><span class="line">           <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">               <span class="comment">// 获取存储实体 e 对应的 value值</span></span><br><span class="line">               <span class="comment">// 即为我们想要的当前线程对应此ThreadLocal的值</span></span><br><span class="line">               T result = (T)e.value;</span><br><span class="line">               <span class="keyword">return</span> result;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">// 如果map不存在，则证明此线程没有维护的ThreadLocalMap对象</span></span><br><span class="line">       <span class="comment">// 调用setInitialValue进行初始化</span></span><br><span class="line">       <span class="keyword">return</span> setInitialValue();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * set的变样实现，用于初始化值initialValue，</span></span><br><span class="line"><span class="comment">    * 用于代替防止用户重写set()方法</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> the initial value 初始化后的值</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> T <span class="title">setInitialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="comment">// 调用initialValue获取初始化的值</span></span><br><span class="line">       T value = initialValue();</span><br><span class="line">       <span class="comment">// 获取当前线程对象</span></span><br><span class="line">       Thread t = Thread.currentThread();</span><br><span class="line">       <span class="comment">// 获取此线程对象中维护的ThreadLocalMap对象</span></span><br><span class="line">       ThreadLocalMap map = getMap(t);</span><br><span class="line">       <span class="comment">// 如果此map存在</span></span><br><span class="line">       <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">           <span class="comment">// 存在则调用map.set设置此实体entry</span></span><br><span class="line">           map.set(<span class="keyword">this</span>, value);</span><br><span class="line">       <span class="keyword">else</span></span><br><span class="line">           <span class="comment">// 1）当前线程Thread 不存在ThreadLocalMap对象</span></span><br><span class="line">           <span class="comment">// 2）则调用createMap进行ThreadLocalMap对象的初始化</span></span><br><span class="line">           <span class="comment">// 3）并将此实体entry作为第一个值存放至ThreadLocalMap中</span></span><br><span class="line">           createMap(t, value);</span><br><span class="line">       <span class="comment">// 返回设置的值value</span></span><br><span class="line">       <span class="keyword">return</span> value;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 获取当前线程Thread对应维护的ThreadLocalMap </span></span><br><span class="line"><span class="comment">    * </span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span>  t the current thread 当前线程</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> the map 对应维护的ThreadLocalMap </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> t.threadLocals;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    *创建当前线程Thread对应维护的ThreadLocalMap </span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> t 当前线程</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> firstValue 存放到map中第一个entry的值</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">createMap</span><span class="params">(Thread t, T firstValue)</span> </span>&#123;</span><br><span class="line">       <span class="comment">//这里的this是调用此方法的threadLocal</span></span><br><span class="line">       t.threadLocals = <span class="keyword">new</span> ThreadLocalMap(<span class="keyword">this</span>, firstValue);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="set方法"><a href="#set方法" class="headerlink" title="set方法"></a>set方法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置当前线程对应的ThreadLocal的值</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value 将要保存在当前线程对应的ThreadLocal的值</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 获取当前线程对象</span></span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    <span class="comment">// 获取此线程对象中维护的ThreadLocalMap对象</span></span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="comment">// 如果此map存在</span></span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">      <span class="comment">// 存在则调用map.set设置此实体entry</span></span><br><span class="line">      map.set(<span class="keyword">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      <span class="comment">// 1）当前线程Thread 不存在ThreadLocalMap对象</span></span><br><span class="line">      <span class="comment">// 2）则调用createMap进行ThreadLocalMap对象的初始化</span></span><br><span class="line">      <span class="comment">// 3）并将此实体entry作为第一个值存放至ThreadLocalMap中</span></span><br><span class="line">      createMap(t, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="remove方法"><a href="#remove方法" class="headerlink" title="remove方法"></a>remove方法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 删除当前线程中保存的ThreadLocal对应的实体entry</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 获取当前线程对象中维护的ThreadLocalMap对象</span></span><br><span class="line">  ThreadLocalMap m = getMap(Thread.currentThread());</span><br><span class="line">  <span class="comment">// 如果此map存在</span></span><br><span class="line">  <span class="keyword">if</span> (m != <span class="keyword">null</span>)</span><br><span class="line">    <span class="comment">// 存在则调用map.remove</span></span><br><span class="line">    <span class="comment">// 以当前ThreadLocal为key删除对应的实体entry</span></span><br><span class="line">    m.remove(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="initialValue方法"><a href="#initialValue方法" class="headerlink" title="initialValue方法"></a><strong>initialValue方法</strong></h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 返回当前线程对应的ThreadLocal的初始值</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  * 此方法的第一次调用发生在，当线程通过&#123;<span class="doctag">@link</span> #get&#125;方法访问此线程的ThreadLocal值时</span></span><br><span class="line"><span class="comment">  * 除非线程先调用了 &#123;<span class="doctag">@link</span> #set&#125;方法，在这种情况下，</span></span><br><span class="line"><span class="comment">  * &#123;<span class="doctag">@code</span> initialValue&#125; 才不会被这个线程调用。</span></span><br><span class="line"><span class="comment">  * 通常情况下，每个线程最多调用一次这个方法。</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * &lt;p&gt;这个方法仅仅简单的返回null &#123;<span class="doctag">@code</span> null&#125;;</span></span><br><span class="line"><span class="comment">  * 如果程序员想ThreadLocal线程局部变量有一个除null以外的初始值，</span></span><br><span class="line"><span class="comment">  * 必须通过子类继承&#123;<span class="doctag">@code</span> ThreadLocal&#125; 的方式去重写此方法</span></span><br><span class="line"><span class="comment">  * 通常, 可以通过匿名内部类的方式实现</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@return</span> 当前ThreadLocal的初始值</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> T <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ThreadLocalMap源码分析"><a href="#ThreadLocalMap源码分析" class="headerlink" title="ThreadLocalMap源码分析"></a>ThreadLocalMap源码分析</h3><p> ThreadLocalMap是ThreadLocal的内部类，没有实现Map接口，用独立的方式实现了Map的功能，其内部的Entry也是独立实现。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0JleW9uZGN6bg==,size_16,color_FFFFFF,t_70-20201103224101278.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-vCSs5lLL-1593875982125)(img\005.png)]"></p>
+<p><strong>(1)成员变量</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 初始容量 —— 必须是2的整次幂</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> INITIAL_CAPACITY = <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 存放数据的table，Entry类的定义在下面分析</span></span><br><span class="line"><span class="comment"> * 同样，数组长度必须是2的冥。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> Entry[] table;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 数组里面entrys的个数，可以用于判断table当前使用量是否超过负因子。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 进行扩容的阈值，表使用量大于它的时候进行扩容。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> threshold; <span class="comment">// Default to 0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 阈值设置为长度的2/3</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setThreshold</span><span class="params">(<span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    threshold = len * <span class="number">2</span> / <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>（2） 存储结构 - Entry</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在ThreadLocalMap中，也是用Entry来保存K-V结构数据的。但是Entry中key只能是ThreadLocal对象，这点被Entry的构造方法已经限定死了</span></span><br><span class="line"><span class="comment">// 另外，Entry继承WeakReference,使用弱引用，可以将ThreadLocal对象的生命周期和线程生命周期解绑，持有对ThreadLocal的弱引用，可以使得ThreadLocal在没有其他强引用的时候被回收掉，这样可以避免因为线程得不到销毁导致ThreadLocal对象无法被回收</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span> <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">ThreadLocal</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/** The value associated with this ThreadLocal. */</span></span><br><span class="line">    Object value;</span><br><span class="line"></span><br><span class="line">    Entry(ThreadLocal k, Object v) &#123;</span><br><span class="line">        <span class="keyword">super</span>(k);</span><br><span class="line">        value = v;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ThreadLocal-内存泄露问题"><a href="#ThreadLocal-内存泄露问题" class="headerlink" title="ThreadLocal 内存泄露问题"></a>ThreadLocal 内存泄露问题</h3><p>ThreadLocalMap 中使⽤的 key 为 ThreadLocal 的弱引⽤,⽽ value 是强引⽤。所以，如果ThreadLocal 没有被外部强引⽤的情况下，在垃圾回收的时候，key 会被清理掉，⽽ value 不会被清理掉。这样⼀来， ThreadLocalMap 中就会出现key为null的Entry。假如我们不做任何措施的话，value 永远⽆法被GC 回收，这个时候就可能会产⽣内存泄露。ThreadLocalMap实现中已经考虑了这种情况，在调⽤ set() 、 get() 、 remove() ⽅法的时候，会清理掉 key 为 null 的记录。使⽤完ThreadLocal ⽅法后 最好⼿动调⽤ remove() ⽅法</p>
+]]></content>
+      <categories>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多线程05-线程池</title>
+    <url>/2020/07/01/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B05-%20%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
+    <content><![CDATA[<p><strong>使⽤线程池的好处：</strong></p>
 <ul>
-<li>指令重排序</li>
+<li><p><strong>降低资源消耗</strong>。通过重复利⽤已创建的线程降低线程创建和销毁造成的消耗。</p>
+</li>
+<li><p><strong>提⾼响应速度</strong>。当任务到达时，任务可以不需要的等到线程创建就能⽴即执⾏。</p>
+</li>
+<li><p><strong>提⾼线程的可管理性</strong>。线程是稀缺资源，如果⽆限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使⽤线程池可以进⾏统⼀的分配，调优和监控。</p>
+</li>
 </ul>
 ]]></content>
       <categories>
@@ -326,158 +595,278 @@
       </tags>
   </entry>
   <entry>
-    <title>02.单例模式</title>
-    <url>/2020/08/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/02.%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="单例模式的应用场景"><a href="#单例模式的应用场景" class="headerlink" title="单例模式的应用场景"></a>单例模式的应用场景</h1><p>单例模式(Singleton Pattern)是指确保一个类在任何情况下都绝对只有一个实例，并提供一个全局访问点。单例模式是创建型模式。单例模式在现实生活中应用也非常广泛。 例如，公司 CEO、部门经理在一个公司只能存在一个等。在 J2EE 标准中，ServletContext、 ServletContextConfig 等;在 Spring 框架应用中 ApplicationContext;数据库的连接池也都是单例形式。单例模式可分为以下几种：</p>
-<h2 id="饿汉式单例"><a href="#饿汉式单例" class="headerlink" title="饿汉式单例"></a>饿汉式单例</h2><blockquote>
-<p> 饿汉式单例是在类加载的时候就立即初始化，并且创建单例对象。绝对线程安全，在线 程还没出现以前就是实例化了，不可能存在访问安全问题。 </p>
-</blockquote>
-<ul>
-<li>优点: 没有加任何的锁、执行效率比较高，在用户体验上来说，比懒汉式更好。 </li>
-<li>缺点: 类加载的时候就初始化，不管用与不用都占着空间，浪费了内存。</li>
-</ul>
-<p>饿汉式写法简单，试用与单例对象少的情况，Spring 中 IOC 容器 ApplicationContext 本身就是典型的饿汉式单例。</p>
-<ul>
-<li>写法一</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HungrySingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> HungrySingleton INSTANCE = <span class="keyword">new</span> HungrySingleton();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">HungrySingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> HungrySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>写法二</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HungryStaticSingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> HungryStaticSingleton INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        INSTANCE = <span class="keyword">new</span> HungryStaticSingleton();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">HungryStaticSingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> HungryStaticSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="懒汉式单例"><a href="#懒汉式单例" class="headerlink" title="懒汉式单例"></a>懒汉式单例</h2><blockquote>
-<p>懒汉式单例在被外部类调用的时候内部类才会加载</p>
-</blockquote>
-<ul>
-<li>懒汉式单例简单实现</li>
-</ul>
-<blockquote>
-<p>缺点：不加synchronized可能会出现线程安全问题，但是加上synchronized关键字以后，在线程数量比较多情况下，如果 CPU 分配压力上升，会导致大批量线程出现阻塞，从而导致程序运行性能大幅下降。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleLazySingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SimpleLazySingleton INSTANCE = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SimpleLazySingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 线程不安全</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="comment">//    public static SimpleLazySingleton getInstance() &#123;</span></span><br><span class="line"><span class="comment">//        if (INSTANCE == null) &#123;</span></span><br><span class="line"><span class="comment">//            INSTANCE = new SimpleLazySingleton();</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"><span class="comment">//        return INSTANCE;</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 线程安全，虽然jdk对synchronized有优化，但是仍有一定的性能问题</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> SimpleLazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">            INSTANCE = <span class="keyword">new</span> SimpleLazySingleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>双重校验锁实现单例</li>
-</ul>
-<blockquote>
-<p>比上一个方法稍微好点，但是因为加了锁，性能仍有问题。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DoubleCheckLazySingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 防止指令重排序</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">volatile</span> <span class="keyword">static</span> DoubleCheckLazySingleton INSTANCE = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">DoubleCheckLazySingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 适中方案，双重校验锁</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DoubleCheckLazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (DoubleCheckLazySingleton.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    INSTANCE = <span class="keyword">new</span> DoubleCheckLazySingleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>静态内部类实现单例</li>
-</ul>
-<blockquote>
-<p>这种形式兼顾饿汉式的内存浪费，也兼顾 synchronized 性能问题，</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerClassLazySingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用的时候，会先初始化内部类</span></span><br><span class="line">    <span class="comment">// 不使用不加载内部类</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">InnerClassLazySingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * LazyHolder里面的方法要等到外部方法调用以后才执行</span></span><br><span class="line"><span class="comment">     * 巧妙利用了内部类的特性</span></span><br><span class="line"><span class="comment">     * JVM底层执行逻辑，完美避开了线程安全问题</span></span><br><span class="line"><span class="comment">     * 每一个关键字都不是多余的</span></span><br><span class="line"><span class="comment">     * static 是为了使单例的空间共享</span></span><br><span class="line"><span class="comment">     * final 保证这个方法不会被重写，重载</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> InnerClassLazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//在返回结果以前，一定会先加载内部类</span></span><br><span class="line">        <span class="keyword">return</span> LazyHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 默认不加载</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> InnerClassLazySingleton INSTANCE = <span class="keyword">new</span> InnerClassLazySingleton();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这种形式兼顾饿汉式的内存浪费，也兼顾 synchronized 性能问题。内部类一定是要在方 法调用之前初始化，巧妙地避免了线程安全问题。</p>
-<h2 id="单例被破坏"><a href="#单例被破坏" class="headerlink" title="单例被破坏"></a>单例被破坏</h2><h3 id="反射破坏单例"><a href="#反射破坏单例" class="headerlink" title="反射破坏单例"></a>反射破坏单例</h3><p>上述所有的单例模式的构造方法除了加上 private 以外，没有做任何处 理。如果我们使用反射来调用其构造方法，然后，再调用 getInstance()方法，应该就会两个不同的实例。</p>
-<ul>
-<li>测试</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerClassSingletonTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 反射会破坏单例</span></span><br><span class="line">            Class&lt;?&gt; clazz = InnerClassLazySingleton.class;</span><br><span class="line">            <span class="comment">// 通过反射拿到私有的构造方法</span></span><br><span class="line">            Constructor&lt;?&gt; constructor = clazz.getDeclaredConstructor(<span class="keyword">null</span>);</span><br><span class="line">            <span class="comment">// 强制访问</span></span><br><span class="line">            constructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            <span class="comment">// 包里初始化</span></span><br><span class="line">            Object o = constructor.newInstance();</span><br><span class="line">            <span class="comment">// 利用单例初始化</span></span><br><span class="line">            InnerClassLazySingleton o2 = InnerClassLazySingleton.getInstance();</span><br><span class="line">            System.out.println(o);</span><br><span class="line">            System.out.println(o2);</span><br><span class="line">            System.out.println(o == o2);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>运行结果</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">com.design.pattern.singleton.lazy.InnerClassLazySingleton@776ec8df</span><br><span class="line">com.design.pattern.singleton.lazy.InnerClassLazySingleton@4eec7777</span><br><span class="line">false</span><br></pre></td></tr></table></figure>
-
-<p>此时你会发现两次对象并不是同一个，也就是单例被破坏了，此时，为了避免这种情况，我们需要在构造方法中做一下限制，仍以静态内部类演示，代码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerClassLazySingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用的时候，会先初始化内部类</span></span><br><span class="line">    <span class="comment">// 不使用不加载内部类</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">InnerClassLazySingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (LazyHolder.INSTANCE != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;不允许重复创建&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * LazyHolder里面的方法要等到外部方法调用以后才执行</span></span><br><span class="line"><span class="comment">     * 巧妙利用了内部类的特性</span></span><br><span class="line"><span class="comment">     * JVM底层执行逻辑，完美避开了线程安全问题</span></span><br><span class="line"><span class="comment">     * 每一个关键字都不是多余的</span></span><br><span class="line"><span class="comment">     * static 是为了使单例的空间共享</span></span><br><span class="line"><span class="comment">     * final 保证这个方法不会被重写，重载</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> InnerClassLazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//在返回结果以前，一定会先加载内部类</span></span><br><span class="line">        <span class="keyword">return</span> LazyHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 默认不加载</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> InnerClassLazySingleton INSTANCE = <span class="keyword">new</span> InnerClassLazySingleton();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>再次运行测试类，则出现以下异常：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20200917201455658.png" alt="image-20200917201455658"></p>
-<h3 id="序列化破坏单例"><a href="#序列化破坏单例" class="headerlink" title="序列化破坏单例"></a>序列化破坏单例</h3><p>当我们将一个单例对象创建好，有时候需要将对象序列化然后写入到磁盘，下次使用时 再从磁盘中读取到对象，反序列化转化为内存对象。反序列化后的对象会重新分配内存， 即重新创建。那如果序列化的目标的对象为单例对象，就违背了单例模式的初衷，相当于破坏了单例。来看一段演示：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerializableSingleton</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="comment">//序列化就是说把内存中的状态通过转换成字节码的形式</span></span><br><span class="line">    <span class="comment">//从而转换一个IO流，写入到其他地方(可以是磁盘、网络IO)</span></span><br><span class="line">    <span class="comment">//内存中状态给永久保存下来了</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//反序列化</span></span><br><span class="line">    <span class="comment">//讲已经持久化的字节码内容，转换为IO流</span></span><br><span class="line">    <span class="comment">//通过IO流的读取，进而将读取的内容转换为Java对象</span></span><br><span class="line">    <span class="comment">//在转换过程中会重新创建对象new</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> SerializableSingleton INSTANCE = <span class="keyword">new</span> SerializableSingleton();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SerializableSingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SerializableSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>测试代码</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerializableSingletonTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SerializableSingleton s1 = <span class="keyword">null</span>;</span><br><span class="line">        SerializableSingleton s2 = SerializableSingleton.getInstance();</span><br><span class="line">        FileOutputStream fos = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            fos = <span class="keyword">new</span> FileOutputStream(<span class="string">&quot;SeriableSingleton.txt&quot;</span>);</span><br><span class="line">            ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(fos);</span><br><span class="line">            oos.writeObject(s2);</span><br><span class="line">            oos.flush();</span><br><span class="line">            oos.close();</span><br><span class="line"></span><br><span class="line">            FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">&quot;SeriableSingleton.txt&quot;</span>);</span><br><span class="line">            ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(fis);</span><br><span class="line">            s1 = (SerializableSingleton) ois.readObject();</span><br><span class="line">            ois.close();</span><br><span class="line"></span><br><span class="line">            System.out.println(s1);</span><br><span class="line">            System.out.println(s2);</span><br><span class="line">            System.out.println(s1 == s2);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>运行结果</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">com.design.pattern.singleton.seriable.SerializableSingleton@306a30c7</span><br><span class="line">com.design.pattern.singleton.seriable.SerializableSingleton@6d311334</span><br><span class="line">false</span><br></pre></td></tr></table></figure>
-
-<p>运行结果中，可以看出，反序列化后的对象和手动创建的对象是不一致的，实例化了两 次，违背了单例的设计初衷。那么，我们如何保证序列化的情况下也能够实现单例?其实很简单，只需要增加**readResolve()**方法即可。修改后的代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerializableSingleton</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//序列化就是说把内存中的状态通过转换成字节码的形式</span></span><br><span class="line">    <span class="comment">//从而转换一个IO流，写入到其他地方(可以是磁盘、网络IO)</span></span><br><span class="line">    <span class="comment">//内存中状态给永久保存下来了</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//反序列化</span></span><br><span class="line">    <span class="comment">//讲已经持久化的字节码内容，转换为IO流</span></span><br><span class="line">    <span class="comment">//通过IO流的读取，进而将读取的内容转换为Java对象</span></span><br><span class="line">    <span class="comment">//在转换过程中会重新创建对象new</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> SerializableSingleton INSTANCE = <span class="keyword">new</span> SerializableSingleton();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SerializableSingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SerializableSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 加了可以避免反序列化破坏单例</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Object <span class="title">readResolve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>再次运行测试类，得出如下结果：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">com.design.pattern.singleton.seriable.SerializableSingleton@6d311334</span><br><span class="line">com.design.pattern.singleton.seriable.SerializableSingleton@6d311334</span><br><span class="line">true</span><br></pre></td></tr></table></figure>
-
-<p>此时我们发现反序列化后的对象和手动创建的对象是同一个对象(源码分析待补充)。虽然，增加 readResolve()方法返回实例，解决了单 例被破坏的问题。但是，我们通过分析源码以及调试，我们可以看到实际上实例化了两次，只不过新创建的对象没有被返回而已。那如果，创建对象的动作发生频率增大，就意味着内存分配开销也就随之增大，难道真的就没办法从根本上解决问题吗?下面我们来注册式单例也许能帮助到你。</p>
-<h2 id="注册式单例"><a href="#注册式单例" class="headerlink" title="注册式单例"></a>注册式单例</h2><blockquote>
-<p>注册式单例又称为登记式单例，就是将每一个实例都登记到某一个地方，使用唯一的标 识获取实例。注册式单例有两种写法:一种为容器缓存，一种为枚举登记。</p>
-</blockquote>
-<ul>
-<li>枚举式单例</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">EnumSingleton</span> </span>&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Object data;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> EnumSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>此时用反序列化方式再进行测试</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EnumSingletonTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        EnumSingleton s1 = <span class="keyword">null</span>;</span><br><span class="line">        EnumSingleton s2 = EnumSingleton.getInstance();</span><br><span class="line">        s2.setData(<span class="keyword">new</span> Object());</span><br><span class="line">        FileOutputStream fos = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            fos = <span class="keyword">new</span> FileOutputStream(<span class="string">&quot;EnumSingleton.txt&quot;</span>);</span><br><span class="line">            ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(fos);</span><br><span class="line">            oos.writeObject(s2);</span><br><span class="line">            oos.flush();</span><br><span class="line">            oos.close();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">&quot;EnumSingleton.txt&quot;</span>);</span><br><span class="line">            ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(fis);</span><br><span class="line">            s1 = (EnumSingleton) ois.readObject();</span><br><span class="line">            ois.close();</span><br><span class="line"></span><br><span class="line">            System.out.println(s1.getData());</span><br><span class="line">            System.out.println(s2.getData());</span><br><span class="line">            System.out.println(s1.getData() == s2.getData());</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>运行结果</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java.lang.Object@b81eda8</span><br><span class="line">java.lang.Object@b81eda8</span><br><span class="line">true</span><br></pre></td></tr></table></figure>
-
-<p>通过结果可以发现枚举式单例能完美避开反序列化带来的问题。</p>
-<p>我们再用反射来进行测试：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EnumSingletonTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class clazz = EnumSingleton.class;</span><br><span class="line">            Constructor c = clazz.getDeclaredConstructor();</span><br><span class="line">            c.newInstance();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>则会得到如下异常：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20200917204701199.png" alt="image-20200917204701199"></p>
-<p>报的是 java.lang.NoSuchMethodException 异常，意思是没找到无参的构造方法。打开JDK中的Enum类，我们只看到了一个这样的构造方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="title">Enum</span><span class="params">(String name, <span class="keyword">int</span> ordinal)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">this</span>.name = name;</span><br><span class="line">   <span class="keyword">this</span>.ordinal = ordinal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>那我们再来做一个这样的测试:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    Class clazz = EnumSingleton.class;</span><br><span class="line">    Constructor c = clazz.getDeclaredConstructor(String.class, <span class="keyword">int</span>.class);</span><br><span class="line">    c.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    EnumSingleton enumSingleton = (EnumSingleton) c.newInstance(<span class="string">&quot;Test&quot;</span>, <span class="number">1234</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">  	e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行结果如下：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20200918095744482.png" alt="image-20200918095744482"></p>
-<p>这时错误已经非常明显了，告诉我们 Cannot reflectively create enum objects，不能 用反射来创建枚举类型。我们进入Constructor中的neInstance()方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@CallerSensitive</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">newInstance</span><span class="params">(Object ... initargs)</span></span></span><br><span class="line"><span class="function">  <span class="keyword">throws</span> InstantiationException, IllegalAccessException,</span></span><br><span class="line"><span class="function">IllegalArgumentException, InvocationTargetException</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!override) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!Reflection.quickCheckMemberAccess(clazz, modifiers)) &#123;</span><br><span class="line">      Class&lt;?&gt; caller = Reflection.getCallerClass();</span><br><span class="line">      checkAccess(caller, clazz, <span class="keyword">null</span>, modifiers);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ((clazz.getModifiers() &amp; Modifier.ENUM) != <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Cannot reflectively create enum objects&quot;</span>);</span><br><span class="line">  ConstructorAccessor ca = constructorAccessor;   <span class="comment">// read volatile</span></span><br><span class="line">  <span class="keyword">if</span> (ca == <span class="keyword">null</span>) &#123;</span><br><span class="line">    ca = acquireConstructorAccessor();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">  T inst = (T) ca.newInstance(initargs);</span><br><span class="line">  <span class="keyword">return</span> inst;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在 newInstance()方法中做了强制性的判断，如果修饰符是 Modifier.ENUM 枚举类型， 直接抛出异常。</p>
-<ul>
-<li>容器缓存式单例</li>
-</ul>
-<blockquote>
-<p>容器式写法适用于创建实例非常多的情况，便于管理。但是，是非线程安全的</p>
-</blockquote>
-<ul>
-<li>代码</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContainerSingleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ContainerSingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Object&gt; ioc = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getInstance</span><span class="params">(String className)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (ioc) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!ioc.containsKey(className)) &#123;</span><br><span class="line">                Object obj = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    obj = Class.forName(className).newInstance();</span><br><span class="line">                    ioc.put(className, obj);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> obj;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> ioc.get(className);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="ThreadLocal-线程单例"><a href="#ThreadLocal-线程单例" class="headerlink" title="ThreadLocal 线程单例"></a>ThreadLocal 线程单例</h2><blockquote>
-<p>ThreadLocal 不能保证其创建的对象是全局唯一，但是能保证在单个线程中是唯一的，天生的线程安全。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> D丶Cheng</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: ThreadLocal单例</span></span><br><span class="line"><span class="comment"> * 缺点：伪线程安全，线程单例</span></span><br><span class="line"><span class="comment"> * 注：ThreadLocal的get方法中，有一个ThreadLocalMap，它set的时候用线程作为key,object作为值，get的时候其实是在当前线程        getValue。</span></span><br><span class="line"><span class="comment"> * 可以用它来实现多数据源动态切换。</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/9/16 4:48 下午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalSingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ThreadLocalSingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;ThreadLocalSingleton&gt; threadLocalInstance = <span class="keyword">new</span> 			ThreadLocal&lt;ThreadLocalSingleton&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> ThreadLocalSingleton <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ThreadLocalSingleton();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ThreadLocalSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> threadLocalInstance.get();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>简单测试代码</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalSingletonTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(ThreadLocalSingleton.getInstance());</span><br><span class="line">        System.out.println(ThreadLocalSingleton.getInstance());</span><br><span class="line">        System.out.println(ThreadLocalSingleton.getInstance());</span><br><span class="line">        System.out.println(<span class="string">&quot;end&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;:&quot;</span> + ThreadLocalSingleton.getInstance());</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;:&quot;</span> + ThreadLocalSingleton.getInstance());</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;:&quot;</span> + ThreadLocalSingleton.getInstance());</span><br><span class="line">            System.out.println(<span class="string">&quot;end&quot;</span>);</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;:&quot;</span> + ThreadLocalSingleton.getInstance());</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;:&quot;</span> + ThreadLocalSingleton.getInstance());</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;:&quot;</span> + ThreadLocalSingleton.getInstance());</span><br><span class="line">            System.out.println(<span class="string">&quot;end&quot;</span>);</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>运行结果</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@24d46ca6</span><br><span class="line">com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@24d46ca6</span><br><span class="line">com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@24d46ca6</span><br><span class="line">end</span><br><span class="line">Thread-0:com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@4082029</span><br><span class="line">Thread-0:com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@4082029</span><br><span class="line">Thread-0:com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@4082029</span><br><span class="line">end</span><br><span class="line">Thread-1:com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@1e542a06</span><br><span class="line">Thread-1:com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@1e542a06</span><br><span class="line">Thread-1:com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@1e542a06</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>通过运行结果可以发现，在主线程 main中无论调用多少次，获取到的实例都是同一个，都在两个子线程中也都分别获取到了不同的实例。那么 ThreadLocal 是如果实现这样的效果的呢?我们知道上面的单例模式为了达到线程安全的目的，给方法上锁，以时间换空间。ThreadLocal 将所有的对象全部放在 ThreadLocalMap 中，为每个线程都提供一个对象，实际上是以 空间换时间来实现线程间隔离的。</p>
+    <title>01.设计模式概念及工厂模式</title>
+    <url>/2020/08/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/01.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E5%BF%B5%E5%8F%8A%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="软件设计原则"><a href="#软件设计原则" class="headerlink" title="软件设计原则"></a>软件设计原则</h2><table>
+<thead>
+<tr>
+<th>设计原则</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>开闭原则</td>
+<td>对扩展开放，对修改关闭。</td>
+</tr>
+<tr>
+<td>依赖倒置原则</td>
+<td>通过抽象使各个类或者模块不相互影响，实现松耦合。</td>
+</tr>
+<tr>
+<td>单一职责原则</td>
+<td>一个类、接口、方法只做一件事。</td>
+</tr>
+<tr>
+<td>接口隔离原则</td>
+<td>尽量保证接口的纯洁性，客户端不应该依赖不需要的接口。</td>
+</tr>
+<tr>
+<td>迪米特法则</td>
+<td>又叫最少知道原则，一个类对其所依赖的类知道得越少越好。</td>
+</tr>
+<tr>
+<td>里氏替换原则</td>
+<td>子类可以扩展父类的功能但不能改变父类原有的功能。</td>
+</tr>
+<tr>
+<td>合成复用原则</td>
+<td>尽量使用对象组合、聚合，而不使用继承关系达到代码复用的目的。</td>
+</tr>
+</tbody></table>
 ]]></content>
       <categories>
         <category>设计模式</category>
       </categories>
       <tags>
         <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>03.原型模式</title>
+    <url>/2020/08/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/03.%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h1><p>原型模式（Prototype Pattern）属于创建型模式，主要用于创建重复的对象，我们通常创建重复对象的时候都是通过set方法一个一个copy属性值的，这样如果类中属性特别多的话非常不好用，而且效率也不高在日常开发中，例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">submitRepair</span><span class="params">(RepairForm repairForm)</span> </span>&#123;</span><br><span class="line">        Repair repair = <span class="keyword">new</span> Repair();</span><br><span class="line">        repair.setAppraisal(repairForm.getAppraisal());</span><br><span class="line">        repair.setContent(repairForm.getContent());</span><br><span class="line">        repair.setReply(repairForm.getReply());</span><br><span class="line">        repair.setReplyTime(repairForm.getReplyTime());</span><br><span class="line">        repair.setStarNum(repairForm.getStarNum());</span><br><span class="line">        repair.setState(repairForm.getState());</span><br><span class="line">        repair.setVisitTime(repairForm.getVisitTime());</span><br><span class="line">        repair.setTime(repairForm.getCreateTime());</span><br><span class="line">        repair.setTitle(RepairTypeEnums.getTextByType(repairForm.getType()));</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        xxxService.submit(repair);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样的代码，一旦类属性过多，就会显得很臃肿，而原型模式，能帮助我们解决这样的问题。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>原型模式(Prototype Pattern)是指原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。</p>
+<p>原型模式主要适用于以下场景:</p>
+<ul>
+<li><p>类初始化消耗资源较多。</p>
+</li>
+<li><p>new 产生的一个对象需要非常繁琐的过程(数据准备、访问权限等)</p>
+</li>
+<li><p>构造函数比较复杂。</p>
+</li>
+<li><p>循环体中生产大量对象时。</p>
+</li>
+</ul>
+<p>在 Spring 中，原型模式应用得非常广泛。例如 scope=“prototype”，在我们经常用 的 JSON.parseObject()也是一种原型模式。下面，我们来看看原型模式类结构图:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20200918101451519.png" alt="image-20200918101451519"></p>
+<h2 id="简单克隆"><a href="#简单克隆" class="headerlink" title="简单克隆"></a>简单克隆</h2><p>简单原型模式的设计代码如下：</p>
+<ul>
+<li>定义一个Prototype接口</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Prototype</span> </span>&#123;</span><br><span class="line">    <span class="function">Prototype <span class="title">clone</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建需要被克隆的类</li>
+</ul>
+<p>有多个可以使用类似的方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrototypeA</span> <span class="keyword">implements</span> <span class="title">Prototype</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> List hobbies;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// getter...</span></span><br><span class="line">    <span class="comment">// setter...</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Prototype <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        PrototypeA concretePrototype = <span class="keyword">new</span> PrototypeA();</span><br><span class="line">        concretePrototype.setAge(<span class="keyword">this</span>.age);</span><br><span class="line">        concretePrototype.setName(<span class="keyword">this</span>.name);</span><br><span class="line">        concretePrototype.setHobbies(<span class="keyword">this</span>.hobbies);</span><br><span class="line">        <span class="keyword">return</span> concretePrototype;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建一个client</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Prototype prototype;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Client</span><span class="params">(Prototype prototype)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.prototype = prototype;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Prototype <span class="title">startClone</span><span class="params">(Prototype concretePrototype)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (Prototype) concretePrototype.clone();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrototypeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建一个具体的需要克隆的对象</span></span><br><span class="line">        PrototypeA concretePrototype = <span class="keyword">new</span> PrototypeA();</span><br><span class="line">        <span class="comment">// 填充属性，方便测试</span></span><br><span class="line">        concretePrototype.setAge(<span class="number">18</span>);</span><br><span class="line">        concretePrototype.setName(<span class="string">&quot;prototype&quot;</span>);</span><br><span class="line">        List hobbies = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">        concretePrototype.setHobbies(hobbies);</span><br><span class="line">        System.out.println(concretePrototype);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建 Client 对象，准备开始克隆</span></span><br><span class="line">        Client client = <span class="keyword">new</span> Client(concretePrototype);</span><br><span class="line">        PrototypeA concretePrototypeClone = (PrototypeA)</span><br><span class="line">                client.startClone(concretePrototype);</span><br><span class="line">        System.out.println(concretePrototypeClone);</span><br><span class="line">        System.out.println(<span class="string">&quot;克隆对象中的引用类型地址值:&quot;</span> + concretePrototypeClone.getHobbies());</span><br><span class="line">        System.out.println(<span class="string">&quot;原对象中的引用类型地址值:&quot;</span> + concretePrototype.getHobbies());</span><br><span class="line">        System.out.println(<span class="string">&quot;对象地址比较:&quot;</span> + (concretePrototypeClone.getHobbies() ==</span><br><span class="line">                concretePrototype.getHobbies()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行结果</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">com.design.pattern.prototype.simple.PrototypeA@<span class="number">24d</span>46ca6</span><br><span class="line">com.design.pattern.prototype.simple.PrototypeA@<span class="number">4517d</span>9a3</span><br><span class="line">克隆对象中的引用类型地址值:[]</span><br><span class="line">原对象中的引用类型地址值:[]</span><br><span class="line">对象地址比较:<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<p>从测试结果看出 hobbies 的引用地址是相同的，意味着复制的不是值，而是引用的地址。 这样的话，如果我们修改任意一个对象中的属性值，concretePrototype 和 concretePrototypeCone 的 hobbies 值都会改变，这个就是我们说的浅克隆。</p>
+<h2 id="深克隆"><a href="#深克隆" class="headerlink" title="深克隆"></a>深克隆</h2><p>我们知道公司的员工除了自己的信息以外，都会有一个工位，但是每个人的工位都是不相同的，我们用深克隆来实现这个场景。</p>
+<ul>
+<li>定义员工信息类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaffInfo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>工位类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Station</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 区域</span></span><br><span class="line">    <span class="keyword">public</span> String area;</span><br><span class="line">    <span class="comment">// 号码</span></span><br><span class="line">    <span class="keyword">public</span> String number;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>员工类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Staff</span> <span class="keyword">extends</span> <span class="title">StaffInfo</span> <span class="keyword">implements</span> <span class="title">Serializable</span>, <span class="title">Cloneable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Station station;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Staff</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        station = <span class="keyword">new</span> Station();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Object <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.deepClone();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 深克隆</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">deepClone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ByteArrayOutputStream bos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">            ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(bos);</span><br><span class="line">            oos.writeObject(<span class="keyword">this</span>);</span><br><span class="line">            ByteArrayInputStream bis = <span class="keyword">new</span> ByteArrayInputStream(bos.toByteArray());</span><br><span class="line">            ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(bis);</span><br><span class="line">            Staff copy = (Staff) ois.readObject();</span><br><span class="line">            <span class="keyword">return</span> copy;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 浅克隆</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> target</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Staff <span class="title">shallowClone</span><span class="params">(Staff target)</span> </span>&#123;</span><br><span class="line">        Staff staff = <span class="keyword">new</span> Staff();</span><br><span class="line">        staff.age = target.age;</span><br><span class="line">        staff.name = target.name;</span><br><span class="line">        staff.station = target.station;</span><br><span class="line">        <span class="keyword">return</span> staff;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeepCloneTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Staff staff = <span class="keyword">new</span> Staff();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Staff clone = (Staff) staff.clone();</span><br><span class="line">            System.out.println(<span class="string">&quot;深克隆:&quot;</span> + (staff.station == clone.station));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        Staff q = <span class="keyword">new</span> Staff();</span><br><span class="line">        Staff n = q.shallowClone(q);</span><br><span class="line">        System.out.println(<span class="string">&quot;浅克隆:&quot;</span> + (q.station == n.station));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>结果</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">深克隆:false</span><br><span class="line">浅克隆:true</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>03.Spring IOC</title>
+    <url>/2020/07/21/Spring/02%20IOC%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="Spring-IoC-和-DI-简介"><a href="#Spring-IoC-和-DI-简介" class="headerlink" title="Spring IoC 和 DI 简介"></a>Spring IoC 和 DI 简介</h3><h4 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h4><ul>
+<li>读作 <strong>“反转控制”</strong>，更好理解，不是什么技术，而是一种<strong>设计思想</strong>，就是<strong>将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</strong></li>
+<li><strong>正控：</strong>若要使用某个对象，需要<strong>自己去负责对象的创建</strong></li>
+<li><strong>反控：</strong>若要使用某个对象，只需要<strong>从 Spring 容器中获取需要使用的对象，不关心对象的创建过程</strong>，也就是把<strong>创建对象的控制权反转给了Spring框架</strong></li>
+<li><strong>好莱坞法则：</strong> Don’t call me ,I’ll call you</li>
+</ul>
+<blockquote>
+<h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><p>控制反转显然是一个抽象的概念，我们举一个鲜明的例子来说明。</p>
+</blockquote>
+<blockquote>
+<p>在现实生活中，人们要用到一样东西的时候，第一反应就是去找到这件东西，比如想喝新鲜橙汁，在没有饮品店的日子里，最直观的做法就是：买果汁机、买橙子，然后准备开水。值得注意的是：这些都是你自己<strong>“主动”创造</strong>的过程，也就是说一杯橙汁需要你自己创造。</p>
+</blockquote>
+<blockquote>
+<p>然而到了今时今日，由于饮品店的盛行，当我们想喝橙汁时，第一想法就转换成了找到饮品店的联系方式，通过电话等渠道描述你的需要、地址、联系方式等，下订单等待，过一会儿就会有人送来橙汁了。请注意你并没有“主动”去创造橙汁，橙汁是由饮品店创造的，而不是你，然而也完全达到了你的要求，甚至比你创造的要好上那么一些。</p>
+</blockquote>
+<h4 id="更经典全方位的理解"><a href="#更经典全方位的理解" class="headerlink" title="更经典全方位的理解"></a>更经典全方位的理解</h4><p>要了解<strong>控制反转( Inversion of Control )</strong>, 我觉得有必要先了解软件设计的一个重要思想：<strong>依赖倒置原则（Dependency Inversion Principle ）</strong>。</p>
+<p><img src="https://pic3.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p><strong>什么是依赖倒置原则？</strong>假设我们设计一辆汽车：先设计轮子，然后根据轮子大小设计底盘，接着根据底盘设计车身，最后根据车身设计好整个汽车。这里就出现了一个“依赖”关系：汽车依赖车身，车身依赖底盘，底盘依赖轮子。</p>
+<p><img src="https://pic1.zhimg.com/v2-c68248bb5d9b4d64d22600571e996446_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这样的设计看起来没问题，但是可维护性却很低。假设设计完工之后，上司却突然说根据市场需求的变动，要我们把车子的轮子设计都改大一码。这下我们就蛋疼了：因为我们是根据轮子的尺寸设计的底盘，轮子的尺寸一改，底盘的设计就得修改；同样因为我们是根据底盘设计的车身，那么车身也得改，同理汽车设计也得改——整个设计几乎都得改！</p>
+<p>我们现在换一种思路。我们先设计汽车的大概样子，然后根据汽车的样子来设计车身，根据车身来设计底盘，最后根据底盘来设计轮子。这时候，依赖关系就倒置过来了：轮子依赖底盘， 底盘依赖车身， 车身依赖汽车。</p>
+<p><img src="https://pic4.zhimg.com/v2-e64bf72c5c04412f626b21753aa9e1a1_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这时候，上司再说要改动轮子的设计，我们就只需要改动轮子的设计，而不需要动底盘，车身，汽车的设计了。</p>
+<p>这就是<strong>依赖倒置原则——把原本的高层建筑依赖底层建筑“倒置”过来，变成底层建筑依赖高层建筑。高层建筑决定需要什么，底层去实现这样的需求，但是高层并不用管底层是怎么实现的。</strong>这样就不会出现前面的“牵一发动全身”的情况。</p>
+<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p><strong>控制反转（Inversion of Control）</strong> 就是依赖倒置原则的一种代码设计的思路。具体采用的方法就是所谓的<strong>依赖注入（Dependency Injection）</strong>。其实这些概念初次接触都会感到云里雾里的。说穿了，这几种概念的关系大概如下：</p>
+<p><img src="https://pic1.zhimg.com/v2-ee924f8693cff51785ad6637ac5b21c1_r.jpg?source=1940ef5c" alt="img"></p>
+<p>为了理解这几个概念，我们还是用上面汽车的例子。只不过这次换成代码。我们先定义四个Class，车，车身，底盘，轮胎。然后初始化这辆车，最后跑这辆车。代码结构如下：</p>
+<p><img src="https://pic2.zhimg.com/v2-8ec294de7d0f9013788e3fb5c76069ef_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这样，就相当于上面第一个例子，上层建筑依赖下层建筑——每一个类的构造函数都直接调用了底层代码的构造函数。假设我们需要改动一下轮胎（Tire）类，把它的尺寸变成动态的，而不是一直都是30。我们需要这样改：</p>
+<p><img src="https://pic1.zhimg.com/50/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_hd.jpg?source=1940ef5c" alt="img"><img src="https://pic4.zhimg.com/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_r.jpg?source=1940ef5c" alt="img"></p>
+<p>由于我们修改了轮胎的定义，为了让整个程序正常运行，我们需要做以下改动：</p>
+<p><img src="https://pic4.zhimg.com/v2-82e0c12a1b26f7979ed9241e169affda_r.jpg?source=1940ef5c" alt="img"></p>
+<p>由此我们可以看到，仅仅是为了修改轮胎的构造函数，这种设计却需要<strong>修改整个上层所有类的构造函数</strong>！在软件工程中，<strong>这样的设计几乎是不可维护的</strong>——在实际工程项目中，有的类可能会是几千个类的底层，如果每次修改这个类，我们都要修改所有以它作为依赖的类，那软件的维护成本就太高了。</p>
+<p>所以我们需要进行控制反转（IoC），及上层控制下层，而不是下层控制着上层。我们用依赖注入（Dependency Injection）这种方式来实现控制反转。<strong>所谓依赖注入，就是把底层类作为参数传入上层类，实现上层类对下层类的“控制</strong>”。这里我们用<strong>构造方法传递的依赖注入方式</strong>重新写车类的定义：</p>
+<p><img src="https://pic4.zhimg.com/v2-c920a0540ce0651003a5326f6ef9891d_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里我们再把轮胎尺寸变成动态的，同样为了让整个系统顺利运行，我们需要做如下修改：</p>
+<p><img src="https://pic2.zhimg.com/v2-99ad2cd809fcb86dd791ff7f65fb1779_r.jpg?source=1940ef5c" alt="img"></p>
+<p>看到没？这里<strong>我只需要修改轮胎类就行了，不用修改其他任何上层类。</strong>这显然是更容易维护的代码。不仅如此，在实际的工程中，这种设计模式还有利于<strong>不同组的协同合作和单元测试：</strong>比如开发这四个类的分别是四个不同的组，那么只要定义好了接口，四个不同的组可以同时进行开发而不相互受限制；而对于单元测试，如果我们要写Car类的单元测试，就只需要Mock一下Framework类传入Car就行了，而不用把Framework, Bottom, Tire全部new一遍再来构造Car。</p>
+<p>这里我们是采用的<strong>构造函数传入</strong>的方式进行的依赖注入。其实还有另外两种方法：<strong>Setter传递</strong>和<strong>接口传递</strong>。这里就不多讲了，核心思路都是一样的，都是为了实现<strong>控制反转</strong>。</p>
+<p><img src="https://pic1.zhimg.com/v2-861683acac47577c81f2b7493dd05649_r.jpg?source=1940ef5c" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p>看到这里你应该能理解什么控制反转和依赖注入了。那什么是**控制反转容器(IoC Container)**呢？其实上面的例子中，对车类进行初始化的那段代码发生的地方，就是控制反转容器。</p>
+<p><img src="https://pic2.zhimg.com/v2-c845802f9187953ed576e0555f76da42_r.jpg?source=1940ef5c" alt="img"></p>
+<p>显然你也应该观察到了，因为采用了依赖注入，在初始化的过程中就不可避免的会写大量的new。这里IoC容器就解决了这个问题。<strong>这个容器可以自动对你的代码进行初始化，你只需要维护一个Configuration（可以是xml可以是一段代码），而不用每次初始化一辆车都要亲手去写那一大段初始化的代码</strong>。这是引入IoC Container的第一个好处。</p>
+<p>IoC Container的第二个好处是：<strong>我们在创建实例的时候不需要了解其中的细节。</strong>在上面的例子中，我们自己手动创建一个车instance时候，是从底层往上层new的：</p>
+<p><img src="https://pic1.zhimg.com/v2-555b2be7d76e78511a6d6fed3304927f_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这个过程中，我们需要了解整个Car/Framework/Bottom/Tire类构造函数是怎么定义的，才能一步一步new/注入。</p>
+<p>而IoC Container在进行这个工作的时候是反过来的，它先从最上层开始往下找依赖关系，到达最底层之后再往上一步一步new（有点像深度优先遍历）：</p>
+<p><img src="https://pic4.zhimg.com/v2-24a96669241e81439c636e83976ba152_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里IoC Container可以直接隐藏具体的创建实例的细节，在我们来看它就像一个工厂：</p>
+<p><img src="https://pic4.zhimg.com/v2-5ca61395f37cef73c7bbe7808f9ea219_r.jpg?source=1940ef5c" alt="img"></p>
+<p>我们就像是工厂的客户。我们只需要向工厂请求一个Car实例，然后它就给我们按照Config创建了一个Car实例。我们完全不用管这个Car实例是怎么一步一步被创建出来。</p>
+<p>实际项目中，有的Service Class可能是十年前写的，有几百个类作为它的底层。假设我们新写的一个API需要实例化这个Service，我们总不可能回头去搞清楚这几百个类的构造函数吧？IoC Container的这个特性就很完美的解决了这类问题——<strong>因为这个架构要求你在写class的时候需要写相应的Config文件，所以你要初始化很久以前的Service类的时候，前人都已经写好了Config文件，你直接在需要用的地方注入这个Service就可以了</strong>。这大大增加了项目的可维护性且降低了开发难度。</p>
+<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里只是很粗略的讲了一下我自己对IoC和DI的理解。主要的目的是在于<strong>最大限度避免晦涩难懂的专业词汇，用尽量简洁，通俗，直观的例子</strong>来解释这些概念。如果让大家能有一个类似“哦！原来就是这么个玩意嘛！”的印象，我觉得就OK了。想要深入了解的话，可以上网查阅一些更权威的资料。这里推荐一下 <a href="https://link.zhihu.com/?target=https://en.wikipedia.org/wiki/Dependency_injection">Dependency injection </a> 和 <a href="https://link.zhihu.com/?target=https://martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency Injection pattern</a> 这两篇文章，讲的很好很详细。</p>
+<h3 id="Spring-IOC-容器源码分析"><a href="#Spring-IOC-容器源码分析" class="headerlink" title="Spring IOC 容器源码分析"></a>Spring IOC 容器源码分析</h3><h4 id="Spring-IoC-容器的设计"><a href="#Spring-IoC-容器的设计" class="headerlink" title="Spring IoC 容器的设计"></a>Spring IoC 容器的设计</h4><p>Spring IoC 容器的设计主要是基于以下两个接口：</p>
+<ul>
+<li><strong>BeanFactory</strong></li>
+<li><strong>ApplicationContext</strong></li>
+</ul>
+<p>其中 ApplicationContext 是 BeanFactory 的子接口之一，换句话说：<strong>BeanFactory 是 Spring IoC 容器所定义的最底层接口，</strong>而 ApplicationContext 是其最高级接口之一，并对 BeanFactory 功能做了许多的扩展，所以在<strong>绝大部分的工作场景下</strong>，都会使用 ApplicationContext 作为 Spring IoC 容器。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-539d3860abb6b3f7.png"></p>
+<h5 id="BeanFactory"><a href="#BeanFactory" class="headerlink" title="BeanFactory"></a>BeanFactory</h5><p>从上图中我们可以几乎看到， BeanFactory 位于设计的最底层，它提供了 Spring IoC 最底层的设计，为此，我们先来看看该类中提供了哪些方法：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-ec7f8eb4cc563216.png"></p>
+<p>由于这个接口的重要性，所以有必要在这里作一下简短的说明：</p>
+<ul>
+<li><p>【getBean】 对应了多个方法来获取配置给 Spring IoC 容器的 Bean。<br>① 按照类型拿 bean：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(Bean.class)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 要求在 Spring 中只配置了一个这种类型的实例，否则报错。（如果有多个那 Spring 就懵了，不知道该获取哪一个）<br>② 按照 bean 的名字拿 bean:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 这种方法不太安全，IDE 不会检查其安全性（关联性）<br>③ 按照名字和类型拿 bean：<strong>（推荐）</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>, Bean.class);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【isSingleton】 用于判断是否单例，如果判断为真，其意思是该 Bean 在容器中是作为一个唯一单例存在的。而【isPrototype】则相反，如果判断为真，意思是当你从容器中获取 Bean，容器就为你生成一个新的实例。</p>
+<p><strong>注意：</strong> 在默认情况下，【isSingleton】为 ture，而【isPrototype】为 false</p>
+</li>
+<li><p>关于 type 的匹配，这是一个按 Java 类型匹配的方式</p>
+</li>
+<li><p>【getAliases】方法是获取别名的方法</p>
+</li>
+</ul>
+<p>这就是 Spring IoC 最底层的设计，所有关于 Spring IoC 的容器将会遵守它所定义的方法</p>
+<h5 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h5><p>根据 ApplicationContext 的类继承关系图，可以看到 ApplicationContext 接口扩展了许许多多的接口，因此它的功能十分强大，所以在实际应用中常常会使用到的是 ApplicationContext 接口，因为 BeanFactory 的方法和功能较少，而 ApplicationContext 的方法和功能较多。</p>
+<p>我们来认识一个 ApplicationContext 的子类——ClassPathXmlApplicationContext。</p>
+<ol>
+<li>先在【src】目录下创建一个 【bean.xml】 文件：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 通过 xml 方式装配 bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;source&quot;</span> <span class="attr">class</span>=<span class="string">&quot;pojo.Source&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;橙子&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sugar&quot;</span> <span class="attr">value</span>=<span class="string">&quot;多糖&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;size&quot;</span> <span class="attr">value</span>=<span class="string">&quot;超大杯&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>这里定义了一个 bean ，这样 Spring IoC 容器在初始化的时候就能找到它们，然后使用ClassPathXmlApplicationContext 容器就可以将其初始化：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;bean.xml&quot;</span>);</span><br><span class="line">Source source = (Source) context.getBean(<span class="string">&quot;source&quot;</span>, Source.class);</span><br><span class="line"></span><br><span class="line">System.out.println(source.getFruit());</span><br><span class="line">System.out.println(source.getSugar());</span><br><span class="line">System.out.println(source.getSize());</span><br></pre></td></tr></table></figure>
+
+<p>这样就会使用 Application 的实现类 <code>ClassPathXmlApplicationContext</code> 去初始化 Spring IoC 容器，然后开发者就可以通过 IoC 容器来获取资源了！</p>
+<p><strong>ApplicationContext 常见实现类：</strong></p>
+<p><strong>ClassPathXmlApplicationContext：</strong><br>读取classpath中的资源</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>FileSystemXmlApplicationContext:-</strong><br>读取指定路径的资源</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ac = <span class="keyword">new</span> FileSystemXmlApplicationContext(<span class="string">&quot;c:/applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>XmlWebApplicationContext:</strong><br>需要在Web的环境下才可以运行</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYXmlWebApplicationContext ac = <span class="keyword">new</span> XmlWebApplicationContext(); <span class="comment">// 这时并没有初始化容器</span></span><br><span class="line">ac.setServletContext(servletContext); <span class="comment">// 需要指定ServletContext对象</span></span><br><span class="line">ac.setConfigLocation(<span class="string">&quot;/WEB-INF/applicationContext.xml&quot;</span>); <span class="comment">// 指定配置文件路径，开头的斜线表示Web应用的根目录</span></span><br><span class="line">ac.refresh(); <span class="comment">// 初始化容器</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="BeanFactory-和-ApplicationContext-的区别："><a href="#BeanFactory-和-ApplicationContext-的区别：" class="headerlink" title="BeanFactory 和 ApplicationContext 的区别："></a>BeanFactory 和 ApplicationContext 的区别：</h5><ul>
+<li><p><strong>BeanFactory：</strong> 是Spring中最底层的接口，只提供了最简单的IoC功能,负责配置，创建和管理bean。<br>在应用中，一般不使用 BeanFactory，而推荐使用ApplicationContext（应用上下文），原因如下。</p>
+</li>
+<li><p><strong>ApplicationContext：</strong></p>
+<p>1.继承了 BeanFactory，拥有了基本的 IoC 功能；<br>2.除此之外，ApplicationContext 还提供了以下功能：<br>① 支持国际化；<br>② 支持消息机制；<br>③ 支持统一的资源加载；<br>④ 支持AOP功能；</p>
+</li>
+</ul>
+<h3 id="Spring-IoC-的容器的初始化和依赖注入"><a href="#Spring-IoC-的容器的初始化和依赖注入" class="headerlink" title="Spring IoC 的容器的初始化和依赖注入"></a>Spring IoC 的容器的初始化和依赖注入</h3><p>虽然 Spring IoC 容器的生成十分的复杂，但是大体了解一下 Spring IoC 初始化的过程还是必要的。这对于理解 Spring 的一系列行为是很有帮助的。</p>
+<p><strong>注意：</strong> Bean 的定义和初始化在 Spring IoC 容器是两大步骤，它是先定义，然后初始化和依赖注入的。</p>
+<ul>
+<li><p><strong>Bean 的定义分为 3 步：定位、加载、注册</strong></p>
+</li>
+<li><p>Resource 定位<br>Spring IoC 容器先根据开发者的配置，进行资源的定位，在 Spring 的开发中，通过 XML 或者注解都是十分常见的方式，定位的内容是由开发者提供的。</p>
+</li>
+<li><p>BeanDefinition 的加载<br>这个时候只是将 Resource 定位到的信息，保存到 Bean 定义（BeanDefinition）中，此时并不会创建 Bean 的实例</p>
+</li>
+<li><p>BeanDefinition 的注册<br>这个过程就是将 BeanDefinition 的信息发布到 Spring IoC 容器中<br><strong>注意：</strong>此时仍然没有对应的 Bean 的实例。</p>
+</li>
+</ul>
+<p>做完了以上 3 步，Bean 就在 Spring IoC 容器中被定义了，而没有被初始化，更没有完成依赖注入，也就是没有注入其配置的资源给 Bean，那么它还不能完全使用。</p>
+<p>对于初始化和依赖注入，Spring Bean 还有一个配置选项——<strong>【lazy-init】</strong>，其含义就是<strong>是否初始化 Spring Bean</strong>。在没有任何配置的情况下，它的默认值为 default，实际值为 false，也就是 <strong>Spring IoC 默认会自动初始化 Bean</strong>。如果将其设置为 true，那么只有当我们使用 Spring IoC 容器的 getBean 方法获取它时，它才会进行 Bean 的初始化，完成依赖注入。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zhihu.com/question/23277575/answer/169698662">https://www.zhihu.com/question/23277575/answer/169698662</a></p>
+<p><a href="https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/">https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/</a></p>
+<p><a href="https://javadoop.com/post/spring-ioc">https://javadoop.com/post/spring-ioc</a></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
@@ -675,6 +1064,161 @@
       </categories>
       <tags>
         <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>02.单例模式</title>
+    <url>/2020/08/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/02.%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="单例模式的应用场景"><a href="#单例模式的应用场景" class="headerlink" title="单例模式的应用场景"></a>单例模式的应用场景</h1><p>单例模式(Singleton Pattern)是指确保一个类在任何情况下都绝对只有一个实例，并提供一个全局访问点。单例模式是创建型模式。单例模式在现实生活中应用也非常广泛。 例如，公司 CEO、部门经理在一个公司只能存在一个等。在 J2EE 标准中，ServletContext、 ServletContextConfig 等;在 Spring 框架应用中 ApplicationContext;数据库的连接池也都是单例形式。单例模式可分为以下几种：</p>
+<h2 id="饿汉式单例"><a href="#饿汉式单例" class="headerlink" title="饿汉式单例"></a>饿汉式单例</h2><blockquote>
+<p> 饿汉式单例是在类加载的时候就立即初始化，并且创建单例对象。绝对线程安全，在线 程还没出现以前就是实例化了，不可能存在访问安全问题。 </p>
+</blockquote>
+<ul>
+<li>优点: 没有加任何的锁、执行效率比较高，在用户体验上来说，比懒汉式更好。 </li>
+<li>缺点: 类加载的时候就初始化，不管用与不用都占着空间，浪费了内存。</li>
+</ul>
+<p>饿汉式写法简单，试用与单例对象少的情况，Spring 中 IOC 容器 ApplicationContext 本身就是典型的饿汉式单例。</p>
+<ul>
+<li>写法一</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HungrySingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> HungrySingleton INSTANCE = <span class="keyword">new</span> HungrySingleton();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">HungrySingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> HungrySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>写法二</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HungryStaticSingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> HungryStaticSingleton INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        INSTANCE = <span class="keyword">new</span> HungryStaticSingleton();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">HungryStaticSingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> HungryStaticSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="懒汉式单例"><a href="#懒汉式单例" class="headerlink" title="懒汉式单例"></a>懒汉式单例</h2><blockquote>
+<p>懒汉式单例在被外部类调用的时候内部类才会加载</p>
+</blockquote>
+<ul>
+<li>懒汉式单例简单实现</li>
+</ul>
+<blockquote>
+<p>缺点：不加synchronized可能会出现线程安全问题，但是加上synchronized关键字以后，在线程数量比较多情况下，如果 CPU 分配压力上升，会导致大批量线程出现阻塞，从而导致程序运行性能大幅下降。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleLazySingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SimpleLazySingleton INSTANCE = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SimpleLazySingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 线程不安全</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="comment">//    public static SimpleLazySingleton getInstance() &#123;</span></span><br><span class="line"><span class="comment">//        if (INSTANCE == null) &#123;</span></span><br><span class="line"><span class="comment">//            INSTANCE = new SimpleLazySingleton();</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"><span class="comment">//        return INSTANCE;</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 线程安全，虽然jdk对synchronized有优化，但是仍有一定的性能问题</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> SimpleLazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">            INSTANCE = <span class="keyword">new</span> SimpleLazySingleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>双重校验锁实现单例</li>
+</ul>
+<blockquote>
+<p>比上一个方法稍微好点，但是因为加了锁，性能仍有问题。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DoubleCheckLazySingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 防止指令重排序</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">volatile</span> <span class="keyword">static</span> DoubleCheckLazySingleton INSTANCE = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">DoubleCheckLazySingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 适中方案，双重校验锁</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DoubleCheckLazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (DoubleCheckLazySingleton.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    INSTANCE = <span class="keyword">new</span> DoubleCheckLazySingleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>静态内部类实现单例</li>
+</ul>
+<blockquote>
+<p>这种形式兼顾饿汉式的内存浪费，也兼顾 synchronized 性能问题，</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerClassLazySingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用的时候，会先初始化内部类</span></span><br><span class="line">    <span class="comment">// 不使用不加载内部类</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">InnerClassLazySingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * LazyHolder里面的方法要等到外部方法调用以后才执行</span></span><br><span class="line"><span class="comment">     * 巧妙利用了内部类的特性</span></span><br><span class="line"><span class="comment">     * JVM底层执行逻辑，完美避开了线程安全问题</span></span><br><span class="line"><span class="comment">     * 每一个关键字都不是多余的</span></span><br><span class="line"><span class="comment">     * static 是为了使单例的空间共享</span></span><br><span class="line"><span class="comment">     * final 保证这个方法不会被重写，重载</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> InnerClassLazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//在返回结果以前，一定会先加载内部类</span></span><br><span class="line">        <span class="keyword">return</span> LazyHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 默认不加载</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> InnerClassLazySingleton INSTANCE = <span class="keyword">new</span> InnerClassLazySingleton();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种形式兼顾饿汉式的内存浪费，也兼顾 synchronized 性能问题。内部类一定是要在方 法调用之前初始化，巧妙地避免了线程安全问题。</p>
+<h2 id="单例被破坏"><a href="#单例被破坏" class="headerlink" title="单例被破坏"></a>单例被破坏</h2><h3 id="反射破坏单例"><a href="#反射破坏单例" class="headerlink" title="反射破坏单例"></a>反射破坏单例</h3><p>上述所有的单例模式的构造方法除了加上 private 以外，没有做任何处 理。如果我们使用反射来调用其构造方法，然后，再调用 getInstance()方法，应该就会两个不同的实例。</p>
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerClassSingletonTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 反射会破坏单例</span></span><br><span class="line">            Class&lt;?&gt; clazz = InnerClassLazySingleton.class;</span><br><span class="line">            <span class="comment">// 通过反射拿到私有的构造方法</span></span><br><span class="line">            Constructor&lt;?&gt; constructor = clazz.getDeclaredConstructor(<span class="keyword">null</span>);</span><br><span class="line">            <span class="comment">// 强制访问</span></span><br><span class="line">            constructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            <span class="comment">// 包里初始化</span></span><br><span class="line">            Object o = constructor.newInstance();</span><br><span class="line">            <span class="comment">// 利用单例初始化</span></span><br><span class="line">            InnerClassLazySingleton o2 = InnerClassLazySingleton.getInstance();</span><br><span class="line">            System.out.println(o);</span><br><span class="line">            System.out.println(o2);</span><br><span class="line">            System.out.println(o == o2);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行结果</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">com.design.pattern.singleton.lazy.InnerClassLazySingleton@776ec8df</span><br><span class="line">com.design.pattern.singleton.lazy.InnerClassLazySingleton@4eec7777</span><br><span class="line">false</span><br></pre></td></tr></table></figure>
+
+<p>此时你会发现两次对象并不是同一个，也就是单例被破坏了，此时，为了避免这种情况，我们需要在构造方法中做一下限制，仍以静态内部类演示，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerClassLazySingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用的时候，会先初始化内部类</span></span><br><span class="line">    <span class="comment">// 不使用不加载内部类</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">InnerClassLazySingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (LazyHolder.INSTANCE != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;不允许重复创建&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * LazyHolder里面的方法要等到外部方法调用以后才执行</span></span><br><span class="line"><span class="comment">     * 巧妙利用了内部类的特性</span></span><br><span class="line"><span class="comment">     * JVM底层执行逻辑，完美避开了线程安全问题</span></span><br><span class="line"><span class="comment">     * 每一个关键字都不是多余的</span></span><br><span class="line"><span class="comment">     * static 是为了使单例的空间共享</span></span><br><span class="line"><span class="comment">     * final 保证这个方法不会被重写，重载</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> InnerClassLazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//在返回结果以前，一定会先加载内部类</span></span><br><span class="line">        <span class="keyword">return</span> LazyHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 默认不加载</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> InnerClassLazySingleton INSTANCE = <span class="keyword">new</span> InnerClassLazySingleton();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再次运行测试类，则出现以下异常：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20200917201455658.png" alt="image-20200917201455658"></p>
+<h3 id="序列化破坏单例"><a href="#序列化破坏单例" class="headerlink" title="序列化破坏单例"></a>序列化破坏单例</h3><p>当我们将一个单例对象创建好，有时候需要将对象序列化然后写入到磁盘，下次使用时 再从磁盘中读取到对象，反序列化转化为内存对象。反序列化后的对象会重新分配内存， 即重新创建。那如果序列化的目标的对象为单例对象，就违背了单例模式的初衷，相当于破坏了单例。来看一段演示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerializableSingleton</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="comment">//序列化就是说把内存中的状态通过转换成字节码的形式</span></span><br><span class="line">    <span class="comment">//从而转换一个IO流，写入到其他地方(可以是磁盘、网络IO)</span></span><br><span class="line">    <span class="comment">//内存中状态给永久保存下来了</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//反序列化</span></span><br><span class="line">    <span class="comment">//讲已经持久化的字节码内容，转换为IO流</span></span><br><span class="line">    <span class="comment">//通过IO流的读取，进而将读取的内容转换为Java对象</span></span><br><span class="line">    <span class="comment">//在转换过程中会重新创建对象new</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> SerializableSingleton INSTANCE = <span class="keyword">new</span> SerializableSingleton();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SerializableSingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SerializableSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>测试代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerializableSingletonTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SerializableSingleton s1 = <span class="keyword">null</span>;</span><br><span class="line">        SerializableSingleton s2 = SerializableSingleton.getInstance();</span><br><span class="line">        FileOutputStream fos = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            fos = <span class="keyword">new</span> FileOutputStream(<span class="string">&quot;SeriableSingleton.txt&quot;</span>);</span><br><span class="line">            ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(fos);</span><br><span class="line">            oos.writeObject(s2);</span><br><span class="line">            oos.flush();</span><br><span class="line">            oos.close();</span><br><span class="line"></span><br><span class="line">            FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">&quot;SeriableSingleton.txt&quot;</span>);</span><br><span class="line">            ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(fis);</span><br><span class="line">            s1 = (SerializableSingleton) ois.readObject();</span><br><span class="line">            ois.close();</span><br><span class="line"></span><br><span class="line">            System.out.println(s1);</span><br><span class="line">            System.out.println(s2);</span><br><span class="line">            System.out.println(s1 == s2);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行结果</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">com.design.pattern.singleton.seriable.SerializableSingleton@306a30c7</span><br><span class="line">com.design.pattern.singleton.seriable.SerializableSingleton@6d311334</span><br><span class="line">false</span><br></pre></td></tr></table></figure>
+
+<p>运行结果中，可以看出，反序列化后的对象和手动创建的对象是不一致的，实例化了两 次，违背了单例的设计初衷。那么，我们如何保证序列化的情况下也能够实现单例?其实很简单，只需要增加**readResolve()**方法即可。修改后的代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerializableSingleton</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//序列化就是说把内存中的状态通过转换成字节码的形式</span></span><br><span class="line">    <span class="comment">//从而转换一个IO流，写入到其他地方(可以是磁盘、网络IO)</span></span><br><span class="line">    <span class="comment">//内存中状态给永久保存下来了</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//反序列化</span></span><br><span class="line">    <span class="comment">//讲已经持久化的字节码内容，转换为IO流</span></span><br><span class="line">    <span class="comment">//通过IO流的读取，进而将读取的内容转换为Java对象</span></span><br><span class="line">    <span class="comment">//在转换过程中会重新创建对象new</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> SerializableSingleton INSTANCE = <span class="keyword">new</span> SerializableSingleton();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SerializableSingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SerializableSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 加了可以避免反序列化破坏单例</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Object <span class="title">readResolve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再次运行测试类，得出如下结果：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">com.design.pattern.singleton.seriable.SerializableSingleton@6d311334</span><br><span class="line">com.design.pattern.singleton.seriable.SerializableSingleton@6d311334</span><br><span class="line">true</span><br></pre></td></tr></table></figure>
+
+<p>此时我们发现反序列化后的对象和手动创建的对象是同一个对象(源码分析待补充)。虽然，增加 readResolve()方法返回实例，解决了单 例被破坏的问题。但是，我们通过分析源码以及调试，我们可以看到实际上实例化了两次，只不过新创建的对象没有被返回而已。那如果，创建对象的动作发生频率增大，就意味着内存分配开销也就随之增大，难道真的就没办法从根本上解决问题吗?下面我们来注册式单例也许能帮助到你。</p>
+<h2 id="注册式单例"><a href="#注册式单例" class="headerlink" title="注册式单例"></a>注册式单例</h2><blockquote>
+<p>注册式单例又称为登记式单例，就是将每一个实例都登记到某一个地方，使用唯一的标 识获取实例。注册式单例有两种写法:一种为容器缓存，一种为枚举登记。</p>
+</blockquote>
+<ul>
+<li>枚举式单例</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">EnumSingleton</span> </span>&#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Object data;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> EnumSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时用反序列化方式再进行测试</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EnumSingletonTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        EnumSingleton s1 = <span class="keyword">null</span>;</span><br><span class="line">        EnumSingleton s2 = EnumSingleton.getInstance();</span><br><span class="line">        s2.setData(<span class="keyword">new</span> Object());</span><br><span class="line">        FileOutputStream fos = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            fos = <span class="keyword">new</span> FileOutputStream(<span class="string">&quot;EnumSingleton.txt&quot;</span>);</span><br><span class="line">            ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(fos);</span><br><span class="line">            oos.writeObject(s2);</span><br><span class="line">            oos.flush();</span><br><span class="line">            oos.close();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">&quot;EnumSingleton.txt&quot;</span>);</span><br><span class="line">            ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(fis);</span><br><span class="line">            s1 = (EnumSingleton) ois.readObject();</span><br><span class="line">            ois.close();</span><br><span class="line"></span><br><span class="line">            System.out.println(s1.getData());</span><br><span class="line">            System.out.println(s2.getData());</span><br><span class="line">            System.out.println(s1.getData() == s2.getData());</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行结果</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java.lang.Object@b81eda8</span><br><span class="line">java.lang.Object@b81eda8</span><br><span class="line">true</span><br></pre></td></tr></table></figure>
+
+<p>通过结果可以发现枚举式单例能完美避开反序列化带来的问题。</p>
+<p>我们再用反射来进行测试：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EnumSingletonTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class clazz = EnumSingleton.class;</span><br><span class="line">            Constructor c = clazz.getDeclaredConstructor();</span><br><span class="line">            c.newInstance();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>则会得到如下异常：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20200917204701199.png" alt="image-20200917204701199"></p>
+<p>报的是 java.lang.NoSuchMethodException 异常，意思是没找到无参的构造方法。打开JDK中的Enum类，我们只看到了一个这样的构造方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="title">Enum</span><span class="params">(String name, <span class="keyword">int</span> ordinal)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">this</span>.name = name;</span><br><span class="line">   <span class="keyword">this</span>.ordinal = ordinal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那我们再来做一个这样的测试:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    Class clazz = EnumSingleton.class;</span><br><span class="line">    Constructor c = clazz.getDeclaredConstructor(String.class, <span class="keyword">int</span>.class);</span><br><span class="line">    c.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    EnumSingleton enumSingleton = (EnumSingleton) c.newInstance(<span class="string">&quot;Test&quot;</span>, <span class="number">1234</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">  	e.printStackTrace();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20200918095744482.png" alt="image-20200918095744482"></p>
+<p>这时错误已经非常明显了，告诉我们 Cannot reflectively create enum objects，不能 用反射来创建枚举类型。我们进入Constructor中的neInstance()方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@CallerSensitive</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">newInstance</span><span class="params">(Object ... initargs)</span></span></span><br><span class="line"><span class="function">  <span class="keyword">throws</span> InstantiationException, IllegalAccessException,</span></span><br><span class="line"><span class="function">IllegalArgumentException, InvocationTargetException</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!override) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!Reflection.quickCheckMemberAccess(clazz, modifiers)) &#123;</span><br><span class="line">      Class&lt;?&gt; caller = Reflection.getCallerClass();</span><br><span class="line">      checkAccess(caller, clazz, <span class="keyword">null</span>, modifiers);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ((clazz.getModifiers() &amp; Modifier.ENUM) != <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Cannot reflectively create enum objects&quot;</span>);</span><br><span class="line">  ConstructorAccessor ca = constructorAccessor;   <span class="comment">// read volatile</span></span><br><span class="line">  <span class="keyword">if</span> (ca == <span class="keyword">null</span>) &#123;</span><br><span class="line">    ca = acquireConstructorAccessor();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">  T inst = (T) ca.newInstance(initargs);</span><br><span class="line">  <span class="keyword">return</span> inst;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 newInstance()方法中做了强制性的判断，如果修饰符是 Modifier.ENUM 枚举类型， 直接抛出异常。</p>
+<ul>
+<li>容器缓存式单例</li>
+</ul>
+<blockquote>
+<p>容器式写法适用于创建实例非常多的情况，便于管理。但是，是非线程安全的</p>
+</blockquote>
+<ul>
+<li>代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContainerSingleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ContainerSingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Object&gt; ioc = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getInstance</span><span class="params">(String className)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (ioc) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!ioc.containsKey(className)) &#123;</span><br><span class="line">                Object obj = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    obj = Class.forName(className).newInstance();</span><br><span class="line">                    ioc.put(className, obj);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> obj;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> ioc.get(className);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ThreadLocal-线程单例"><a href="#ThreadLocal-线程单例" class="headerlink" title="ThreadLocal 线程单例"></a>ThreadLocal 线程单例</h2><blockquote>
+<p>ThreadLocal 不能保证其创建的对象是全局唯一，但是能保证在单个线程中是唯一的，天生的线程安全。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> D丶Cheng</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: ThreadLocal单例</span></span><br><span class="line"><span class="comment"> * 缺点：伪线程安全，线程单例</span></span><br><span class="line"><span class="comment"> * 注：ThreadLocal的get方法中，有一个ThreadLocalMap，它set的时候用线程作为key,object作为值，get的时候其实是在当前线程        getValue。</span></span><br><span class="line"><span class="comment"> * 可以用它来实现多数据源动态切换。</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/9/16 4:48 下午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalSingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ThreadLocalSingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;ThreadLocalSingleton&gt; threadLocalInstance = <span class="keyword">new</span> 			ThreadLocal&lt;ThreadLocalSingleton&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> ThreadLocalSingleton <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ThreadLocalSingleton();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ThreadLocalSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> threadLocalInstance.get();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>简单测试代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalSingletonTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(ThreadLocalSingleton.getInstance());</span><br><span class="line">        System.out.println(ThreadLocalSingleton.getInstance());</span><br><span class="line">        System.out.println(ThreadLocalSingleton.getInstance());</span><br><span class="line">        System.out.println(<span class="string">&quot;end&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;:&quot;</span> + ThreadLocalSingleton.getInstance());</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;:&quot;</span> + ThreadLocalSingleton.getInstance());</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;:&quot;</span> + ThreadLocalSingleton.getInstance());</span><br><span class="line">            System.out.println(<span class="string">&quot;end&quot;</span>);</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;:&quot;</span> + ThreadLocalSingleton.getInstance());</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;:&quot;</span> + ThreadLocalSingleton.getInstance());</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;:&quot;</span> + ThreadLocalSingleton.getInstance());</span><br><span class="line">            System.out.println(<span class="string">&quot;end&quot;</span>);</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行结果</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@24d46ca6</span><br><span class="line">com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@24d46ca6</span><br><span class="line">com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@24d46ca6</span><br><span class="line">end</span><br><span class="line">Thread-0:com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@4082029</span><br><span class="line">Thread-0:com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@4082029</span><br><span class="line">Thread-0:com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@4082029</span><br><span class="line">end</span><br><span class="line">Thread-1:com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@1e542a06</span><br><span class="line">Thread-1:com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@1e542a06</span><br><span class="line">Thread-1:com.design.pattern.singleton.threadlocal.ThreadLocalSingleton@1e542a06</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>通过运行结果可以发现，在主线程 main中无论调用多少次，获取到的实例都是同一个，都在两个子线程中也都分别获取到了不同的实例。那么 ThreadLocal 是如果实现这样的效果的呢?我们知道上面的单例模式为了达到线程安全的目的，给方法上锁，以时间换空间。ThreadLocal 将所有的对象全部放在 ThreadLocalMap 中，为每个线程都提供一个对象，实际上是以 空间换时间来实现线程间隔离的。</p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
       </tags>
   </entry>
 </search>
