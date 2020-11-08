@@ -1,65 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>01.Spring基础</title>
-    <url>/2020/07/21/Spring/01%20%E4%BB%80%E4%B9%88%E6%98%AFSpring/</url>
-    <content><![CDATA[<h3 id="什么是spring"><a href="#什么是spring" class="headerlink" title="什么是spring?"></a>什么是spring?</h3><p>Spring 是一个<strong>轻量级的 DI / IoC 和 AOP 容器的开源框架</strong>，目的是为了解决企业级应用开发的业务逻辑层和其他各层的耦合问题。它是一个轻量级开源框架，为开发Java应用程序提供全面的基础架构支持。Spring负责基础架构，因此Java开发者可以专注于应用程序的开发。</p>
-<p>Spring最根本的使命是<strong>解决企业级应用开发的复杂性，即简化Java开发</strong>。</p>
-<h3 id="Spring的优缺点是什么？"><a href="#Spring的优缺点是什么？" class="headerlink" title="Spring的优缺点是什么？"></a>Spring的优缺点是什么？</h3><p><strong>优点</strong></p>
-<ul>
-<li><p>方便解耦，简化开发</p>
-<p>Spring就是一个大工厂，可以将所有对象的创建和依赖关系的维护，交给Spring管理。</p>
+    <title>01.MyBatis面试</title>
+    <url>/2020/07/25/Mybatis/01.MyBatis%E9%9D%A2%E8%AF%95/</url>
+    <content><![CDATA[<h4 id="MyBatis是什么？"><a href="#MyBatis是什么？" class="headerlink" title="MyBatis是什么？"></a>MyBatis是什么？</h4><p>MyBatis 是一款优秀的持久层框架，一个半 ORM（对象关系映射）框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生类型、接口和 Java 的 POJO（Plain Old Java Objects，普通老式 Java 对象）为数据库中的记录。</p>
+<h4 id="ORM是什么"><a href="#ORM是什么" class="headerlink" title="ORM是什么"></a>ORM是什么</h4><p>ORM（Object Relational Mapping），对象关系映射，是一种为了解决关系型数据库数据与简单Java对（POJO）的映射关系的技术。简单的说，ORM是通过使用描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中。</p>
+<h4 id="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"><a href="#为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？" class="headerlink" title="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"></a>为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？</h4><p>Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。</p>
+<p>而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。</p>
+<h4 id="MyBatis编程步骤是什么样的？"><a href="#MyBatis编程步骤是什么样的？" class="headerlink" title="MyBatis编程步骤是什么样的？"></a>MyBatis编程步骤是什么样的？</h4><p>1、 创建SqlSessionFactory</p>
+<p>2、 通过SqlSessionFactory创建SqlSession</p>
+<p>3、 通过sqlsession执行数据库操作</p>
+<p>4、 调用session.commit()提交事务</p>
+<p>5、 调用session.close()关闭会话</p>
+<h4 id="MyBatis的工作原理"><a href="#MyBatis的工作原理" class="headerlink" title="MyBatis的工作原理"></a>MyBatis的工作原理</h4><p>在学习 MyBatis 程序之前，需要了解一下 MyBatis 工作原理，以便于理解程序。MyBatis 的工作原理如下图</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0pvdXJXb24vaW1hZ2UvbWFzdGVyL015QmF0aXMlRTYlQTElODYlRTYlOUUlQjYlRTYlODAlQkIlRTclQkIlOTMvTXlCYXRpcyVFNSVCNyVBNSVFNCVCRCU5QyVFNSU4RSU5RiVFNyU5MCU4Ni5wbmc.png" alt="MyBatis工作原理"></p>
+<p>1）读取 MyBatis 配置文件：mybatis-config.xml 为 MyBatis 的全局配置文件，配置了 MyBatis 的运行环境等信息，例如数据库连接信息。</p>
+<p>2）加载映射文件。映射文件即 SQL 映射文件，该文件中配置了操作数据库的 SQL 语句，需要在 MyBatis 配置文件 mybatis-config.xml 中加载。mybatis-config.xml 文件可以加载多个映射文件，每个文件对应数据库中的一张表。</p>
+<p>3）构造会话工厂：通过 MyBatis 的环境等配置信息构建会话工厂 SqlSessionFactory。</p>
+<p>4）创建会话对象：由会话工厂创建 SqlSession 对象，该对象中包含了执行 SQL 语句的所有方法。</p>
+<p>5）Executor 执行器：MyBatis 底层定义了一个 Executor 接口来操作数据库，它将根据 SqlSession 传递的参数动态地生成需要执行的 SQL 语句，同时负责查询缓存的维护。</p>
+<p>6）MappedStatement 对象：在 Executor 接口的执行方法中有一个 MappedStatement 类型的参数，该参数是对映射信息的封装，用于存储要映射的 SQL 语句的 id、参数等信息。</p>
+<p>7）输入参数映射：输入参数类型可以是 Map、List 等集合类型，也可以是基本数据类型和 POJO 类型。输入参数映射过程类似于 JDBC 对 preparedStatement 对象设置参数的过程。</p>
+<p>8）输出结果映射：输出结果类型可以是 Map、 List 等集合类型，也可以是基本数据类型和 POJO 类型。输出结果映射过程类似于 JDBC 对结果集的解析过程。</p>
+<h4 id="和-的区别是什么？"><a href="#和-的区别是什么？" class="headerlink" title="#{}和${}的区别是什么？"></a>#{}和${}的区别是什么？</h4><ul>
+<li><p><strong>${} 是 Properties ⽂件中的变量占位符</strong>，它可以⽤于标签属性值和 sql 内部，属于静态⽂本替换，⽐如${driver}会被静态替换为 com.mysql.jdbc.Driver 。</p>
 </li>
-<li><p>AOP编程的支持</p>
-<p>Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能。</p>
-</li>
-<li><p>声明式事务的支持</p>
-<p>只需要通过配置就可以完成对事务的管理，而无需手动编程。</p>
-</li>
-<li><p>方便程序的测试</p>
-<p>Spring对Junit4支持，可以通过注解方便的测试Spring程序。</p>
-</li>
-<li><p>方便集成各种优秀框架</p>
-<p>Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架的直接支持（如：Struts、Hibernate、MyBatis等）。</p>
-</li>
-<li><p>降低JavaEE API的使用难度</p>
-<p>Spring对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低。</p>
+<li><p><strong>#{} 是 sql 的参数占位符</strong>，Mybatis 会将 sql 中的 #{} 替换为?号，在 sql 执⾏前会使⽤PreparedStatement 的参数设置⽅法，按序给 sql 的?号占位符设置参数值，⽐如ps.setInt(0, parameterValue)， #{item.name} 的取值⽅式为使⽤反射从参数对象中获取item 对象的 name 属性值，相当于 param.getItem().getName() 。</p>
 </li>
 </ul>
-<p><strong>缺点</strong></p>
-<ul>
-<li>Spring明明一个很轻量级的框架，却给人感觉大而全</li>
-<li>Spring依赖反射，反射影响性能</li>
-<li>使用门槛升高，入门Spring需要较长时间</li>
+<p>简单来说：**${}是字符串替换，#{}是预编译处理。一般用# {}防止sql注入问题。**</p>
+<h4 id="Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？"><a href="#Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？" class="headerlink" title="Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？"></a>Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？</h4><p>还有很多其他的标签， <resultMap> 、 <parameterMap> 、 <sql> 、 <include> 、 <selectKey> ，加上动态 sql的 9 个标签，<code> trim|where|set|foreach|if|choose|when|otherwise|bind</code> 等，其中sql为⽚段标签，通过 <include> 标签引⼊ sql ⽚段， <selectKey> 为不⽀持⾃增的主键⽣成策略标签。</p>
+<h4 id="如何获取自增主键"><a href="#如何获取自增主键" class="headerlink" title="如何获取自增主键"></a>如何获取自增主键</h4><ul>
+<li>注解</li>
 </ul>
-<h3 id="Spring核心模块"><a href="#Spring核心模块" class="headerlink" title="Spring核心模块"></a>Spring核心模块</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2019102923475419.png" alt="在这里插入图片描述"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Insert(&quot;insert into user (name) values  (#&#123;name&#125; )&quot;)</span></span><br><span class="line"><span class="meta">@Options(useGeneratedKeys = true,keyProperty =&quot;id&quot;,keyColumn = &quot;id&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">int</span>  <span class="title">inseartUser</span><span class="params">(User  user)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li><strong>spring core</strong>：提供了框架的基本组成部分，包括<strong>控制反转</strong>（Inversion of Control，IOC）和<strong>依赖注入</strong>（Dependency Injection，DI）功能。</li>
-<li><strong>spring beans</strong>：提供了BeanFactory，是工厂模式的一个经典实现，Spring将管理对象称为Bean。</li>
-<li><strong>spring context</strong>：构建于 core 封装包基础上的 context 封装包，提供了一种框架式的对象访问方法。</li>
-<li><strong>spring jdbc</strong>：提供了一个JDBC的抽象层，消除了烦琐的JDBC编码和数据库厂商特有的错误代码解析， 用于简化JDBC。</li>
-<li><strong>spring aop</strong>：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。</li>
-<li><strong>spring Web</strong>：提供了针对 Web 开发的集成特性，例如文件上传，利用 servlet listeners 进行 ioc 容器初始化和针对 Web 的 ApplicationContext。</li>
-<li><strong>spring test</strong>：主要为测试提供支持的，支持使用JUnit或TestNG对Spring组件进行单元测试和集成测试。</li>
+<li>xml</li>
 </ul>
-<h3 id="Spring-框架中都用到了哪些设计模式？"><a href="#Spring-框架中都用到了哪些设计模式？" class="headerlink" title="Spring 框架中都用到了哪些设计模式？"></a>Spring 框架中都用到了哪些设计模式？</h3><ol>
-<li><strong>工厂模式</strong>：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；</li>
-<li><strong>单例模式</strong>：Bean默认为单例模式。</li>
-<li><strong>代理模式</strong>：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；</li>
-<li><strong>模板方法</strong>：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。</li>
-<li><strong>观察者模式</strong>：定义对象键一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知被制动更新，如Spring中listener的实现–ApplicationListener。</li>
-</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">”indetifyId”</span>  <span class="attr">useGeneratedKeys</span>=<span class="string">”true”</span> <span class="attr">keyProperty</span>=<span class="string">”id”</span> <span class="attr">keyColumn</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
-        <category>Spring</category>
+        <category>MyBatis</category>
       </categories>
       <tags>
-        <tag>Spring</tag>
+        <tag>MyBatis</tag>
       </tags>
   </entry>
   <entry>
     <title>03.SpringAOP</title>
-    <url>/2020/07/21/Spring/03%20AOP/</url>
+    <url>/2020/07/22/Spring/03%20AOP/</url>
     <content><![CDATA[<h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。</p>
 <h4 id="AOP-即-Aspect-Oriented-Program-面向切面编程"><a href="#AOP-即-Aspect-Oriented-Program-面向切面编程" class="headerlink" title="AOP 即 Aspect Oriented Program 面向切面编程"></a>AOP 即 Aspect Oriented Program 面向切面编程</h4><p>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。</p>
 <ul>
@@ -137,6 +128,63 @@
 <li>再次运行 TestSpring 中的测试代码，代码并没有改变，但是在业务方法运行之前和运行之后，都分别输出了日志信息：</li>
 </ul>
 <p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-343746f0a4eb7ce0.png" alt="img"></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>01.Spring基础</title>
+    <url>/2020/07/21/Spring/01%20%E4%BB%80%E4%B9%88%E6%98%AFSpring/</url>
+    <content><![CDATA[<h3 id="什么是spring"><a href="#什么是spring" class="headerlink" title="什么是spring?"></a>什么是spring?</h3><p>Spring 是一个<strong>轻量级的 DI / IoC 和 AOP 容器的开源框架</strong>，目的是为了解决企业级应用开发的业务逻辑层和其他各层的耦合问题。它是一个轻量级开源框架，为开发Java应用程序提供全面的基础架构支持。Spring负责基础架构，因此Java开发者可以专注于应用程序的开发。</p>
+<p>Spring最根本的使命是<strong>解决企业级应用开发的复杂性，即简化Java开发</strong>。</p>
+<h3 id="Spring的优缺点是什么？"><a href="#Spring的优缺点是什么？" class="headerlink" title="Spring的优缺点是什么？"></a>Spring的优缺点是什么？</h3><p><strong>优点</strong></p>
+<ul>
+<li><p>方便解耦，简化开发</p>
+<p>Spring就是一个大工厂，可以将所有对象的创建和依赖关系的维护，交给Spring管理。</p>
+</li>
+<li><p>AOP编程的支持</p>
+<p>Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能。</p>
+</li>
+<li><p>声明式事务的支持</p>
+<p>只需要通过配置就可以完成对事务的管理，而无需手动编程。</p>
+</li>
+<li><p>方便程序的测试</p>
+<p>Spring对Junit4支持，可以通过注解方便的测试Spring程序。</p>
+</li>
+<li><p>方便集成各种优秀框架</p>
+<p>Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架的直接支持（如：Struts、Hibernate、MyBatis等）。</p>
+</li>
+<li><p>降低JavaEE API的使用难度</p>
+<p>Spring对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低。</p>
+</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>Spring明明一个很轻量级的框架，却给人感觉大而全</li>
+<li>Spring依赖反射，反射影响性能</li>
+<li>使用门槛升高，入门Spring需要较长时间</li>
+</ul>
+<h3 id="Spring核心模块"><a href="#Spring核心模块" class="headerlink" title="Spring核心模块"></a>Spring核心模块</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2019102923475419.png" alt="在这里插入图片描述"></p>
+<ul>
+<li><strong>spring core</strong>：提供了框架的基本组成部分，包括<strong>控制反转</strong>（Inversion of Control，IOC）和<strong>依赖注入</strong>（Dependency Injection，DI）功能。</li>
+<li><strong>spring beans</strong>：提供了BeanFactory，是工厂模式的一个经典实现，Spring将管理对象称为Bean。</li>
+<li><strong>spring context</strong>：构建于 core 封装包基础上的 context 封装包，提供了一种框架式的对象访问方法。</li>
+<li><strong>spring jdbc</strong>：提供了一个JDBC的抽象层，消除了烦琐的JDBC编码和数据库厂商特有的错误代码解析， 用于简化JDBC。</li>
+<li><strong>spring aop</strong>：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。</li>
+<li><strong>spring Web</strong>：提供了针对 Web 开发的集成特性，例如文件上传，利用 servlet listeners 进行 ioc 容器初始化和针对 Web 的 ApplicationContext。</li>
+<li><strong>spring test</strong>：主要为测试提供支持的，支持使用JUnit或TestNG对Spring组件进行单元测试和集成测试。</li>
+</ul>
+<h3 id="Spring-框架中都用到了哪些设计模式？"><a href="#Spring-框架中都用到了哪些设计模式？" class="headerlink" title="Spring 框架中都用到了哪些设计模式？"></a>Spring 框架中都用到了哪些设计模式？</h3><ol>
+<li><strong>工厂模式</strong>：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；</li>
+<li><strong>单例模式</strong>：Bean默认为单例模式。</li>
+<li><strong>代理模式</strong>：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；</li>
+<li><strong>模板方法</strong>：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。</li>
+<li><strong>观察者模式</strong>：定义对象键一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知被制动更新，如Spring中listener的实现–ApplicationListener。</li>
+</ol>
 ]]></content>
       <categories>
         <category>Spring</category>
@@ -558,6 +606,87 @@
       </tags>
   </entry>
   <entry>
+    <title>多线程05-线程池</title>
+    <url>/2020/07/01/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B05-%20%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
+    <content><![CDATA[<p><strong>使⽤线程池的好处：</strong></p>
+<ul>
+<li><p><strong>降低资源消耗</strong>。通过重复利⽤已创建的线程降低线程创建和销毁造成的消耗。</p>
+</li>
+<li><p><strong>提⾼响应速度</strong>。当任务到达时，任务可以不需要的等到线程创建就能⽴即执⾏。</p>
+</li>
+<li><p><strong>提⾼线程的可管理性</strong>。线程是稀缺资源，如果⽆限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使⽤线程池可以进⾏统⼀的分配，调优和监控。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>01.MySQL基础</title>
+    <url>/2020/07/01/mysql/01.MySQL%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h2 id="sql执行流程"><a href="#sql执行流程" class="headerlink" title="sql执行流程"></a>sql执行流程</h2><blockquote>
+<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485097&idx=1&sn=84c89da477b1338bdf3e9fcd65514ac1&chksm=cea24962f9d5c074d8d3ff1ab04ee8f0d6486e3d015cfd783503685986485c11738ccb542ba7&token=79317275&lang=zh_CN%23rd">sql执行流程</a></p>
+</blockquote>
+<ul>
+<li><p><strong>连接器：</strong> 身份认证和权限相关(登录 MySQL 的时候)。</p>
+</li>
+<li><p><strong>查询缓存:</strong> 执行查询语句的时候，会先查询缓存（MySQL 8.0 版本后移除，因为这个功能不太实用）。</p>
+</li>
+<li><p><strong>分析器:</strong> 没有命中缓存的话，SQL 语句就会经过分析器，分析器说白了就是要先看你的 SQL 语句要干嘛，再检查你的 SQL 语句语法是否正确。</p>
+</li>
+<li><p><strong>优化器：</strong> 按照 MySQL 认为最优的方案去执行。</p>
+</li>
+<li><p><strong>执行器:</strong> 执行语句，然后从存储引擎返回数据。</p>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>MySQL 主要分为 Server 层和引擎层，Server 层主要包括连接器、查询缓存、分析器、优化器、执行器，同时还有一个日志模块（binlog），这个日志模块所有执行引擎都可以共用,redolog 只有 InnoDB 有。</li>
+<li>引擎层是插件式的，目前主要包括，MyISAM,InnoDB,Memory 等。</li>
+<li>SQL 等执行过程分为两类，一类对于查询等过程如下：权限校验—&gt;查询缓存—&gt;分析器—&gt;优化器—&gt;权限校验—&gt;执行器—&gt;引擎</li>
+<li>对于更新等语句执行流程如下：分析器—-&gt;权限校验—-&gt;执行器—&gt;引擎—redo log prepare—&gt;binlog—&gt;redo log commit</li>
+</ul>
+<h2 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务?"></a>什么是事务?</h2><blockquote>
+<p>事务是逻辑上的一组操作，要么都执行，要么都不执行。</p>
+</blockquote>
+<p>事务最经典也经常被拿出来说例子就是转账了。假如小明要给小红转账1000元，这个转账会涉及到两个 关键操作就是:将小明的余额减少1000元，将小红的余额增加1000元。万一在这两个操作之间突然出现 错误比如银行系统崩溃，导致小明余额减少而小红的余额没有增加，这样就不对了。事务就是保证这两个关键操作要么都成功，要么都要失败。</p>
+<h2 id="事物的四大特性-ACID"><a href="#事物的四大特性-ACID" class="headerlink" title="事物的四大特性(ACID)"></a>事物的四大特性(ACID)</h2><ul>
+<li><p>原子性(<strong>Atomicity</strong>): 事务是最小的执行单位，不允许分割。事务的原子性确保动作要么全部 完成，要么完全不起作用;</p>
+</li>
+<li><p>一致性(<strong>Consistency</strong>): 执行事务前后，数据保持一致，多个事务对同一个数据读取的结果是相同的;</p>
+</li>
+<li><p>隔离性(<strong>Isolation</strong>): 并发访问数据库时，一个用户的事务不被其他事务所干扰，各并发事务之间数据库是独立的;</p>
+</li>
+<li><p>持久性(<strong>Durability</strong>): 一个事务被提交之后。它对数据库中数据的改变是持久的，即使数据库发生故障也不应该对其有任何影响。</p>
+</li>
+</ul>
+<h2 id="并发事务带来哪些问题"><a href="#并发事务带来哪些问题" class="headerlink" title="并发事务带来哪些问题**?**"></a>并发事务带来哪些问题**?**</h2><ul>
+<li><p>脏读(<strong>Dirty read</strong>): </p>
+<p>当一个事务正在访问数据并且对数据进行了修改，而这种修改还没有提交 到数据库中，这时另外一个事务也访问了这个数据，然后使用了这个数据。因为这个数据是还没 有提交的数据，那么另外一个事务读到的这个数据是“脏数据”，依据“脏数据”所做的操作可能是 不正确的。</p>
+</li>
+<li><p>丢失修改(<strong>Lost to modify</strong>):</p>
+<p>指在一个事务读取一个数据时，另外一个事务也访问了该数据， 那么在第一个事务中修改了这个数据后，第二个事务也修改了这个数据。这样第一个事务内的修改结果就被丢失，因此称为丢失修改。 例如:事务1读取某表中的数据A=20，事务2也读取 A=20，事务1修改A=A-1，事务2也修改A=A-1，最终结果A=19，事务1的修改被丢失。</p>
+</li>
+<li><p>不可重复读(<strong>Unrepeatableread</strong>): 指在一个事务内多次读同一数据。在这个事务还没有结束 时，另一个事务也访问该数据。那么，在第一个事务中的两次读数据之间，由于第二个事务的修改导致第一个事务两次读取的数据可能不太一样。这就发生了在一个事务内两次读到的数据是不一样的情况，因此称为不可重复读。</p>
+</li>
+<li><p>幻读(<strong>Phantom read</strong>): 幻读与不可重复读类似。它发生在一个事务(T1)读取了几行数据，接着另一个并发事务(T2)插入了一些数据时。在随后的查询中，第一个事务(T1)就会发现多了 一些原本不存在的记录，就好像发生了幻觉一样，所以称为幻读。</p>
+</li>
+</ul>
+<p>不可重复读和幻读区别:</p>
+<p>不可重复读的重点是修改比如多次读取一条记录发现其中某些列的值被修改，幻读的重点在于新增或者 删除比如多次读取一条记录发现记录增多或减少了。</p>
+<h3 id="MySQL锁"><a href="#MySQL锁" class="headerlink" title="MySQL锁"></a>MySQL锁</h3><p>todo</p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>多线程04-ThreadLocal</title>
     <url>/2020/07/01/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B04-ThreadLocal/</url>
     <content><![CDATA[<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><blockquote>
@@ -675,70 +804,55 @@
       </tags>
   </entry>
   <entry>
-    <title>多线程05-线程池</title>
-    <url>/2020/07/01/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B05-%20%E7%BA%BF%E7%A8%8B%E6%B1%A0/</url>
-    <content><![CDATA[<p><strong>使⽤线程池的好处：</strong></p>
-<ul>
-<li><p><strong>降低资源消耗</strong>。通过重复利⽤已创建的线程降低线程创建和销毁造成的消耗。</p>
+    <title>02.MySQL索引及sql优化</title>
+    <url>/2020/07/01/mysql/02.MySQL%E7%B4%A2%E5%BC%95%E5%8F%8Asql%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<blockquote>
+<p>MySQL索引使用的数据结构主要有<strong>BTree</strong>索引 和 哈希索引 。对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快;其余大部分 场景，建议选择BTree索引。</p>
+</blockquote>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="底层结构"><a href="#底层结构" class="headerlink" title="底层结构"></a>底层结构</h3><h3 id="最左前缀"><a href="#最左前缀" class="headerlink" title="最左前缀"></a>最左前缀</h3><h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="MySQL高性能优化规范建议"><a href="#MySQL高性能优化规范建议" class="headerlink" title="MySQL高性能优化规范建议"></a>MySQL高性能优化规范建议</h3><blockquote>
+<p><a href="https://www.cnblogs.com/huchong/p/10219318.html">MySQL高性能优化规范建议（原文）</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485117&idx=1&sn=92361755b7c3de488b415ec4c5f46d73&chksm=cea24976f9d5c060babe50c3747616cce63df5d50947903a262704988143c2eeb4069ae45420&token=79317275&lang=zh_CN%23rd">MySQL高性能优化规范建议</a></p>
+</blockquote>
+<p>数据库 SQL 开发规范部分不搬运了，要多看看，多理解</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="常见"><a href="#常见" class="headerlink" title="常见"></a>常见</h3><ul>
+<li><p>避免冗余、重复索引</p>
 </li>
-<li><p><strong>提⾼响应速度</strong>。当任务到达时，任务可以不需要的等到线程创建就能⽴即执⾏。</p>
+<li><p>联合索引，最左前缀</p>
 </li>
-<li><p><strong>提⾼线程的可管理性</strong>。线程是稀缺资源，如果⽆限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使⽤线程池可以进⾏统⼀的分配，调优和监控。</p>
+<li><p>多表join的关联列</p>
+</li>
+<li><p>区分度最高的放在联合索引的最左侧（区分度=列中不同值的数量/列的总行数）</p>
+</li>
+<li><p>尽量把字段长度小的列放在联合索引的最左侧（因为字段长度越小，一页能存储的数据量越大，IO 性能也就越好）</p>
+</li>
+<li><p>使用最频繁的列放到联合索引的左侧（这样可以比较少的建立一些索引）</p>
+</li>
+<li><p>避免数据类型的隐式转换</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select name,phone from customer where id &#x3D; &#39;111&#39;; # 隐式转换会导致索引失效</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>禁止对列进行函数转换和计算</p>
 </li>
 </ul>
+<h4 id="对于频繁的查询优先考虑使用覆盖索引"><a href="#对于频繁的查询优先考虑使用覆盖索引" class="headerlink" title="对于频繁的查询优先考虑使用覆盖索引"></a>对于频繁的查询优先考虑使用覆盖索引</h4><blockquote>
+<p>覆盖索引：就是包含了所有查询字段 (where,select,ordery by,group by 包含的字段) 的索引</p>
+</blockquote>
+<p><strong>覆盖索引的好处：</strong></p>
+<ul>
+<li><strong>避免 Innodb 表进行索引的二次查询:</strong> Innodb 是以聚集索引的顺序来存储的，对于 Innodb 来说，二级索引在叶子节点中所保存的是行的主键信息，如果是用二级索引查询数据的话，在查找到相应的键值后，还要通过主键进行二次查询才能获取我们真实所需要的数据。而在覆盖索引中，二级索引的键值中可以获取所有的数据，避免了对主键的二次查询 ，减少了 IO 操作，提升了查询效率。</li>
+<li><strong>可以把随机 IO 变成顺序 IO 加快查询效率:</strong> 由于覆盖索引是按键值的顺序存储的，对于 IO 密集型的范围查找来说，对比随机从磁盘读取每一行的数据 IO 要少的多，因此利用覆盖索引在访问时也可以把磁盘的随机读取的 IO 转变成索引查找的顺序 IO。</li>
+</ul>
+<h3 id="SQL执行慢的原因"><a href="#SQL执行慢的原因" class="headerlink" title="SQL执行慢的原因"></a>SQL执行慢的原因</h3><blockquote>
+<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485185&idx=1&sn=66ef08b4ab6af5757792223a83fc0d45&chksm=cea248caf9d5c1dc72ec8a281ec16aa3ec3e8066dbb252e27362438a26c33fbe842b0e0adf47&token=79317275&lang=zh_CN%23rd">SQL执行慢的原因</a></p>
+</blockquote>
+<h3 id="书写高质量SQL的30条建议"><a href="#书写高质量SQL的30条建议" class="headerlink" title="书写高质量SQL的30条建议"></a>书写高质量SQL的30条建议</h3><blockquote>
+<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247486461&idx=1&sn=60a22279196d084cc398936fe3b37772&chksm=cea24436f9d5cd20a4fa0e907590f3e700d7378b3f608d7b33bb52cfb96f503b7ccb65a1deed&token=1987003517&lang=zh_CN%23rd">书写高质量SQL的30条建议</a></p>
+</blockquote>
 ]]></content>
       <categories>
-        <category>多线程</category>
+        <category>mysql</category>
       </categories>
       <tags>
-        <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>01.设计模式概念及工厂模式</title>
-    <url>/2020/08/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/01.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E5%BF%B5%E5%8F%8A%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="软件设计原则"><a href="#软件设计原则" class="headerlink" title="软件设计原则"></a>软件设计原则</h2><table>
-<thead>
-<tr>
-<th>设计原则</th>
-<th>解释</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>开闭原则</td>
-<td>对扩展开放，对修改关闭。</td>
-</tr>
-<tr>
-<td>依赖倒置原则</td>
-<td>通过抽象使各个类或者模块不相互影响，实现松耦合。</td>
-</tr>
-<tr>
-<td>单一职责原则</td>
-<td>一个类、接口、方法只做一件事。</td>
-</tr>
-<tr>
-<td>接口隔离原则</td>
-<td>尽量保证接口的纯洁性，客户端不应该依赖不需要的接口。</td>
-</tr>
-<tr>
-<td>迪米特法则</td>
-<td>又叫最少知道原则，一个类对其所依赖的类知道得越少越好。</td>
-</tr>
-<tr>
-<td>里氏替换原则</td>
-<td>子类可以扩展父类的功能但不能改变父类原有的功能。</td>
-</tr>
-<tr>
-<td>合成复用原则</td>
-<td>尽量使用对象组合、聚合，而不使用继承关系达到代码复用的目的。</td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -928,121 +1042,55 @@
       </tags>
   </entry>
   <entry>
-    <title>01.MySQL基础</title>
-    <url>/2020/07/01/mysql/01.MySQL%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h2 id="sql执行流程"><a href="#sql执行流程" class="headerlink" title="sql执行流程"></a>sql执行流程</h2><blockquote>
-<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485097&idx=1&sn=84c89da477b1338bdf3e9fcd65514ac1&chksm=cea24962f9d5c074d8d3ff1ab04ee8f0d6486e3d015cfd783503685986485c11738ccb542ba7&token=79317275&lang=zh_CN%23rd">sql执行流程</a></p>
-</blockquote>
-<ul>
-<li><p><strong>连接器：</strong> 身份认证和权限相关(登录 MySQL 的时候)。</p>
-</li>
-<li><p><strong>查询缓存:</strong> 执行查询语句的时候，会先查询缓存（MySQL 8.0 版本后移除，因为这个功能不太实用）。</p>
-</li>
-<li><p><strong>分析器:</strong> 没有命中缓存的话，SQL 语句就会经过分析器，分析器说白了就是要先看你的 SQL 语句要干嘛，再检查你的 SQL 语句语法是否正确。</p>
-</li>
-<li><p><strong>优化器：</strong> 按照 MySQL 认为最优的方案去执行。</p>
-</li>
-<li><p><strong>执行器:</strong> 执行语句，然后从存储引擎返回数据。</p>
-</li>
-</ul>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li>MySQL 主要分为 Server 层和引擎层，Server 层主要包括连接器、查询缓存、分析器、优化器、执行器，同时还有一个日志模块（binlog），这个日志模块所有执行引擎都可以共用,redolog 只有 InnoDB 有。</li>
-<li>引擎层是插件式的，目前主要包括，MyISAM,InnoDB,Memory 等。</li>
-<li>SQL 等执行过程分为两类，一类对于查询等过程如下：权限校验—&gt;查询缓存—&gt;分析器—&gt;优化器—&gt;权限校验—&gt;执行器—&gt;引擎</li>
-<li>对于更新等语句执行流程如下：分析器—-&gt;权限校验—-&gt;执行器—&gt;引擎—redo log prepare—&gt;binlog—&gt;redo log commit</li>
-</ul>
-<h2 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务?"></a>什么是事务?</h2><blockquote>
-<p>事务是逻辑上的一组操作，要么都执行，要么都不执行。</p>
-</blockquote>
-<p>事务最经典也经常被拿出来说例子就是转账了。假如小明要给小红转账1000元，这个转账会涉及到两个 关键操作就是:将小明的余额减少1000元，将小红的余额增加1000元。万一在这两个操作之间突然出现 错误比如银行系统崩溃，导致小明余额减少而小红的余额没有增加，这样就不对了。事务就是保证这两个关键操作要么都成功，要么都要失败。</p>
-<h2 id="事物的四大特性-ACID"><a href="#事物的四大特性-ACID" class="headerlink" title="事物的四大特性(ACID)"></a>事物的四大特性(ACID)</h2><ul>
-<li><p>原子性(<strong>Atomicity</strong>): 事务是最小的执行单位，不允许分割。事务的原子性确保动作要么全部 完成，要么完全不起作用;</p>
-</li>
-<li><p>一致性(<strong>Consistency</strong>): 执行事务前后，数据保持一致，多个事务对同一个数据读取的结果是相同的;</p>
-</li>
-<li><p>隔离性(<strong>Isolation</strong>): 并发访问数据库时，一个用户的事务不被其他事务所干扰，各并发事务之间数据库是独立的;</p>
-</li>
-<li><p>持久性(<strong>Durability</strong>): 一个事务被提交之后。它对数据库中数据的改变是持久的，即使数据库发生故障也不应该对其有任何影响。</p>
-</li>
-</ul>
-<h2 id="并发事务带来哪些问题"><a href="#并发事务带来哪些问题" class="headerlink" title="并发事务带来哪些问题**?**"></a>并发事务带来哪些问题**?**</h2><ul>
-<li><p>脏读(<strong>Dirty read</strong>): </p>
-<p>当一个事务正在访问数据并且对数据进行了修改，而这种修改还没有提交 到数据库中，这时另外一个事务也访问了这个数据，然后使用了这个数据。因为这个数据是还没 有提交的数据，那么另外一个事务读到的这个数据是“脏数据”，依据“脏数据”所做的操作可能是 不正确的。</p>
-</li>
-<li><p>丢失修改(<strong>Lost to modify</strong>):</p>
-<p>指在一个事务读取一个数据时，另外一个事务也访问了该数据， 那么在第一个事务中修改了这个数据后，第二个事务也修改了这个数据。这样第一个事务内的修改结果就被丢失，因此称为丢失修改。 例如:事务1读取某表中的数据A=20，事务2也读取 A=20，事务1修改A=A-1，事务2也修改A=A-1，最终结果A=19，事务1的修改被丢失。</p>
-</li>
-<li><p>不可重复读(<strong>Unrepeatableread</strong>): 指在一个事务内多次读同一数据。在这个事务还没有结束 时，另一个事务也访问该数据。那么，在第一个事务中的两次读数据之间，由于第二个事务的修改导致第一个事务两次读取的数据可能不太一样。这就发生了在一个事务内两次读到的数据是不一样的情况，因此称为不可重复读。</p>
-</li>
-<li><p>幻读(<strong>Phantom read</strong>): 幻读与不可重复读类似。它发生在一个事务(T1)读取了几行数据，接着另一个并发事务(T2)插入了一些数据时。在随后的查询中，第一个事务(T1)就会发现多了 一些原本不存在的记录，就好像发生了幻觉一样，所以称为幻读。</p>
-</li>
-</ul>
-<p>不可重复读和幻读区别:</p>
-<p>不可重复读的重点是修改比如多次读取一条记录发现其中某些列的值被修改，幻读的重点在于新增或者 删除比如多次读取一条记录发现记录增多或减少了。</p>
-<h3 id="MySQL锁"><a href="#MySQL锁" class="headerlink" title="MySQL锁"></a>MySQL锁</h3><p>todo</p>
+    <title>01.设计模式概念及工厂模式</title>
+    <url>/2020/08/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/01.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E5%BF%B5%E5%8F%8A%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="软件设计原则"><a href="#软件设计原则" class="headerlink" title="软件设计原则"></a>软件设计原则</h2><table>
+<thead>
+<tr>
+<th>设计原则</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>开闭原则</td>
+<td>对扩展开放，对修改关闭。</td>
+</tr>
+<tr>
+<td>依赖倒置原则</td>
+<td>通过抽象使各个类或者模块不相互影响，实现松耦合。</td>
+</tr>
+<tr>
+<td>单一职责原则</td>
+<td>一个类、接口、方法只做一件事。</td>
+</tr>
+<tr>
+<td>接口隔离原则</td>
+<td>尽量保证接口的纯洁性，客户端不应该依赖不需要的接口。</td>
+</tr>
+<tr>
+<td>迪米特法则</td>
+<td>又叫最少知道原则，一个类对其所依赖的类知道得越少越好。</td>
+</tr>
+<tr>
+<td>里氏替换原则</td>
+<td>子类可以扩展父类的功能但不能改变父类原有的功能。</td>
+</tr>
+<tr>
+<td>合成复用原则</td>
+<td>尽量使用对象组合、聚合，而不使用继承关系达到代码复用的目的。</td>
+</tr>
+</tbody></table>
 ]]></content>
       <categories>
-        <category>mysql</category>
+        <category>设计模式</category>
       </categories>
       <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>02.MySQL索引及sql优化</title>
-    <url>/2020/07/01/mysql/02.MySQL%E7%B4%A2%E5%BC%95%E5%8F%8Asql%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<blockquote>
-<p>MySQL索引使用的数据结构主要有<strong>BTree</strong>索引 和 哈希索引 。对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快;其余大部分 场景，建议选择BTree索引。</p>
-</blockquote>
-<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="底层结构"><a href="#底层结构" class="headerlink" title="底层结构"></a>底层结构</h3><h3 id="最左前缀"><a href="#最左前缀" class="headerlink" title="最左前缀"></a>最左前缀</h3><h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="MySQL高性能优化规范建议"><a href="#MySQL高性能优化规范建议" class="headerlink" title="MySQL高性能优化规范建议"></a>MySQL高性能优化规范建议</h3><blockquote>
-<p><a href="https://www.cnblogs.com/huchong/p/10219318.html">MySQL高性能优化规范建议（原文）</a></p>
-<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485117&idx=1&sn=92361755b7c3de488b415ec4c5f46d73&chksm=cea24976f9d5c060babe50c3747616cce63df5d50947903a262704988143c2eeb4069ae45420&token=79317275&lang=zh_CN%23rd">MySQL高性能优化规范建议</a></p>
-</blockquote>
-<p>数据库 SQL 开发规范部分不搬运了，要多看看，多理解</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="常见"><a href="#常见" class="headerlink" title="常见"></a>常见</h3><ul>
-<li><p>避免冗余、重复索引</p>
-</li>
-<li><p>联合索引，最左前缀</p>
-</li>
-<li><p>多表join的关联列</p>
-</li>
-<li><p>区分度最高的放在联合索引的最左侧（区分度=列中不同值的数量/列的总行数）</p>
-</li>
-<li><p>尽量把字段长度小的列放在联合索引的最左侧（因为字段长度越小，一页能存储的数据量越大，IO 性能也就越好）</p>
-</li>
-<li><p>使用最频繁的列放到联合索引的左侧（这样可以比较少的建立一些索引）</p>
-</li>
-<li><p>避免数据类型的隐式转换</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select name,phone from customer where id &#x3D; &#39;111&#39;; # 隐式转换会导致索引失效</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>禁止对列进行函数转换和计算</p>
-</li>
-</ul>
-<h4 id="对于频繁的查询优先考虑使用覆盖索引"><a href="#对于频繁的查询优先考虑使用覆盖索引" class="headerlink" title="对于频繁的查询优先考虑使用覆盖索引"></a>对于频繁的查询优先考虑使用覆盖索引</h4><blockquote>
-<p>覆盖索引：就是包含了所有查询字段 (where,select,ordery by,group by 包含的字段) 的索引</p>
-</blockquote>
-<p><strong>覆盖索引的好处：</strong></p>
-<ul>
-<li><strong>避免 Innodb 表进行索引的二次查询:</strong> Innodb 是以聚集索引的顺序来存储的，对于 Innodb 来说，二级索引在叶子节点中所保存的是行的主键信息，如果是用二级索引查询数据的话，在查找到相应的键值后，还要通过主键进行二次查询才能获取我们真实所需要的数据。而在覆盖索引中，二级索引的键值中可以获取所有的数据，避免了对主键的二次查询 ，减少了 IO 操作，提升了查询效率。</li>
-<li><strong>可以把随机 IO 变成顺序 IO 加快查询效率:</strong> 由于覆盖索引是按键值的顺序存储的，对于 IO 密集型的范围查找来说，对比随机从磁盘读取每一行的数据 IO 要少的多，因此利用覆盖索引在访问时也可以把磁盘的随机读取的 IO 转变成索引查找的顺序 IO。</li>
-</ul>
-<h3 id="SQL执行慢的原因"><a href="#SQL执行慢的原因" class="headerlink" title="SQL执行慢的原因"></a>SQL执行慢的原因</h3><blockquote>
-<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485185&idx=1&sn=66ef08b4ab6af5757792223a83fc0d45&chksm=cea248caf9d5c1dc72ec8a281ec16aa3ec3e8066dbb252e27362438a26c33fbe842b0e0adf47&token=79317275&lang=zh_CN%23rd">SQL执行慢的原因</a></p>
-</blockquote>
-<h3 id="书写高质量SQL的30条建议"><a href="#书写高质量SQL的30条建议" class="headerlink" title="书写高质量SQL的30条建议"></a>书写高质量SQL的30条建议</h3><blockquote>
-<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247486461&idx=1&sn=60a22279196d084cc398936fe3b37772&chksm=cea24436f9d5cd20a4fa0e907590f3e700d7378b3f608d7b33bb52cfb96f503b7ccb65a1deed&token=1987003517&lang=zh_CN%23rd">书写高质量SQL的30条建议</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
+        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
     <title>02.Spring IOC</title>
-    <url>/2020/07/22/Spring/02%20IOC%E8%AF%A6%E8%A7%A3/</url>
+    <url>/2020/07/21/Spring/02%20IOC%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<h3 id="Spring-IoC-和-DI-简介"><a href="#Spring-IoC-和-DI-简介" class="headerlink" title="Spring IoC 和 DI 简介"></a>Spring IoC 和 DI 简介</h3><h4 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h4><ul>
 <li>读作 <strong>“反转控制”</strong>，更好理解，不是什么技术，而是一种<strong>设计思想</strong>，就是<strong>将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</strong></li>
 <li><strong>正控：</strong>若要使用某个对象，需要<strong>自己去负责对象的创建</strong></li>
