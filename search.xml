@@ -1,54 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>01.MyBatis面试</title>
-    <url>/posts/d39c0168.html</url>
-    <content><![CDATA[<h4 id="MyBatis是什么？"><a href="#MyBatis是什么？" class="headerlink" title="MyBatis是什么？"></a>MyBatis是什么？</h4><p>MyBatis 是一款优秀的持久层框架，一个半 ORM（对象关系映射）框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生类型、接口和 Java 的 POJO（Plain Old Java Objects，普通老式 Java 对象）为数据库中的记录。</p>
-<h4 id="ORM是什么"><a href="#ORM是什么" class="headerlink" title="ORM是什么"></a>ORM是什么</h4><p>ORM（Object Relational Mapping），对象关系映射，是一种为了解决关系型数据库数据与简单Java对（POJO）的映射关系的技术。简单的说，ORM是通过使用描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中。</p>
-<h4 id="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"><a href="#为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？" class="headerlink" title="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"></a>为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？</h4><p>Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。</p>
-<p>而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。</p>
-<h4 id="MyBatis编程步骤是什么样的？"><a href="#MyBatis编程步骤是什么样的？" class="headerlink" title="MyBatis编程步骤是什么样的？"></a>MyBatis编程步骤是什么样的？</h4><p>1、 创建SqlSessionFactory</p>
-<p>2、 通过SqlSessionFactory创建SqlSession</p>
-<p>3、 通过sqlsession执行数据库操作</p>
-<p>4、 调用session.commit()提交事务</p>
-<p>5、 调用session.close()关闭会话</p>
-<h4 id="MyBatis的工作原理"><a href="#MyBatis的工作原理" class="headerlink" title="MyBatis的工作原理"></a>MyBatis的工作原理</h4><p>在学习 MyBatis 程序之前，需要了解一下 MyBatis 工作原理，以便于理解程序。MyBatis 的工作原理如下图</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0pvdXJXb24vaW1hZ2UvbWFzdGVyL015QmF0aXMlRTYlQTElODYlRTYlOUUlQjYlRTYlODAlQkIlRTclQkIlOTMvTXlCYXRpcyVFNSVCNyVBNSVFNCVCRCU5QyVFNSU4RSU5RiVFNyU5MCU4Ni5wbmc.png" alt="MyBatis工作原理"></p>
-<p>1）读取 MyBatis 配置文件：mybatis-config.xml 为 MyBatis 的全局配置文件，配置了 MyBatis 的运行环境等信息，例如数据库连接信息。</p>
-<p>2）加载映射文件。映射文件即 SQL 映射文件，该文件中配置了操作数据库的 SQL 语句，需要在 MyBatis 配置文件 mybatis-config.xml 中加载。mybatis-config.xml 文件可以加载多个映射文件，每个文件对应数据库中的一张表。</p>
-<p>3）构造会话工厂：通过 MyBatis 的环境等配置信息构建会话工厂 SqlSessionFactory。</p>
-<p>4）创建会话对象：由会话工厂创建 SqlSession 对象，该对象中包含了执行 SQL 语句的所有方法。</p>
-<p>5）Executor 执行器：MyBatis 底层定义了一个 Executor 接口来操作数据库，它将根据 SqlSession 传递的参数动态地生成需要执行的 SQL 语句，同时负责查询缓存的维护。</p>
-<p>6）MappedStatement 对象：在 Executor 接口的执行方法中有一个 MappedStatement 类型的参数，该参数是对映射信息的封装，用于存储要映射的 SQL 语句的 id、参数等信息。</p>
-<p>7）输入参数映射：输入参数类型可以是 Map、List 等集合类型，也可以是基本数据类型和 POJO 类型。输入参数映射过程类似于 JDBC 对 preparedStatement 对象设置参数的过程。</p>
-<p>8）输出结果映射：输出结果类型可以是 Map、 List 等集合类型，也可以是基本数据类型和 POJO 类型。输出结果映射过程类似于 JDBC 对结果集的解析过程。</p>
-<h4 id="和-的区别是什么？"><a href="#和-的区别是什么？" class="headerlink" title="#{}和${}的区别是什么？"></a>#{}和${}的区别是什么？</h4><ul>
-<li><p><strong>${} 是 Properties ⽂件中的变量占位符</strong>，它可以⽤于标签属性值和 sql 内部，属于静态⽂本替换，⽐如${driver}会被静态替换为 com.mysql.jdbc.Driver 。</p>
-</li>
-<li><p><strong>#{} 是 sql 的参数占位符</strong>，Mybatis 会将 sql 中的 #{} 替换为?号，在 sql 执⾏前会使⽤PreparedStatement 的参数设置⽅法，按序给 sql 的?号占位符设置参数值，⽐如ps.setInt(0, parameterValue)， #{item.name} 的取值⽅式为使⽤反射从参数对象中获取item 对象的 name 属性值，相当于 param.getItem().getName() 。</p>
-</li>
-</ul>
-<p>简单来说：**${}是字符串替换，#{}是预编译处理。一般用# {}防止sql注入问题。**</p>
-<h4 id="Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？"><a href="#Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？" class="headerlink" title="Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？"></a>Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？</h4><p>还有很多其他的标签， <resultMap> 、 <parameterMap> 、 <sql> 、 <include> 、 <selectKey> ，加上动态 sql的 9 个标签，<code> trim|where|set|foreach|if|choose|when|otherwise|bind</code> 等，其中sql为⽚段标签，通过 <include> 标签引⼊ sql ⽚段， <selectKey> 为不⽀持⾃增的主键⽣成策略标签。</p>
-<h4 id="如何获取自增主键"><a href="#如何获取自增主键" class="headerlink" title="如何获取自增主键"></a>如何获取自增主键</h4><ul>
-<li>注解</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Insert(&quot;insert into user (name) values  (#&#123;name&#125; )&quot;)</span></span><br><span class="line"><span class="meta">@Options(useGeneratedKeys = true,keyProperty =&quot;id&quot;,keyColumn = &quot;id&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">int</span>  <span class="title">inseartUser</span><span class="params">(User  user)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>xml</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">”indetifyId”</span>  <span class="attr">useGeneratedKeys</span>=<span class="string">”true”</span> <span class="attr">keyProperty</span>=<span class="string">”id”</span> <span class="attr">keyColumn</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>MyBatis</category>
-      </categories>
-      <tags>
-        <tag>MyBatis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MySQL基础</title>
     <url>/posts/86e336c0.html</url>
     <content><![CDATA[<h1 id="sql执行流程"><a href="#sql执行流程" class="headerlink" title="sql执行流程"></a>sql执行流程</h1><blockquote>
@@ -334,241 +286,6 @@
       </tags>
   </entry>
   <entry>
-    <title>01.Spring基础</title>
-    <url>/posts/c9e764a5.html</url>
-    <content><![CDATA[<h3 id="什么是spring"><a href="#什么是spring" class="headerlink" title="什么是spring?"></a>什么是spring?</h3><p>Spring 是一个<strong>轻量级的 DI / IoC 和 AOP 容器的开源框架</strong>，目的是为了解决企业级应用开发的业务逻辑层和其他各层的耦合问题。它是一个轻量级开源框架，为开发Java应用程序提供全面的基础架构支持。Spring负责基础架构，因此Java开发者可以专注于应用程序的开发。</p>
-<p>Spring最根本的使命是<strong>解决企业级应用开发的复杂性，即简化Java开发</strong>。</p>
-<h3 id="侵⼊式概念"><a href="#侵⼊式概念" class="headerlink" title="侵⼊式概念"></a>侵⼊式概念</h3><p><strong>侵⼊式</strong>：对于EJB、Struts2等⼀些传统的框架，通常是要实现特定的接⼝，继承特定的类才能增强功能</p>
-<ul>
-<li>改变了<strong>java</strong>类的结构</li>
-</ul>
-<p><strong>⾮侵⼊式</strong>：对于Hibernate、Spring等框架，对现有的类结构没有影响，就能够增强<strong>JavaBean</strong>的功能</p>
-<h3 id="Spring的优缺点是什么？"><a href="#Spring的优缺点是什么？" class="headerlink" title="Spring的优缺点是什么？"></a>Spring的优缺点是什么？</h3><p><strong>优点</strong></p>
-<ul>
-<li><p>方便解耦，简化开发</p>
-<p>Spring就是一个大工厂，可以将所有对象的创建和依赖关系的维护，交给Spring管理。</p>
-</li>
-<li><p>AOP编程的支持</p>
-<p>Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能。</p>
-</li>
-<li><p>声明式事务的支持</p>
-<p>只需要通过配置就可以完成对事务的管理，而无需手动编程。</p>
-</li>
-<li><p>方便程序的测试</p>
-<p>Spring对Junit4支持，可以通过注解方便的测试Spring程序。</p>
-</li>
-<li><p>方便集成各种优秀框架</p>
-<p>Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架的直接支持（如：Struts、Hibernate、MyBatis等）。</p>
-</li>
-<li><p>降低JavaEE API的使用难度</p>
-<p>Spring对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低。</p>
-</li>
-</ul>
-<p><strong>缺点</strong></p>
-<ul>
-<li>Spring明明一个很轻量级的框架，却给人感觉大而全</li>
-<li>Spring依赖反射，反射影响性能</li>
-<li>使用门槛升高，入门Spring需要较长时间</li>
-</ul>
-<h3 id="Spring核心模块"><a href="#Spring核心模块" class="headerlink" title="Spring核心模块"></a>Spring核心模块</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2019102923475419.png" alt="在这里插入图片描述"></p>
-<ul>
-<li><strong>spring core</strong>：提供了框架的基本组成部分，包括<strong>控制反转</strong>（Inversion of Control，IOC）和<strong>依赖注入</strong>（Dependency Injection，DI）功能。</li>
-<li><strong>spring beans</strong>：提供了BeanFactory，是工厂模式的一个经典实现，Spring将管理对象称为Bean。</li>
-<li><strong>spring context</strong>：构建于 core 封装包基础上的 context 封装包，提供了一种框架式的对象访问方法。</li>
-<li><strong>spring jdbc</strong>：提供了一个JDBC的抽象层，消除了烦琐的JDBC编码和数据库厂商特有的错误代码解析， 用于简化JDBC。</li>
-<li><strong>spring aop</strong>：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。</li>
-<li><strong>spring Web</strong>：提供了针对 Web 开发的集成特性，例如文件上传，利用 servlet listeners 进行 ioc 容器初始化和针对 Web 的 ApplicationContext。</li>
-<li><strong>spring test</strong>：主要为测试提供支持的，支持使用JUnit或TestNG对Spring组件进行单元测试和集成测试。</li>
-</ul>
-<h3 id="Spring-框架中都用到了哪些设计模式？"><a href="#Spring-框架中都用到了哪些设计模式？" class="headerlink" title="Spring 框架中都用到了哪些设计模式？"></a>Spring 框架中都用到了哪些设计模式？</h3><ol>
-<li><strong>工厂模式</strong>：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；</li>
-<li><strong>单例模式</strong>：Bean默认为单例模式。</li>
-<li><strong>代理模式</strong>：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；</li>
-<li><strong>模板方法</strong>：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。</li>
-<li><strong>观察者模式</strong>：定义对象键一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知被制动更新，如Spring中listener的实现–ApplicationListener。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>03.SpringAOP</title>
-    <url>/posts/d1427ef9.html</url>
-    <content><![CDATA[<h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。</p>
-<h4 id="AOP-即-Aspect-Oriented-Program-面向切面编程"><a href="#AOP-即-Aspect-Oriented-Program-面向切面编程" class="headerlink" title="AOP 即 Aspect Oriented Program 面向切面编程"></a>AOP 即 Aspect Oriented Program 面向切面编程</h4><p>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。</p>
-<ul>
-<li><strong>所谓的核心业务</strong>，比如登陆，增加数据，删除数据都叫核心业务</li>
-<li><strong>所谓的周边功能</strong>，比如性能统计，日志，事务管理等等</li>
-</ul>
-<p>周边功能在 Spring 的面向切面编程AOP思想里，即被定义为切面</p>
-<p>在面向切面编程AOP的思想里面，核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫AOP</p>
-<h4 id="OOP缺陷"><a href="#OOP缺陷" class="headerlink" title="OOP缺陷"></a>OOP缺陷</h4><ul>
-<li><strong>代码混乱</strong>：核心业务模块可能需要兼顾处理其他不相干的业务外围操作，这些外围操作可能会混乱核心操作的代码，而且当外围模块有重大修改时也会影响到核心模块，这显然是不合理的。</li>
-<li><strong>代码分散和冗余</strong>：同样的功能代码，在其他的模块几乎随处可见，导致代码分散并且冗余度高。</li>
-<li><strong>代码质量低扩展难</strong>：由于不太相关的业务代码混杂在一起，无法专注核心业务代码，当进行类似无关业务扩展时又会直接涉及到核心业务的代码，导致拓展性低。</li>
-</ul>
-<h4 id="AOP-的目的"><a href="#AOP-的目的" class="headerlink" title="AOP 的目的"></a>AOP 的目的</h4><p>AOP能够将那些与业务无关，<strong>却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来</strong>，便于<strong>减少系统的重复代码</strong>，<strong>降低模块间的耦合度</strong>，并<strong>有利于未来的可拓展性和可维护性</strong>。</p>
-<h4 id="AOP代理"><a href="#AOP代理" class="headerlink" title="AOP代理"></a>AOP代理</h4><p><strong>Spring AOP</strong>就是基于动态代理的，如果要代理的对象，实现了某个接⼝，那么Spring AOP会使⽤<strong>JDK Proxy</strong>，去创建代理对象，⽽对于没有实现接⼝的对象，就⽆法使⽤ JDK Proxy 去进⾏代理了，这时候Spring AOP会使⽤<strong>Cglib</strong> ，这时候Spring AOP会使⽤ <strong>Cglib</strong> ⽣成⼀个被代理对象的⼦类来作为代理。</p>
-<h4 id="AOP-当中的概念："><a href="#AOP-当中的概念：" class="headerlink" title="AOP 当中的概念："></a>AOP 当中的概念：</h4><ul>
-<li>切入点（Pointcut）<br>在哪些类，哪些方法上切入（<strong>where</strong>）</li>
-<li>通知（Advice）<br>在方法执行的什么实际（<strong>when:**方法前/方法后/方法前后）做什么（</strong>what:**增强的功能）</li>
-<li>切面（Aspect）<br>切面 = 切入点 + 通知，通俗点就是：<strong>在什么时机，什么地方，做什么增强！</strong></li>
-<li>织入（Weaving）<br>把切面加入到对象，并创建出代理对象的过程。（由 Spring 来完成）</li>
-</ul>
-<h4 id="Spring-中的-AspectJ-注解："><a href="#Spring-中的-AspectJ-注解：" class="headerlink" title="Spring 中的 AspectJ 注解："></a>Spring 中的 AspectJ 注解：</h4><table>
-<thead>
-<tr>
-<th>注解</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>@Before</code></td>
-<td>前置通知，在连接点方法前调用</td>
-</tr>
-<tr>
-<td><code>@Around</code></td>
-<td>环绕通知，它将覆盖原有方法，但是允许你通过反射调用原有方法，后面会讲</td>
-</tr>
-<tr>
-<td><code>@After</code></td>
-<td>后置通知，在连接点方法后调用</td>
-</tr>
-<tr>
-<td><code>@AfterReturning</code></td>
-<td>返回通知，在连接点方法执行并正常返回后调用，要求连接点方法在执行过程中没有发生异常</td>
-</tr>
-<tr>
-<td><code>@AfterThrowing</code></td>
-<td>异常通知，当连接点方法异常时调用</td>
-</tr>
-</tbody></table>
-<h4 id="AOP-编程"><a href="#AOP-编程" class="headerlink" title="AOP 编程"></a>AOP 编程</h4><ul>
-<li>在 Packge【service】下创建 【ProductService】类：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomeService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;doSomeService&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在 xml 文件中装配该 bean：</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在【TestSpring】中编写测试代码，运行：</li>
-</ul>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-c190e07d3a051a65.png" alt="img"></p>
-<ul>
-<li>在 Packge【aspect】下准备日志切面 【LoggerAspect】类：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage aspect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggerAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">log</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;start log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        Object object = joinPoint.proceed();</span><br><span class="line">        System.out.println(<span class="string">&quot;end log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        <span class="keyword">return</span> object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在 xml 文件中声明业务对象和日志切面：</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:tx</span>=<span class="string">&quot;http://www.springframework.org/schema/tx&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;loggerAspect&quot;</span> <span class="attr">class</span>=<span class="string">&quot;aspect.LoggerAspect&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 配置AOP --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- where：在哪些地方（包.类.方法）做增加 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;loggerCutpoint&quot;</span></span></span><br><span class="line"><span class="tag">                      <span class="attr">expression</span>=<span class="string">&quot;execution(* service.ProductService.*(..)) &quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- what:做什么增强 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">id</span>=<span class="string">&quot;logAspect&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;loggerAspect&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- when:在什么时机（方法前/后/前后） --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">aop:around</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;loggerCutpoint&quot;</span> <span class="attr">method</span>=<span class="string">&quot;log&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>再次运行 TestSpring 中的测试代码，代码并没有改变，但是在业务方法运行之前和运行之后，都分别输出了日志信息：</li>
-</ul>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-343746f0a4eb7ce0.png" alt="img"></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>05 SpringMVC</title>
-    <url>/posts/319a95ab.html</url>
-    <content><![CDATA[<h3 id="什么是SpringMVC"><a href="#什么是SpringMVC" class="headerlink" title="什么是SpringMVC?"></a>什么是<strong>SpringMVC?</strong></h3><p>⽤在基于<strong>MVC</strong>的表现层开发，类似于<strong>struts2</strong>框架</p>
-<h3 id="为什么要使⽤SpringMVC？"><a href="#为什么要使⽤SpringMVC？" class="headerlink" title="为什么要使⽤SpringMVC？"></a>为什么要使⽤<strong>SpringMVC</strong>？</h3><p>下⾯我们来看⼀下Struts2不⾜之处：</p>
-<ul>
-<li><p>有漏洞【详细可以去搜索】</p>
-</li>
-<li><p>运⾏速度较慢【⽐SpringMVC要慢】</p>
-</li>
-<li><p>配置的内容较多【需要使⽤Struts.xml⽂件】</p>
-</li>
-</ul>
-<h3 id="SpringMVC⼯作流程"><a href="#SpringMVC⼯作流程" class="headerlink" title="SpringMVC⼯作流程"></a><strong>SpringMVC</strong>⼯作流程</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/1121080-20190509202147059-745656946-20201110113822800.jpg" alt="img"></p>
-<ul>
-<li>用户向服务端发送一次请求，这个请求会先到前端控制器**DispatcherServlet(也叫中央控制器)**。</li>
-<li><strong>DispatcherServlet</strong>接收到请求后会调用<strong>HandlerMapping</strong>处理器映射器。由此得知，该请求该由哪<strong>Controller来处理（并未调用Controller，只是得知）</strong></li>
-<li><strong>DispatcherServlet</strong>调用<strong>HandlerAdapter</strong>处理器适配器，告诉处理器适配器应该要去<strong>执行哪个Controller</strong></li>
-<li><strong>HandlerAdapter</strong>处理器适配器去执行<strong>Controller</strong>并得到<strong>ModelAndView</strong>(数据和视图)，并层层返回给<strong>DispatcherServlet</strong></li>
-<li><strong>DispatcherServlet将ModelAndView交给ViewReslover视图解析器解析</strong>，然后返回真正的视图。</li>
-<li><strong>DispatcherServlet</strong>将模型数据填充到视图中</li>
-<li><strong>DispatcherServlet</strong>将结果响应给用户</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>04.Spring 事物</title>
-    <url>/posts/c31fb5e7.html</url>
-    <content><![CDATA[<h3 id="Spring-事务Spring-管理事务的⽅式有⼏种？"><a href="#Spring-事务Spring-管理事务的⽅式有⼏种？" class="headerlink" title="Spring 事务Spring 管理事务的⽅式有⼏种？"></a>Spring 事务Spring 管理事务的⽅式有⼏种？</h3><ol>
-<li><p>编程式事务，在代码中硬编码。(不推荐使⽤)</p>
-</li>
-<li><p>声明式事务，在配置⽂件中配置（推荐使⽤）</p>
-<p>声明式事务⼜分为两种：</p>
-<ol>
-<li>基于XML的声明式事务</li>
-<li>基于注解的声明式事务</li>
-</ol>
-</li>
-</ol>
-<h3 id="Spring-事务中的隔离级别有哪⼏种"><a href="#Spring-事务中的隔离级别有哪⼏种" class="headerlink" title="Spring 事务中的隔离级别有哪⼏种?"></a>Spring 事务中的隔离级别有哪⼏种?</h3><p><strong>TransactionDefinition</strong> 接⼝中定义了五个表示隔离级别的常量：</p>
-<p><strong>TransactionDefinition.ISOLATION_DEFAULT:</strong> 使⽤后端数据库默认的隔离级别，Mysql 默认采</p>
-<p>⽤的 REPEATABLE_READ隔离级别 Oracle 默认采⽤的 READ_COMMITTED隔离级别.</p>
-<p><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED:</strong> 最低的隔离级别，允许读取尚未提交的</p>
-<p>数据变更，可能会导致脏读、幻读或不可重复读</p>
-<p><strong>TransactionDefinition.ISOLATION_READ_COMMITTED:</strong> 允许读取并发事务已经提交的数据，可以</p>
-<p>阻⽌脏读，但是幻读或不可重复读仍有可能发⽣</p>
-<p><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ:</strong> 对同⼀字段的多次读取结果都是⼀致</p>
-<p>的，除⾮数据是被本身事务⾃⼰所修改，可以阻⽌脏读和不可重复读，但幻读仍有可能发⽣。</p>
-<p><strong>TransactionDefinition.ISOLATION_SERIALIZABLE:</strong> 最⾼的隔离级别，完全服从ACID的隔离级</p>
-<p>别。所有的事务依次逐个执⾏，这样事务之间就完全不可能产⽣⼲扰，也就是说，该级别可以防</p>
-<p>⽌脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会⽤到该级别。</p>
-<h3 id="Spring-事务中哪⼏种事务传播⾏为"><a href="#Spring-事务中哪⼏种事务传播⾏为" class="headerlink" title="Spring 事务中哪⼏种事务传播⾏为?"></a>Spring 事务中哪⼏种事务传播⾏为?</h3><p><strong>⽀持当前事务的情况：</strong></p>
-<ul>
-<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRED</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则创建⼀个新的事务。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_SUPPORTS</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则以⾮事务的⽅式继续运⾏。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_MANDATORY</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）不⽀持当前事务的情况：</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRES_NEW</strong>： 创建⼀个新的事务，如果当前存在事务，则把当前事务挂起。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_NOT_SUPPORTED</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则把当前事务挂起。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_NEVER</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则抛出异常。</p>
-</li>
-</ul>
-<p><strong>其他情况：</strong></p>
-<ul>
-<li><strong>TransactionDefinition.PROPAGATION_NESTED</strong>： 如果当前存在事务，则创建⼀个事务作为当前事务的嵌套事务来运⾏；如果当前没有事务，则该取值等价TransactionDefinition.PROPAGATION_REQUIRED。</li>
-</ul>
-<h3 id="Transactional-rollbackFor-Exception-class-注解了解吗？"><a href="#Transactional-rollbackFor-Exception-class-注解了解吗？" class="headerlink" title="@Transactional(rollbackFor = Exception.class)注解了解吗？"></a>@Transactional(rollbackFor = Exception.class)注解了解吗？</h3><p>我们知道：Exception分为运⾏时异常RuntimeException和⾮运⾏时异常。事务管理对于企业应⽤来说是⾄关重要的，即使出现异常情况，它也可以保证数据的⼀致性。当 @Transactional 注解作⽤于类上时，该类的所有 public ⽅法将都具有该类型的事务属性，同时，我们也可以在⽅法级别使⽤该标注来覆盖类级别的定义。如果类或者⽅法加了这个注解，那么这个类⾥⾯的⽅法抛出异常，就会回滚，数据库⾥⾯的数据也会回滚。在 <strong>@Transactional 注解中如果不配置 rollbackFor 属性,那么事物只会在遇到 RuntimeException 的时候才会回滚,加上 rollbackFor=Exception.class ,可以让事物在遇到⾮运⾏时异常时也回滚。</strong></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis主从复制</title>
     <url>/posts/b7e51ad7.html</url>
     <content><![CDATA[<blockquote>
@@ -691,6 +408,169 @@
 <p><a href="./35743b4b.html">Redis缓存雪崩、缓存穿透、缓存击穿</a></p>
 <p><a href="./119ed1dc.html">Redis持久化</a></p>
 <p><a href="./b7e51ad7.html">Redis主从复制</a></p>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis持久化</title>
+    <url>/posts/119ed1dc.html</url>
+    <content><![CDATA[<h1 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h1><h3 id="RDB（Redis-DataBase）"><a href="#RDB（Redis-DataBase）" class="headerlink" title="RDB（Redis DataBase）"></a>RDB（Redis DataBase）</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在指定的时间间隔内生成内存中整个数据集的持久化快照。快照文件默认被存储在当前文件夹中，名称为<code>dump.rdb</code>，可以通过dir和dbfilename参数来修改默认值。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Redis会<strong>单独创建（fork）一个子进程来进行持久化</strong>，会先将数据<strong>写入到一个临时文件</strong>中，待<strong>持久化过程都结束了，再用这个临时文件替换上次持久化好的文件</strong>。&nbsp;&nbsp;整个过程中，主进程是不进行任何的IO操作的，这就确保了极高的性能。</p>
+<h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> redis是基于内存的数据库，可以通过设置该值定期写入磁盘。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 注释掉“save”这一行配置项就可以让保存数据库功能失效</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 900秒（15分钟）内至少1个key值改变（则进行数据库保存--持久化） </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 300秒（5分钟）内至少10个key值改变（则进行数据库保存--持久化） </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 60秒（1分钟）内至少10000个key值改变（则进行数据库保存--持久化）</span></span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">当RDB持久化出现错误后，是否依然进行继续进行工作，yes：不能进行工作，no：可以继续进行工作，可以通过info中的rdb_last_bgsave_status了解RDB持久化是否有错误</span></span><br><span class="line">stop-writes-on-bgsave-error yes</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">使用压缩rdb文件，rdb文件压缩使用LZF压缩算法，yes：压缩，但是需要一些cpu的消耗。no：不压缩，需要更多的磁盘空间</span></span><br><span class="line">rdbcompression yes</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">是否校验rdb文件。从rdb格式的第五个版本开始，在rdb文件的末尾会带上CRC64的校验和。这跟有利于文件的容错性，但是在保存rdb文件的时候，会有大概10%的性能损耗，所以如果你追求高性能，可以关闭该配置。</span></span><br><span class="line">rdbchecksum yes</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">rdb文件的名称</span></span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">数据目录，数据库的写入会在这个目录。rdb、aof文件也会写在这个目录</span></span><br><span class="line">dir /data</span><br></pre></td></tr></table></figure>
+
+<h4 id="Fork"><a href="#Fork" class="headerlink" title="Fork"></a>Fork</h4><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fork的作用相当于复制一个与当前进程一样的进程。但是是一个全新的进程，并作为原进程的子进程。</p>
+<h4 id="触发条件"><a href="#触发条件" class="headerlink" title="触发条件"></a>触发条件</h4><ol>
+<li><p>通过配制文件中的save条件（可自己配置）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>手动通过save和bgsave命令</p>
+</li>
+</ol>
+<ul>
+<li>save：save时只管保存，其他不管，全部阻塞</li>
+<li>bgsave：redis会在后台异步的进行快照操作，同时还可以响应客户端请求。可以通过lastsave命令获取最后一次成功执行快照的事件</li>
+</ul>
+<ol start="3">
+<li>通过flushall命令，也会产生dump.rdb文件，但是里面是空的，无意义。</li>
+<li>通过shutdown命令，安全退出，也会生成快照文件（和异常退出形成对比，比如：kill杀死进程的方式）</li>
+</ol>
+<h4 id="如何恢复"><a href="#如何恢复" class="headerlink" title="如何恢复"></a>如何恢复</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">appendonly no</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line">dir /var/lib/redis  #可以自行指定</span><br></pre></td></tr></table></figure>
+
+<p><code>appendonly 设置成no</code>，redis启动时会把/var/lib/redis 目录下的dump.rdb 中的数据恢复。dir 和dbfilename 都可以设置。我测试时<code>appendonly 设置成yes 时候不会将dump.rdb文件中的数据恢复</code>。</p>
+<h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><ol>
+<li>恢复数据的速度很快，适合大规模的数据恢复，而又对部分数据不敏感的情况</li>
+<li>dump.db文件是一个压缩的二进制文件，文件暂用空间小</li>
+<li><strong>RDB</strong>对<strong>Redis</strong>的性能影响非常小，是因为在同步数据的时候他只是<strong>fork</strong>了一个子进程去做持久化的，而且他在数据恢复的时候速度比<strong>AOF</strong>来的快。</li>
+</ol>
+<h4 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h4><ol>
+<li><strong>RDB</strong>都是快照文件，都是默认五分钟甚至更久的时间才会生成一次，这意味着你这次同步到下次同步这中间五分钟的数据都很可能全部丢失掉。<strong>AOF</strong>则最多丢一秒的数据，<strong>数据完整性</strong>上高下立判。</li>
+<li>当fork的时候，内存的中的数据会被克隆一份，大致两倍的膨胀需要考虑。而且，当数据过大时，fork操作占用过多的系统资源，比如你公司在做秒杀的时候他刚好在这个时候<strong>fork</strong>了一个子进程去生成一个大快照，造成主服务器进程假死几率就很高了。</li>
+</ol>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ol>
+<li>数据备份 </li>
+<li>可容忍部分数据丢失 </li>
+<li>跨数据中心的容灾备份</li>
+</ol>
+<h3 id="AOF（Append-Only-File）"><a href="#AOF（Append-Only-File）" class="headerlink" title="AOF（Append Only File）"></a>AOF（Append Only File）</h3><h4 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h4><p>以日志的形式来记录每个写操作，将Redis执行过的所有写指令记录下来（读操作补不可记录），只许追加文件但不可以改写文件，redis启动之初会读取改文件重新构建数据。保存的是appendonly.aof文件</p>
+<p>aof机制默认关闭，可以通过<code>appendonly = yes</code>参数开启aof机制，通过<code>appendfilename = myaoffile.aof</code>指定aof文件名称。</p>
+<p>aof持久化的一些策略配置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">aof持久化策略的配置</span></span><br><span class="line"><span class="meta">#</span><span class="bash">no表示不执行fsync，由操作系统保证数据同步到磁盘，速度最快。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">always表示每次写入都执行fsync，以保证数据同步到磁盘。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">everysec表示每秒执行一次fsync，可能会导致丢失这1s数据。</span></span><br><span class="line">appendfsync everysec</span><br></pre></td></tr></table></figure>
+
+<p>对于触发aof重写机制也可以通过配置文件来进行设置：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> aof自动重写配置。当目前aof文件大小超过上一次重写的aof文件大小的百分之多少进行重写，即当aof文件增长到一定大小的时候Redis能够调用bgrewriteaof对日志文件进行重写。当前AOF文件大小是上次日志重写得到AOF文件大小的二倍（设置为100）时，自动启动新的日志重写过程。</span></span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置允许重写的最小aof文件大小，避免了达到约定百分比但尺寸仍然很小的情况还要重写</span></span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br></pre></td></tr></table></figure>
+
+<p>当aop重写时会引发重写和持久化追加同时发生的问题，可以通过<code>no-appendfsync-on-rewrite no</code>进行配置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在aof重写或者写入rdb文件的时候，会执行大量IO，此时对于everysec和always的aof模式来说，执行fsync会造成阻塞过长时间，no-appendfsync-on-rewrite字段设置为默认设置为no，是最安全的方式，不会丢失数据，但是要忍受阻塞的问题。如果对延迟要求很高的应用，这个字段可以设置为yes，，设置为yes表示rewrite期间对新写操作不fsync,暂时存在内存中,不会造成阻塞的问题（因为没有磁盘竞争），等rewrite完成后再写入，这个时候redis会丢失数据。Linux的默认fsync策略是30秒。可能丢失30秒数据。因此，如果应用系统无法忍受延迟，而可以容忍少量的数据丢失，则设置为yes。如果应用系统无法忍受数据丢失，则设置为no。</span></span><br><span class="line">no-appendfsync-on-rewrite no</span><br></pre></td></tr></table></figure>
+
+<h4 id="如何恢复-1"><a href="#如何恢复-1" class="headerlink" title="如何恢复"></a>如何恢复</h4><h5 id="正常恢复"><a href="#正常恢复" class="headerlink" title="正常恢复"></a>正常恢复</h5><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将文件放到dir指定的文件夹下，当redis启动的时候会自动加载数据，注意：<code>aof文件的优先级比dump大</code>。</p>
+<h5 id="异常恢复"><a href="#异常恢复" class="headerlink" title="异常恢复"></a>异常恢复</h5><ul>
+<li><p>有些操作可以直接到appendonly.aof文件里去修改。</p>
+<p>eg：使用了flushall这个命令，此刻持久化文件中就会有这么一条命令记录，把它删掉就可以了</p>
+</li>
+<li><p>写坏的文件可以通过 <code>redis-check-aof --fix</code>进行修复</p>
+</li>
+</ul>
+<h4 id="优势-1"><a href="#优势-1" class="headerlink" title="优势"></a>优势</h4><ol>
+<li>根据不同的策略，可以实现每秒，每一次修改操作的同步持久化，就算在最恶劣的情况下只会丢失不会超过两秒数据。</li>
+<li><strong>AOF</strong>在对日志文件进行操作的时候是以<code>append-only</code>的方式去写的，他只是追加的方式写数据，自然就少了很多磁盘寻址的开销了，写入性能惊人，文件也不容易破损。</li>
+<li>当文件太大时，会触发重写机制，确保文件不会太大。</li>
+<li>文件可以简单的读懂，比如通过<strong>flushall</strong>误操作清空了所有的数据，只要这个时候后台重写还没发生，马上拷贝一份<strong>AOF</strong>日志文件，把最后一条<strong>flushall</strong>命令删了就完事了。</li>
+</ol>
+<h4 id="劣势-1"><a href="#劣势-1" class="headerlink" title="劣势"></a>劣势</h4><ol>
+<li><strong>AOF文件的大小太大</strong>，就算有重写机制，但重写所造成的阻塞问题是不可避免的</li>
+<li><strong>AOF</strong>开启后，<strong>Redis</strong>支持写的<strong>QPS</strong>会比<strong>RDB</strong>支持写的要低，他不是每秒都要去异步刷新一次日志嘛<strong>fsync</strong>，当然即使这样性能还是很高。</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li><p>如果你只希望你的数据在服务器运行的时候存在，可以不使用任何的持久化方式</p>
+</li>
+<li><p>一般建议同时开启两种持久化方式。AOF进行数据的持久化，确保数据不会丢失太多，而RDB更适合用于备份数据库，留着一个做万一的手段。</p>
+</li>
+<li><p>性能建议：</p>
+<p>因为RDB文件只用做后备用途，建议只在slave上持久化RDB文件，而且只要在15分钟备份一次就够了，只保留900 1这条规则。</p>
+<p>如果Enalbe AOF,好处是在最恶劣情况下也只会丢失不超过两秒数据，启动脚本较简单只load自己的AOF文件就可以了。代价：1、带来了持续的IO；2、AOF rewrite的最后将rewrite过程中产生的新数据写到新文件造成的阻塞几乎是不可避免的。只要硬盘许可，应该尽量减少AOF rewrite的频率，AOF重写的基础大小默认值64M太小了，可以设到5G以上。默认超过原大小100%大小时重写可以改到适当的数值。</p>
+<p>如果不Enable AOF,仅靠Master-Slave Replication 实现高可用性也可以。能省掉一大笔IO也减少了rewrite时带来的系统波动。代价是如果Master/Slave同时宕掉，会丢失10几分钟的数据，启动脚本也要比较两个Master/Slave中的RDB文件，载入较新的那个。新浪微博就选用了这种架构。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis缓存雪崩、缓存穿透、缓存击穿</title>
+    <url>/posts/35743b4b.html</url>
+    <content><![CDATA[<h1 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h1><ul>
+<li><p><strong>缓存雪崩</strong>：当缓存服务器重启或者<strong>大量缓存集中在某一个时间段失效</strong>，这样在失效的时候，大量的请求直接落在了数据库上，造成数据库短时间内承受⼤量请求⽽崩掉。</p>
+</li>
+<li><p><strong>缓存穿透</strong>：<strong>key对应的数据在数据源并不存在，每次针对此key的请求从缓存获取不到</strong>，请求都会到数据源，从而可能压垮数据源。比如用一个不存在的用户id获取用户信息，不论缓存还是数据库都没有，若黑客利用此漏洞进行攻击可能压垮数据库。</p>
+</li>
+<li><p><strong>缓存击穿：key对应的数据存在，但在redis中过期。</strong>例如一个Key非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个Key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库。</p>
+</li>
+</ul>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>处理缓存雪崩的一种方式是在批量往<strong>Redis</strong>存数据的时候，<strong>把每个Key的失效时间都加个随机值</strong>就好了，这样可以保证数据不会在同一时间大面积失效。</p>
+<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><ul>
+<li><p><strong>接口参数校验</strong>：一般处理方式是在接口层增加校验，比如用户鉴权校验，参数做校验，不合法的参数直接返回校验失败信息。</p>
+</li>
+<li><p><strong>设置默认值</strong>：从缓存取不到的数据，在数据库中也没有取到，这时也可以<strong>将对应Key的Value对写为null、位置错误、稍后重试等，同时设置短点的超时时间</strong>。</p>
+</li>
+<li><p><strong>布隆过滤器（Bloom Filter）</strong>也能很好的防止缓存穿透的发生，他的原理也很简单就是利用高效的数据结构和算法快速判断出你这个Key是否在数据库中存在，不存在你return就好了，存在你就去查了DB刷新KV再return。<a href="https://www.wmyskxz.com/2020/03/11/redis-5-yi-ji-shu-ju-guo-lu-he-bu-long-guo-lu-qi/">布隆过滤器</a></p>
+</li>
+</ul>
+<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p><strong>设置热点数据永远不过期</strong>，或者<strong>加上互斥锁</strong>就行了。</p>
+<h2 id="Redis-挂掉了，请求全部走数据库解决"><a href="#Redis-挂掉了，请求全部走数据库解决" class="headerlink" title="Redis 挂掉了，请求全部走数据库解决"></a>Redis 挂掉了，请求全部走数据库解决</h2><p>从三个时间段去分析下：</p>
+<ul>
+<li>事前：<strong>Redis</strong> 高可用，主从+哨兵，<strong>Redis cluster</strong>，避免全盘崩溃。</li>
+<li>事中：本地 <strong>ehcache</strong> 缓存 + <strong>Hystrix</strong> 限流+降级，避免<strong>MySQL</strong>被打死。</li>
+<li>事后：<strong>Redis</strong> 持久化 <strong>RDB</strong>+<strong>AOF</strong>，一旦重启，自动从磁盘上加载数据，快速恢复缓存数据。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis跳跃表</title>
+    <url>/posts/3a0d04cf.html</url>
+    <content><![CDATA[<p>原文：<a href="http://www.wmyskxz.com/2020/02/29/redis-2-tiao-yue-biao/">http://www.wmyskxz.com/2020/02/29/redis-2-tiao-yue-biao/</a></p>
+<blockquote>
+<p> <strong>zset</strong> 的数据结构，它类似于 Java 中的 <strong>SortedSet</strong> 和 <strong>HashMap</strong> 的结合体，一方面它是一个 set 保证了内部 value 的唯一性，另一方面又可以给每个 value 赋予一个排序的权重值 score，来达到 <strong>排序</strong> 的目的</p>
+</blockquote>
+<h1 id="为什么使用跳跃表"><a href="#为什么使用跳跃表" class="headerlink" title="为什么使用跳跃表"></a>为什么使用跳跃表</h1><p>首先，因为 zset 要支持随机的插入和删除，所以它 <strong>不宜使用数组来实现</strong>，关于排序问题，我们也很容易就想到 <strong>红黑树/ 平衡树</strong> 这样的树形结构，为什么 Redis 不使用这样一些结构呢？</p>
+<ol>
+<li><strong>性能考虑：</strong> 在高并发的情况下，树形结构需要执行一些类似于 rebalance 这样的可能涉及整棵树的操作，相对来说跳跃表的变化只涉及局部；</li>
+<li><strong>实现考虑：</strong> 在复杂度与红黑树相同的情况下，跳跃表实现起来更简单，看起来也更加直观；</li>
+</ol>
+<h2 id="本质是解决查找问题"><a href="#本质是解决查找问题" class="headerlink" title="本质是解决查找问题"></a>本质是解决查找问题</h2><p>我们先来看一个普通的链表结构：</p>
+<p><a href="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-11b7eebde1779904.png"><img src="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-11b7eebde1779904.png" alt="img"></a></p>
+<p>我们需要这个链表按照 score 值进行排序，这也就意味着，当我们需要添加新的元素时，我们需要定位到插入点，这样才可以继续保证链表是有序的，通常我们会使用 <strong>二分查找法</strong>，但二分查找是有序数组的，链表没办法进行位置定位，我们除了遍历整个找到第一个比给定数据大的节点为止 <em>（时间复杂度 O(n))</em> 似乎没有更好的办法。</p>
+<p>但假如我们每相邻两个节点之间就增加一个指针，让指针指向下一个节点，如下图：</p>
+<p><a href="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-8cae2c261c950b32.png"><img src="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-8cae2c261c950b32.png" alt="img"></a></p>
+<p>这样所有新增的指针连成了一个新的链表，但它包含的数据却只有原来的一半 _（图中的为 3，11）_。</p>
+<p>现在假设我们想要查找数据时，可以根据这条新的链表查找，如果碰到比待查找数据大的节点时，再回到原来的链表中进行查找，比如，我们想要查找 7，查找的路径则是沿着下图中标注出的红色指针所指向的方向进行的：</p>
+<p><a href="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-9c0262c7a85c120e.png"><img src="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-9c0262c7a85c120e.png" alt="img"></a></p>
+<p>这是一个略微极端的例子，但我们仍然可以看到，通过新增加的指针查找，我们不再需要与链表上的每一个节点逐一进行比较，这样改进之后需要比较的节点数大概只有原来的一半。</p>
+<p>利用同样的方式，我们可以在新产生的链表上，继续为每两个相邻的节点增加一个指针，从而产生第三层链表：</p>
+<p><a href="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-22036e274bedaa5a.png"><img src="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-22036e274bedaa5a.png" alt="img"></a></p>
+<p>在这个新的三层链表结构中，我们试着 <strong>查找 13</strong>，那么沿着最上层链表首先比较的是 11，发现 11 比 13 小，于是我们就知道只需要到 11 后面继续查找，<strong>从而一下子跳过了 11 前面的所有节点。</strong></p>
+<p>可以想象，当链表足够长，这样的多层链表结构可以帮助我们跳过很多下层节点，从而加快查找的效率。</p>
+<h2 id="更进一步的跳跃表"><a href="#更进一步的跳跃表" class="headerlink" title="更进一步的跳跃表"></a>更进一步的跳跃表</h2><p><strong>跳跃表 skiplist</strong> 就是受到这种多层链表结构的启发而设计出来的。按照上面生成链表的方式，上面每一层链表的节点个数，是下面一层的节点个数的一半，这样查找过程就非常类似于一个二分查找，使得查找的时间复杂度可以降低到 _O(logn)_。</p>
+<p>但是，这种方法在插入数据的时候有很大的问题。新插入一个节点之后，就会打乱上下相邻两层链表上节点个数严格的 2:1 的对应关系。如果要维持这种对应关系，就必须把新插入的节点后面的所有节点 <em>（也包括新插入的节点）</em> 重新进行调整，这会让时间复杂度重新蜕化成 _O(n)_。删除数据也有同样的问题。</p>
+<p><strong>skiplist</strong> 为了避免这一问题，它不要求上下相邻两层链表之间的节点个数有严格的对应关系，而是 **为每个节点随机出一个层数(level)**。比如，一个节点随机出的层数是 3，那么就把它链入到第 1 层到第 3 层这三层链表中。为了表达清楚，下图展示了如何通过一步步的插入操作从而形成一个 skiplist 的过程：</p>
+<p><a href="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-1e0626c013de095e.png"><img src="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-1e0626c013de095e.png" alt="img"></a></p>
+<p>从上面的创建和插入的过程中可以看出，每一个节点的层数（level）是随机出来的，而且新插入一个节点并不会影响到其他节点的层数，因此，<strong>插入操作只需要修改节点前后的指针，而不需要对多个节点都进行调整</strong>，这就降低了插入操作的复杂度。</p>
+<p>现在我们假设从我们刚才创建的这个结构中查找 23 这个不存在的数，那么查找路径会如下图：</p>
+<p><a href="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-a8f66d808e8a4d1e.png"><img src="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-a8f66d808e8a4d1e.png" alt="img"></a></p>
 ]]></content>
       <categories>
         <category>Redis</category>
@@ -922,169 +802,6 @@
 </blockquote>
 <p>附录：</p>
 <p>参考：尚硅谷Redis</p>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis缓存雪崩、缓存穿透、缓存击穿</title>
-    <url>/posts/35743b4b.html</url>
-    <content><![CDATA[<h1 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h1><ul>
-<li><p><strong>缓存雪崩</strong>：当缓存服务器重启或者<strong>大量缓存集中在某一个时间段失效</strong>，这样在失效的时候，大量的请求直接落在了数据库上，造成数据库短时间内承受⼤量请求⽽崩掉。</p>
-</li>
-<li><p><strong>缓存穿透</strong>：<strong>key对应的数据在数据源并不存在，每次针对此key的请求从缓存获取不到</strong>，请求都会到数据源，从而可能压垮数据源。比如用一个不存在的用户id获取用户信息，不论缓存还是数据库都没有，若黑客利用此漏洞进行攻击可能压垮数据库。</p>
-</li>
-<li><p><strong>缓存击穿：key对应的数据存在，但在redis中过期。</strong>例如一个Key非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个Key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库。</p>
-</li>
-</ul>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>处理缓存雪崩的一种方式是在批量往<strong>Redis</strong>存数据的时候，<strong>把每个Key的失效时间都加个随机值</strong>就好了，这样可以保证数据不会在同一时间大面积失效。</p>
-<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><ul>
-<li><p><strong>接口参数校验</strong>：一般处理方式是在接口层增加校验，比如用户鉴权校验，参数做校验，不合法的参数直接返回校验失败信息。</p>
-</li>
-<li><p><strong>设置默认值</strong>：从缓存取不到的数据，在数据库中也没有取到，这时也可以<strong>将对应Key的Value对写为null、位置错误、稍后重试等，同时设置短点的超时时间</strong>。</p>
-</li>
-<li><p><strong>布隆过滤器（Bloom Filter）</strong>也能很好的防止缓存穿透的发生，他的原理也很简单就是利用高效的数据结构和算法快速判断出你这个Key是否在数据库中存在，不存在你return就好了，存在你就去查了DB刷新KV再return。<a href="https://www.wmyskxz.com/2020/03/11/redis-5-yi-ji-shu-ju-guo-lu-he-bu-long-guo-lu-qi/">布隆过滤器</a></p>
-</li>
-</ul>
-<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p><strong>设置热点数据永远不过期</strong>，或者<strong>加上互斥锁</strong>就行了。</p>
-<h2 id="Redis-挂掉了，请求全部走数据库解决"><a href="#Redis-挂掉了，请求全部走数据库解决" class="headerlink" title="Redis 挂掉了，请求全部走数据库解决"></a>Redis 挂掉了，请求全部走数据库解决</h2><p>从三个时间段去分析下：</p>
-<ul>
-<li>事前：<strong>Redis</strong> 高可用，主从+哨兵，<strong>Redis cluster</strong>，避免全盘崩溃。</li>
-<li>事中：本地 <strong>ehcache</strong> 缓存 + <strong>Hystrix</strong> 限流+降级，避免<strong>MySQL</strong>被打死。</li>
-<li>事后：<strong>Redis</strong> 持久化 <strong>RDB</strong>+<strong>AOF</strong>，一旦重启，自动从磁盘上加载数据，快速恢复缓存数据。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis持久化</title>
-    <url>/posts/119ed1dc.html</url>
-    <content><![CDATA[<h1 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h1><h3 id="RDB（Redis-DataBase）"><a href="#RDB（Redis-DataBase）" class="headerlink" title="RDB（Redis DataBase）"></a>RDB（Redis DataBase）</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在指定的时间间隔内生成内存中整个数据集的持久化快照。快照文件默认被存储在当前文件夹中，名称为<code>dump.rdb</code>，可以通过dir和dbfilename参数来修改默认值。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Redis会<strong>单独创建（fork）一个子进程来进行持久化</strong>，会先将数据<strong>写入到一个临时文件</strong>中，待<strong>持久化过程都结束了，再用这个临时文件替换上次持久化好的文件</strong>。&nbsp;&nbsp;整个过程中，主进程是不进行任何的IO操作的，这就确保了极高的性能。</p>
-<h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> redis是基于内存的数据库，可以通过设置该值定期写入磁盘。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 注释掉“save”这一行配置项就可以让保存数据库功能失效</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 900秒（15分钟）内至少1个key值改变（则进行数据库保存--持久化） </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 300秒（5分钟）内至少10个key值改变（则进行数据库保存--持久化） </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 60秒（1分钟）内至少10000个key值改变（则进行数据库保存--持久化）</span></span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">当RDB持久化出现错误后，是否依然进行继续进行工作，yes：不能进行工作，no：可以继续进行工作，可以通过info中的rdb_last_bgsave_status了解RDB持久化是否有错误</span></span><br><span class="line">stop-writes-on-bgsave-error yes</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">使用压缩rdb文件，rdb文件压缩使用LZF压缩算法，yes：压缩，但是需要一些cpu的消耗。no：不压缩，需要更多的磁盘空间</span></span><br><span class="line">rdbcompression yes</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">是否校验rdb文件。从rdb格式的第五个版本开始，在rdb文件的末尾会带上CRC64的校验和。这跟有利于文件的容错性，但是在保存rdb文件的时候，会有大概10%的性能损耗，所以如果你追求高性能，可以关闭该配置。</span></span><br><span class="line">rdbchecksum yes</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">rdb文件的名称</span></span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">数据目录，数据库的写入会在这个目录。rdb、aof文件也会写在这个目录</span></span><br><span class="line">dir /data</span><br></pre></td></tr></table></figure>
-
-<h4 id="Fork"><a href="#Fork" class="headerlink" title="Fork"></a>Fork</h4><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fork的作用相当于复制一个与当前进程一样的进程。但是是一个全新的进程，并作为原进程的子进程。</p>
-<h4 id="触发条件"><a href="#触发条件" class="headerlink" title="触发条件"></a>触发条件</h4><ol>
-<li><p>通过配制文件中的save条件（可自己配置）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>手动通过save和bgsave命令</p>
-</li>
-</ol>
-<ul>
-<li>save：save时只管保存，其他不管，全部阻塞</li>
-<li>bgsave：redis会在后台异步的进行快照操作，同时还可以响应客户端请求。可以通过lastsave命令获取最后一次成功执行快照的事件</li>
-</ul>
-<ol start="3">
-<li>通过flushall命令，也会产生dump.rdb文件，但是里面是空的，无意义。</li>
-<li>通过shutdown命令，安全退出，也会生成快照文件（和异常退出形成对比，比如：kill杀死进程的方式）</li>
-</ol>
-<h4 id="如何恢复"><a href="#如何恢复" class="headerlink" title="如何恢复"></a>如何恢复</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">appendonly no</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line">dir /var/lib/redis  #可以自行指定</span><br></pre></td></tr></table></figure>
-
-<p><code>appendonly 设置成no</code>，redis启动时会把/var/lib/redis 目录下的dump.rdb 中的数据恢复。dir 和dbfilename 都可以设置。我测试时<code>appendonly 设置成yes 时候不会将dump.rdb文件中的数据恢复</code>。</p>
-<h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><ol>
-<li>恢复数据的速度很快，适合大规模的数据恢复，而又对部分数据不敏感的情况</li>
-<li>dump.db文件是一个压缩的二进制文件，文件暂用空间小</li>
-<li><strong>RDB</strong>对<strong>Redis</strong>的性能影响非常小，是因为在同步数据的时候他只是<strong>fork</strong>了一个子进程去做持久化的，而且他在数据恢复的时候速度比<strong>AOF</strong>来的快。</li>
-</ol>
-<h4 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h4><ol>
-<li><strong>RDB</strong>都是快照文件，都是默认五分钟甚至更久的时间才会生成一次，这意味着你这次同步到下次同步这中间五分钟的数据都很可能全部丢失掉。<strong>AOF</strong>则最多丢一秒的数据，<strong>数据完整性</strong>上高下立判。</li>
-<li>当fork的时候，内存的中的数据会被克隆一份，大致两倍的膨胀需要考虑。而且，当数据过大时，fork操作占用过多的系统资源，比如你公司在做秒杀的时候他刚好在这个时候<strong>fork</strong>了一个子进程去生成一个大快照，造成主服务器进程假死几率就很高了。</li>
-</ol>
-<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ol>
-<li>数据备份 </li>
-<li>可容忍部分数据丢失 </li>
-<li>跨数据中心的容灾备份</li>
-</ol>
-<h3 id="AOF（Append-Only-File）"><a href="#AOF（Append-Only-File）" class="headerlink" title="AOF（Append Only File）"></a>AOF（Append Only File）</h3><h4 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h4><p>以日志的形式来记录每个写操作，将Redis执行过的所有写指令记录下来（读操作补不可记录），只许追加文件但不可以改写文件，redis启动之初会读取改文件重新构建数据。保存的是appendonly.aof文件</p>
-<p>aof机制默认关闭，可以通过<code>appendonly = yes</code>参数开启aof机制，通过<code>appendfilename = myaoffile.aof</code>指定aof文件名称。</p>
-<p>aof持久化的一些策略配置</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">aof持久化策略的配置</span></span><br><span class="line"><span class="meta">#</span><span class="bash">no表示不执行fsync，由操作系统保证数据同步到磁盘，速度最快。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">always表示每次写入都执行fsync，以保证数据同步到磁盘。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">everysec表示每秒执行一次fsync，可能会导致丢失这1s数据。</span></span><br><span class="line">appendfsync everysec</span><br></pre></td></tr></table></figure>
-
-<p>对于触发aof重写机制也可以通过配置文件来进行设置：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> aof自动重写配置。当目前aof文件大小超过上一次重写的aof文件大小的百分之多少进行重写，即当aof文件增长到一定大小的时候Redis能够调用bgrewriteaof对日志文件进行重写。当前AOF文件大小是上次日志重写得到AOF文件大小的二倍（设置为100）时，自动启动新的日志重写过程。</span></span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置允许重写的最小aof文件大小，避免了达到约定百分比但尺寸仍然很小的情况还要重写</span></span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br></pre></td></tr></table></figure>
-
-<p>当aop重写时会引发重写和持久化追加同时发生的问题，可以通过<code>no-appendfsync-on-rewrite no</code>进行配置</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在aof重写或者写入rdb文件的时候，会执行大量IO，此时对于everysec和always的aof模式来说，执行fsync会造成阻塞过长时间，no-appendfsync-on-rewrite字段设置为默认设置为no，是最安全的方式，不会丢失数据，但是要忍受阻塞的问题。如果对延迟要求很高的应用，这个字段可以设置为yes，，设置为yes表示rewrite期间对新写操作不fsync,暂时存在内存中,不会造成阻塞的问题（因为没有磁盘竞争），等rewrite完成后再写入，这个时候redis会丢失数据。Linux的默认fsync策略是30秒。可能丢失30秒数据。因此，如果应用系统无法忍受延迟，而可以容忍少量的数据丢失，则设置为yes。如果应用系统无法忍受数据丢失，则设置为no。</span></span><br><span class="line">no-appendfsync-on-rewrite no</span><br></pre></td></tr></table></figure>
-
-<h4 id="如何恢复-1"><a href="#如何恢复-1" class="headerlink" title="如何恢复"></a>如何恢复</h4><h5 id="正常恢复"><a href="#正常恢复" class="headerlink" title="正常恢复"></a>正常恢复</h5><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将文件放到dir指定的文件夹下，当redis启动的时候会自动加载数据，注意：<code>aof文件的优先级比dump大</code>。</p>
-<h5 id="异常恢复"><a href="#异常恢复" class="headerlink" title="异常恢复"></a>异常恢复</h5><ul>
-<li><p>有些操作可以直接到appendonly.aof文件里去修改。</p>
-<p>eg：使用了flushall这个命令，此刻持久化文件中就会有这么一条命令记录，把它删掉就可以了</p>
-</li>
-<li><p>写坏的文件可以通过 <code>redis-check-aof --fix</code>进行修复</p>
-</li>
-</ul>
-<h4 id="优势-1"><a href="#优势-1" class="headerlink" title="优势"></a>优势</h4><ol>
-<li>根据不同的策略，可以实现每秒，每一次修改操作的同步持久化，就算在最恶劣的情况下只会丢失不会超过两秒数据。</li>
-<li><strong>AOF</strong>在对日志文件进行操作的时候是以<code>append-only</code>的方式去写的，他只是追加的方式写数据，自然就少了很多磁盘寻址的开销了，写入性能惊人，文件也不容易破损。</li>
-<li>当文件太大时，会触发重写机制，确保文件不会太大。</li>
-<li>文件可以简单的读懂，比如通过<strong>flushall</strong>误操作清空了所有的数据，只要这个时候后台重写还没发生，马上拷贝一份<strong>AOF</strong>日志文件，把最后一条<strong>flushall</strong>命令删了就完事了。</li>
-</ol>
-<h4 id="劣势-1"><a href="#劣势-1" class="headerlink" title="劣势"></a>劣势</h4><ol>
-<li><strong>AOF文件的大小太大</strong>，就算有重写机制，但重写所造成的阻塞问题是不可避免的</li>
-<li><strong>AOF</strong>开启后，<strong>Redis</strong>支持写的<strong>QPS</strong>会比<strong>RDB</strong>支持写的要低，他不是每秒都要去异步刷新一次日志嘛<strong>fsync</strong>，当然即使这样性能还是很高。</li>
-</ol>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
-<li><p>如果你只希望你的数据在服务器运行的时候存在，可以不使用任何的持久化方式</p>
-</li>
-<li><p>一般建议同时开启两种持久化方式。AOF进行数据的持久化，确保数据不会丢失太多，而RDB更适合用于备份数据库，留着一个做万一的手段。</p>
-</li>
-<li><p>性能建议：</p>
-<p>因为RDB文件只用做后备用途，建议只在slave上持久化RDB文件，而且只要在15分钟备份一次就够了，只保留900 1这条规则。</p>
-<p>如果Enalbe AOF,好处是在最恶劣情况下也只会丢失不超过两秒数据，启动脚本较简单只load自己的AOF文件就可以了。代价：1、带来了持续的IO；2、AOF rewrite的最后将rewrite过程中产生的新数据写到新文件造成的阻塞几乎是不可避免的。只要硬盘许可，应该尽量减少AOF rewrite的频率，AOF重写的基础大小默认值64M太小了，可以设到5G以上。默认超过原大小100%大小时重写可以改到适当的数值。</p>
-<p>如果不Enable AOF,仅靠Master-Slave Replication 实现高可用性也可以。能省掉一大笔IO也减少了rewrite时带来的系统波动。代价是如果Master/Slave同时宕掉，会丢失10几分钟的数据，启动脚本也要比较两个Master/Slave中的RDB文件，载入较新的那个。新浪微博就选用了这种架构。</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis跳跃表</title>
-    <url>/posts/3a0d04cf.html</url>
-    <content><![CDATA[<p>原文：<a href="http://www.wmyskxz.com/2020/02/29/redis-2-tiao-yue-biao/">http://www.wmyskxz.com/2020/02/29/redis-2-tiao-yue-biao/</a></p>
-<blockquote>
-<p> <strong>zset</strong> 的数据结构，它类似于 Java 中的 <strong>SortedSet</strong> 和 <strong>HashMap</strong> 的结合体，一方面它是一个 set 保证了内部 value 的唯一性，另一方面又可以给每个 value 赋予一个排序的权重值 score，来达到 <strong>排序</strong> 的目的</p>
-</blockquote>
-<h1 id="为什么使用跳跃表"><a href="#为什么使用跳跃表" class="headerlink" title="为什么使用跳跃表"></a>为什么使用跳跃表</h1><p>首先，因为 zset 要支持随机的插入和删除，所以它 <strong>不宜使用数组来实现</strong>，关于排序问题，我们也很容易就想到 <strong>红黑树/ 平衡树</strong> 这样的树形结构，为什么 Redis 不使用这样一些结构呢？</p>
-<ol>
-<li><strong>性能考虑：</strong> 在高并发的情况下，树形结构需要执行一些类似于 rebalance 这样的可能涉及整棵树的操作，相对来说跳跃表的变化只涉及局部；</li>
-<li><strong>实现考虑：</strong> 在复杂度与红黑树相同的情况下，跳跃表实现起来更简单，看起来也更加直观；</li>
-</ol>
-<h2 id="本质是解决查找问题"><a href="#本质是解决查找问题" class="headerlink" title="本质是解决查找问题"></a>本质是解决查找问题</h2><p>我们先来看一个普通的链表结构：</p>
-<p><a href="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-11b7eebde1779904.png"><img src="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-11b7eebde1779904.png" alt="img"></a></p>
-<p>我们需要这个链表按照 score 值进行排序，这也就意味着，当我们需要添加新的元素时，我们需要定位到插入点，这样才可以继续保证链表是有序的，通常我们会使用 <strong>二分查找法</strong>，但二分查找是有序数组的，链表没办法进行位置定位，我们除了遍历整个找到第一个比给定数据大的节点为止 <em>（时间复杂度 O(n))</em> 似乎没有更好的办法。</p>
-<p>但假如我们每相邻两个节点之间就增加一个指针，让指针指向下一个节点，如下图：</p>
-<p><a href="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-8cae2c261c950b32.png"><img src="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-8cae2c261c950b32.png" alt="img"></a></p>
-<p>这样所有新增的指针连成了一个新的链表，但它包含的数据却只有原来的一半 _（图中的为 3，11）_。</p>
-<p>现在假设我们想要查找数据时，可以根据这条新的链表查找，如果碰到比待查找数据大的节点时，再回到原来的链表中进行查找，比如，我们想要查找 7，查找的路径则是沿着下图中标注出的红色指针所指向的方向进行的：</p>
-<p><a href="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-9c0262c7a85c120e.png"><img src="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-9c0262c7a85c120e.png" alt="img"></a></p>
-<p>这是一个略微极端的例子，但我们仍然可以看到，通过新增加的指针查找，我们不再需要与链表上的每一个节点逐一进行比较，这样改进之后需要比较的节点数大概只有原来的一半。</p>
-<p>利用同样的方式，我们可以在新产生的链表上，继续为每两个相邻的节点增加一个指针，从而产生第三层链表：</p>
-<p><a href="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-22036e274bedaa5a.png"><img src="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-22036e274bedaa5a.png" alt="img"></a></p>
-<p>在这个新的三层链表结构中，我们试着 <strong>查找 13</strong>，那么沿着最上层链表首先比较的是 11，发现 11 比 13 小，于是我们就知道只需要到 11 后面继续查找，<strong>从而一下子跳过了 11 前面的所有节点。</strong></p>
-<p>可以想象，当链表足够长，这样的多层链表结构可以帮助我们跳过很多下层节点，从而加快查找的效率。</p>
-<h2 id="更进一步的跳跃表"><a href="#更进一步的跳跃表" class="headerlink" title="更进一步的跳跃表"></a>更进一步的跳跃表</h2><p><strong>跳跃表 skiplist</strong> 就是受到这种多层链表结构的启发而设计出来的。按照上面生成链表的方式，上面每一层链表的节点个数，是下面一层的节点个数的一半，这样查找过程就非常类似于一个二分查找，使得查找的时间复杂度可以降低到 _O(logn)_。</p>
-<p>但是，这种方法在插入数据的时候有很大的问题。新插入一个节点之后，就会打乱上下相邻两层链表上节点个数严格的 2:1 的对应关系。如果要维持这种对应关系，就必须把新插入的节点后面的所有节点 <em>（也包括新插入的节点）</em> 重新进行调整，这会让时间复杂度重新蜕化成 _O(n)_。删除数据也有同样的问题。</p>
-<p><strong>skiplist</strong> 为了避免这一问题，它不要求上下相邻两层链表之间的节点个数有严格的对应关系，而是 **为每个节点随机出一个层数(level)**。比如，一个节点随机出的层数是 3，那么就把它链入到第 1 层到第 3 层这三层链表中。为了表达清楚，下图展示了如何通过一步步的插入操作从而形成一个 skiplist 的过程：</p>
-<p><a href="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-1e0626c013de095e.png"><img src="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-1e0626c013de095e.png" alt="img"></a></p>
-<p>从上面的创建和插入的过程中可以看出，每一个节点的层数（level）是随机出来的，而且新插入一个节点并不会影响到其他节点的层数，因此，<strong>插入操作只需要修改节点前后的指针，而不需要对多个节点都进行调整</strong>，这就降低了插入操作的复杂度。</p>
-<p>现在我们假设从我们刚才创建的这个结构中查找 23 这个不存在的数，那么查找路径会如下图：</p>
-<p><a href="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-a8f66d808e8a4d1e.png"><img src="https://cdn.jsdelivr.net/gh/wmyskxz/img/img/Redis%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E8%B7%B3%E8%B7%83%E8%A1%A8/7896890-a8f66d808e8a4d1e.png" alt="img"></a></p>
 ]]></content>
       <categories>
         <category>Redis</category>
@@ -1353,6 +1070,54 @@
       </categories>
       <tags>
         <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>01.MyBatis面试</title>
+    <url>/posts/d39c0168.html</url>
+    <content><![CDATA[<h4 id="MyBatis是什么？"><a href="#MyBatis是什么？" class="headerlink" title="MyBatis是什么？"></a>MyBatis是什么？</h4><p>MyBatis 是一款优秀的持久层框架，一个半 ORM（对象关系映射）框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生类型、接口和 Java 的 POJO（Plain Old Java Objects，普通老式 Java 对象）为数据库中的记录。</p>
+<h4 id="ORM是什么"><a href="#ORM是什么" class="headerlink" title="ORM是什么"></a>ORM是什么</h4><p>ORM（Object Relational Mapping），对象关系映射，是一种为了解决关系型数据库数据与简单Java对（POJO）的映射关系的技术。简单的说，ORM是通过使用描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中。</p>
+<h4 id="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"><a href="#为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？" class="headerlink" title="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"></a>为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？</h4><p>Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。</p>
+<p>而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。</p>
+<h4 id="MyBatis编程步骤是什么样的？"><a href="#MyBatis编程步骤是什么样的？" class="headerlink" title="MyBatis编程步骤是什么样的？"></a>MyBatis编程步骤是什么样的？</h4><p>1、 创建SqlSessionFactory</p>
+<p>2、 通过SqlSessionFactory创建SqlSession</p>
+<p>3、 通过sqlsession执行数据库操作</p>
+<p>4、 调用session.commit()提交事务</p>
+<p>5、 调用session.close()关闭会话</p>
+<h4 id="MyBatis的工作原理"><a href="#MyBatis的工作原理" class="headerlink" title="MyBatis的工作原理"></a>MyBatis的工作原理</h4><p>在学习 MyBatis 程序之前，需要了解一下 MyBatis 工作原理，以便于理解程序。MyBatis 的工作原理如下图</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0pvdXJXb24vaW1hZ2UvbWFzdGVyL015QmF0aXMlRTYlQTElODYlRTYlOUUlQjYlRTYlODAlQkIlRTclQkIlOTMvTXlCYXRpcyVFNSVCNyVBNSVFNCVCRCU5QyVFNSU4RSU5RiVFNyU5MCU4Ni5wbmc.png" alt="MyBatis工作原理"></p>
+<p>1）读取 MyBatis 配置文件：mybatis-config.xml 为 MyBatis 的全局配置文件，配置了 MyBatis 的运行环境等信息，例如数据库连接信息。</p>
+<p>2）加载映射文件。映射文件即 SQL 映射文件，该文件中配置了操作数据库的 SQL 语句，需要在 MyBatis 配置文件 mybatis-config.xml 中加载。mybatis-config.xml 文件可以加载多个映射文件，每个文件对应数据库中的一张表。</p>
+<p>3）构造会话工厂：通过 MyBatis 的环境等配置信息构建会话工厂 SqlSessionFactory。</p>
+<p>4）创建会话对象：由会话工厂创建 SqlSession 对象，该对象中包含了执行 SQL 语句的所有方法。</p>
+<p>5）Executor 执行器：MyBatis 底层定义了一个 Executor 接口来操作数据库，它将根据 SqlSession 传递的参数动态地生成需要执行的 SQL 语句，同时负责查询缓存的维护。</p>
+<p>6）MappedStatement 对象：在 Executor 接口的执行方法中有一个 MappedStatement 类型的参数，该参数是对映射信息的封装，用于存储要映射的 SQL 语句的 id、参数等信息。</p>
+<p>7）输入参数映射：输入参数类型可以是 Map、List 等集合类型，也可以是基本数据类型和 POJO 类型。输入参数映射过程类似于 JDBC 对 preparedStatement 对象设置参数的过程。</p>
+<p>8）输出结果映射：输出结果类型可以是 Map、 List 等集合类型，也可以是基本数据类型和 POJO 类型。输出结果映射过程类似于 JDBC 对结果集的解析过程。</p>
+<h4 id="和-的区别是什么？"><a href="#和-的区别是什么？" class="headerlink" title="#{}和${}的区别是什么？"></a>#{}和${}的区别是什么？</h4><ul>
+<li><p><strong>${} 是 Properties ⽂件中的变量占位符</strong>，它可以⽤于标签属性值和 sql 内部，属于静态⽂本替换，⽐如${driver}会被静态替换为 com.mysql.jdbc.Driver 。</p>
+</li>
+<li><p><strong>#{} 是 sql 的参数占位符</strong>，Mybatis 会将 sql 中的 #{} 替换为?号，在 sql 执⾏前会使⽤PreparedStatement 的参数设置⽅法，按序给 sql 的?号占位符设置参数值，⽐如ps.setInt(0, parameterValue)， #{item.name} 的取值⽅式为使⽤反射从参数对象中获取item 对象的 name 属性值，相当于 param.getItem().getName() 。</p>
+</li>
+</ul>
+<p>简单来说：**${}是字符串替换，#{}是预编译处理。一般用# {}防止sql注入问题。**</p>
+<h4 id="Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？"><a href="#Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？" class="headerlink" title="Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？"></a>Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？</h4><p>还有很多其他的标签， <resultMap> 、 <parameterMap> 、 <sql> 、 <include> 、 <selectKey> ，加上动态 sql的 9 个标签，<code> trim|where|set|foreach|if|choose|when|otherwise|bind</code> 等，其中sql为⽚段标签，通过 <include> 标签引⼊ sql ⽚段， <selectKey> 为不⽀持⾃增的主键⽣成策略标签。</p>
+<h4 id="如何获取自增主键"><a href="#如何获取自增主键" class="headerlink" title="如何获取自增主键"></a>如何获取自增主键</h4><ul>
+<li>注解</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Insert(&quot;insert into user (name) values  (#&#123;name&#125; )&quot;)</span></span><br><span class="line"><span class="meta">@Options(useGeneratedKeys = true,keyProperty =&quot;id&quot;,keyColumn = &quot;id&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">int</span>  <span class="title">inseartUser</span><span class="params">(User  user)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>xml</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">”indetifyId”</span>  <span class="attr">useGeneratedKeys</span>=<span class="string">”true”</span> <span class="attr">keyProperty</span>=<span class="string">”id”</span> <span class="attr">keyColumn</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>MyBatis</category>
+      </categories>
+      <tags>
+        <tag>MyBatis</tag>
       </tags>
   </entry>
   <entry>
@@ -1671,6 +1436,471 @@
       </tags>
   </entry>
   <entry>
+    <title>HashMap源码分析</title>
+    <url>/posts/ca4438af.html</url>
+    <content><![CDATA[<h1 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h1><p><code>HashMap</code>中的主要参数 = 容量、加载因子、扩容阈值</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1. 容量（capacity）： HashMap中数组的长度</span></span><br><span class="line"><span class="comment">// a. 容量范围：必须是2的幂 &amp; &lt;最大容量（2的30次方）</span></span><br><span class="line"><span class="comment">// b. 初始容量 = 哈希表创建时的容量</span></span><br><span class="line">  <span class="comment">// 默认容量 = 16 = 1&lt;&lt;4 = 00001中的1向左移4位 = 10000 = 十进制的2^4=16</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>;</span><br><span class="line">  <span class="comment">// 最大容量 =  2的30次方（若传入的容量过大，将被最大值替换）</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAXIMUM_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 加载因子(Load factor)：HashMap在其容量自动增加前可达到多满的一种尺度</span></span><br><span class="line"><span class="comment">// a. 加载因子越大、填满的元素越多 = 空间利用率高、但冲突的机会加大、查找效率变低（因为链表变长了）</span></span><br><span class="line"><span class="comment">// b. 加载因子越小、填满的元素越少 = 空间利用率小、冲突的机会减小、查找效率高（链表不长）</span></span><br><span class="line">  <span class="comment">// 实际加载因子</span></span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">float</span> loadFactor;</span><br><span class="line">  <span class="comment">// 默认加载因子 = 0.75</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 扩容阈值（threshold）：当哈希表的大小 ≥ 扩容阈值时，就会扩容哈希表（即扩充HashMap的容量） </span></span><br><span class="line"><span class="comment">// a. 扩容 = 对哈希表进行resize操作（即重建内部数据结构），从而哈希表将具有大约两倍的桶数</span></span><br><span class="line"><span class="comment">// b. 扩容阈值 = 容量 x 加载因子</span></span><br><span class="line">  <span class="keyword">int</span> threshold;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 其他</span></span><br><span class="line"> <span class="comment">// 存储数据的Entry类型 数组，长度 = 2的幂</span></span><br><span class="line"> <span class="comment">// HashMap的实现方式 = 拉链法，Entry数组上的每个元素本质上是一个单向链表</span></span><br><span class="line">  <span class="keyword">transient</span> Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;  </span><br><span class="line"> <span class="comment">// HashMap的大小，即 HashMap中存储的键值对的数量</span></span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">int</span> size;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<h2 id="JDK1-7"><a href="#JDK1-7" class="headerlink" title="JDK1.7"></a>JDK1.7</h2><p>在JDK1.7中，HASHMAP是由数组+链表实现的，原理图如下：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/365147/1559393079633-f01038db-0d1b-420d-a9f3-2c238e39c71f.png" alt="image"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HashMap map = <span class="keyword">new</span> HashMap(); <span class="comment">// 伪初始化</span></span><br><span class="line">map.put(<span class="string">&quot;键&quot;</span>，<span class="string">&quot;值&quot;</span>); <span class="comment">// 真初始化</span></span><br></pre></td></tr></table></figure>
+
+<p>HashMap的构造方法在执行时会初始化一个数组table，大小为0。</p>
+<p>HashMap的put方法在执行时首先会判断table的大小是否为0，如果为0则会进行真初始化，也叫做延迟初始化。</p>
+<p>当进行真初始化时，数组的默认大小为16，当然也可以调用HashMap的有参构造方法由你来指定一个数组的初始化容量。</p>
+<p><strong>注意：</strong>并不是你真正说了算，比如你现在想让数组的初始化容量为6，那么HashMap会生成一个大小为8的数组，如果你想数组的初始化容量为20，那么HashMap会生成一个大小为32的数组，也就是你想初始化一个大小为n的数组，但是HashMap会初始化一个大小<strong>大于等于n的二次方数</strong>的一个数组。。</p>
+<p>对于put方法，当无需对table进行初始化或已经初始化完了之后，它接下来的主要任务是将key和value存到数组或链表中。<strong>那么怎么将一个key-value给存到数组中去呢？</strong></p>
+<p>我们知道，如果我们想往数组中存入数据，我们首先得有一个数组下标，而我们在进行Put的时候并不需要再传一个参数来作为数组的下标，那是因为HashMap会利用hash算法将key转换为数组下标。</p>
+<p><strong>但是还有一个问题就是，HashCode它能直接作为数组下标吗？</strong></p>
+<p>HashCode它通常是一个比较大的数字，比如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">System.out.println(<span class="string">&quot;键&quot;</span>.hashCode()); <span class="comment">// 38190</span></span><br><span class="line"><span class="comment">// 为什么是这个结果，大家自行去看String类中的hashCode方法</span></span><br></pre></td></tr></table></figure>
+
+<p>所以我们不可能把这么大的一个数字作为数组下标，那怎么办？</p>
+<p>大家可能通常会想到取模运算，但是HashMap没有用取模，而是：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">indexFor</span><span class="params">(<span class="keyword">int</span> h, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert Integer.bitCount(length) == 1 : &quot;length must be a non-zero power of 2&quot;;</span></span><br><span class="line">    <span class="keyword">return</span> h &amp; (length-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个方法就是JDK1.7HashMap中put和get方法中获取数组下标的方法，这个方法中h代表hashcode，length代表数组长度。我们发现它是用的<strong>逻辑与</strong>操作，那么问题就来了，逻辑与操作能准确的算出来一个数组下标？我们来算算，假设hashcode是01010101(二进制表示)，length为00010000(16的二进制表示)，那么h &amp; (length-1)则为：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">h:  0101 0101</span><br><span class="line">15: 0000 1111</span><br><span class="line">  &amp;</span><br><span class="line">    0000 0101</span><br></pre></td></tr></table></figure>
+
+<p>对于上面这个运行结果的取值方法我们来讨论一下：因为15的高四位都是0，低四位都是1，而与操作的逻辑是两个运算位都为1结果才为1，所以对于上面这个运算结果的高四位肯定都是0，而低四位和h的低四位是一样的，所以结果的取值范围就是h的低四位的一个取值范围：0000-1111，也就是0至15，所以这个结果是符合数组下标的取值范围的。</p>
+<p>那么假设length为17呢？那么h &amp; (length-1)则为：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">h:  0101 0101</span><br><span class="line">16: 0001 0000</span><br><span class="line">  &amp;</span><br><span class="line">    0001 0000</span><br></pre></td></tr></table></figure>
+
+<p>当length为17时，上面的运算的结果取值范围只有两个值，要么是0000 0000，要么是0001 000，这是不太好的。</p>
+<p>所以我们发现，如果我们想把HashCode转换为覆盖数组下标取值范围的下标，跟我们的length是非常相关的，length如果是16，那么减一之后就是15(0000 1111)，正是这种高位都为0，低位都为1的二级制数才保证了可以对任意一个hashcode经过逻辑与操作后得到的结果是我们想要的数组下标。<strong>这就是为什么在真初始化HashMap的时候，对于数组的长度一定要是二次方数，二次方数和算数组下标是息息相关的，而这种位运算是要比取模更快的。</strong></p>
+<p><strong>总结</strong>：在调用put方法时，会对传入的key进行哈希运算得到一个hashcode，然后再通过逻辑与操作得到一个数组下标，最后将key-value存在这个数组下标处。</p>
+<h3 id="Hash冲突解决"><a href="#Hash冲突解决" class="headerlink" title="Hash冲突解决"></a>Hash冲突解决</h3><p>HashMap存储结构如下图：</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/1559539766929-fa3be7f9-072a-46e9-b0f4-d7e922b43bef.png" alt="image.png" style="zoom:50%;" />
+
+<p>那么节点1和节点2组成了一个链表，那么现在如果再来put一个节点3，假设节点3也需要插在这个链表中，我们考虑链表的插入效率，将节点3插在链表的头部是最快的，那么就会如下图：</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/1559539733346-e2fdebef-8aa2-4657-b1c7-73700ceb21a8.png" alt="image.png" style="zoom:50%;" />
+
+<p>那么按照上图这种插入办法，会出现一个问题：</p>
+<ul>
+<li>当我们需要get(节点2)时，我们先将节点2的key进行哈希然后算出下标，拿到下标后可以定位到数组中的节点1，但是发现节点1不等于节点2，所以不是最终的结果，但是节点1存在下一个节点，所以可以顺着向下的指针找到节点2。</li>
+<li>那么当我们需要get(节点3)时呢，我们发现是找不到节点3的，<strong>所以当我们把节点简单的插在链表的头部是不行的。</strong></li>
+</ul>
+<p>那HashMap是怎么实现的呢？HashMap确实是将节点插在链表的头部，但是在插完之后HashMap会将整个链表向下移动一位，移动完之后就会变成：</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/1559540332883-f7792773-13cb-4e27-ada2-fcbc14ed86bf.png" alt="image.png" style="zoom:50%;" />
+
+<p>那么现在put的时候插入一个元素的思路就是：<strong>将新节点插在链表的头部，此时新节点就是当前这个链表的头节点，接下来把头节点移动到数组位置即可。</strong></p>
+<p>当我们在使用HashMap的时候，还可能会出现下面的使用方式:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HashMap&lt;String, String&gt; hashMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">hashMap.put(<span class="string">&quot;1&quot;</span>, <span class="string">&quot;2&quot;</span>);</span><br><span class="line">String value = hashMap.put(<span class="string">&quot;1&quot;</span>, <span class="string">&quot;3&quot;</span>);</span><br><span class="line">System.out.println(value);</span><br></pre></td></tr></table></figure>
+
+<p>第三行代码也是put，而这个时候在HashMap里会将value覆盖，也就是key=”1”对应的value最终为”3”，而第三行代码返回的value将会是2。</p>
+<p>我们现在来考虑这个put它是如何实现的，其实很简单，第三行代码的逻辑也是先对”1”计算哈希值以及对应的数组下标，有了数组下标之后就可以找到对应的位置的链表，而在将新节点插入到链表之前，还需要判断一下当前新节点的key值是不是已经在这个链表上存在，所以需要先去遍历当前这个位置的链表，在遍历的过程中如果找到了相同的key则会进行value的覆盖，并且返回oldvalue。</p>
+<p>写到这里其实对于HashMap的put的主要逻辑也差不多了，总结一下：</p>
+<ol>
+<li>put(key，value)</li>
+<li>int hashcode = key.hashCode();</li>
+<li>int index = hashcode &amp; (数组长度-1)</li>
+<li>遍历index位置的链表，如果存在相同的key，则进行value覆盖，并且返回之前的value值</li>
+<li>将key，value封装为节点对象（Entry）</li>
+<li>将节点插在index位置上的链表的头部</li>
+<li>将链表头节点移动到数组上</li>
+</ol>
+<p>这是最核心的7步，然后在这个过程中还有很重要的一步就是<strong>扩容</strong>，而扩容是发生在插入节点之前的，也就是步骤4和5之间的。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><table>
+<thead>
+<tr>
+<th>不同</th>
+<th>JDK 1.7</th>
+<th>JDK 1.8</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储结构</td>
+<td>数组 + 链表</td>
+<td>数组 + 链表 + 红黑树</td>
+</tr>
+<tr>
+<td>初始化方式</td>
+<td>单独函数：<code>inflateTable()</code></td>
+<td>直接集成到了扩容函数<code>resize()</code>中</td>
+</tr>
+<tr>
+<td>hash值计算方式</td>
+<td>扰动处理 = 9次扰动 = 4次位运算 + 5次异或运算</td>
+<td>扰动处理 = 2次扰动 = 1次位运算 + 1次异或运算</td>
+</tr>
+<tr>
+<td>存放数据的规则</td>
+<td>无冲突时，存放数组；冲突时，存放链表</td>
+<td>无冲突时，存放数组；冲突 &amp; 链表长度 &lt; 8：存放单链表；冲突 &amp; 链表长度 &gt; 8：树化并存放红黑树</td>
+</tr>
+<tr>
+<td>插入数据方式</td>
+<td>头插法（先将原位置的数据移到后1位，再插入数据到该位置）</td>
+<td>尾插法（直接插入到链表尾部/红黑树）</td>
+</tr>
+<tr>
+<td>扩容后存储位置的计算方式</td>
+<td>全部按照原来方法进行计算（即hashCode -&gt;&gt; 扰动函数 -&gt;&gt; (h&amp;length-1)）</td>
+<td>按照扩容后的规律计算（即扩容后的位置=原位置 or 原位置 + 旧容量）</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p><strong>问题1：为什么不直接采用经过hashCode（）处理的哈希码 作为存储数组table的下标位置？</strong></p>
+<p>容易出现 哈希码 与 数组大小范围不匹配的情况，即计算出来的哈希码可能 不在数组大小范围内，从而导致无法匹配存储位置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/aHR0cDovL3VwbG9hZC1pbWFnZXMuamlhbnNodS5pby91cGxvYWRfaW1hZ2VzLzk0NDM2NS1kMThlZTA2OTdhMWExYjUzLnBuZz9pbWFnZU1vZ3IyL2F1dG8tb3JpZW50L3N0cmlwJTdDaW1hZ2VWaWV3Mi8yL3cvMTI0MA.png" alt="示意图"></p>
+<p>为了解决 “哈希码与数组大小范围不匹配” 的问题，<code>HashMap</code>给出了解决方案：<strong>哈希码 与运算（&amp;） （数组长度-1）</strong>；</p>
+</li>
+<li><p><strong>问题2：为什么在计算数组下标前，需对哈希码进行二次处理：扰动处理？</strong></p>
+<p>加大哈希码低位的随机性，使得分布更均匀，从而提高对应数组存储下标位置的随机性 &amp; 均匀性，最终减少Hash冲突</p>
+</li>
+<li><p><strong>问题3，HashMap如何扩容</strong></p>
+<ul>
+<li>扩容：创建一个新的Entry空数组，长度是原数组的2倍。</li>
+<li>ReHash：遍历原Entry数组，把所有的Entry重新Hash到新数组。</li>
+</ul>
+</li>
+<li><p><strong>问题4：为什么要ReHash？</strong></p>
+<p>Hash的公式—&gt; index = HashCode（Key） &amp; （Length - 1）</p>
+<p>原来长度（Length）是8你位运算出来的值是2 ，新的长度是16你位运算出来的值明显不一样了。</p>
+</li>
+<li><p><strong>问题5：为什么JDK1.8会使用尾插法代替头插法</strong></p>
+<p><strong>使用头插</strong>会改变链表的上的顺序，但是如果<strong>使用尾插</strong>，在扩容时会保持链表元素原本的顺序，就不会出现链表成环的问题了。</p>
+</li>
+<li><p>问题6，JDK1.7和1.8中hash()函数有何区别？</p>
+<p><strong>相比在1.7中的4次位运算，5次异或运算（9次扰动），在1.8中，只进行了1次位运算和1次异或运算（2次扰动）</strong></p>
+</li>
+</ul>
+<ul>
+<li></li>
+</ul>
+]]></content>
+      <categories>
+        <category>集合</category>
+      </categories>
+      <tags>
+        <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>01.集合常见面试题</title>
+    <url>/posts/712091b3.html</url>
+    <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201123135855532.png" alt="image-20201123135855532"></p>
+<h1 id="说说-List-Set-Map-三者的区别？"><a href="#说说-List-Set-Map-三者的区别？" class="headerlink" title="说说 List,Set,Map 三者的区别？"></a>说说 List,Set,Map 三者的区别？</h1><ul>
+<li><p><strong>List</strong> (对付顺序的好帮⼿)： 存储的元素是<strong>有序的、可重复的</strong>。</p>
+</li>
+<li><p><strong>Set</strong> (注重独⼀⽆⼆的性质): 存储的元素是<strong>⽆序的、不可重复的</strong>。</p>
+</li>
+<li><p><strong>Map</strong> (⽤ Key 来搜索的专家): 使⽤<strong>键值对（kye-value）存储</strong>，类似于数学上的函数 y=f(x)，“x”代表 key，”y”代表 value，Key 是⽆序的、不可重复的，value 是⽆序的、可重复的，每个键最多映射到⼀个值。</p>
+</li>
+</ul>
+<h1 id="集合框架底层数据结构总结"><a href="#集合框架底层数据结构总结" class="headerlink" title="集合框架底层数据结构总结"></a>集合框架底层数据结构总结</h1><h2 id="Collection-接⼝下⾯的集合"><a href="#Collection-接⼝下⾯的集合" class="headerlink" title="Collection 接⼝下⾯的集合"></a>Collection 接⼝下⾯的集合</h2><h3 id="List"><a href="#List" class="headerlink" title="List"></a><strong>List</strong></h3><ul>
+<li><p><strong>Arraylist</strong> ：</p>
+<p>底层用<strong>数组</strong>实现的存储。</p>
+<p><strong>特点</strong>：查询效率高，增删效率低，线程不安全。使用频率很高。</p>
+</li>
+<li><p><strong>Vector</strong> ：</p>
+<p>底层用<strong>数组</strong>实现的存储。</p>
+<p><strong>特点</strong>：线程安全</p>
+</li>
+<li><p><strong>LinkedList</strong> ： </p>
+<p>底层使用<strong>双向链表</strong>(JDK1.6 之前为循环链表，JDK1.7 取消了循环)实现</p>
+<p><strong>特点</strong>：增删效率高，查询效率低，线程不安全。</p>
+</li>
+</ul>
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a><strong>Set</strong></h3><ul>
+<li><p><strong>HashSet （⽆序，唯⼀）</strong>: <strong>基于HashMap</strong>实现的，底层采⽤ <strong>HashMap</strong>来保存元素</p>
+</li>
+<li><p><strong>LinkedHashSet</strong> ： LinkedHashSet 是 HashSet 的⼦类，并且其<strong>内部是通过LinkedHashMap 来实现</strong>的。有点类似于我们之前说的 LinkedHashMap 其内部是基于<strong>HashMap</strong> 实现⼀样，不过还是有⼀点点区别的</p>
+</li>
+<li><p><strong>TreeSet</strong> （有序，唯⼀）： 红⿊树(⾃平衡的排序⼆叉树)</p>
+</li>
+</ul>
+<h2 id="Map-接⼝下⾯的集合"><a href="#Map-接⼝下⾯的集合" class="headerlink" title="Map 接⼝下⾯的集合"></a>Map 接⼝下⾯的集合</h2><h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a><strong>Map</strong></h3><p><strong>HashMap</strong> ： <strong>JDK1.8 之前 HashMap 由数组+链表</strong>组成的，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突⽽存在的（“拉链法”解决冲突）。JDK1.8 以后在解决哈希冲突时有了较⼤的变化，当链表⻓度⼤于阈值（默认为 8）（将链表转换成红⿊树前会判断，如果当前数组的⻓度⼩于 64，那么会选择先进⾏数组扩容，⽽不是转换为红⿊树）时，将链表转化为红⿊树，以减少搜索时间</p>
+<p><strong>LinkedHashMap</strong> ： LinkedHashMap 继承⾃ HashMap ，所以它的底层仍然是基于拉链式散列结构即由数组和链表或红⿊树组成。另外， LinkedHashMap 在上⾯结构的基础上，增加了⼀条双向链表，使得上⾯的结构可以保持键值对的插⼊顺序。</p>
+<p><strong>Hashtable</strong> ： <strong>数组+链表组成</strong>的，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突⽽存在的</p>
+<p><strong>TreeMap</strong> ： 红⿊树（⾃平衡的排序⼆叉树）</p>
+<h1 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h1><h2 id="ArrayList底层时Object-，数组的长度是有限制的-那ArrayList是怎么自动扩容的"><a href="#ArrayList底层时Object-，数组的长度是有限制的-那ArrayList是怎么自动扩容的" class="headerlink" title="ArrayList底层时Object[]，数组的长度是有限制的,那ArrayList是怎么自动扩容的"></a>ArrayList底层时Object[]，数组的长度是有限制的,那ArrayList是怎么自动扩容的</h2><p>ArrayList可以通过构造方法在初始化的时候指定底层数组的大小。</p>
+<p>通过无参构造方法的方式ArrayList()初始化，则赋值底层数Object[] elementData为一个默认空数组Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {}所以数组容量为0，只有真正对数据进行添加add时，才分配默认DEFAULT_CAPACITY = 10的初始容量。</p>
+<p>大家可以分别看下他的无参构造器和有参构造器，无参就是默认大小0，有参会判断参数。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * Constructs an empty list with the specified initial capacity.</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span>  initialCapacity  the initial capacity of the list</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@throws</span> IllegalArgumentException if the specified initial capacity</span></span><br><span class="line"><span class="comment">  *         is negative</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (initialCapacity &gt; <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">this</span>.elementData = <span class="keyword">new</span> Object[initialCapacity];</span><br><span class="line">     &#125; <span class="keyword">else</span> <span class="keyword">if</span> (initialCapacity == <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">this</span>.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Illegal Capacity: &quot;</span>+</span><br><span class="line">                                            initialCapacity);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * Constructs an empty list with an initial capacity of ten.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">this</span>.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;<span class="comment">// 默认为空</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ArrayList长度不受限制的实现方式比较简单，他就是通过数组扩容的方式去实现的。</strong></p>
+<p>就比如我们现在有一个长度为10的数组，现在我们要新增一个元素，发现已经满了，它就会执行如下操作:</p>
+<ul>
+<li><p>第一步他会重新定义一个长度为当前1.5倍的数组。</p>
+</li>
+<li><p>把原数组的数据，原封不动的复制到新数组中，这个时候再把指向原数的地址换到新数组，ArrayList就这样完成了一次改头换面。</p>
+</li>
+</ul>
+<h2 id="ArrayList新增逻辑？"><a href="#ArrayList新增逻辑？" class="headerlink" title="ArrayList新增逻辑？"></a>ArrayList新增逻辑？</h2><p>他有指定index新增，也有直接新增的，在这之前他会有一步校验长度的判断<strong>ensureCapacityInternal</strong>，就是说如果长度不够，是需要扩容的。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">  ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">  elementData[size++] = e;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在扩容的时候，老版本的jdk和8以后的版本是有区别的，8之后的效率更高了，采用了位运算，<strong>右移</strong>一位，其实就是除以2这个操作。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// overflow-conscious code</span></span><br><span class="line">  <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">  <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>); <span class="comment">// 右移扩容</span></span><br><span class="line">  <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">  newCapacity = minCapacity;</span><br><span class="line">  <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">  newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">  <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">  elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>指定位置新增的时候，在校验之后的操作很简单，就是数组的copy，大家可以看下代码。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</span><br><span class="line">  rangeCheckForAdd(index);</span><br><span class="line"></span><br><span class="line">  ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">  <span class="comment">// 数组拷贝</span></span><br><span class="line">  System.arraycopy(elementData, index, elementData, index + <span class="number">1</span>, size - index);</span><br><span class="line">  elementData[index] = element;</span><br><span class="line">  size++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ArrayList源码建议看这边：<a href="https://mp.weixin.qq.com/s/3PNWmtS-bEZgZjd9wyMiDA">ArrayList源码</a></p>
+<h1 id="区别相关"><a href="#区别相关" class="headerlink" title="区别相关"></a>区别相关</h1><h2 id="HashMap与HashTable的区别？"><a href="#HashMap与HashTable的区别？" class="headerlink" title="HashMap与HashTable的区别？"></a>HashMap与HashTable的区别？</h2><ol>
+<li>HashMap没有考虑同步，是线程不安全的；Hashtable使用了synchronized关键字，是线程安全的；</li>
+<li>HashMap允许K/V都为null；后者K/V都不允许为null；</li>
+<li>HashMap继承自AbstractMap类；而Hashtable继承自Dictionary类；</li>
+</ol>
+<h1 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h1><h2 id="有哪些集合是线程不安全的？怎么解决呢？"><a href="#有哪些集合是线程不安全的？怎么解决呢？" class="headerlink" title="有哪些集合是线程不安全的？怎么解决呢？"></a>有哪些集合是线程不安全的？怎么解决呢？</h2><p>我们常⽤的 <strong>Arraylist, LinkedList , Hashmap , HashSet , TreeSet , TreeMap ， PriorityQueue</strong> 都不是线程安全的。</p>
+<p>解决办法很简单，可以使⽤线程安全的集合来代替。</p>
+<p>如果你要使⽤线程安全的集合的话， java.util.concurrent 包中提供了很多并发容器供你使⽤：</p>
+<ol>
+<li><p><strong>ConcurrentHashMap</strong> : 可以看作是线程安全的 <strong>HashMap</strong>。</p>
+</li>
+<li><p><strong>CopyOnWriteArrayList</strong> :可以看作是线程安全的 <strong>ArrayList</strong> ，在读多写少的场合性能⾮常好，远远好于 Vector。</p>
+</li>
+<li><p><strong>ConcurrentLinkedQueue</strong> :⾼效的并发队列，使⽤链表实现。可以看做⼀个线程安全的<strong>LinkedList</strong> ，这是⼀个⾮阻塞队列。</p>
+</li>
+<li><p><strong>BlockingQueue</strong> : 这是⼀个接⼝，JDK 内部通过链表、数组等⽅式实现了这个接⼝。表示阻塞队列，⾮常适合⽤于作为数据共享的通道。</p>
+</li>
+<li><p><strong>ConcurrentSkipListMap</strong> :跳表的实现。这是⼀个 Map ，使⽤跳表的数据结构进⾏快速查找。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>集合</category>
+      </categories>
+      <tags>
+        <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>01.Spring基础</title>
+    <url>/posts/c9e764a5.html</url>
+    <content><![CDATA[<h3 id="什么是spring"><a href="#什么是spring" class="headerlink" title="什么是spring?"></a>什么是spring?</h3><p>Spring 是一个<strong>轻量级的 DI / IoC 和 AOP 容器的开源框架</strong>，目的是为了解决企业级应用开发的业务逻辑层和其他各层的耦合问题。它是一个轻量级开源框架，为开发Java应用程序提供全面的基础架构支持。Spring负责基础架构，因此Java开发者可以专注于应用程序的开发。</p>
+<p>Spring最根本的使命是<strong>解决企业级应用开发的复杂性，即简化Java开发</strong>。</p>
+<h3 id="侵⼊式概念"><a href="#侵⼊式概念" class="headerlink" title="侵⼊式概念"></a>侵⼊式概念</h3><p><strong>侵⼊式</strong>：对于EJB、Struts2等⼀些传统的框架，通常是要实现特定的接⼝，继承特定的类才能增强功能</p>
+<ul>
+<li>改变了<strong>java</strong>类的结构</li>
+</ul>
+<p><strong>⾮侵⼊式</strong>：对于Hibernate、Spring等框架，对现有的类结构没有影响，就能够增强<strong>JavaBean</strong>的功能</p>
+<h3 id="Spring的优缺点是什么？"><a href="#Spring的优缺点是什么？" class="headerlink" title="Spring的优缺点是什么？"></a>Spring的优缺点是什么？</h3><p><strong>优点</strong></p>
+<ul>
+<li><p>方便解耦，简化开发</p>
+<p>Spring就是一个大工厂，可以将所有对象的创建和依赖关系的维护，交给Spring管理。</p>
+</li>
+<li><p>AOP编程的支持</p>
+<p>Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能。</p>
+</li>
+<li><p>声明式事务的支持</p>
+<p>只需要通过配置就可以完成对事务的管理，而无需手动编程。</p>
+</li>
+<li><p>方便程序的测试</p>
+<p>Spring对Junit4支持，可以通过注解方便的测试Spring程序。</p>
+</li>
+<li><p>方便集成各种优秀框架</p>
+<p>Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架的直接支持（如：Struts、Hibernate、MyBatis等）。</p>
+</li>
+<li><p>降低JavaEE API的使用难度</p>
+<p>Spring对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低。</p>
+</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>Spring明明一个很轻量级的框架，却给人感觉大而全</li>
+<li>Spring依赖反射，反射影响性能</li>
+<li>使用门槛升高，入门Spring需要较长时间</li>
+</ul>
+<h3 id="Spring核心模块"><a href="#Spring核心模块" class="headerlink" title="Spring核心模块"></a>Spring核心模块</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2019102923475419.png" alt="在这里插入图片描述"></p>
+<ul>
+<li><strong>spring core</strong>：提供了框架的基本组成部分，包括<strong>控制反转</strong>（Inversion of Control，IOC）和<strong>依赖注入</strong>（Dependency Injection，DI）功能。</li>
+<li><strong>spring beans</strong>：提供了BeanFactory，是工厂模式的一个经典实现，Spring将管理对象称为Bean。</li>
+<li><strong>spring context</strong>：构建于 core 封装包基础上的 context 封装包，提供了一种框架式的对象访问方法。</li>
+<li><strong>spring jdbc</strong>：提供了一个JDBC的抽象层，消除了烦琐的JDBC编码和数据库厂商特有的错误代码解析， 用于简化JDBC。</li>
+<li><strong>spring aop</strong>：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。</li>
+<li><strong>spring Web</strong>：提供了针对 Web 开发的集成特性，例如文件上传，利用 servlet listeners 进行 ioc 容器初始化和针对 Web 的 ApplicationContext。</li>
+<li><strong>spring test</strong>：主要为测试提供支持的，支持使用JUnit或TestNG对Spring组件进行单元测试和集成测试。</li>
+</ul>
+<h3 id="Spring-框架中都用到了哪些设计模式？"><a href="#Spring-框架中都用到了哪些设计模式？" class="headerlink" title="Spring 框架中都用到了哪些设计模式？"></a>Spring 框架中都用到了哪些设计模式？</h3><ol>
+<li><strong>工厂模式</strong>：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；</li>
+<li><strong>单例模式</strong>：Bean默认为单例模式。</li>
+<li><strong>代理模式</strong>：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；</li>
+<li><strong>模板方法</strong>：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。</li>
+<li><strong>观察者模式</strong>：定义对象键一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知被制动更新，如Spring中listener的实现–ApplicationListener。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>03.SpringAOP</title>
+    <url>/posts/d1427ef9.html</url>
+    <content><![CDATA[<h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。</p>
+<h4 id="AOP-即-Aspect-Oriented-Program-面向切面编程"><a href="#AOP-即-Aspect-Oriented-Program-面向切面编程" class="headerlink" title="AOP 即 Aspect Oriented Program 面向切面编程"></a>AOP 即 Aspect Oriented Program 面向切面编程</h4><p>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。</p>
+<ul>
+<li><strong>所谓的核心业务</strong>，比如登陆，增加数据，删除数据都叫核心业务</li>
+<li><strong>所谓的周边功能</strong>，比如性能统计，日志，事务管理等等</li>
+</ul>
+<p>周边功能在 Spring 的面向切面编程AOP思想里，即被定义为切面</p>
+<p>在面向切面编程AOP的思想里面，核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫AOP</p>
+<h4 id="OOP缺陷"><a href="#OOP缺陷" class="headerlink" title="OOP缺陷"></a>OOP缺陷</h4><ul>
+<li><strong>代码混乱</strong>：核心业务模块可能需要兼顾处理其他不相干的业务外围操作，这些外围操作可能会混乱核心操作的代码，而且当外围模块有重大修改时也会影响到核心模块，这显然是不合理的。</li>
+<li><strong>代码分散和冗余</strong>：同样的功能代码，在其他的模块几乎随处可见，导致代码分散并且冗余度高。</li>
+<li><strong>代码质量低扩展难</strong>：由于不太相关的业务代码混杂在一起，无法专注核心业务代码，当进行类似无关业务扩展时又会直接涉及到核心业务的代码，导致拓展性低。</li>
+</ul>
+<h4 id="AOP-的目的"><a href="#AOP-的目的" class="headerlink" title="AOP 的目的"></a>AOP 的目的</h4><p>AOP能够将那些与业务无关，<strong>却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来</strong>，便于<strong>减少系统的重复代码</strong>，<strong>降低模块间的耦合度</strong>，并<strong>有利于未来的可拓展性和可维护性</strong>。</p>
+<h4 id="AOP代理"><a href="#AOP代理" class="headerlink" title="AOP代理"></a>AOP代理</h4><p><strong>Spring AOP</strong>就是基于动态代理的，如果要代理的对象，实现了某个接⼝，那么Spring AOP会使⽤<strong>JDK Proxy</strong>，去创建代理对象，⽽对于没有实现接⼝的对象，就⽆法使⽤ JDK Proxy 去进⾏代理了，这时候Spring AOP会使⽤<strong>Cglib</strong> ，这时候Spring AOP会使⽤ <strong>Cglib</strong> ⽣成⼀个被代理对象的⼦类来作为代理。</p>
+<h4 id="AOP-当中的概念："><a href="#AOP-当中的概念：" class="headerlink" title="AOP 当中的概念："></a>AOP 当中的概念：</h4><ul>
+<li>切入点（Pointcut）<br>在哪些类，哪些方法上切入（<strong>where</strong>）</li>
+<li>通知（Advice）<br>在方法执行的什么实际（<strong>when:**方法前/方法后/方法前后）做什么（</strong>what:**增强的功能）</li>
+<li>切面（Aspect）<br>切面 = 切入点 + 通知，通俗点就是：<strong>在什么时机，什么地方，做什么增强！</strong></li>
+<li>织入（Weaving）<br>把切面加入到对象，并创建出代理对象的过程。（由 Spring 来完成）</li>
+</ul>
+<h4 id="Spring-中的-AspectJ-注解："><a href="#Spring-中的-AspectJ-注解：" class="headerlink" title="Spring 中的 AspectJ 注解："></a>Spring 中的 AspectJ 注解：</h4><table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Before</code></td>
+<td>前置通知，在连接点方法前调用</td>
+</tr>
+<tr>
+<td><code>@Around</code></td>
+<td>环绕通知，它将覆盖原有方法，但是允许你通过反射调用原有方法，后面会讲</td>
+</tr>
+<tr>
+<td><code>@After</code></td>
+<td>后置通知，在连接点方法后调用</td>
+</tr>
+<tr>
+<td><code>@AfterReturning</code></td>
+<td>返回通知，在连接点方法执行并正常返回后调用，要求连接点方法在执行过程中没有发生异常</td>
+</tr>
+<tr>
+<td><code>@AfterThrowing</code></td>
+<td>异常通知，当连接点方法异常时调用</td>
+</tr>
+</tbody></table>
+<h4 id="AOP-编程"><a href="#AOP-编程" class="headerlink" title="AOP 编程"></a>AOP 编程</h4><ul>
+<li>在 Packge【service】下创建 【ProductService】类：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomeService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;doSomeService&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 xml 文件中装配该 bean：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在【TestSpring】中编写测试代码，运行：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-c190e07d3a051a65.png" alt="img"></p>
+<ul>
+<li>在 Packge【aspect】下准备日志切面 【LoggerAspect】类：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage aspect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggerAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">log</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;start log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        Object object = joinPoint.proceed();</span><br><span class="line">        System.out.println(<span class="string">&quot;end log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        <span class="keyword">return</span> object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 xml 文件中声明业务对象和日志切面：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:tx</span>=<span class="string">&quot;http://www.springframework.org/schema/tx&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;loggerAspect&quot;</span> <span class="attr">class</span>=<span class="string">&quot;aspect.LoggerAspect&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 配置AOP --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- where：在哪些地方（包.类.方法）做增加 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;loggerCutpoint&quot;</span></span></span><br><span class="line"><span class="tag">                      <span class="attr">expression</span>=<span class="string">&quot;execution(* service.ProductService.*(..)) &quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- what:做什么增强 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">id</span>=<span class="string">&quot;logAspect&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;loggerAspect&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- when:在什么时机（方法前/后/前后） --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">aop:around</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;loggerCutpoint&quot;</span> <span class="attr">method</span>=<span class="string">&quot;log&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>再次运行 TestSpring 中的测试代码，代码并没有改变，但是在业务方法运行之前和运行之后，都分别输出了日志信息：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-343746f0a4eb7ce0.png" alt="img"></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>04.Spring 事物</title>
+    <url>/posts/c31fb5e7.html</url>
+    <content><![CDATA[<h3 id="Spring-事务Spring-管理事务的⽅式有⼏种？"><a href="#Spring-事务Spring-管理事务的⽅式有⼏种？" class="headerlink" title="Spring 事务Spring 管理事务的⽅式有⼏种？"></a>Spring 事务Spring 管理事务的⽅式有⼏种？</h3><ol>
+<li><p>编程式事务，在代码中硬编码。(不推荐使⽤)</p>
+</li>
+<li><p>声明式事务，在配置⽂件中配置（推荐使⽤）</p>
+<p>声明式事务⼜分为两种：</p>
+<ol>
+<li>基于XML的声明式事务</li>
+<li>基于注解的声明式事务</li>
+</ol>
+</li>
+</ol>
+<h3 id="Spring-事务中的隔离级别有哪⼏种"><a href="#Spring-事务中的隔离级别有哪⼏种" class="headerlink" title="Spring 事务中的隔离级别有哪⼏种?"></a>Spring 事务中的隔离级别有哪⼏种?</h3><p><strong>TransactionDefinition</strong> 接⼝中定义了五个表示隔离级别的常量：</p>
+<p><strong>TransactionDefinition.ISOLATION_DEFAULT:</strong> 使⽤后端数据库默认的隔离级别，Mysql 默认采</p>
+<p>⽤的 REPEATABLE_READ隔离级别 Oracle 默认采⽤的 READ_COMMITTED隔离级别.</p>
+<p><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED:</strong> 最低的隔离级别，允许读取尚未提交的</p>
+<p>数据变更，可能会导致脏读、幻读或不可重复读</p>
+<p><strong>TransactionDefinition.ISOLATION_READ_COMMITTED:</strong> 允许读取并发事务已经提交的数据，可以</p>
+<p>阻⽌脏读，但是幻读或不可重复读仍有可能发⽣</p>
+<p><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ:</strong> 对同⼀字段的多次读取结果都是⼀致</p>
+<p>的，除⾮数据是被本身事务⾃⼰所修改，可以阻⽌脏读和不可重复读，但幻读仍有可能发⽣。</p>
+<p><strong>TransactionDefinition.ISOLATION_SERIALIZABLE:</strong> 最⾼的隔离级别，完全服从ACID的隔离级</p>
+<p>别。所有的事务依次逐个执⾏，这样事务之间就完全不可能产⽣⼲扰，也就是说，该级别可以防</p>
+<p>⽌脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会⽤到该级别。</p>
+<h3 id="Spring-事务中哪⼏种事务传播⾏为"><a href="#Spring-事务中哪⼏种事务传播⾏为" class="headerlink" title="Spring 事务中哪⼏种事务传播⾏为?"></a>Spring 事务中哪⼏种事务传播⾏为?</h3><p><strong>⽀持当前事务的情况：</strong></p>
+<ul>
+<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRED</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则创建⼀个新的事务。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_SUPPORTS</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则以⾮事务的⽅式继续运⾏。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_MANDATORY</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）不⽀持当前事务的情况：</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRES_NEW</strong>： 创建⼀个新的事务，如果当前存在事务，则把当前事务挂起。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_NOT_SUPPORTED</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则把当前事务挂起。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_NEVER</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则抛出异常。</p>
+</li>
+</ul>
+<p><strong>其他情况：</strong></p>
+<ul>
+<li><strong>TransactionDefinition.PROPAGATION_NESTED</strong>： 如果当前存在事务，则创建⼀个事务作为当前事务的嵌套事务来运⾏；如果当前没有事务，则该取值等价TransactionDefinition.PROPAGATION_REQUIRED。</li>
+</ul>
+<h3 id="Transactional-rollbackFor-Exception-class-注解了解吗？"><a href="#Transactional-rollbackFor-Exception-class-注解了解吗？" class="headerlink" title="@Transactional(rollbackFor = Exception.class)注解了解吗？"></a>@Transactional(rollbackFor = Exception.class)注解了解吗？</h3><p>我们知道：Exception分为运⾏时异常RuntimeException和⾮运⾏时异常。事务管理对于企业应⽤来说是⾄关重要的，即使出现异常情况，它也可以保证数据的⼀致性。当 @Transactional 注解作⽤于类上时，该类的所有 public ⽅法将都具有该类型的事务属性，同时，我们也可以在⽅法级别使⽤该标注来覆盖类级别的定义。如果类或者⽅法加了这个注解，那么这个类⾥⾯的⽅法抛出异常，就会回滚，数据库⾥⾯的数据也会回滚。在 <strong>@Transactional 注解中如果不配置 rollbackFor 属性,那么事物只会在遇到 RuntimeException 的时候才会回滚,加上 rollbackFor=Exception.class ,可以让事物在遇到⾮运⾏时异常时也回滚。</strong></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>05 SpringMVC</title>
+    <url>/posts/319a95ab.html</url>
+    <content><![CDATA[<h3 id="什么是SpringMVC"><a href="#什么是SpringMVC" class="headerlink" title="什么是SpringMVC?"></a>什么是<strong>SpringMVC?</strong></h3><p>⽤在基于<strong>MVC</strong>的表现层开发，类似于<strong>struts2</strong>框架</p>
+<h3 id="为什么要使⽤SpringMVC？"><a href="#为什么要使⽤SpringMVC？" class="headerlink" title="为什么要使⽤SpringMVC？"></a>为什么要使⽤<strong>SpringMVC</strong>？</h3><p>下⾯我们来看⼀下Struts2不⾜之处：</p>
+<ul>
+<li><p>有漏洞【详细可以去搜索】</p>
+</li>
+<li><p>运⾏速度较慢【⽐SpringMVC要慢】</p>
+</li>
+<li><p>配置的内容较多【需要使⽤Struts.xml⽂件】</p>
+</li>
+</ul>
+<h3 id="SpringMVC⼯作流程"><a href="#SpringMVC⼯作流程" class="headerlink" title="SpringMVC⼯作流程"></a><strong>SpringMVC</strong>⼯作流程</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/1121080-20190509202147059-745656946-20201110113822800.jpg" alt="img"></p>
+<ul>
+<li>用户向服务端发送一次请求，这个请求会先到前端控制器**DispatcherServlet(也叫中央控制器)**。</li>
+<li><strong>DispatcherServlet</strong>接收到请求后会调用<strong>HandlerMapping</strong>处理器映射器。由此得知，该请求该由哪<strong>Controller来处理（并未调用Controller，只是得知）</strong></li>
+<li><strong>DispatcherServlet</strong>调用<strong>HandlerAdapter</strong>处理器适配器，告诉处理器适配器应该要去<strong>执行哪个Controller</strong></li>
+<li><strong>HandlerAdapter</strong>处理器适配器去执行<strong>Controller</strong>并得到<strong>ModelAndView</strong>(数据和视图)，并层层返回给<strong>DispatcherServlet</strong></li>
+<li><strong>DispatcherServlet将ModelAndView交给ViewReslover视图解析器解析</strong>，然后返回真正的视图。</li>
+<li><strong>DispatcherServlet</strong>将模型数据填充到视图中</li>
+<li><strong>DispatcherServlet</strong>将结果响应给用户</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>01.设计模式概念及工厂模式</title>
     <url>/posts/bcfa4501.html</url>
     <content><![CDATA[<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="软件设计原则"><a href="#软件设计原则" class="headerlink" title="软件设计原则"></a>软件设计原则</h3><table>
@@ -1924,25 +2154,6 @@
       </tags>
   </entry>
   <entry>
-    <title>01.集合常见面试题</title>
-    <url>/posts/712091b3.html</url>
-    <content><![CDATA[<h4 id="说说-List-Set-Map-三者的区别？"><a href="#说说-List-Set-Map-三者的区别？" class="headerlink" title="说说 List,Set,Map 三者的区别？"></a>说说 List,Set,Map 三者的区别？</h4><ul>
-<li><p><strong>List</strong> (对付顺序的好帮⼿)： 存储的元素是有序的、可重复的。</p>
-</li>
-<li><p><strong>Set</strong> (注重独⼀⽆⼆的性质): 存储的元素是⽆序的、不可重复的。</p>
-</li>
-<li><p><strong>Map</strong> (⽤ Key 来搜索的专家): 使⽤键值对（kye-value）存储，类似于数学上的函数 y=f(x)，“x”代表 key，”y”代表 value，Key 是⽆序的、不可重复的，value 是⽆序的、可重复的，每个键最多映射到⼀个值。</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>集合</category>
-      </categories>
-      <tags>
-        <tag>集合</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MySQL索引</title>
     <url>/posts/c468c6f9.html</url>
     <content><![CDATA[<blockquote>
@@ -2144,149 +2355,6 @@
       </tags>
   </entry>
   <entry>
-    <title>02.Spring IOC</title>
-    <url>/posts/288f5944.html</url>
-    <content><![CDATA[<h3 id="Spring-IoC-和-DI-简介"><a href="#Spring-IoC-和-DI-简介" class="headerlink" title="Spring IoC 和 DI 简介"></a>Spring IoC 和 DI 简介</h3><h4 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h4><ul>
-<li>读作 <strong>“反转控制”</strong>，更好理解，不是什么技术，而是一种<strong>设计思想</strong>，就是<strong>将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</strong></li>
-<li><strong>正控：</strong>若要使用某个对象，需要<strong>自己去负责对象的创建</strong></li>
-<li><strong>反控：</strong>若要使用某个对象，只需要<strong>从 Spring 容器中获取需要使用的对象，不关心对象的创建过程</strong>，也就是把<strong>创建对象的控制权反转给了Spring框架</strong></li>
-<li><strong>好莱坞法则：</strong> Don’t call me ,I’ll call you</li>
-</ul>
-<blockquote>
-<h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><p>控制反转显然是一个抽象的概念，我们举一个鲜明的例子来说明。</p>
-</blockquote>
-<blockquote>
-<p>在现实生活中，人们要用到一样东西的时候，第一反应就是去找到这件东西，比如想喝新鲜橙汁，在没有饮品店的日子里，最直观的做法就是：买果汁机、买橙子，然后准备开水。值得注意的是：这些都是你自己<strong>“主动”创造</strong>的过程，也就是说一杯橙汁需要你自己创造。</p>
-</blockquote>
-<blockquote>
-<p>然而到了今时今日，由于饮品店的盛行，当我们想喝橙汁时，第一想法就转换成了找到饮品店的联系方式，通过电话等渠道描述你的需要、地址、联系方式等，下订单等待，过一会儿就会有人送来橙汁了。请注意你并没有“主动”去创造橙汁，橙汁是由饮品店创造的，而不是你，然而也完全达到了你的要求，甚至比你创造的要好上那么一些。</p>
-</blockquote>
-<h4 id="更经典全方位的理解"><a href="#更经典全方位的理解" class="headerlink" title="更经典全方位的理解"></a>更经典全方位的理解</h4><p>要了解<strong>控制反转( Inversion of Control )</strong>, 我觉得有必要先了解软件设计的一个重要思想：<strong>依赖倒置原则（Dependency Inversion Principle ）</strong>。</p>
-<p><img src="https://pic3.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p><strong>什么是依赖倒置原则？</strong>假设我们设计一辆汽车：先设计轮子，然后根据轮子大小设计底盘，接着根据底盘设计车身，最后根据车身设计好整个汽车。这里就出现了一个“依赖”关系：汽车依赖车身，车身依赖底盘，底盘依赖轮子。</p>
-<p><img src="https://pic1.zhimg.com/v2-c68248bb5d9b4d64d22600571e996446_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这样的设计看起来没问题，但是可维护性却很低。假设设计完工之后，上司却突然说根据市场需求的变动，要我们把车子的轮子设计都改大一码。这下我们就蛋疼了：因为我们是根据轮子的尺寸设计的底盘，轮子的尺寸一改，底盘的设计就得修改；同样因为我们是根据底盘设计的车身，那么车身也得改，同理汽车设计也得改——整个设计几乎都得改！</p>
-<p>我们现在换一种思路。我们先设计汽车的大概样子，然后根据汽车的样子来设计车身，根据车身来设计底盘，最后根据底盘来设计轮子。这时候，依赖关系就倒置过来了：轮子依赖底盘， 底盘依赖车身， 车身依赖汽车。</p>
-<p><img src="https://pic4.zhimg.com/v2-e64bf72c5c04412f626b21753aa9e1a1_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这时候，上司再说要改动轮子的设计，我们就只需要改动轮子的设计，而不需要动底盘，车身，汽车的设计了。</p>
-<p>这就是<strong>依赖倒置原则——把原本的高层建筑依赖底层建筑“倒置”过来，变成底层建筑依赖高层建筑。高层建筑决定需要什么，底层去实现这样的需求，但是高层并不用管底层是怎么实现的。</strong>这样就不会出现前面的“牵一发动全身”的情况。</p>
-<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p><strong>控制反转（Inversion of Control）</strong> 就是依赖倒置原则的一种代码设计的思路。具体采用的方法就是所谓的<strong>依赖注入（Dependency Injection）</strong>。其实这些概念初次接触都会感到云里雾里的。说穿了，这几种概念的关系大概如下：</p>
-<p><img src="https://pic1.zhimg.com/v2-ee924f8693cff51785ad6637ac5b21c1_r.jpg?source=1940ef5c" alt="img"></p>
-<p>为了理解这几个概念，我们还是用上面汽车的例子。只不过这次换成代码。我们先定义四个Class，车，车身，底盘，轮胎。然后初始化这辆车，最后跑这辆车。代码结构如下：</p>
-<p><img src="https://pic2.zhimg.com/v2-8ec294de7d0f9013788e3fb5c76069ef_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这样，就相当于上面第一个例子，上层建筑依赖下层建筑——每一个类的构造函数都直接调用了底层代码的构造函数。假设我们需要改动一下轮胎（Tire）类，把它的尺寸变成动态的，而不是一直都是30。我们需要这样改：</p>
-<p><img src="https://pic1.zhimg.com/50/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_hd.jpg?source=1940ef5c" alt="img"><img src="https://pic4.zhimg.com/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_r.jpg?source=1940ef5c" alt="img"></p>
-<p>由于我们修改了轮胎的定义，为了让整个程序正常运行，我们需要做以下改动：</p>
-<p><img src="https://pic4.zhimg.com/v2-82e0c12a1b26f7979ed9241e169affda_r.jpg?source=1940ef5c" alt="img"></p>
-<p>由此我们可以看到，仅仅是为了修改轮胎的构造函数，这种设计却需要<strong>修改整个上层所有类的构造函数</strong>！在软件工程中，<strong>这样的设计几乎是不可维护的</strong>——在实际工程项目中，有的类可能会是几千个类的底层，如果每次修改这个类，我们都要修改所有以它作为依赖的类，那软件的维护成本就太高了。</p>
-<p>所以我们需要进行控制反转（IoC），及上层控制下层，而不是下层控制着上层。我们用依赖注入（Dependency Injection）这种方式来实现控制反转。<strong>所谓依赖注入，就是把底层类作为参数传入上层类，实现上层类对下层类的“控制</strong>”。这里我们用<strong>构造方法传递的依赖注入方式</strong>重新写车类的定义：</p>
-<p><img src="https://pic4.zhimg.com/v2-c920a0540ce0651003a5326f6ef9891d_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这里我们再把轮胎尺寸变成动态的，同样为了让整个系统顺利运行，我们需要做如下修改：</p>
-<p><img src="https://pic2.zhimg.com/v2-99ad2cd809fcb86dd791ff7f65fb1779_r.jpg?source=1940ef5c" alt="img"></p>
-<p>看到没？这里<strong>我只需要修改轮胎类就行了，不用修改其他任何上层类。</strong>这显然是更容易维护的代码。不仅如此，在实际的工程中，这种设计模式还有利于<strong>不同组的协同合作和单元测试：</strong>比如开发这四个类的分别是四个不同的组，那么只要定义好了接口，四个不同的组可以同时进行开发而不相互受限制；而对于单元测试，如果我们要写Car类的单元测试，就只需要Mock一下Framework类传入Car就行了，而不用把Framework, Bottom, Tire全部new一遍再来构造Car。</p>
-<p>这里我们是采用的<strong>构造函数传入</strong>的方式进行的依赖注入。其实还有另外两种方法：<strong>Setter传递</strong>和<strong>接口传递</strong>。这里就不多讲了，核心思路都是一样的，都是为了实现<strong>控制反转</strong>。</p>
-<p><img src="https://pic1.zhimg.com/v2-861683acac47577c81f2b7493dd05649_r.jpg?source=1940ef5c" alt="img"></p>
-<p><img src="https://pic1.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p>看到这里你应该能理解什么控制反转和依赖注入了。那什么是**控制反转容器(IoC Container)**呢？其实上面的例子中，对车类进行初始化的那段代码发生的地方，就是控制反转容器。</p>
-<p><img src="https://pic2.zhimg.com/v2-c845802f9187953ed576e0555f76da42_r.jpg?source=1940ef5c" alt="img"></p>
-<p>显然你也应该观察到了，因为采用了依赖注入，在初始化的过程中就不可避免的会写大量的new。这里IoC容器就解决了这个问题。<strong>这个容器可以自动对你的代码进行初始化，你只需要维护一个Configuration（可以是xml可以是一段代码），而不用每次初始化一辆车都要亲手去写那一大段初始化的代码</strong>。这是引入IoC Container的第一个好处。</p>
-<p>IoC Container的第二个好处是：<strong>我们在创建实例的时候不需要了解其中的细节。</strong>在上面的例子中，我们自己手动创建一个车instance时候，是从底层往上层new的：</p>
-<p><img src="https://pic1.zhimg.com/v2-555b2be7d76e78511a6d6fed3304927f_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这个过程中，我们需要了解整个Car/Framework/Bottom/Tire类构造函数是怎么定义的，才能一步一步new/注入。</p>
-<p>而IoC Container在进行这个工作的时候是反过来的，它先从最上层开始往下找依赖关系，到达最底层之后再往上一步一步new（有点像深度优先遍历）：</p>
-<p><img src="https://pic4.zhimg.com/v2-24a96669241e81439c636e83976ba152_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这里IoC Container可以直接隐藏具体的创建实例的细节，在我们来看它就像一个工厂：</p>
-<p><img src="https://pic4.zhimg.com/v2-5ca61395f37cef73c7bbe7808f9ea219_r.jpg?source=1940ef5c" alt="img"></p>
-<p>我们就像是工厂的客户。我们只需要向工厂请求一个Car实例，然后它就给我们按照Config创建了一个Car实例。我们完全不用管这个Car实例是怎么一步一步被创建出来。</p>
-<p>实际项目中，有的Service Class可能是十年前写的，有几百个类作为它的底层。假设我们新写的一个API需要实例化这个Service，我们总不可能回头去搞清楚这几百个类的构造函数吧？IoC Container的这个特性就很完美的解决了这类问题——<strong>因为这个架构要求你在写class的时候需要写相应的Config文件，所以你要初始化很久以前的Service类的时候，前人都已经写好了Config文件，你直接在需要用的地方注入这个Service就可以了</strong>。这大大增加了项目的可维护性且降低了开发难度。</p>
-<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这里只是很粗略的讲了一下我自己对IoC和DI的理解。主要的目的是在于<strong>最大限度避免晦涩难懂的专业词汇，用尽量简洁，通俗，直观的例子</strong>来解释这些概念。如果让大家能有一个类似“哦！原来就是这么个玩意嘛！”的印象，我觉得就OK了。想要深入了解的话，可以上网查阅一些更权威的资料。这里推荐一下 <a href="https://link.zhihu.com/?target=https://en.wikipedia.org/wiki/Dependency_injection">Dependency injection </a> 和 <a href="https://link.zhihu.com/?target=https://martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency Injection pattern</a> 这两篇文章，讲的很好很详细。</p>
-<h3 id="Spring-IOC-容器源码分析"><a href="#Spring-IOC-容器源码分析" class="headerlink" title="Spring IOC 容器源码分析"></a>Spring IOC 容器源码分析</h3><h4 id="Spring-IoC-容器的设计"><a href="#Spring-IoC-容器的设计" class="headerlink" title="Spring IoC 容器的设计"></a>Spring IoC 容器的设计</h4><p>Spring IoC 容器的设计主要是基于以下两个接口：</p>
-<ul>
-<li><strong>BeanFactory</strong></li>
-<li><strong>ApplicationContext</strong></li>
-</ul>
-<p>其中 ApplicationContext 是 BeanFactory 的子接口之一，换句话说：<strong>BeanFactory 是 Spring IoC 容器所定义的最底层接口，</strong>而 ApplicationContext 是其最高级接口之一，并对 BeanFactory 功能做了许多的扩展，所以在<strong>绝大部分的工作场景下</strong>，都会使用 ApplicationContext 作为 Spring IoC 容器。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-539d3860abb6b3f7.png"></p>
-<h5 id="BeanFactory"><a href="#BeanFactory" class="headerlink" title="BeanFactory"></a>BeanFactory</h5><p>从上图中我们可以几乎看到， BeanFactory 位于设计的最底层，它提供了 Spring IoC 最底层的设计，为此，我们先来看看该类中提供了哪些方法：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-ec7f8eb4cc563216.png"></p>
-<p>由于这个接口的重要性，所以有必要在这里作一下简短的说明：</p>
-<ul>
-<li><p>【getBean】 对应了多个方法来获取配置给 Spring IoC 容器的 Bean。<br>① 按照类型拿 bean：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(Bean.class)</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：</strong> 要求在 Spring 中只配置了一个这种类型的实例，否则报错。（如果有多个那 Spring 就懵了，不知道该获取哪一个）<br>② 按照 bean 的名字拿 bean:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：</strong> 这种方法不太安全，IDE 不会检查其安全性（关联性）<br>③ 按照名字和类型拿 bean：<strong>（推荐）</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>, Bean.class);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>【isSingleton】 用于判断是否单例，如果判断为真，其意思是该 Bean 在容器中是作为一个唯一单例存在的。而【isPrototype】则相反，如果判断为真，意思是当你从容器中获取 Bean，容器就为你生成一个新的实例。</p>
-<p><strong>注意：</strong> 在默认情况下，【isSingleton】为 ture，而【isPrototype】为 false</p>
-</li>
-<li><p>关于 type 的匹配，这是一个按 Java 类型匹配的方式</p>
-</li>
-<li><p>【getAliases】方法是获取别名的方法</p>
-</li>
-</ul>
-<p>这就是 Spring IoC 最底层的设计，所有关于 Spring IoC 的容器将会遵守它所定义的方法</p>
-<h5 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h5><p>根据 ApplicationContext 的类继承关系图，可以看到 ApplicationContext 接口扩展了许许多多的接口，因此它的功能十分强大，所以在实际应用中常常会使用到的是 ApplicationContext 接口，因为 BeanFactory 的方法和功能较少，而 ApplicationContext 的方法和功能较多。</p>
-<p>我们来认识一个 ApplicationContext 的子类——ClassPathXmlApplicationContext。</p>
-<ol>
-<li>先在【src】目录下创建一个 【bean.xml】 文件：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 通过 xml 方式装配 bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;source&quot;</span> <span class="attr">class</span>=<span class="string">&quot;pojo.Source&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;橙子&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sugar&quot;</span> <span class="attr">value</span>=<span class="string">&quot;多糖&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;size&quot;</span> <span class="attr">value</span>=<span class="string">&quot;超大杯&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>这里定义了一个 bean ，这样 Spring IoC 容器在初始化的时候就能找到它们，然后使用ClassPathXmlApplicationContext 容器就可以将其初始化：</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;bean.xml&quot;</span>);</span><br><span class="line">Source source = (Source) context.getBean(<span class="string">&quot;source&quot;</span>, Source.class);</span><br><span class="line"></span><br><span class="line">System.out.println(source.getFruit());</span><br><span class="line">System.out.println(source.getSugar());</span><br><span class="line">System.out.println(source.getSize());</span><br></pre></td></tr></table></figure>
-
-<p>这样就会使用 Application 的实现类 <code>ClassPathXmlApplicationContext</code> 去初始化 Spring IoC 容器，然后开发者就可以通过 IoC 容器来获取资源了！</p>
-<p><strong>ApplicationContext 常见实现类：</strong></p>
-<p><strong>ClassPathXmlApplicationContext：</strong><br>读取classpath中的资源</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>FileSystemXmlApplicationContext:-</strong><br>读取指定路径的资源</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ac = <span class="keyword">new</span> FileSystemXmlApplicationContext(<span class="string">&quot;c:/applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>XmlWebApplicationContext:</strong><br>需要在Web的环境下才可以运行</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYXmlWebApplicationContext ac = <span class="keyword">new</span> XmlWebApplicationContext(); <span class="comment">// 这时并没有初始化容器</span></span><br><span class="line">ac.setServletContext(servletContext); <span class="comment">// 需要指定ServletContext对象</span></span><br><span class="line">ac.setConfigLocation(<span class="string">&quot;/WEB-INF/applicationContext.xml&quot;</span>); <span class="comment">// 指定配置文件路径，开头的斜线表示Web应用的根目录</span></span><br><span class="line">ac.refresh(); <span class="comment">// 初始化容器</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="BeanFactory-和-ApplicationContext-的区别："><a href="#BeanFactory-和-ApplicationContext-的区别：" class="headerlink" title="BeanFactory 和 ApplicationContext 的区别："></a>BeanFactory 和 ApplicationContext 的区别：</h5><ul>
-<li><p><strong>BeanFactory：</strong> 是Spring中最底层的接口，只提供了最简单的IoC功能,负责配置，创建和管理bean。<br>在应用中，一般不使用 BeanFactory，而推荐使用ApplicationContext（应用上下文），原因如下。</p>
-</li>
-<li><p><strong>ApplicationContext：</strong></p>
-<p>1.继承了 BeanFactory，拥有了基本的 IoC 功能；<br>2.除此之外，ApplicationContext 还提供了以下功能：<br>① 支持国际化；<br>② 支持消息机制；<br>③ 支持统一的资源加载；<br>④ 支持AOP功能；</p>
-</li>
-</ul>
-<h3 id="Spring-IoC-的容器的初始化和依赖注入"><a href="#Spring-IoC-的容器的初始化和依赖注入" class="headerlink" title="Spring IoC 的容器的初始化和依赖注入"></a>Spring IoC 的容器的初始化和依赖注入</h3><p>虽然 Spring IoC 容器的生成十分的复杂，但是大体了解一下 Spring IoC 初始化的过程还是必要的。这对于理解 Spring 的一系列行为是很有帮助的。</p>
-<p><strong>注意：</strong> Bean 的定义和初始化在 Spring IoC 容器是两大步骤，它是先定义，然后初始化和依赖注入的。</p>
-<ul>
-<li><p><strong>Bean 的定义分为 3 步：定位、加载、注册</strong></p>
-</li>
-<li><p>Resource 定位<br>Spring IoC 容器先根据开发者的配置，进行资源的定位，在 Spring 的开发中，通过 XML 或者注解都是十分常见的方式，定位的内容是由开发者提供的。</p>
-</li>
-<li><p>BeanDefinition 的加载<br>这个时候只是将 Resource 定位到的信息，保存到 Bean 定义（BeanDefinition）中，此时并不会创建 Bean 的实例</p>
-</li>
-<li><p>BeanDefinition 的注册<br>这个过程就是将 BeanDefinition 的信息发布到 Spring IoC 容器中<br><strong>注意：</strong>此时仍然没有对应的 Bean 的实例。</p>
-</li>
-</ul>
-<p>做完了以上 3 步，Bean 就在 Spring IoC 容器中被定义了，而没有被初始化，更没有完成依赖注入，也就是没有注入其配置的资源给 Bean，那么它还不能完全使用。</p>
-<p>对于初始化和依赖注入，Spring Bean 还有一个配置选项——<strong>【lazy-init】</strong>，其含义就是<strong>是否初始化 Spring Bean</strong>。在没有任何配置的情况下，它的默认值为 default，实际值为 false，也就是 <strong>Spring IoC 默认会自动初始化 Bean</strong>。如果将其设置为 true，那么只有当我们使用 Spring IoC 容器的 getBean 方法获取它时，它才会进行 Bean 的初始化，完成依赖注入。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zhihu.com/question/23277575/answer/169698662">https://www.zhihu.com/question/23277575/answer/169698662</a></p>
-<p><a href="https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/">https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/</a></p>
-<p><a href="https://javadoop.com/post/spring-ioc">https://javadoop.com/post/spring-ioc</a></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis基础</title>
     <url>/posts/fe29e710.html</url>
     <content><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="Redis优缺点"><a href="#Redis优缺点" class="headerlink" title="Redis优缺点"></a>Redis优缺点</h2><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
@@ -2406,6 +2474,42 @@
 <li>事件处理器（连接应答处理器、命令请求处理器、命令回复处理器）</li>
 </ul>
 <p>多个 <strong>Socket</strong> 可能会并发产生不同的操作，每个操作对应不同的文件事件，但是 IO 多路复用程序会监听多个 <strong>Socket</strong>，会将 <strong>Socket</strong> 产生的事件放入队列中排队，事件分派器每次从队列中取出一个事件，把该事件交给对应的事件处理器进行处理。</p>
+<h2 id="Redis-的淘汰策略有哪些？"><a href="#Redis-的淘汰策略有哪些？" class="headerlink" title="Redis 的淘汰策略有哪些？"></a>Redis 的淘汰策略有哪些？</h2><h4 id="Redis-有六种淘汰策略"><a href="#Redis-有六种淘汰策略" class="headerlink" title="Redis 有六种淘汰策略"></a>Redis 有六种淘汰策略</h4><table>
+<thead>
+<tr>
+<th>策略</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>volatile-lru</td>
+<td>从已设置过期时间的 KV 集中优先对最近最少使用(less recently used)的数据淘汰</td>
+</tr>
+<tr>
+<td>volitile-ttl</td>
+<td>从已设置过期时间的 KV 集中优先对剩余时间短(time to live)的数据淘汰</td>
+</tr>
+<tr>
+<td>volitile-random</td>
+<td>从已设置过期时间的 KV 集中随机选择数据淘汰</td>
+</tr>
+<tr>
+<td>allkeys-lru</td>
+<td>从所有 KV 集中优先对最近最少使用(less recently used)的数据淘汰</td>
+</tr>
+<tr>
+<td>allKeys-random</td>
+<td>从所有 KV 集中随机选择数据淘汰</td>
+</tr>
+<tr>
+<td>noeviction</td>
+<td>不淘汰策略，若超过最大内存，返回错误信息</td>
+</tr>
+</tbody></table>
+<h4 id="4-0-版本后增加以下两种"><a href="#4-0-版本后增加以下两种" class="headerlink" title="4.0 版本后增加以下两种"></a>4.0 版本后增加以下两种</h4><ul>
+<li>volatile-lfu：从已设置过期时间的数据集(server.db[i].expires)中挑选最不经常使用的数据淘汰</li>
+<li>allkeys-lfu：当内存不足以容纳新写入数据时，在键空间中，移除最不经常使用的 key</li>
+</ul>
 <h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><p>参考：</p>
 <p><a href="https://mp.weixin.qq.com/s/aOiadiWG2nNaZowmoDQPMQ">https://mp.weixin.qq.com/s/aOiadiWG2nNaZowmoDQPMQ</a></p>
 ]]></content>
@@ -2611,6 +2715,149 @@
       </categories>
       <tags>
         <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>02.Spring IOC</title>
+    <url>/posts/288f5944.html</url>
+    <content><![CDATA[<h3 id="Spring-IoC-和-DI-简介"><a href="#Spring-IoC-和-DI-简介" class="headerlink" title="Spring IoC 和 DI 简介"></a>Spring IoC 和 DI 简介</h3><h4 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h4><ul>
+<li>读作 <strong>“反转控制”</strong>，更好理解，不是什么技术，而是一种<strong>设计思想</strong>，就是<strong>将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</strong></li>
+<li><strong>正控：</strong>若要使用某个对象，需要<strong>自己去负责对象的创建</strong></li>
+<li><strong>反控：</strong>若要使用某个对象，只需要<strong>从 Spring 容器中获取需要使用的对象，不关心对象的创建过程</strong>，也就是把<strong>创建对象的控制权反转给了Spring框架</strong></li>
+<li><strong>好莱坞法则：</strong> Don’t call me ,I’ll call you</li>
+</ul>
+<blockquote>
+<h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><p>控制反转显然是一个抽象的概念，我们举一个鲜明的例子来说明。</p>
+</blockquote>
+<blockquote>
+<p>在现实生活中，人们要用到一样东西的时候，第一反应就是去找到这件东西，比如想喝新鲜橙汁，在没有饮品店的日子里，最直观的做法就是：买果汁机、买橙子，然后准备开水。值得注意的是：这些都是你自己<strong>“主动”创造</strong>的过程，也就是说一杯橙汁需要你自己创造。</p>
+</blockquote>
+<blockquote>
+<p>然而到了今时今日，由于饮品店的盛行，当我们想喝橙汁时，第一想法就转换成了找到饮品店的联系方式，通过电话等渠道描述你的需要、地址、联系方式等，下订单等待，过一会儿就会有人送来橙汁了。请注意你并没有“主动”去创造橙汁，橙汁是由饮品店创造的，而不是你，然而也完全达到了你的要求，甚至比你创造的要好上那么一些。</p>
+</blockquote>
+<h4 id="更经典全方位的理解"><a href="#更经典全方位的理解" class="headerlink" title="更经典全方位的理解"></a>更经典全方位的理解</h4><p>要了解<strong>控制反转( Inversion of Control )</strong>, 我觉得有必要先了解软件设计的一个重要思想：<strong>依赖倒置原则（Dependency Inversion Principle ）</strong>。</p>
+<p><img src="https://pic3.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p><strong>什么是依赖倒置原则？</strong>假设我们设计一辆汽车：先设计轮子，然后根据轮子大小设计底盘，接着根据底盘设计车身，最后根据车身设计好整个汽车。这里就出现了一个“依赖”关系：汽车依赖车身，车身依赖底盘，底盘依赖轮子。</p>
+<p><img src="https://pic1.zhimg.com/v2-c68248bb5d9b4d64d22600571e996446_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这样的设计看起来没问题，但是可维护性却很低。假设设计完工之后，上司却突然说根据市场需求的变动，要我们把车子的轮子设计都改大一码。这下我们就蛋疼了：因为我们是根据轮子的尺寸设计的底盘，轮子的尺寸一改，底盘的设计就得修改；同样因为我们是根据底盘设计的车身，那么车身也得改，同理汽车设计也得改——整个设计几乎都得改！</p>
+<p>我们现在换一种思路。我们先设计汽车的大概样子，然后根据汽车的样子来设计车身，根据车身来设计底盘，最后根据底盘来设计轮子。这时候，依赖关系就倒置过来了：轮子依赖底盘， 底盘依赖车身， 车身依赖汽车。</p>
+<p><img src="https://pic4.zhimg.com/v2-e64bf72c5c04412f626b21753aa9e1a1_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这时候，上司再说要改动轮子的设计，我们就只需要改动轮子的设计，而不需要动底盘，车身，汽车的设计了。</p>
+<p>这就是<strong>依赖倒置原则——把原本的高层建筑依赖底层建筑“倒置”过来，变成底层建筑依赖高层建筑。高层建筑决定需要什么，底层去实现这样的需求，但是高层并不用管底层是怎么实现的。</strong>这样就不会出现前面的“牵一发动全身”的情况。</p>
+<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p><strong>控制反转（Inversion of Control）</strong> 就是依赖倒置原则的一种代码设计的思路。具体采用的方法就是所谓的<strong>依赖注入（Dependency Injection）</strong>。其实这些概念初次接触都会感到云里雾里的。说穿了，这几种概念的关系大概如下：</p>
+<p><img src="https://pic1.zhimg.com/v2-ee924f8693cff51785ad6637ac5b21c1_r.jpg?source=1940ef5c" alt="img"></p>
+<p>为了理解这几个概念，我们还是用上面汽车的例子。只不过这次换成代码。我们先定义四个Class，车，车身，底盘，轮胎。然后初始化这辆车，最后跑这辆车。代码结构如下：</p>
+<p><img src="https://pic2.zhimg.com/v2-8ec294de7d0f9013788e3fb5c76069ef_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这样，就相当于上面第一个例子，上层建筑依赖下层建筑——每一个类的构造函数都直接调用了底层代码的构造函数。假设我们需要改动一下轮胎（Tire）类，把它的尺寸变成动态的，而不是一直都是30。我们需要这样改：</p>
+<p><img src="https://pic1.zhimg.com/50/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_hd.jpg?source=1940ef5c" alt="img"><img src="https://pic4.zhimg.com/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_r.jpg?source=1940ef5c" alt="img"></p>
+<p>由于我们修改了轮胎的定义，为了让整个程序正常运行，我们需要做以下改动：</p>
+<p><img src="https://pic4.zhimg.com/v2-82e0c12a1b26f7979ed9241e169affda_r.jpg?source=1940ef5c" alt="img"></p>
+<p>由此我们可以看到，仅仅是为了修改轮胎的构造函数，这种设计却需要<strong>修改整个上层所有类的构造函数</strong>！在软件工程中，<strong>这样的设计几乎是不可维护的</strong>——在实际工程项目中，有的类可能会是几千个类的底层，如果每次修改这个类，我们都要修改所有以它作为依赖的类，那软件的维护成本就太高了。</p>
+<p>所以我们需要进行控制反转（IoC），及上层控制下层，而不是下层控制着上层。我们用依赖注入（Dependency Injection）这种方式来实现控制反转。<strong>所谓依赖注入，就是把底层类作为参数传入上层类，实现上层类对下层类的“控制</strong>”。这里我们用<strong>构造方法传递的依赖注入方式</strong>重新写车类的定义：</p>
+<p><img src="https://pic4.zhimg.com/v2-c920a0540ce0651003a5326f6ef9891d_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里我们再把轮胎尺寸变成动态的，同样为了让整个系统顺利运行，我们需要做如下修改：</p>
+<p><img src="https://pic2.zhimg.com/v2-99ad2cd809fcb86dd791ff7f65fb1779_r.jpg?source=1940ef5c" alt="img"></p>
+<p>看到没？这里<strong>我只需要修改轮胎类就行了，不用修改其他任何上层类。</strong>这显然是更容易维护的代码。不仅如此，在实际的工程中，这种设计模式还有利于<strong>不同组的协同合作和单元测试：</strong>比如开发这四个类的分别是四个不同的组，那么只要定义好了接口，四个不同的组可以同时进行开发而不相互受限制；而对于单元测试，如果我们要写Car类的单元测试，就只需要Mock一下Framework类传入Car就行了，而不用把Framework, Bottom, Tire全部new一遍再来构造Car。</p>
+<p>这里我们是采用的<strong>构造函数传入</strong>的方式进行的依赖注入。其实还有另外两种方法：<strong>Setter传递</strong>和<strong>接口传递</strong>。这里就不多讲了，核心思路都是一样的，都是为了实现<strong>控制反转</strong>。</p>
+<p><img src="https://pic1.zhimg.com/v2-861683acac47577c81f2b7493dd05649_r.jpg?source=1940ef5c" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p>看到这里你应该能理解什么控制反转和依赖注入了。那什么是**控制反转容器(IoC Container)**呢？其实上面的例子中，对车类进行初始化的那段代码发生的地方，就是控制反转容器。</p>
+<p><img src="https://pic2.zhimg.com/v2-c845802f9187953ed576e0555f76da42_r.jpg?source=1940ef5c" alt="img"></p>
+<p>显然你也应该观察到了，因为采用了依赖注入，在初始化的过程中就不可避免的会写大量的new。这里IoC容器就解决了这个问题。<strong>这个容器可以自动对你的代码进行初始化，你只需要维护一个Configuration（可以是xml可以是一段代码），而不用每次初始化一辆车都要亲手去写那一大段初始化的代码</strong>。这是引入IoC Container的第一个好处。</p>
+<p>IoC Container的第二个好处是：<strong>我们在创建实例的时候不需要了解其中的细节。</strong>在上面的例子中，我们自己手动创建一个车instance时候，是从底层往上层new的：</p>
+<p><img src="https://pic1.zhimg.com/v2-555b2be7d76e78511a6d6fed3304927f_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这个过程中，我们需要了解整个Car/Framework/Bottom/Tire类构造函数是怎么定义的，才能一步一步new/注入。</p>
+<p>而IoC Container在进行这个工作的时候是反过来的，它先从最上层开始往下找依赖关系，到达最底层之后再往上一步一步new（有点像深度优先遍历）：</p>
+<p><img src="https://pic4.zhimg.com/v2-24a96669241e81439c636e83976ba152_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里IoC Container可以直接隐藏具体的创建实例的细节，在我们来看它就像一个工厂：</p>
+<p><img src="https://pic4.zhimg.com/v2-5ca61395f37cef73c7bbe7808f9ea219_r.jpg?source=1940ef5c" alt="img"></p>
+<p>我们就像是工厂的客户。我们只需要向工厂请求一个Car实例，然后它就给我们按照Config创建了一个Car实例。我们完全不用管这个Car实例是怎么一步一步被创建出来。</p>
+<p>实际项目中，有的Service Class可能是十年前写的，有几百个类作为它的底层。假设我们新写的一个API需要实例化这个Service，我们总不可能回头去搞清楚这几百个类的构造函数吧？IoC Container的这个特性就很完美的解决了这类问题——<strong>因为这个架构要求你在写class的时候需要写相应的Config文件，所以你要初始化很久以前的Service类的时候，前人都已经写好了Config文件，你直接在需要用的地方注入这个Service就可以了</strong>。这大大增加了项目的可维护性且降低了开发难度。</p>
+<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里只是很粗略的讲了一下我自己对IoC和DI的理解。主要的目的是在于<strong>最大限度避免晦涩难懂的专业词汇，用尽量简洁，通俗，直观的例子</strong>来解释这些概念。如果让大家能有一个类似“哦！原来就是这么个玩意嘛！”的印象，我觉得就OK了。想要深入了解的话，可以上网查阅一些更权威的资料。这里推荐一下 <a href="https://link.zhihu.com/?target=https://en.wikipedia.org/wiki/Dependency_injection">Dependency injection </a> 和 <a href="https://link.zhihu.com/?target=https://martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency Injection pattern</a> 这两篇文章，讲的很好很详细。</p>
+<h3 id="Spring-IOC-容器源码分析"><a href="#Spring-IOC-容器源码分析" class="headerlink" title="Spring IOC 容器源码分析"></a>Spring IOC 容器源码分析</h3><h4 id="Spring-IoC-容器的设计"><a href="#Spring-IoC-容器的设计" class="headerlink" title="Spring IoC 容器的设计"></a>Spring IoC 容器的设计</h4><p>Spring IoC 容器的设计主要是基于以下两个接口：</p>
+<ul>
+<li><strong>BeanFactory</strong></li>
+<li><strong>ApplicationContext</strong></li>
+</ul>
+<p>其中 ApplicationContext 是 BeanFactory 的子接口之一，换句话说：<strong>BeanFactory 是 Spring IoC 容器所定义的最底层接口，</strong>而 ApplicationContext 是其最高级接口之一，并对 BeanFactory 功能做了许多的扩展，所以在<strong>绝大部分的工作场景下</strong>，都会使用 ApplicationContext 作为 Spring IoC 容器。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-539d3860abb6b3f7.png"></p>
+<h5 id="BeanFactory"><a href="#BeanFactory" class="headerlink" title="BeanFactory"></a>BeanFactory</h5><p>从上图中我们可以几乎看到， BeanFactory 位于设计的最底层，它提供了 Spring IoC 最底层的设计，为此，我们先来看看该类中提供了哪些方法：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-ec7f8eb4cc563216.png"></p>
+<p>由于这个接口的重要性，所以有必要在这里作一下简短的说明：</p>
+<ul>
+<li><p>【getBean】 对应了多个方法来获取配置给 Spring IoC 容器的 Bean。<br>① 按照类型拿 bean：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(Bean.class)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 要求在 Spring 中只配置了一个这种类型的实例，否则报错。（如果有多个那 Spring 就懵了，不知道该获取哪一个）<br>② 按照 bean 的名字拿 bean:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 这种方法不太安全，IDE 不会检查其安全性（关联性）<br>③ 按照名字和类型拿 bean：<strong>（推荐）</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>, Bean.class);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【isSingleton】 用于判断是否单例，如果判断为真，其意思是该 Bean 在容器中是作为一个唯一单例存在的。而【isPrototype】则相反，如果判断为真，意思是当你从容器中获取 Bean，容器就为你生成一个新的实例。</p>
+<p><strong>注意：</strong> 在默认情况下，【isSingleton】为 ture，而【isPrototype】为 false</p>
+</li>
+<li><p>关于 type 的匹配，这是一个按 Java 类型匹配的方式</p>
+</li>
+<li><p>【getAliases】方法是获取别名的方法</p>
+</li>
+</ul>
+<p>这就是 Spring IoC 最底层的设计，所有关于 Spring IoC 的容器将会遵守它所定义的方法</p>
+<h5 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h5><p>根据 ApplicationContext 的类继承关系图，可以看到 ApplicationContext 接口扩展了许许多多的接口，因此它的功能十分强大，所以在实际应用中常常会使用到的是 ApplicationContext 接口，因为 BeanFactory 的方法和功能较少，而 ApplicationContext 的方法和功能较多。</p>
+<p>我们来认识一个 ApplicationContext 的子类——ClassPathXmlApplicationContext。</p>
+<ol>
+<li>先在【src】目录下创建一个 【bean.xml】 文件：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 通过 xml 方式装配 bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;source&quot;</span> <span class="attr">class</span>=<span class="string">&quot;pojo.Source&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;橙子&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sugar&quot;</span> <span class="attr">value</span>=<span class="string">&quot;多糖&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;size&quot;</span> <span class="attr">value</span>=<span class="string">&quot;超大杯&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>这里定义了一个 bean ，这样 Spring IoC 容器在初始化的时候就能找到它们，然后使用ClassPathXmlApplicationContext 容器就可以将其初始化：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;bean.xml&quot;</span>);</span><br><span class="line">Source source = (Source) context.getBean(<span class="string">&quot;source&quot;</span>, Source.class);</span><br><span class="line"></span><br><span class="line">System.out.println(source.getFruit());</span><br><span class="line">System.out.println(source.getSugar());</span><br><span class="line">System.out.println(source.getSize());</span><br></pre></td></tr></table></figure>
+
+<p>这样就会使用 Application 的实现类 <code>ClassPathXmlApplicationContext</code> 去初始化 Spring IoC 容器，然后开发者就可以通过 IoC 容器来获取资源了！</p>
+<p><strong>ApplicationContext 常见实现类：</strong></p>
+<p><strong>ClassPathXmlApplicationContext：</strong><br>读取classpath中的资源</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>FileSystemXmlApplicationContext:-</strong><br>读取指定路径的资源</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ac = <span class="keyword">new</span> FileSystemXmlApplicationContext(<span class="string">&quot;c:/applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>XmlWebApplicationContext:</strong><br>需要在Web的环境下才可以运行</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYXmlWebApplicationContext ac = <span class="keyword">new</span> XmlWebApplicationContext(); <span class="comment">// 这时并没有初始化容器</span></span><br><span class="line">ac.setServletContext(servletContext); <span class="comment">// 需要指定ServletContext对象</span></span><br><span class="line">ac.setConfigLocation(<span class="string">&quot;/WEB-INF/applicationContext.xml&quot;</span>); <span class="comment">// 指定配置文件路径，开头的斜线表示Web应用的根目录</span></span><br><span class="line">ac.refresh(); <span class="comment">// 初始化容器</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="BeanFactory-和-ApplicationContext-的区别："><a href="#BeanFactory-和-ApplicationContext-的区别：" class="headerlink" title="BeanFactory 和 ApplicationContext 的区别："></a>BeanFactory 和 ApplicationContext 的区别：</h5><ul>
+<li><p><strong>BeanFactory：</strong> 是Spring中最底层的接口，只提供了最简单的IoC功能,负责配置，创建和管理bean。<br>在应用中，一般不使用 BeanFactory，而推荐使用ApplicationContext（应用上下文），原因如下。</p>
+</li>
+<li><p><strong>ApplicationContext：</strong></p>
+<p>1.继承了 BeanFactory，拥有了基本的 IoC 功能；<br>2.除此之外，ApplicationContext 还提供了以下功能：<br>① 支持国际化；<br>② 支持消息机制；<br>③ 支持统一的资源加载；<br>④ 支持AOP功能；</p>
+</li>
+</ul>
+<h3 id="Spring-IoC-的容器的初始化和依赖注入"><a href="#Spring-IoC-的容器的初始化和依赖注入" class="headerlink" title="Spring IoC 的容器的初始化和依赖注入"></a>Spring IoC 的容器的初始化和依赖注入</h3><p>虽然 Spring IoC 容器的生成十分的复杂，但是大体了解一下 Spring IoC 初始化的过程还是必要的。这对于理解 Spring 的一系列行为是很有帮助的。</p>
+<p><strong>注意：</strong> Bean 的定义和初始化在 Spring IoC 容器是两大步骤，它是先定义，然后初始化和依赖注入的。</p>
+<ul>
+<li><p><strong>Bean 的定义分为 3 步：定位、加载、注册</strong></p>
+</li>
+<li><p>Resource 定位<br>Spring IoC 容器先根据开发者的配置，进行资源的定位，在 Spring 的开发中，通过 XML 或者注解都是十分常见的方式，定位的内容是由开发者提供的。</p>
+</li>
+<li><p>BeanDefinition 的加载<br>这个时候只是将 Resource 定位到的信息，保存到 Bean 定义（BeanDefinition）中，此时并不会创建 Bean 的实例</p>
+</li>
+<li><p>BeanDefinition 的注册<br>这个过程就是将 BeanDefinition 的信息发布到 Spring IoC 容器中<br><strong>注意：</strong>此时仍然没有对应的 Bean 的实例。</p>
+</li>
+</ul>
+<p>做完了以上 3 步，Bean 就在 Spring IoC 容器中被定义了，而没有被初始化，更没有完成依赖注入，也就是没有注入其配置的资源给 Bean，那么它还不能完全使用。</p>
+<p>对于初始化和依赖注入，Spring Bean 还有一个配置选项——<strong>【lazy-init】</strong>，其含义就是<strong>是否初始化 Spring Bean</strong>。在没有任何配置的情况下，它的默认值为 default，实际值为 false，也就是 <strong>Spring IoC 默认会自动初始化 Bean</strong>。如果将其设置为 true，那么只有当我们使用 Spring IoC 容器的 getBean 方法获取它时，它才会进行 Bean 的初始化，完成依赖注入。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zhihu.com/question/23277575/answer/169698662">https://www.zhihu.com/question/23277575/answer/169698662</a></p>
+<p><a href="https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/">https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/</a></p>
+<p><a href="https://javadoop.com/post/spring-ioc">https://javadoop.com/post/spring-ioc</a></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
