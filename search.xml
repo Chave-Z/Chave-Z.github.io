@@ -1,54 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>01.MyBatis面试</title>
-    <url>/posts/d39c0168.html</url>
-    <content><![CDATA[<h4 id="MyBatis是什么？"><a href="#MyBatis是什么？" class="headerlink" title="MyBatis是什么？"></a>MyBatis是什么？</h4><p>MyBatis 是一款优秀的持久层框架，一个半 ORM（对象关系映射）框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生类型、接口和 Java 的 POJO（Plain Old Java Objects，普通老式 Java 对象）为数据库中的记录。</p>
-<h4 id="ORM是什么"><a href="#ORM是什么" class="headerlink" title="ORM是什么"></a>ORM是什么</h4><p>ORM（Object Relational Mapping），对象关系映射，是一种为了解决关系型数据库数据与简单Java对（POJO）的映射关系的技术。简单的说，ORM是通过使用描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中。</p>
-<h4 id="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"><a href="#为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？" class="headerlink" title="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"></a>为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？</h4><p>Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。</p>
-<p>而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。</p>
-<h4 id="MyBatis编程步骤是什么样的？"><a href="#MyBatis编程步骤是什么样的？" class="headerlink" title="MyBatis编程步骤是什么样的？"></a>MyBatis编程步骤是什么样的？</h4><p>1、 创建SqlSessionFactory</p>
-<p>2、 通过SqlSessionFactory创建SqlSession</p>
-<p>3、 通过sqlsession执行数据库操作</p>
-<p>4、 调用session.commit()提交事务</p>
-<p>5、 调用session.close()关闭会话</p>
-<h4 id="MyBatis的工作原理"><a href="#MyBatis的工作原理" class="headerlink" title="MyBatis的工作原理"></a>MyBatis的工作原理</h4><p>在学习 MyBatis 程序之前，需要了解一下 MyBatis 工作原理，以便于理解程序。MyBatis 的工作原理如下图</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0pvdXJXb24vaW1hZ2UvbWFzdGVyL015QmF0aXMlRTYlQTElODYlRTYlOUUlQjYlRTYlODAlQkIlRTclQkIlOTMvTXlCYXRpcyVFNSVCNyVBNSVFNCVCRCU5QyVFNSU4RSU5RiVFNyU5MCU4Ni5wbmc.png" alt="MyBatis工作原理"></p>
-<p>1）读取 MyBatis 配置文件：mybatis-config.xml 为 MyBatis 的全局配置文件，配置了 MyBatis 的运行环境等信息，例如数据库连接信息。</p>
-<p>2）加载映射文件。映射文件即 SQL 映射文件，该文件中配置了操作数据库的 SQL 语句，需要在 MyBatis 配置文件 mybatis-config.xml 中加载。mybatis-config.xml 文件可以加载多个映射文件，每个文件对应数据库中的一张表。</p>
-<p>3）构造会话工厂：通过 MyBatis 的环境等配置信息构建会话工厂 SqlSessionFactory。</p>
-<p>4）创建会话对象：由会话工厂创建 SqlSession 对象，该对象中包含了执行 SQL 语句的所有方法。</p>
-<p>5）Executor 执行器：MyBatis 底层定义了一个 Executor 接口来操作数据库，它将根据 SqlSession 传递的参数动态地生成需要执行的 SQL 语句，同时负责查询缓存的维护。</p>
-<p>6）MappedStatement 对象：在 Executor 接口的执行方法中有一个 MappedStatement 类型的参数，该参数是对映射信息的封装，用于存储要映射的 SQL 语句的 id、参数等信息。</p>
-<p>7）输入参数映射：输入参数类型可以是 Map、List 等集合类型，也可以是基本数据类型和 POJO 类型。输入参数映射过程类似于 JDBC 对 preparedStatement 对象设置参数的过程。</p>
-<p>8）输出结果映射：输出结果类型可以是 Map、 List 等集合类型，也可以是基本数据类型和 POJO 类型。输出结果映射过程类似于 JDBC 对结果集的解析过程。</p>
-<h4 id="和-的区别是什么？"><a href="#和-的区别是什么？" class="headerlink" title="#{}和${}的区别是什么？"></a>#{}和${}的区别是什么？</h4><ul>
-<li><p><strong>${} 是 Properties ⽂件中的变量占位符</strong>，它可以⽤于标签属性值和 sql 内部，属于静态⽂本替换，⽐如${driver}会被静态替换为 com.mysql.jdbc.Driver 。</p>
-</li>
-<li><p><strong>#{} 是 sql 的参数占位符</strong>，Mybatis 会将 sql 中的 #{} 替换为?号，在 sql 执⾏前会使⽤PreparedStatement 的参数设置⽅法，按序给 sql 的?号占位符设置参数值，⽐如ps.setInt(0, parameterValue)， #{item.name} 的取值⽅式为使⽤反射从参数对象中获取item 对象的 name 属性值，相当于 param.getItem().getName() 。</p>
-</li>
-</ul>
-<p>简单来说：**${}是字符串替换，#{}是预编译处理。一般用# {}防止sql注入问题。**</p>
-<h4 id="Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？"><a href="#Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？" class="headerlink" title="Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？"></a>Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？</h4><p>还有很多其他的标签， <resultMap> 、 <parameterMap> 、 <sql> 、 <include> 、 <selectKey> ，加上动态 sql的 9 个标签，<code> trim|where|set|foreach|if|choose|when|otherwise|bind</code> 等，其中sql为⽚段标签，通过 <include> 标签引⼊ sql ⽚段， <selectKey> 为不⽀持⾃增的主键⽣成策略标签。</p>
-<h4 id="如何获取自增主键"><a href="#如何获取自增主键" class="headerlink" title="如何获取自增主键"></a>如何获取自增主键</h4><ul>
-<li>注解</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Insert(&quot;insert into user (name) values  (#&#123;name&#125; )&quot;)</span></span><br><span class="line"><span class="meta">@Options(useGeneratedKeys = true,keyProperty =&quot;id&quot;,keyColumn = &quot;id&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">int</span>  <span class="title">inseartUser</span><span class="params">(User  user)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>xml</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">”indetifyId”</span>  <span class="attr">useGeneratedKeys</span>=<span class="string">”true”</span> <span class="attr">keyProperty</span>=<span class="string">”id”</span> <span class="attr">keyColumn</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>MyBatis</category>
-      </categories>
-      <tags>
-        <tag>MyBatis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MySQL基础</title>
     <url>/posts/86e336c0.html</url>
     <content><![CDATA[<h1 id="sql执行流程"><a href="#sql执行流程" class="headerlink" title="sql执行流程"></a>sql执行流程</h1><blockquote>
@@ -200,31 +152,17 @@
       </tags>
   </entry>
   <entry>
-    <title>SQL分析</title>
-    <url>/posts/a7e850f.html</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>MySQL</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SQL优化</title>
     <url>/posts/37c83307.html</url>
-    <content><![CDATA[<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="MySQL高性能优化规范建议"><a href="#MySQL高性能优化规范建议" class="headerlink" title="MySQL高性能优化规范建议"></a>MySQL高性能优化规范建议</h2><blockquote>
-<p><a href="https://www.cnblogs.com/huchong/p/10219318.html">MySQL高性能优化规范建议（原文）</a></p>
-<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485117&idx=1&sn=92361755b7c3de488b415ec4c5f46d73&chksm=cea24976f9d5c060babe50c3747616cce63df5d50947903a262704988143c2eeb4069ae45420&token=79317275&lang=zh_CN%23rd">MySQL高性能优化规范建议</a></p>
-</blockquote>
-<p>数据库 SQL 开发规范部分不搬运了，要多看看，多理解</p>
-<h2 id="SQL执行慢的原因"><a href="#SQL执行慢的原因" class="headerlink" title="SQL执行慢的原因"></a>SQL执行慢的原因</h2><blockquote>
-<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247485185&idx=1&sn=66ef08b4ab6af5757792223a83fc0d45&chksm=cea248caf9d5c1dc72ec8a281ec16aa3ec3e8066dbb252e27362438a26c33fbe842b0e0adf47&token=79317275&lang=zh_CN%23rd">SQL执行慢的原因</a></p>
-</blockquote>
-<h2 id="书写高质量SQL的30条建议"><a href="#书写高质量SQL的30条建议" class="headerlink" title="书写高质量SQL的30条建议"></a>书写高质量SQL的30条建议</h2><blockquote>
-<p><a href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247486461&idx=1&sn=60a22279196d084cc398936fe3b37772&chksm=cea24436f9d5cd20a4fa0e907590f3e700d7378b3f608d7b33bb52cfb96f503b7ccb65a1deed&token=1987003517&lang=zh_CN%23rd">书写高质量SQL的30条建议</a></p>
-</blockquote>
-]]></content>
+    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="密码不正确，请重新输入！" data-whm="文章不能被校验, 不过您还是能看看解密后的内容！">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">该文章已加密, 请输入密码查看。</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="4d26bf5e8af3bdb80a084a205c502f9b65f591c64112802761a3cdd5d3859f30">249d63f61f66a83e2cce6900f57704ca0dfceed793e38fd205dc88f783a92fd2f8056f7a243da7350ac906b86819cc68b2fa49cf195bee80e91f89fe0a0295f8176375bae327e7aba0a9c669f26e93e886f270380b3cd85093f7bbf56a456a025e883bbe693ee405f9375f12239966d5ccecc00c4df29686fbdb7a4da6cac8df21c9238fbf792a2d370f50a9e467fbf51a1b54bb345483092ef1e9c9d88dc211c3e2aed471b5eb8f145952be870dd898cf84b21fc2ee07735dec29f80958268f729ee0dedb209518f9dfc2f93f2afe66221c60b6a64f34d03530eb86497604aea06462de7a1fc615c96ebfd3a1008845bab2c94cb18bf07def72867734d7e3d51ca74f025bbbba015bcf0aacbdd5663d23c2300d1731880f5bedddd94232417c446322184a8af520053cabe941507b2a34820c8685f71d2850088149409f1c6a6359c7ea4aa2ada9095dcb2651673a0f2e123c99823b2dd50cc36ea3c76cc010e01b4437f7ea76182d4ddf201c80ff2d1e7bd74b24122fc4afade4288313e52f098c46a8a96a8afa846e76d210e06190903cc31f7c07955f27995466d8d47538a33b4283566d1c1e804d9bc38af13f06379b55f61f23ad06fdca80af5eb97a1f67455e0a85ebe4b69ac4404ada3a309187a9d358bc61040ff73ab3c076f7bcecafc362dc597ef12c920ab280db14a8933ccfad7c5e5209eb1f6a0ede7b54c22bc9680bb911803058b5164bcf22ff94fb34b02caf785ac00672f90d9518716d3d4644c7b198177916cdfc70ae5042cad2c4582958bd8c6e41e41ea3b1e9ff711b65b4763110aa2c6a3ad7027512a6bdd6881746da13b5e9e21c3d49439102d3ef0f1d3d7c664f25ad0337744c31e10c8c50e192754a9f26a0de86f583707d8650cda6172ec9cf48256ee398d0ed35f342b482748e4f5779428a0c7f4924b6144661ca76a7d9e4c29ac0214ecaaa338666c1b2f612f5c550942bbc3f4606b29a04f6b1909d61f097012f2f5b1f28cb2a002f494c21169f898f94cbb92358573dba2c56233c9fc2c51236ae0da7489fc81c9fe54c3d9782af2f0d4486629f7f4c42cfc3c11fabca90470b7110b87a5824ee4e769d802bb792b5cd2aba02167c27ab6e14e9395188f8818354ab883efd6afc585cfa0eeca738060cc6b1667c460b8ce756cec79c4c38b54bedc417114a0a5cf3eaaa9e2c9a2080ee95f8c63d13717e6d944f619348861b6dbed913de9872fe173c7476af1901596be91d148541c7257a95fd40b41d6d7b2afe56e6328ad32e3ba8ade84160cce964f1bb32fcd287d045db2bc774a3f93643b2357d21c421a34288acaed8864f4ab38734e5058c13b3950c516f2bd23dbeeab78156a67473896760dca22c47d538d695608087fe370a94d9dbb8d36f1de3f51fe5c43ff8da283a48c49390205acf14a4698686eb148d7b42aa67bc8a0753e0834e51ffa55492eb24b3cf7535c3c63e4d1465bb28bf26e902cdb1f879dc6b412e5c8f0a4d30aec801dceb1ff7b2f40dab2ab90c65f067f7b54cbf2d11b18cb11ffae2bfc2f015c72d9749724c7a6b7a03f4cae5193d5844237e60586c71805dcde0d10cbcfea9b38246ffd398903b23d3cc1e546dc3f2f12ed7b219819c72e376212d17d85afde20409bd715551ea83bdb6de787a3fead41e911c7bb84805c79c7a6c3b567c776bf961a2a55f39945f6ac5a981f2a3c28a3fe0f423d8df1ed7b17fbb694c4832f3fe6f02dd67d786d362c89a27128cf0fa92be88ba41cae803cc8e2672fc4d991993794adb99da789919abc652f441a0e0c09423cfe5accde9b96469bb7e0e0cf6d9f5f2f3e54e5bd15bf3e15a45375767a21901f6a7c25520a2e4399345bd3373c445954bc62af5028651b732cd930ad594ab50796339ed1eda453a784988fdbe062dccce13a4b47b570fb7fdd8b1963356f8fa174aa868ab1f89e4a85175497dfe0b9d2b29117b2fa6e9d4a7c869baf7c0a8802210f90fd8833a26719fefdfaac5b0fc6e40968010b902f26acfe6b009158faec642026f018b621dac7d6bbb706540ad6ad60106e555846281f2e35e6709f630a688d5a2facfad93aecc0b93ffd905dba59401943952b0ab90c230d1b3605ae166a04703fff7d86164e647feb9fd802ffb1b337baf4f6266e14cf645b6df650a96e5ec5c71caf62d5b00032eafd342c82f11d97490466cbf0c101578057f0e8aa31fd9ab9117d7c29a8ee237ca99c74dde1c82dd75ad03118efccb72ebb1dfc2b09489d0519fca2228da5504cbec4ff9826c7adb361a77f478699438d403b33afaf81f3fb90c08c60333aa33cb61378b8a8f00ce570b7fecf800ae07bb5fd9e41d2a8cbfc56ea37a060cd19fbe66a6546a708f6306ce37c460afae0abdab2b624765b79acd7172976e55084d570c9aede3b3e2254aa86f1d1534d4b7</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
       <categories>
         <category>MySQL</category>
       </categories>
@@ -321,7 +259,7 @@
     <url>/posts/ac0d7049.html</url>
     <content><![CDATA[<p><a href="./86e336c0.html">01.MySQL基础</a></p>
 <p><a href="./c468c6f9.html">02.MySQL索引</a></p>
-<p><a href="./.html">03.MySQL分析</a></p>
+<p><a href="./c468c6f9.html">03.Explain关键字及索引使用分析</a></p>
 <p><a href="./.html">04.待定</a></p>
 <p><a href="./37c83307.html">05.SQL优化</a></p>
 <p><a href="./e4de6087.html">06.行锁原理</a></p>
@@ -334,238 +272,51 @@
       </tags>
   </entry>
   <entry>
-    <title>01.Spring基础</title>
-    <url>/posts/c9e764a5.html</url>
-    <content><![CDATA[<h3 id="什么是spring"><a href="#什么是spring" class="headerlink" title="什么是spring?"></a>什么是spring?</h3><p>Spring 是一个<strong>轻量级的 DI / IoC 和 AOP 容器的开源框架</strong>，目的是为了解决企业级应用开发的业务逻辑层和其他各层的耦合问题。它是一个轻量级开源框架，为开发Java应用程序提供全面的基础架构支持。Spring负责基础架构，因此Java开发者可以专注于应用程序的开发。</p>
-<p>Spring最根本的使命是<strong>解决企业级应用开发的复杂性，即简化Java开发</strong>。</p>
-<h3 id="侵⼊式概念"><a href="#侵⼊式概念" class="headerlink" title="侵⼊式概念"></a>侵⼊式概念</h3><p><strong>侵⼊式</strong>：对于EJB、Struts2等⼀些传统的框架，通常是要实现特定的接⼝，继承特定的类才能增强功能</p>
-<ul>
-<li>改变了<strong>java</strong>类的结构</li>
-</ul>
-<p><strong>⾮侵⼊式</strong>：对于Hibernate、Spring等框架，对现有的类结构没有影响，就能够增强<strong>JavaBean</strong>的功能</p>
-<h3 id="Spring的优缺点是什么？"><a href="#Spring的优缺点是什么？" class="headerlink" title="Spring的优缺点是什么？"></a>Spring的优缺点是什么？</h3><p><strong>优点</strong></p>
-<ul>
-<li><p>方便解耦，简化开发</p>
-<p>Spring就是一个大工厂，可以将所有对象的创建和依赖关系的维护，交给Spring管理。</p>
+    <title>01.MyBatis面试</title>
+    <url>/posts/d39c0168.html</url>
+    <content><![CDATA[<h4 id="MyBatis是什么？"><a href="#MyBatis是什么？" class="headerlink" title="MyBatis是什么？"></a>MyBatis是什么？</h4><p>MyBatis 是一款优秀的持久层框架，一个半 ORM（对象关系映射）框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生类型、接口和 Java 的 POJO（Plain Old Java Objects，普通老式 Java 对象）为数据库中的记录。</p>
+<h4 id="ORM是什么"><a href="#ORM是什么" class="headerlink" title="ORM是什么"></a>ORM是什么</h4><p>ORM（Object Relational Mapping），对象关系映射，是一种为了解决关系型数据库数据与简单Java对（POJO）的映射关系的技术。简单的说，ORM是通过使用描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中。</p>
+<h4 id="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"><a href="#为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？" class="headerlink" title="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"></a>为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？</h4><p>Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。</p>
+<p>而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。</p>
+<h4 id="MyBatis编程步骤是什么样的？"><a href="#MyBatis编程步骤是什么样的？" class="headerlink" title="MyBatis编程步骤是什么样的？"></a>MyBatis编程步骤是什么样的？</h4><p>1、 创建SqlSessionFactory</p>
+<p>2、 通过SqlSessionFactory创建SqlSession</p>
+<p>3、 通过sqlsession执行数据库操作</p>
+<p>4、 调用session.commit()提交事务</p>
+<p>5、 调用session.close()关闭会话</p>
+<h4 id="MyBatis的工作原理"><a href="#MyBatis的工作原理" class="headerlink" title="MyBatis的工作原理"></a>MyBatis的工作原理</h4><p>在学习 MyBatis 程序之前，需要了解一下 MyBatis 工作原理，以便于理解程序。MyBatis 的工作原理如下图</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0pvdXJXb24vaW1hZ2UvbWFzdGVyL015QmF0aXMlRTYlQTElODYlRTYlOUUlQjYlRTYlODAlQkIlRTclQkIlOTMvTXlCYXRpcyVFNSVCNyVBNSVFNCVCRCU5QyVFNSU4RSU5RiVFNyU5MCU4Ni5wbmc.png" alt="MyBatis工作原理"></p>
+<p>1）读取 MyBatis 配置文件：mybatis-config.xml 为 MyBatis 的全局配置文件，配置了 MyBatis 的运行环境等信息，例如数据库连接信息。</p>
+<p>2）加载映射文件。映射文件即 SQL 映射文件，该文件中配置了操作数据库的 SQL 语句，需要在 MyBatis 配置文件 mybatis-config.xml 中加载。mybatis-config.xml 文件可以加载多个映射文件，每个文件对应数据库中的一张表。</p>
+<p>3）构造会话工厂：通过 MyBatis 的环境等配置信息构建会话工厂 SqlSessionFactory。</p>
+<p>4）创建会话对象：由会话工厂创建 SqlSession 对象，该对象中包含了执行 SQL 语句的所有方法。</p>
+<p>5）Executor 执行器：MyBatis 底层定义了一个 Executor 接口来操作数据库，它将根据 SqlSession 传递的参数动态地生成需要执行的 SQL 语句，同时负责查询缓存的维护。</p>
+<p>6）MappedStatement 对象：在 Executor 接口的执行方法中有一个 MappedStatement 类型的参数，该参数是对映射信息的封装，用于存储要映射的 SQL 语句的 id、参数等信息。</p>
+<p>7）输入参数映射：输入参数类型可以是 Map、List 等集合类型，也可以是基本数据类型和 POJO 类型。输入参数映射过程类似于 JDBC 对 preparedStatement 对象设置参数的过程。</p>
+<p>8）输出结果映射：输出结果类型可以是 Map、 List 等集合类型，也可以是基本数据类型和 POJO 类型。输出结果映射过程类似于 JDBC 对结果集的解析过程。</p>
+<h4 id="和-的区别是什么？"><a href="#和-的区别是什么？" class="headerlink" title="#{}和${}的区别是什么？"></a>#{}和${}的区别是什么？</h4><ul>
+<li><p><strong>${} 是 Properties ⽂件中的变量占位符</strong>，它可以⽤于标签属性值和 sql 内部，属于静态⽂本替换，⽐如${driver}会被静态替换为 com.mysql.jdbc.Driver 。</p>
 </li>
-<li><p>AOP编程的支持</p>
-<p>Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能。</p>
-</li>
-<li><p>声明式事务的支持</p>
-<p>只需要通过配置就可以完成对事务的管理，而无需手动编程。</p>
-</li>
-<li><p>方便程序的测试</p>
-<p>Spring对Junit4支持，可以通过注解方便的测试Spring程序。</p>
-</li>
-<li><p>方便集成各种优秀框架</p>
-<p>Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架的直接支持（如：Struts、Hibernate、MyBatis等）。</p>
-</li>
-<li><p>降低JavaEE API的使用难度</p>
-<p>Spring对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低。</p>
+<li><p><strong>#{} 是 sql 的参数占位符</strong>，Mybatis 会将 sql 中的 #{} 替换为?号，在 sql 执⾏前会使⽤PreparedStatement 的参数设置⽅法，按序给 sql 的?号占位符设置参数值，⽐如ps.setInt(0, parameterValue)， #{item.name} 的取值⽅式为使⽤反射从参数对象中获取item 对象的 name 属性值，相当于 param.getItem().getName() 。</p>
 </li>
 </ul>
-<p><strong>缺点</strong></p>
-<ul>
-<li>Spring明明一个很轻量级的框架，却给人感觉大而全</li>
-<li>Spring依赖反射，反射影响性能</li>
-<li>使用门槛升高，入门Spring需要较长时间</li>
+<p>简单来说：**${}是字符串替换，#{}是预编译处理。一般用# {}防止sql注入问题。**</p>
+<h4 id="Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？"><a href="#Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？" class="headerlink" title="Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？"></a>Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？</h4><p>还有很多其他的标签， <resultMap> 、 <parameterMap> 、 <sql> 、 <include> 、 <selectKey> ，加上动态 sql的 9 个标签，<code> trim|where|set|foreach|if|choose|when|otherwise|bind</code> 等，其中sql为⽚段标签，通过 <include> 标签引⼊ sql ⽚段， <selectKey> 为不⽀持⾃增的主键⽣成策略标签。</p>
+<h4 id="如何获取自增主键"><a href="#如何获取自增主键" class="headerlink" title="如何获取自增主键"></a>如何获取自增主键</h4><ul>
+<li>注解</li>
 </ul>
-<h3 id="Spring核心模块"><a href="#Spring核心模块" class="headerlink" title="Spring核心模块"></a>Spring核心模块</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2019102923475419.png" alt="在这里插入图片描述"></p>
-<ul>
-<li><strong>spring core</strong>：提供了框架的基本组成部分，包括<strong>控制反转</strong>（Inversion of Control，IOC）和<strong>依赖注入</strong>（Dependency Injection，DI）功能。</li>
-<li><strong>spring beans</strong>：提供了BeanFactory，是工厂模式的一个经典实现，Spring将管理对象称为Bean。</li>
-<li><strong>spring context</strong>：构建于 core 封装包基础上的 context 封装包，提供了一种框架式的对象访问方法。</li>
-<li><strong>spring jdbc</strong>：提供了一个JDBC的抽象层，消除了烦琐的JDBC编码和数据库厂商特有的错误代码解析， 用于简化JDBC。</li>
-<li><strong>spring aop</strong>：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。</li>
-<li><strong>spring Web</strong>：提供了针对 Web 开发的集成特性，例如文件上传，利用 servlet listeners 进行 ioc 容器初始化和针对 Web 的 ApplicationContext。</li>
-<li><strong>spring test</strong>：主要为测试提供支持的，支持使用JUnit或TestNG对Spring组件进行单元测试和集成测试。</li>
-</ul>
-<h3 id="Spring-框架中都用到了哪些设计模式？"><a href="#Spring-框架中都用到了哪些设计模式？" class="headerlink" title="Spring 框架中都用到了哪些设计模式？"></a>Spring 框架中都用到了哪些设计模式？</h3><ol>
-<li><strong>工厂模式</strong>：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；</li>
-<li><strong>单例模式</strong>：Bean默认为单例模式。</li>
-<li><strong>代理模式</strong>：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；</li>
-<li><strong>模板方法</strong>：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。</li>
-<li><strong>观察者模式</strong>：定义对象键一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知被制动更新，如Spring中listener的实现–ApplicationListener。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>03.SpringAOP</title>
-    <url>/posts/d1427ef9.html</url>
-    <content><![CDATA[<h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。</p>
-<h4 id="AOP-即-Aspect-Oriented-Program-面向切面编程"><a href="#AOP-即-Aspect-Oriented-Program-面向切面编程" class="headerlink" title="AOP 即 Aspect Oriented Program 面向切面编程"></a>AOP 即 Aspect Oriented Program 面向切面编程</h4><p>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。</p>
-<ul>
-<li><strong>所谓的核心业务</strong>，比如登陆，增加数据，删除数据都叫核心业务</li>
-<li><strong>所谓的周边功能</strong>，比如性能统计，日志，事务管理等等</li>
-</ul>
-<p>周边功能在 Spring 的面向切面编程AOP思想里，即被定义为切面</p>
-<p>在面向切面编程AOP的思想里面，核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫AOP</p>
-<h4 id="OOP缺陷"><a href="#OOP缺陷" class="headerlink" title="OOP缺陷"></a>OOP缺陷</h4><ul>
-<li><strong>代码混乱</strong>：核心业务模块可能需要兼顾处理其他不相干的业务外围操作，这些外围操作可能会混乱核心操作的代码，而且当外围模块有重大修改时也会影响到核心模块，这显然是不合理的。</li>
-<li><strong>代码分散和冗余</strong>：同样的功能代码，在其他的模块几乎随处可见，导致代码分散并且冗余度高。</li>
-<li><strong>代码质量低扩展难</strong>：由于不太相关的业务代码混杂在一起，无法专注核心业务代码，当进行类似无关业务扩展时又会直接涉及到核心业务的代码，导致拓展性低。</li>
-</ul>
-<h4 id="AOP-的目的"><a href="#AOP-的目的" class="headerlink" title="AOP 的目的"></a>AOP 的目的</h4><p>AOP能够将那些与业务无关，<strong>却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来</strong>，便于<strong>减少系统的重复代码</strong>，<strong>降低模块间的耦合度</strong>，并<strong>有利于未来的可拓展性和可维护性</strong>。</p>
-<h4 id="AOP代理"><a href="#AOP代理" class="headerlink" title="AOP代理"></a>AOP代理</h4><p><strong>Spring AOP</strong>就是基于动态代理的，如果要代理的对象，实现了某个接⼝，那么Spring AOP会使⽤<strong>JDK Proxy</strong>，去创建代理对象，⽽对于没有实现接⼝的对象，就⽆法使⽤ JDK Proxy 去进⾏代理了，这时候Spring AOP会使⽤<strong>Cglib</strong> ，这时候Spring AOP会使⽤ <strong>Cglib</strong> ⽣成⼀个被代理对象的⼦类来作为代理。</p>
-<h4 id="AOP-当中的概念："><a href="#AOP-当中的概念：" class="headerlink" title="AOP 当中的概念："></a>AOP 当中的概念：</h4><ul>
-<li>切入点（Pointcut）<br>在哪些类，哪些方法上切入（<strong>where</strong>）</li>
-<li>通知（Advice）<br>在方法执行的什么实际（<strong>when:**方法前/方法后/方法前后）做什么（</strong>what:**增强的功能）</li>
-<li>切面（Aspect）<br>切面 = 切入点 + 通知，通俗点就是：<strong>在什么时机，什么地方，做什么增强！</strong></li>
-<li>织入（Weaving）<br>把切面加入到对象，并创建出代理对象的过程。（由 Spring 来完成）</li>
-</ul>
-<h4 id="Spring-中的-AspectJ-注解："><a href="#Spring-中的-AspectJ-注解：" class="headerlink" title="Spring 中的 AspectJ 注解："></a>Spring 中的 AspectJ 注解：</h4><table>
-<thead>
-<tr>
-<th>注解</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>@Before</code></td>
-<td>前置通知，在连接点方法前调用</td>
-</tr>
-<tr>
-<td><code>@Around</code></td>
-<td>环绕通知，它将覆盖原有方法，但是允许你通过反射调用原有方法，后面会讲</td>
-</tr>
-<tr>
-<td><code>@After</code></td>
-<td>后置通知，在连接点方法后调用</td>
-</tr>
-<tr>
-<td><code>@AfterReturning</code></td>
-<td>返回通知，在连接点方法执行并正常返回后调用，要求连接点方法在执行过程中没有发生异常</td>
-</tr>
-<tr>
-<td><code>@AfterThrowing</code></td>
-<td>异常通知，当连接点方法异常时调用</td>
-</tr>
-</tbody></table>
-<h4 id="AOP-编程"><a href="#AOP-编程" class="headerlink" title="AOP 编程"></a>AOP 编程</h4><ul>
-<li>在 Packge【service】下创建 【ProductService】类：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomeService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;doSomeService&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Insert(&quot;insert into user (name) values  (#&#123;name&#125; )&quot;)</span></span><br><span class="line"><span class="meta">@Options(useGeneratedKeys = true,keyProperty =&quot;id&quot;,keyColumn = &quot;id&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">int</span>  <span class="title">inseartUser</span><span class="params">(User  user)</span></span>;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>在 xml 文件中装配该 bean：</li>
+<li>xml</li>
 </ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">”indetifyId”</span>  <span class="attr">useGeneratedKeys</span>=<span class="string">”true”</span> <span class="attr">keyProperty</span>=<span class="string">”id”</span> <span class="attr">keyColumn</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>在【TestSpring】中编写测试代码，运行：</li>
-</ul>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-c190e07d3a051a65.png" alt="img"></p>
-<ul>
-<li>在 Packge【aspect】下准备日志切面 【LoggerAspect】类：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage aspect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggerAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">log</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;start log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        Object object = joinPoint.proceed();</span><br><span class="line">        System.out.println(<span class="string">&quot;end log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        <span class="keyword">return</span> object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在 xml 文件中声明业务对象和日志切面：</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:tx</span>=<span class="string">&quot;http://www.springframework.org/schema/tx&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;loggerAspect&quot;</span> <span class="attr">class</span>=<span class="string">&quot;aspect.LoggerAspect&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 配置AOP --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- where：在哪些地方（包.类.方法）做增加 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;loggerCutpoint&quot;</span></span></span><br><span class="line"><span class="tag">                      <span class="attr">expression</span>=<span class="string">&quot;execution(* service.ProductService.*(..)) &quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- what:做什么增强 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">id</span>=<span class="string">&quot;logAspect&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;loggerAspect&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- when:在什么时机（方法前/后/前后） --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">aop:around</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;loggerCutpoint&quot;</span> <span class="attr">method</span>=<span class="string">&quot;log&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>再次运行 TestSpring 中的测试代码，代码并没有改变，但是在业务方法运行之前和运行之后，都分别输出了日志信息：</li>
-</ul>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-343746f0a4eb7ce0.png" alt="img"></p>
 ]]></content>
       <categories>
-        <category>Spring</category>
+        <category>MyBatis</category>
       </categories>
       <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>05 SpringMVC</title>
-    <url>/posts/319a95ab.html</url>
-    <content><![CDATA[<h3 id="什么是SpringMVC"><a href="#什么是SpringMVC" class="headerlink" title="什么是SpringMVC?"></a>什么是<strong>SpringMVC?</strong></h3><p>⽤在基于<strong>MVC</strong>的表现层开发，类似于<strong>struts2</strong>框架</p>
-<h3 id="为什么要使⽤SpringMVC？"><a href="#为什么要使⽤SpringMVC？" class="headerlink" title="为什么要使⽤SpringMVC？"></a>为什么要使⽤<strong>SpringMVC</strong>？</h3><p>下⾯我们来看⼀下Struts2不⾜之处：</p>
-<ul>
-<li><p>有漏洞【详细可以去搜索】</p>
-</li>
-<li><p>运⾏速度较慢【⽐SpringMVC要慢】</p>
-</li>
-<li><p>配置的内容较多【需要使⽤Struts.xml⽂件】</p>
-</li>
-</ul>
-<h3 id="SpringMVC⼯作流程"><a href="#SpringMVC⼯作流程" class="headerlink" title="SpringMVC⼯作流程"></a><strong>SpringMVC</strong>⼯作流程</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/1121080-20190509202147059-745656946-20201110113822800.jpg" alt="img"></p>
-<ul>
-<li>用户向服务端发送一次请求，这个请求会先到前端控制器**DispatcherServlet(也叫中央控制器)**。</li>
-<li><strong>DispatcherServlet</strong>接收到请求后会调用<strong>HandlerMapping</strong>处理器映射器。由此得知，该请求该由哪<strong>Controller来处理（并未调用Controller，只是得知）</strong></li>
-<li><strong>DispatcherServlet</strong>调用<strong>HandlerAdapter</strong>处理器适配器，告诉处理器适配器应该要去<strong>执行哪个Controller</strong></li>
-<li><strong>HandlerAdapter</strong>处理器适配器去执行<strong>Controller</strong>并得到<strong>ModelAndView</strong>(数据和视图)，并层层返回给<strong>DispatcherServlet</strong></li>
-<li><strong>DispatcherServlet将ModelAndView交给ViewReslover视图解析器解析</strong>，然后返回真正的视图。</li>
-<li><strong>DispatcherServlet</strong>将模型数据填充到视图中</li>
-<li><strong>DispatcherServlet</strong>将结果响应给用户</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>04.Spring 事物</title>
-    <url>/posts/c31fb5e7.html</url>
-    <content><![CDATA[<h3 id="Spring-事务Spring-管理事务的⽅式有⼏种？"><a href="#Spring-事务Spring-管理事务的⽅式有⼏种？" class="headerlink" title="Spring 事务Spring 管理事务的⽅式有⼏种？"></a>Spring 事务Spring 管理事务的⽅式有⼏种？</h3><ol>
-<li><p>编程式事务，在代码中硬编码。(不推荐使⽤)</p>
-</li>
-<li><p>声明式事务，在配置⽂件中配置（推荐使⽤）</p>
-<p>声明式事务⼜分为两种：</p>
-<ol>
-<li>基于XML的声明式事务</li>
-<li>基于注解的声明式事务</li>
-</ol>
-</li>
-</ol>
-<h3 id="Spring-事务中的隔离级别有哪⼏种"><a href="#Spring-事务中的隔离级别有哪⼏种" class="headerlink" title="Spring 事务中的隔离级别有哪⼏种?"></a>Spring 事务中的隔离级别有哪⼏种?</h3><p><strong>TransactionDefinition</strong> 接⼝中定义了五个表示隔离级别的常量：</p>
-<p><strong>TransactionDefinition.ISOLATION_DEFAULT:</strong> 使⽤后端数据库默认的隔离级别，Mysql 默认采</p>
-<p>⽤的 REPEATABLE_READ隔离级别 Oracle 默认采⽤的 READ_COMMITTED隔离级别.</p>
-<p><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED:</strong> 最低的隔离级别，允许读取尚未提交的</p>
-<p>数据变更，可能会导致脏读、幻读或不可重复读</p>
-<p><strong>TransactionDefinition.ISOLATION_READ_COMMITTED:</strong> 允许读取并发事务已经提交的数据，可以</p>
-<p>阻⽌脏读，但是幻读或不可重复读仍有可能发⽣</p>
-<p><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ:</strong> 对同⼀字段的多次读取结果都是⼀致</p>
-<p>的，除⾮数据是被本身事务⾃⼰所修改，可以阻⽌脏读和不可重复读，但幻读仍有可能发⽣。</p>
-<p><strong>TransactionDefinition.ISOLATION_SERIALIZABLE:</strong> 最⾼的隔离级别，完全服从ACID的隔离级</p>
-<p>别。所有的事务依次逐个执⾏，这样事务之间就完全不可能产⽣⼲扰，也就是说，该级别可以防</p>
-<p>⽌脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会⽤到该级别。</p>
-<h3 id="Spring-事务中哪⼏种事务传播⾏为"><a href="#Spring-事务中哪⼏种事务传播⾏为" class="headerlink" title="Spring 事务中哪⼏种事务传播⾏为?"></a>Spring 事务中哪⼏种事务传播⾏为?</h3><p><strong>⽀持当前事务的情况：</strong></p>
-<ul>
-<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRED</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则创建⼀个新的事务。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_SUPPORTS</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则以⾮事务的⽅式继续运⾏。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_MANDATORY</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）不⽀持当前事务的情况：</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRES_NEW</strong>： 创建⼀个新的事务，如果当前存在事务，则把当前事务挂起。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_NOT_SUPPORTED</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则把当前事务挂起。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_NEVER</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则抛出异常。</p>
-</li>
-</ul>
-<p><strong>其他情况：</strong></p>
-<ul>
-<li><strong>TransactionDefinition.PROPAGATION_NESTED</strong>： 如果当前存在事务，则创建⼀个事务作为当前事务的嵌套事务来运⾏；如果当前没有事务，则该取值等价TransactionDefinition.PROPAGATION_REQUIRED。</li>
-</ul>
-<h3 id="Transactional-rollbackFor-Exception-class-注解了解吗？"><a href="#Transactional-rollbackFor-Exception-class-注解了解吗？" class="headerlink" title="@Transactional(rollbackFor = Exception.class)注解了解吗？"></a>@Transactional(rollbackFor = Exception.class)注解了解吗？</h3><p>我们知道：Exception分为运⾏时异常RuntimeException和⾮运⾏时异常。事务管理对于企业应⽤来说是⾄关重要的，即使出现异常情况，它也可以保证数据的⼀致性。当 @Transactional 注解作⽤于类上时，该类的所有 public ⽅法将都具有该类型的事务属性，同时，我们也可以在⽅法级别使⽤该标注来覆盖类级别的定义。如果类或者⽅法加了这个注解，那么这个类⾥⾯的⽅法抛出异常，就会回滚，数据库⾥⾯的数据也会回滚。在 <strong>@Transactional 注解中如果不配置 rollbackFor 属性,那么事物只会在遇到 RuntimeException 的时候才会回滚,加上 rollbackFor=Exception.class ,可以让事物在遇到⾮运⾏时异常时也回滚。</strong></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
+        <tag>MyBatis</tag>
       </tags>
   </entry>
   <entry>
@@ -1138,6 +889,241 @@
       </categories>
       <tags>
         <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>01.Spring基础</title>
+    <url>/posts/c9e764a5.html</url>
+    <content><![CDATA[<h3 id="什么是spring"><a href="#什么是spring" class="headerlink" title="什么是spring?"></a>什么是spring?</h3><p>Spring 是一个<strong>轻量级的 DI / IoC 和 AOP 容器的开源框架</strong>，目的是为了解决企业级应用开发的业务逻辑层和其他各层的耦合问题。它是一个轻量级开源框架，为开发Java应用程序提供全面的基础架构支持。Spring负责基础架构，因此Java开发者可以专注于应用程序的开发。</p>
+<p>Spring最根本的使命是<strong>解决企业级应用开发的复杂性，即简化Java开发</strong>。</p>
+<h3 id="侵⼊式概念"><a href="#侵⼊式概念" class="headerlink" title="侵⼊式概念"></a>侵⼊式概念</h3><p><strong>侵⼊式</strong>：对于EJB、Struts2等⼀些传统的框架，通常是要实现特定的接⼝，继承特定的类才能增强功能</p>
+<ul>
+<li>改变了<strong>java</strong>类的结构</li>
+</ul>
+<p><strong>⾮侵⼊式</strong>：对于Hibernate、Spring等框架，对现有的类结构没有影响，就能够增强<strong>JavaBean</strong>的功能</p>
+<h3 id="Spring的优缺点是什么？"><a href="#Spring的优缺点是什么？" class="headerlink" title="Spring的优缺点是什么？"></a>Spring的优缺点是什么？</h3><p><strong>优点</strong></p>
+<ul>
+<li><p>方便解耦，简化开发</p>
+<p>Spring就是一个大工厂，可以将所有对象的创建和依赖关系的维护，交给Spring管理。</p>
+</li>
+<li><p>AOP编程的支持</p>
+<p>Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能。</p>
+</li>
+<li><p>声明式事务的支持</p>
+<p>只需要通过配置就可以完成对事务的管理，而无需手动编程。</p>
+</li>
+<li><p>方便程序的测试</p>
+<p>Spring对Junit4支持，可以通过注解方便的测试Spring程序。</p>
+</li>
+<li><p>方便集成各种优秀框架</p>
+<p>Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架的直接支持（如：Struts、Hibernate、MyBatis等）。</p>
+</li>
+<li><p>降低JavaEE API的使用难度</p>
+<p>Spring对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低。</p>
+</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>Spring明明一个很轻量级的框架，却给人感觉大而全</li>
+<li>Spring依赖反射，反射影响性能</li>
+<li>使用门槛升高，入门Spring需要较长时间</li>
+</ul>
+<h3 id="Spring核心模块"><a href="#Spring核心模块" class="headerlink" title="Spring核心模块"></a>Spring核心模块</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2019102923475419.png" alt="在这里插入图片描述"></p>
+<ul>
+<li><strong>spring core</strong>：提供了框架的基本组成部分，包括<strong>控制反转</strong>（Inversion of Control，IOC）和<strong>依赖注入</strong>（Dependency Injection，DI）功能。</li>
+<li><strong>spring beans</strong>：提供了BeanFactory，是工厂模式的一个经典实现，Spring将管理对象称为Bean。</li>
+<li><strong>spring context</strong>：构建于 core 封装包基础上的 context 封装包，提供了一种框架式的对象访问方法。</li>
+<li><strong>spring jdbc</strong>：提供了一个JDBC的抽象层，消除了烦琐的JDBC编码和数据库厂商特有的错误代码解析， 用于简化JDBC。</li>
+<li><strong>spring aop</strong>：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。</li>
+<li><strong>spring Web</strong>：提供了针对 Web 开发的集成特性，例如文件上传，利用 servlet listeners 进行 ioc 容器初始化和针对 Web 的 ApplicationContext。</li>
+<li><strong>spring test</strong>：主要为测试提供支持的，支持使用JUnit或TestNG对Spring组件进行单元测试和集成测试。</li>
+</ul>
+<h3 id="Spring-框架中都用到了哪些设计模式？"><a href="#Spring-框架中都用到了哪些设计模式？" class="headerlink" title="Spring 框架中都用到了哪些设计模式？"></a>Spring 框架中都用到了哪些设计模式？</h3><ol>
+<li><strong>工厂模式</strong>：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；</li>
+<li><strong>单例模式</strong>：Bean默认为单例模式。</li>
+<li><strong>代理模式</strong>：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；</li>
+<li><strong>模板方法</strong>：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。</li>
+<li><strong>观察者模式</strong>：定义对象键一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知被制动更新，如Spring中listener的实现–ApplicationListener。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>03.SpringAOP</title>
+    <url>/posts/d1427ef9.html</url>
+    <content><![CDATA[<h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。</p>
+<h4 id="AOP-即-Aspect-Oriented-Program-面向切面编程"><a href="#AOP-即-Aspect-Oriented-Program-面向切面编程" class="headerlink" title="AOP 即 Aspect Oriented Program 面向切面编程"></a>AOP 即 Aspect Oriented Program 面向切面编程</h4><p>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。</p>
+<ul>
+<li><strong>所谓的核心业务</strong>，比如登陆，增加数据，删除数据都叫核心业务</li>
+<li><strong>所谓的周边功能</strong>，比如性能统计，日志，事务管理等等</li>
+</ul>
+<p>周边功能在 Spring 的面向切面编程AOP思想里，即被定义为切面</p>
+<p>在面向切面编程AOP的思想里面，核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫AOP</p>
+<h4 id="OOP缺陷"><a href="#OOP缺陷" class="headerlink" title="OOP缺陷"></a>OOP缺陷</h4><ul>
+<li><strong>代码混乱</strong>：核心业务模块可能需要兼顾处理其他不相干的业务外围操作，这些外围操作可能会混乱核心操作的代码，而且当外围模块有重大修改时也会影响到核心模块，这显然是不合理的。</li>
+<li><strong>代码分散和冗余</strong>：同样的功能代码，在其他的模块几乎随处可见，导致代码分散并且冗余度高。</li>
+<li><strong>代码质量低扩展难</strong>：由于不太相关的业务代码混杂在一起，无法专注核心业务代码，当进行类似无关业务扩展时又会直接涉及到核心业务的代码，导致拓展性低。</li>
+</ul>
+<h4 id="AOP-的目的"><a href="#AOP-的目的" class="headerlink" title="AOP 的目的"></a>AOP 的目的</h4><p>AOP能够将那些与业务无关，<strong>却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来</strong>，便于<strong>减少系统的重复代码</strong>，<strong>降低模块间的耦合度</strong>，并<strong>有利于未来的可拓展性和可维护性</strong>。</p>
+<h4 id="AOP代理"><a href="#AOP代理" class="headerlink" title="AOP代理"></a>AOP代理</h4><p><strong>Spring AOP</strong>就是基于动态代理的，如果要代理的对象，实现了某个接⼝，那么Spring AOP会使⽤<strong>JDK Proxy</strong>，去创建代理对象，⽽对于没有实现接⼝的对象，就⽆法使⽤ JDK Proxy 去进⾏代理了，这时候Spring AOP会使⽤<strong>Cglib</strong> ，这时候Spring AOP会使⽤ <strong>Cglib</strong> ⽣成⼀个被代理对象的⼦类来作为代理。</p>
+<h4 id="AOP-当中的概念："><a href="#AOP-当中的概念：" class="headerlink" title="AOP 当中的概念："></a>AOP 当中的概念：</h4><ul>
+<li>切入点（Pointcut）<br>在哪些类，哪些方法上切入（<strong>where</strong>）</li>
+<li>通知（Advice）<br>在方法执行的什么实际（<strong>when:**方法前/方法后/方法前后）做什么（</strong>what:**增强的功能）</li>
+<li>切面（Aspect）<br>切面 = 切入点 + 通知，通俗点就是：<strong>在什么时机，什么地方，做什么增强！</strong></li>
+<li>织入（Weaving）<br>把切面加入到对象，并创建出代理对象的过程。（由 Spring 来完成）</li>
+</ul>
+<h4 id="Spring-中的-AspectJ-注解："><a href="#Spring-中的-AspectJ-注解：" class="headerlink" title="Spring 中的 AspectJ 注解："></a>Spring 中的 AspectJ 注解：</h4><table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Before</code></td>
+<td>前置通知，在连接点方法前调用</td>
+</tr>
+<tr>
+<td><code>@Around</code></td>
+<td>环绕通知，它将覆盖原有方法，但是允许你通过反射调用原有方法，后面会讲</td>
+</tr>
+<tr>
+<td><code>@After</code></td>
+<td>后置通知，在连接点方法后调用</td>
+</tr>
+<tr>
+<td><code>@AfterReturning</code></td>
+<td>返回通知，在连接点方法执行并正常返回后调用，要求连接点方法在执行过程中没有发生异常</td>
+</tr>
+<tr>
+<td><code>@AfterThrowing</code></td>
+<td>异常通知，当连接点方法异常时调用</td>
+</tr>
+</tbody></table>
+<h4 id="AOP-编程"><a href="#AOP-编程" class="headerlink" title="AOP 编程"></a>AOP 编程</h4><ul>
+<li>在 Packge【service】下创建 【ProductService】类：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomeService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;doSomeService&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 xml 文件中装配该 bean：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在【TestSpring】中编写测试代码，运行：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-c190e07d3a051a65.png" alt="img"></p>
+<ul>
+<li>在 Packge【aspect】下准备日志切面 【LoggerAspect】类：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage aspect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggerAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">log</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;start log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        Object object = joinPoint.proceed();</span><br><span class="line">        System.out.println(<span class="string">&quot;end log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        <span class="keyword">return</span> object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 xml 文件中声明业务对象和日志切面：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:tx</span>=<span class="string">&quot;http://www.springframework.org/schema/tx&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;loggerAspect&quot;</span> <span class="attr">class</span>=<span class="string">&quot;aspect.LoggerAspect&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 配置AOP --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- where：在哪些地方（包.类.方法）做增加 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;loggerCutpoint&quot;</span></span></span><br><span class="line"><span class="tag">                      <span class="attr">expression</span>=<span class="string">&quot;execution(* service.ProductService.*(..)) &quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- what:做什么增强 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">id</span>=<span class="string">&quot;logAspect&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;loggerAspect&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- when:在什么时机（方法前/后/前后） --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">aop:around</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;loggerCutpoint&quot;</span> <span class="attr">method</span>=<span class="string">&quot;log&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>再次运行 TestSpring 中的测试代码，代码并没有改变，但是在业务方法运行之前和运行之后，都分别输出了日志信息：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-343746f0a4eb7ce0.png" alt="img"></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>04.Spring 事物</title>
+    <url>/posts/c31fb5e7.html</url>
+    <content><![CDATA[<h3 id="Spring-事务Spring-管理事务的⽅式有⼏种？"><a href="#Spring-事务Spring-管理事务的⽅式有⼏种？" class="headerlink" title="Spring 事务Spring 管理事务的⽅式有⼏种？"></a>Spring 事务Spring 管理事务的⽅式有⼏种？</h3><ol>
+<li><p>编程式事务，在代码中硬编码。(不推荐使⽤)</p>
+</li>
+<li><p>声明式事务，在配置⽂件中配置（推荐使⽤）</p>
+<p>声明式事务⼜分为两种：</p>
+<ol>
+<li>基于XML的声明式事务</li>
+<li>基于注解的声明式事务</li>
+</ol>
+</li>
+</ol>
+<h3 id="Spring-事务中的隔离级别有哪⼏种"><a href="#Spring-事务中的隔离级别有哪⼏种" class="headerlink" title="Spring 事务中的隔离级别有哪⼏种?"></a>Spring 事务中的隔离级别有哪⼏种?</h3><p><strong>TransactionDefinition</strong> 接⼝中定义了五个表示隔离级别的常量：</p>
+<p><strong>TransactionDefinition.ISOLATION_DEFAULT:</strong> 使⽤后端数据库默认的隔离级别，Mysql 默认采</p>
+<p>⽤的 REPEATABLE_READ隔离级别 Oracle 默认采⽤的 READ_COMMITTED隔离级别.</p>
+<p><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED:</strong> 最低的隔离级别，允许读取尚未提交的</p>
+<p>数据变更，可能会导致脏读、幻读或不可重复读</p>
+<p><strong>TransactionDefinition.ISOLATION_READ_COMMITTED:</strong> 允许读取并发事务已经提交的数据，可以</p>
+<p>阻⽌脏读，但是幻读或不可重复读仍有可能发⽣</p>
+<p><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ:</strong> 对同⼀字段的多次读取结果都是⼀致</p>
+<p>的，除⾮数据是被本身事务⾃⼰所修改，可以阻⽌脏读和不可重复读，但幻读仍有可能发⽣。</p>
+<p><strong>TransactionDefinition.ISOLATION_SERIALIZABLE:</strong> 最⾼的隔离级别，完全服从ACID的隔离级</p>
+<p>别。所有的事务依次逐个执⾏，这样事务之间就完全不可能产⽣⼲扰，也就是说，该级别可以防</p>
+<p>⽌脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会⽤到该级别。</p>
+<h3 id="Spring-事务中哪⼏种事务传播⾏为"><a href="#Spring-事务中哪⼏种事务传播⾏为" class="headerlink" title="Spring 事务中哪⼏种事务传播⾏为?"></a>Spring 事务中哪⼏种事务传播⾏为?</h3><p><strong>⽀持当前事务的情况：</strong></p>
+<ul>
+<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRED</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则创建⼀个新的事务。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_SUPPORTS</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则以⾮事务的⽅式继续运⾏。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_MANDATORY</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）不⽀持当前事务的情况：</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRES_NEW</strong>： 创建⼀个新的事务，如果当前存在事务，则把当前事务挂起。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_NOT_SUPPORTED</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则把当前事务挂起。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_NEVER</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则抛出异常。</p>
+</li>
+</ul>
+<p><strong>其他情况：</strong></p>
+<ul>
+<li><strong>TransactionDefinition.PROPAGATION_NESTED</strong>： 如果当前存在事务，则创建⼀个事务作为当前事务的嵌套事务来运⾏；如果当前没有事务，则该取值等价TransactionDefinition.PROPAGATION_REQUIRED。</li>
+</ul>
+<h3 id="Transactional-rollbackFor-Exception-class-注解了解吗？"><a href="#Transactional-rollbackFor-Exception-class-注解了解吗？" class="headerlink" title="@Transactional(rollbackFor = Exception.class)注解了解吗？"></a>@Transactional(rollbackFor = Exception.class)注解了解吗？</h3><p>我们知道：Exception分为运⾏时异常RuntimeException和⾮运⾏时异常。事务管理对于企业应⽤来说是⾄关重要的，即使出现异常情况，它也可以保证数据的⼀致性。当 @Transactional 注解作⽤于类上时，该类的所有 public ⽅法将都具有该类型的事务属性，同时，我们也可以在⽅法级别使⽤该标注来覆盖类级别的定义。如果类或者⽅法加了这个注解，那么这个类⾥⾯的⽅法抛出异常，就会回滚，数据库⾥⾯的数据也会回滚。在 <strong>@Transactional 注解中如果不配置 rollbackFor 属性,那么事物只会在遇到 RuntimeException 的时候才会回滚,加上 rollbackFor=Exception.class ,可以让事物在遇到⾮运⾏时异常时也回滚。</strong></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>05 SpringMVC</title>
+    <url>/posts/319a95ab.html</url>
+    <content><![CDATA[<h3 id="什么是SpringMVC"><a href="#什么是SpringMVC" class="headerlink" title="什么是SpringMVC?"></a>什么是<strong>SpringMVC?</strong></h3><p>⽤在基于<strong>MVC</strong>的表现层开发，类似于<strong>struts2</strong>框架</p>
+<h3 id="为什么要使⽤SpringMVC？"><a href="#为什么要使⽤SpringMVC？" class="headerlink" title="为什么要使⽤SpringMVC？"></a>为什么要使⽤<strong>SpringMVC</strong>？</h3><p>下⾯我们来看⼀下Struts2不⾜之处：</p>
+<ul>
+<li><p>有漏洞【详细可以去搜索】</p>
+</li>
+<li><p>运⾏速度较慢【⽐SpringMVC要慢】</p>
+</li>
+<li><p>配置的内容较多【需要使⽤Struts.xml⽂件】</p>
+</li>
+</ul>
+<h3 id="SpringMVC⼯作流程"><a href="#SpringMVC⼯作流程" class="headerlink" title="SpringMVC⼯作流程"></a><strong>SpringMVC</strong>⼯作流程</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/1121080-20190509202147059-745656946-20201110113822800.jpg" alt="img"></p>
+<ul>
+<li>用户向服务端发送一次请求，这个请求会先到前端控制器**DispatcherServlet(也叫中央控制器)**。</li>
+<li><strong>DispatcherServlet</strong>接收到请求后会调用<strong>HandlerMapping</strong>处理器映射器。由此得知，该请求该由哪<strong>Controller来处理（并未调用Controller，只是得知）</strong></li>
+<li><strong>DispatcherServlet</strong>调用<strong>HandlerAdapter</strong>处理器适配器，告诉处理器适配器应该要去<strong>执行哪个Controller</strong></li>
+<li><strong>HandlerAdapter</strong>处理器适配器去执行<strong>Controller</strong>并得到<strong>ModelAndView</strong>(数据和视图)，并层层返回给<strong>DispatcherServlet</strong></li>
+<li><strong>DispatcherServlet将ModelAndView交给ViewReslover视图解析器解析</strong>，然后返回真正的视图。</li>
+<li><strong>DispatcherServlet</strong>将模型数据填充到视图中</li>
+<li><strong>DispatcherServlet</strong>将结果响应给用户</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
@@ -1887,91 +1873,6 @@
       </tags>
   </entry>
   <entry>
-    <title>springboot对接微信公众号授权登录接口</title>
-    <url>/posts/a74cd567.html</url>
-    <content><![CDATA[<h1 id="获取测试账号"><a href="#获取测试账号" class="headerlink" title="获取测试账号"></a>获取测试账号</h1><p>以下引用自微信开发者文档，有账号的可以跳过</p>
-<blockquote>
-<p>由于用户体验和安全性方面的考虑，微信公众号的注册有一定门槛，某些高级接口的权限需要微信认证后才可以获取。</p>
-<p>所以，为了帮助开发者快速了解和上手微信公众号开发，熟悉各个接口的调用，我们推出了微信公众帐号测试号，通过手机微信扫描二维码即可获得测试号。</p>
-</blockquote>
-<h2 id="申请测试账号"><a href="#申请测试账号" class="headerlink" title="申请测试账号"></a>申请测试账号</h2><p>申请很简单，点击下面的链接，微信登录，填写信息即可申请成功。</p>
-<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login">进入微信公众帐号测试号申请系统</a></p>
-<p>申请完以后就能看到appId和appsecret了</p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125134549671.png" alt="image-20201125134549671" style="zoom: 33%;" />
-
-<h2 id="测试账号配置"><a href="#测试账号配置" class="headerlink" title="测试账号配置"></a>测试账号配置</h2><p><strong>1. 首先我们在刚刚的页面，往下翻，找到这个修改入口</strong></p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/64d61b8303344ac298e5956eee139ed3.png" alt="64d61b8303344ac298e5956eee139ed3.png" style="zoom:33%;" />
-
-<p><strong>2. 在弹出的窗口中配置域名</strong></p>
-<p>这边填写域名就行，但是注意这个域名一定要公网能访问到</p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125135147371.png" alt="image-20201125135147371" style="zoom:33%;" />
-
-<p><strong>3. 填写js安全域名</strong></p>
-<p>​    这个地址和上一步一样就行，区别就是上一步不需要加https，这一步需要</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2ac3b922f8aa41a69c71237c4e9fb9b7.png" alt="2ac3b922f8aa41a69c71237c4e9fb9b7.png"></p>
-<p><strong>4. 配置接口</strong></p>
-<p>​    这个比较简单，主要是为了让这边访问一下，不然就会失败。参考代码如下：</p>
-<p><strong>controller</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        Enumeration pNames = request.getParameterNames();</span><br><span class="line">        <span class="keyword">while</span> (pNames.hasMoreElements()) &#123;</span><br><span class="line">            String name = (String) pNames.nextElement();</span><br><span class="line">            String value = request.getParameter(name);</span><br><span class="line">            String log = <span class="string">&quot;name =&quot;</span> + name + <span class="string">&quot; value =&quot;</span> + value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String signature = request.getParameter(<span class="string">&quot;signature&quot;</span>);<span class="comment">/// 微信加密签名</span></span><br><span class="line">        String timestamp = request.getParameter(<span class="string">&quot;timestamp&quot;</span>);<span class="comment">/// 时间戳</span></span><br><span class="line">        String nonce = request.getParameter(<span class="string">&quot;nonce&quot;</span>); <span class="comment">/// 随机数</span></span><br><span class="line">        String echostr = request.getParameter(<span class="string">&quot;echostr&quot;</span>); <span class="comment">// 随机字符串</span></span><br><span class="line">        PrintWriter out = response.getWriter();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (SignUtil.checkSignature(signature, timestamp, nonce)) &#123;</span><br><span class="line">            out.print(echostr);</span><br><span class="line">        &#125;</span><br><span class="line">        out.close();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>SignUtil</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SignUtil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String token = <span class="string">&quot;weixin&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 校验签名</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">checkSignature</span><span class="params">(String signature, String timestamp, String nonce)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;signature:&quot;</span> + signature + <span class="string">&quot;timestamp:&quot;</span> + timestamp + <span class="string">&quot;nonc:&quot;</span> + nonce);</span><br><span class="line">        String[] arr = <span class="keyword">new</span> String[]&#123;token, timestamp, nonce&#125;;</span><br><span class="line">        <span class="comment">// 将token、timestamp、nonce三个参数进行字典序排序</span></span><br><span class="line">        Arrays.sort(arr);</span><br><span class="line">        StringBuilder content = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            content.append(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        MessageDigest md = <span class="keyword">null</span>;</span><br><span class="line">        String tmpStr = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            md = MessageDigest.getInstance(<span class="string">&quot;SHA-1&quot;</span>);</span><br><span class="line">        <span class="comment">// 将三个参数字符串拼接成一个字符串进行sha1加密</span></span><br><span class="line">            <span class="keyword">byte</span>[] digest = md.digest(content.toString().getBytes());</span><br><span class="line">            tmpStr = byteToStr(digest);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        content = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">// 将sha1加密后的字符串可与signature对比，标识该请求来源于微信</span></span><br><span class="line">        System.out.println(tmpStr.equals(signature.toUpperCase()));</span><br><span class="line">        <span class="keyword">return</span> tmpStr != <span class="keyword">null</span> ? tmpStr.equals(signature.toUpperCase()) : <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将字节数组转换为十六进制字符串</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> byteArray</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">byteToStr</span><span class="params">(<span class="keyword">byte</span>[] byteArray)</span> </span>&#123;</span><br><span class="line">        String strDigest = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; byteArray.length; i++) &#123;</span><br><span class="line">            strDigest += byteToHexStr(byteArray[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> strDigest;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将字节转换为十六进制字符串</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> mByte</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">byteToHexStr</span><span class="params">(<span class="keyword">byte</span> mByte)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">char</span>[] Digit = &#123;<span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;E&#x27;</span>, <span class="string">&#x27;F&#x27;</span>&#125;;</span><br><span class="line">        <span class="keyword">char</span>[] tempArr = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">2</span>];</span><br><span class="line">        tempArr[<span class="number">0</span>] = Digit[(mByte &gt;&gt;&gt; <span class="number">4</span>) &amp; <span class="number">0X0F</span>];</span><br><span class="line">        tempArr[<span class="number">1</span>] = Digit[mByte &amp; <span class="number">0X0F</span>];</span><br><span class="line"></span><br><span class="line">        String s = <span class="keyword">new</span> String(tempArr);</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>配置截图</strong></p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125140514288.png" alt="image-20201125140514288" style="zoom: 33%;" />
-
-<p>至此，配置完毕。</p>
-<h2 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h2><p><strong>注：这里必须先关注测试账号，不然无法授权成功</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125140737132.png" alt="image-20201125140737132"></p>
-<h2 id="获取code"><a href="#获取code" class="headerlink" title="获取code"></a>获取code</h2><p>用微信浏览器打开如下地址：</p>
-<p><a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=appId&amp;redirect_uri=redirectUri&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=STATE#wechat_redirect">https://open.weixin.qq.com/connect/oauth2/authorize?appid=appId&amp;redirect_uri=redirectUri&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=STATE#wechat_redirect</a> </p>
-<p><strong>注：将链接中的appId和redirectUri换成自己的</strong></p>
-<h2 id="获取AccessToken及用户信息相关代码参考"><a href="#获取AccessToken及用户信息相关代码参考" class="headerlink" title="获取AccessToken及用户信息相关代码参考"></a>获取AccessToken及用户信息相关代码参考</h2><p><strong>yml</strong></p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">auth:</span></span><br><span class="line">  <span class="attr">wechat:</span></span><br><span class="line">    <span class="attr">accounts:</span></span><br><span class="line">      <span class="attr">appId:</span> <span class="string">xxxxxxxx</span>		<span class="comment"># 换成自己的测试账号</span></span><br><span class="line">      <span class="attr">appSecret:</span> <span class="string">xxxxxx</span> <span class="comment"># 换成自己的测试账号</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>WechatAuth关键代码</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;auth.wechat.accounts&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WechatAuth</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String appId;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String appSecret;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取openId</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String GET_ACCESS_TOKEN_URL = <span class="string">&quot;https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&amp;secret=%s&amp;code=%s&amp;grant_type=authorization_code&quot;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取openId</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String GET_INFO_URL = <span class="string">&quot;https://api.weixin.qq.com/sns/userinfo?access_token=%s&amp;openid=%s&amp;lang=zh_CN&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取openId</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> code</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map <span class="title">getInfoByCode</span><span class="params">(String code)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 通过code换取网页授权access_token</span></span><br><span class="line">        String url = String.format(GET_ACCESS_TOKEN_URL, appId, appSecret, code);</span><br><span class="line">        JSONObject jsonObject = HttpUtils.sendWechatGet(url, JSONObject.class);</span><br><span class="line">        String openId = jsonObject.getString(APIConstant.OPEN_ID);</span><br><span class="line">        String accessToken = jsonObject.getString(APIConstant.ACCESS_TOKEN);</span><br><span class="line">        System.out.println(<span class="string">&quot;access_Token&quot;</span> + accessToken + <span class="string">&quot; opeId:&quot;</span> + openId);</span><br><span class="line">        <span class="comment">// 拉取用户信息(需scope为 snsapi_userinfo)</span></span><br><span class="line">        url = String.format(GET_INFO_URL, accessToken, openId);</span><br><span class="line">        Map&lt;String, Object&gt; infoMap = HttpUtils.sendWechatGet(url, HashMap.class);</span><br><span class="line">        infoMap.put(APIConstant.OPEN_ID, openId);</span><br><span class="line">        infoMap.put(APIConstant.ACCESS_TOKEN, accessToken);</span><br><span class="line">        <span class="keyword">return</span> infoMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**** getter/setter ****/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAppId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> appId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAppId</span><span class="params">(String appId)</span> </span>&#123;</span><br><span class="line">        WechatAuth.appId = appId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAppSecret</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> appSecret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAppSecret</span><span class="params">(String appSecret)</span> </span>&#123;</span><br><span class="line">        WechatAuth.appSecret = appSecret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>sendWechatGet方法参考</strong></p>
-<p>之前测试的时候，RestTemplate调用小程序有个小坑，所以加入了这个Converter，换成自己的http请求方式</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">sendWechatGet</span><span class="params">(String url, Class&lt;T&gt; clazz)</span> </span>&#123;</span><br><span class="line">        RestTemplate restTemplate = <span class="keyword">new</span> RestTemplate();</span><br><span class="line">        restTemplate.getMessageConverters().add(<span class="keyword">new</span> WxMappingJackson2HttpMessageConverter()); <span class="comment">// 加这个是因为这边有个坑</span></span><br><span class="line">        <span class="keyword">return</span> restTemplate.getForObject(url, clazz);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>WxMappingJackson2HttpMessageConverter类代码</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 参考https://www.cnblogs.com/eternityz/p/12241211.html</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxMappingJackson2HttpMessageConverter</span> <span class="keyword">extends</span> <span class="title">MappingJackson2HttpMessageConverter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WxMappingJackson2HttpMessageConverter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        List&lt;MediaType&gt; mediaTypes = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        mediaTypes.add(MediaType.TEXT_PLAIN);</span><br><span class="line">        setSupportedMediaTypes(mediaTypes);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>至此，就能获取成功了。</p>
-<h1 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h1><ul>
-<li><p><strong>微信网页授权errcode:48001</strong></p>
-<blockquote>
-<p>出现errcode”:48001,”errmsg”:”api unauthorized, hints: [ req_id: 86klWa06252167 ]，</p>
-</blockquote>
-<p>原因：</p>
-<p>①：你的服务号必须是通过腾讯认证，每年是300元，如果没有认证而导致的错误提示，那就去认证，别往下看了！如果你已认证，本条原因排除。</p>
-<p>②：你是否是<strong>第三方网页授权</strong>，那么你的url地址里面的<code>scope</code>这个参数要写<code>snsapi_userinfo</code>,否则会报这个错！原因如下：</p>
-<p>snssapi_base静默授权，只能获取openid，获取不了用户其他信息。而snsapi_userinfo需要用户手动同意，才可以获取用户的信息。</p>
-</li>
-<li><p><strong>获取不到unionId</strong></p>
-<p>根据文档中的说明，绑定一下开放平台就行了。<a href="https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html">文档地址</a></p>
-</li>
-</ul>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125164536855.png" alt="image-20201125164536855" style="zoom: 50%;" />
-
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125164602381.png" alt="image-20201125164602381" style="zoom:50%;" />
-
-]]></content>
-      <categories>
-        <category>微信</category>
-      </categories>
-      <tags>
-        <tag>微信</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/posts/0.html</url>
-    <content><![CDATA[<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201124140928472.png" alt="image-20201124140928472" style="zoom:50%;" />]]></content>
-  </entry>
-  <entry>
     <title>01.设计模式概念及工厂模式</title>
     <url>/posts/bcfa4501.html</url>
     <content><![CDATA[<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="软件设计原则"><a href="#软件设计原则" class="headerlink" title="软件设计原则"></a>软件设计原则</h3><table>
@@ -2225,6 +2126,91 @@
       </tags>
   </entry>
   <entry>
+    <title>springboot对接微信公众号授权登录接口</title>
+    <url>/posts/a74cd567.html</url>
+    <content><![CDATA[<h1 id="获取测试账号"><a href="#获取测试账号" class="headerlink" title="获取测试账号"></a>获取测试账号</h1><p>以下引用自微信开发者文档，有账号的可以跳过</p>
+<blockquote>
+<p>由于用户体验和安全性方面的考虑，微信公众号的注册有一定门槛，某些高级接口的权限需要微信认证后才可以获取。</p>
+<p>所以，为了帮助开发者快速了解和上手微信公众号开发，熟悉各个接口的调用，我们推出了微信公众帐号测试号，通过手机微信扫描二维码即可获得测试号。</p>
+</blockquote>
+<h2 id="申请测试账号"><a href="#申请测试账号" class="headerlink" title="申请测试账号"></a>申请测试账号</h2><p>申请很简单，点击下面的链接，微信登录，填写信息即可申请成功。</p>
+<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login">进入微信公众帐号测试号申请系统</a></p>
+<p>申请完以后就能看到appId和appsecret了</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125134549671.png" alt="image-20201125134549671" style="zoom: 33%;" />
+
+<h2 id="测试账号配置"><a href="#测试账号配置" class="headerlink" title="测试账号配置"></a>测试账号配置</h2><p><strong>1. 首先我们在刚刚的页面，往下翻，找到这个修改入口</strong></p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/64d61b8303344ac298e5956eee139ed3.png" alt="64d61b8303344ac298e5956eee139ed3.png" style="zoom:33%;" />
+
+<p><strong>2. 在弹出的窗口中配置域名</strong></p>
+<p>这边填写域名就行，但是注意这个域名一定要公网能访问到</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125135147371.png" alt="image-20201125135147371" style="zoom:33%;" />
+
+<p><strong>3. 填写js安全域名</strong></p>
+<p>​    这个地址和上一步一样就行，区别就是上一步不需要加https，这一步需要</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2ac3b922f8aa41a69c71237c4e9fb9b7.png" alt="2ac3b922f8aa41a69c71237c4e9fb9b7.png"></p>
+<p><strong>4. 配置接口</strong></p>
+<p>​    这个比较简单，主要是为了让这边访问一下，不然就会失败。参考代码如下：</p>
+<p><strong>controller</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        Enumeration pNames = request.getParameterNames();</span><br><span class="line">        <span class="keyword">while</span> (pNames.hasMoreElements()) &#123;</span><br><span class="line">            String name = (String) pNames.nextElement();</span><br><span class="line">            String value = request.getParameter(name);</span><br><span class="line">            String log = <span class="string">&quot;name =&quot;</span> + name + <span class="string">&quot; value =&quot;</span> + value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String signature = request.getParameter(<span class="string">&quot;signature&quot;</span>);<span class="comment">/// 微信加密签名</span></span><br><span class="line">        String timestamp = request.getParameter(<span class="string">&quot;timestamp&quot;</span>);<span class="comment">/// 时间戳</span></span><br><span class="line">        String nonce = request.getParameter(<span class="string">&quot;nonce&quot;</span>); <span class="comment">/// 随机数</span></span><br><span class="line">        String echostr = request.getParameter(<span class="string">&quot;echostr&quot;</span>); <span class="comment">// 随机字符串</span></span><br><span class="line">        PrintWriter out = response.getWriter();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (SignUtil.checkSignature(signature, timestamp, nonce)) &#123;</span><br><span class="line">            out.print(echostr);</span><br><span class="line">        &#125;</span><br><span class="line">        out.close();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>SignUtil</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SignUtil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String token = <span class="string">&quot;weixin&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 校验签名</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">checkSignature</span><span class="params">(String signature, String timestamp, String nonce)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;signature:&quot;</span> + signature + <span class="string">&quot;timestamp:&quot;</span> + timestamp + <span class="string">&quot;nonc:&quot;</span> + nonce);</span><br><span class="line">        String[] arr = <span class="keyword">new</span> String[]&#123;token, timestamp, nonce&#125;;</span><br><span class="line">        <span class="comment">// 将token、timestamp、nonce三个参数进行字典序排序</span></span><br><span class="line">        Arrays.sort(arr);</span><br><span class="line">        StringBuilder content = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            content.append(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        MessageDigest md = <span class="keyword">null</span>;</span><br><span class="line">        String tmpStr = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            md = MessageDigest.getInstance(<span class="string">&quot;SHA-1&quot;</span>);</span><br><span class="line">        <span class="comment">// 将三个参数字符串拼接成一个字符串进行sha1加密</span></span><br><span class="line">            <span class="keyword">byte</span>[] digest = md.digest(content.toString().getBytes());</span><br><span class="line">            tmpStr = byteToStr(digest);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        content = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">// 将sha1加密后的字符串可与signature对比，标识该请求来源于微信</span></span><br><span class="line">        System.out.println(tmpStr.equals(signature.toUpperCase()));</span><br><span class="line">        <span class="keyword">return</span> tmpStr != <span class="keyword">null</span> ? tmpStr.equals(signature.toUpperCase()) : <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将字节数组转换为十六进制字符串</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> byteArray</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">byteToStr</span><span class="params">(<span class="keyword">byte</span>[] byteArray)</span> </span>&#123;</span><br><span class="line">        String strDigest = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; byteArray.length; i++) &#123;</span><br><span class="line">            strDigest += byteToHexStr(byteArray[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> strDigest;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将字节转换为十六进制字符串</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> mByte</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">byteToHexStr</span><span class="params">(<span class="keyword">byte</span> mByte)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">char</span>[] Digit = &#123;<span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;E&#x27;</span>, <span class="string">&#x27;F&#x27;</span>&#125;;</span><br><span class="line">        <span class="keyword">char</span>[] tempArr = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">2</span>];</span><br><span class="line">        tempArr[<span class="number">0</span>] = Digit[(mByte &gt;&gt;&gt; <span class="number">4</span>) &amp; <span class="number">0X0F</span>];</span><br><span class="line">        tempArr[<span class="number">1</span>] = Digit[mByte &amp; <span class="number">0X0F</span>];</span><br><span class="line"></span><br><span class="line">        String s = <span class="keyword">new</span> String(tempArr);</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>配置截图</strong></p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125140514288.png" alt="image-20201125140514288" style="zoom: 33%;" />
+
+<p>至此，配置完毕。</p>
+<h2 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h2><p><strong>注：这里必须先关注测试账号，不然无法授权成功</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125140737132.png" alt="image-20201125140737132"></p>
+<h2 id="获取code"><a href="#获取code" class="headerlink" title="获取code"></a>获取code</h2><p>用微信浏览器打开如下地址：</p>
+<p><a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=appId&amp;redirect_uri=redirectUri&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=STATE#wechat_redirect">https://open.weixin.qq.com/connect/oauth2/authorize?appid=appId&amp;redirect_uri=redirectUri&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=STATE#wechat_redirect</a> </p>
+<p><strong>注：将链接中的appId和redirectUri换成自己的</strong></p>
+<h2 id="获取AccessToken及用户信息相关代码参考"><a href="#获取AccessToken及用户信息相关代码参考" class="headerlink" title="获取AccessToken及用户信息相关代码参考"></a>获取AccessToken及用户信息相关代码参考</h2><p><strong>yml</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">auth:</span></span><br><span class="line">  <span class="attr">wechat:</span></span><br><span class="line">    <span class="attr">accounts:</span></span><br><span class="line">      <span class="attr">appId:</span> <span class="string">xxxxxxxx</span>		<span class="comment"># 换成自己的测试账号</span></span><br><span class="line">      <span class="attr">appSecret:</span> <span class="string">xxxxxx</span> <span class="comment"># 换成自己的测试账号</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>WechatAuth关键代码</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;auth.wechat.accounts&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WechatAuth</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String appId;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String appSecret;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取openId</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String GET_ACCESS_TOKEN_URL = <span class="string">&quot;https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&amp;secret=%s&amp;code=%s&amp;grant_type=authorization_code&quot;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取openId</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String GET_INFO_URL = <span class="string">&quot;https://api.weixin.qq.com/sns/userinfo?access_token=%s&amp;openid=%s&amp;lang=zh_CN&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取openId</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> code</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map <span class="title">getInfoByCode</span><span class="params">(String code)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 通过code换取网页授权access_token</span></span><br><span class="line">        String url = String.format(GET_ACCESS_TOKEN_URL, appId, appSecret, code);</span><br><span class="line">        JSONObject jsonObject = HttpUtils.sendWechatGet(url, JSONObject.class);</span><br><span class="line">        String openId = jsonObject.getString(APIConstant.OPEN_ID);</span><br><span class="line">        String accessToken = jsonObject.getString(APIConstant.ACCESS_TOKEN);</span><br><span class="line">        System.out.println(<span class="string">&quot;access_Token&quot;</span> + accessToken + <span class="string">&quot; opeId:&quot;</span> + openId);</span><br><span class="line">        <span class="comment">// 拉取用户信息(需scope为 snsapi_userinfo)</span></span><br><span class="line">        url = String.format(GET_INFO_URL, accessToken, openId);</span><br><span class="line">        Map&lt;String, Object&gt; infoMap = HttpUtils.sendWechatGet(url, HashMap.class);</span><br><span class="line">        infoMap.put(APIConstant.OPEN_ID, openId);</span><br><span class="line">        infoMap.put(APIConstant.ACCESS_TOKEN, accessToken);</span><br><span class="line">        <span class="keyword">return</span> infoMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**** getter/setter ****/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAppId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> appId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAppId</span><span class="params">(String appId)</span> </span>&#123;</span><br><span class="line">        WechatAuth.appId = appId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAppSecret</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> appSecret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAppSecret</span><span class="params">(String appSecret)</span> </span>&#123;</span><br><span class="line">        WechatAuth.appSecret = appSecret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>sendWechatGet方法参考</strong></p>
+<p>之前测试的时候，RestTemplate调用小程序有个小坑，所以加入了这个Converter，换成自己的http请求方式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">sendWechatGet</span><span class="params">(String url, Class&lt;T&gt; clazz)</span> </span>&#123;</span><br><span class="line">        RestTemplate restTemplate = <span class="keyword">new</span> RestTemplate();</span><br><span class="line">        restTemplate.getMessageConverters().add(<span class="keyword">new</span> WxMappingJackson2HttpMessageConverter()); <span class="comment">// 加这个是因为这边有个坑</span></span><br><span class="line">        <span class="keyword">return</span> restTemplate.getForObject(url, clazz);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>WxMappingJackson2HttpMessageConverter类代码</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 参考https://www.cnblogs.com/eternityz/p/12241211.html</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxMappingJackson2HttpMessageConverter</span> <span class="keyword">extends</span> <span class="title">MappingJackson2HttpMessageConverter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WxMappingJackson2HttpMessageConverter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        List&lt;MediaType&gt; mediaTypes = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        mediaTypes.add(MediaType.TEXT_PLAIN);</span><br><span class="line">        setSupportedMediaTypes(mediaTypes);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，就能获取成功了。</p>
+<h1 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h1><ul>
+<li><p><strong>微信网页授权errcode:48001</strong></p>
+<blockquote>
+<p>出现errcode”:48001,”errmsg”:”api unauthorized, hints: [ req_id: 86klWa06252167 ]，</p>
+</blockquote>
+<p>原因：</p>
+<p>①：你的服务号必须是通过腾讯认证，每年是300元，如果没有认证而导致的错误提示，那就去认证，别往下看了！如果你已认证，本条原因排除。</p>
+<p>②：你是否是<strong>第三方网页授权</strong>，那么你的url地址里面的<code>scope</code>这个参数要写<code>snsapi_userinfo</code>,否则会报这个错！原因如下：</p>
+<p>snssapi_base静默授权，只能获取openid，获取不了用户其他信息。而snsapi_userinfo需要用户手动同意，才可以获取用户的信息。</p>
+</li>
+<li><p><strong>获取不到unionId</strong></p>
+<p>根据文档中的说明，绑定一下开放平台就行了。<a href="https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html">文档地址</a></p>
+</li>
+</ul>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125164536855.png" alt="image-20201125164536855" style="zoom: 50%;" />
+
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125164602381.png" alt="image-20201125164602381" style="zoom:50%;" />
+
+]]></content>
+      <categories>
+        <category>微信</category>
+      </categories>
+      <tags>
+        <tag>微信</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/posts/0.html</url>
+    <content><![CDATA[<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201124140928472.png" alt="image-20201124140928472" style="zoom:50%;" />]]></content>
+  </entry>
+  <entry>
     <title>01.集合常见面试题</title>
     <url>/posts/712091b3.html</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201123135855532.png" alt="image-20201123135855532"></p>
@@ -2455,13 +2441,345 @@
       </tags>
   </entry>
   <entry>
+    <title>Explain关键字及索引使用分析</title>
+    <url>/posts/a7e850f.html</url>
+    <content><![CDATA[<blockquote>
+<p>使用EXPLAIN关键字可以模拟优化器执行SQL语句，分析你的查询语句或是结构的性能瓶颈在 select 语句之前增加 explain 关键字，MySQL 会在查询上设置一个标记，执行查询会返回执行计划的信息，而不是执行这条SQL </p>
+</blockquote>
+<p><strong>注：</strong>如果 from 中包含子查询，仍会执行该子查询，将结果放入临时表中</p>
+<h1 id="Explain介绍"><a href="#Explain介绍" class="headerlink" title="Explain介绍"></a>Explain介绍</h1><p>环境：MySQL 5.7.31 </p>
+<p><strong>注：</strong>具体结果及列字段数在不同版本的MySQL中可能不唯一。</p>
+<h2 id="测试数据库表结构"><a href="#测试数据库表结构" class="headerlink" title="测试数据库表结构"></a>测试数据库表结构</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SET NAMES utf8mb4;</span><br><span class="line">SET FOREIGN_KEY_CHECKS &#x3D; 0;</span><br><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS &#96;author&#96;;</span><br><span class="line">CREATE TABLE &#96;author&#96; (</span><br><span class="line">  &#96;id&#96; int(11) NOT NULL,</span><br><span class="line">  &#96;name&#96; varchar(45) DEFAULT NULL,</span><br><span class="line">  &#96;update_time&#96; datetime DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;</span><br><span class="line"></span><br><span class="line">BEGIN;</span><br><span class="line">INSERT INTO &#96;author&#96; VALUES (1, &#39;a&#39;, &#39;2020-10-01 11:04:46&#39;);</span><br><span class="line">INSERT INTO &#96;author&#96; VALUES (2, &#39;b&#39;, &#39;2020-10-01 11:04:46&#39;);</span><br><span class="line">INSERT INTO &#96;author&#96; VALUES (3, &#39;c&#39;, &#39;2020-10-01 11:04:46&#39;);</span><br><span class="line">COMMIT;</span><br><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS &#96;book&#96;;</span><br><span class="line">CREATE TABLE &#96;book&#96; (</span><br><span class="line">  &#96;id&#96; int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;title&#96; varchar(10) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;),</span><br><span class="line">  KEY &#96;idx_title&#96; (&#96;title&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;4 DEFAULT CHARSET&#x3D;utf8;</span><br><span class="line"></span><br><span class="line">BEGIN;</span><br><span class="line">INSERT INTO &#96;book&#96; VALUES (2, &#39;Java&#39;);</span><br><span class="line">INSERT INTO &#96;book&#96; VALUES (1, &#39;一千零一夜&#39;);</span><br><span class="line">INSERT INTO &#96;book&#96; VALUES (3, &#39;人月神话&#39;);</span><br><span class="line">COMMIT;</span><br><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS &#96;book_author&#96;;</span><br><span class="line">CREATE TABLE &#96;book_author&#96; (</span><br><span class="line">  &#96;id&#96; int(11) NOT NULL,</span><br><span class="line">  &#96;book_id&#96; int(11) NOT NULL,</span><br><span class="line">  &#96;author_id&#96; int(11) NOT NULL,</span><br><span class="line">  &#96;remark&#96; varchar(255) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;),</span><br><span class="line">  KEY &#96;idx_book_author_id&#96; (&#96;book_id&#96;,&#96;author_id&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;</span><br><span class="line"></span><br><span class="line">BEGIN;</span><br><span class="line">INSERT INTO &#96;book_author&#96; VALUES (1, 1, 1, NULL);</span><br><span class="line">INSERT INTO &#96;book_author&#96; VALUES (2, 1, 2, NULL);</span><br><span class="line">INSERT INTO &#96;book_author&#96; VALUES (3, 2, 1, NULL);</span><br><span class="line">COMMIT;</span><br><span class="line"></span><br><span class="line">SET FOREIGN_KEY_CHECKS &#x3D; 1;</span><br></pre></td></tr></table></figure>
+
+<h2 id="explain-两个变种"><a href="#explain-两个变种" class="headerlink" title="explain 两个变种"></a>explain 两个变种</h2><ol>
+<li>explain extended：会在 explain 的基础上额外提供一些查询优化的信息，<strong>紧随其后</strong>通过 <strong>show warnings 命令可以得到优化后的查询语句</strong>，从而看出优化器优化了什么。额外还有filtered 列，是一个半分比的值，rows * filtered / 100 可以估算出将要和 explain 中前一个表进行连接的行数（前一个表指 explain 中的id值比当前表id值小的表）。 </li>
+</ol>
+<blockquote>
+<p>explain extended select * from book where id = 1; </p>
+</blockquote>
+<p>![image-20201217111737718](/Users/cheng/Library/Application Support/typora-user-images/image-20201217111737718.png)</p>
+<blockquote>
+<p>show warnings; </p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217111759824.png" alt="image-20201217111759824"></p>
+<ol start="2">
+<li>explain partitions：相比 explain 多了个 partitions 字段，如果查询是基于分区表的话，会显示查询将访问的分区。 </li>
+</ol>
+<h2 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h2><p>​        首先我们随意执行一条SQL语句并加上explain关键字，就会看到如下的信息：</p>
+<blockquote>
+<p>explain select * from author;</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201216161426555.png" alt="image-20201216161426555"></p>
+<p>​        从上表中能看到，加上explain后返回的是语句的执行计划的信息，而不是语句具体的查询结果，但是这么多列，每一列都是什么意思呢？下面我就来逐个介绍一下。</p>
+<h3 id="id列"><a href="#id列" class="headerlink" title="id列"></a>id列</h3><p>​        id列的编号是 select 的序列号，<strong>有几个 select 就有几个id</strong>，并且id的顺序是按 select 出现的顺序增长的。 id列<strong>编号越大执行优先级越高，id相同则从上往下执行，id为NULL最后执行。</strong> </p>
+<h3 id="select-type列"><a href="#select-type列" class="headerlink" title="select_type列"></a>select_type列</h3><p>​        select_type表示对应行是简单还是复杂的查询。 </p>
+<ol>
+<li><p><strong>simple：</strong>简单查询。查询不包含子查询和union（就比如上面那个查询）。</p>
+</li>
+<li><p><strong>primary：</strong>复杂查询中最外层的select</p>
+</li>
+<li><p><strong>subquery：</strong>包含在 select 中的子查询（不在 from 子句中） </p>
+</li>
+<li><p><strong>derived：</strong>包含在 from 子句中的子查询。MySQL会将结果存放在一个临时表中，也称为派生表。</p>
+</li>
+<li><p><strong>union：</strong>在 union 中的第二个和随后的 select </p>
+<blockquote>
+<p>explain select id,name from author union all SELECT id bookId,title FROM book;</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201216162525555.png" alt="image-20201216162525555"></p>
+<p><strong>primary、subquery 和 derived 类型举例：</strong></p>
+</li>
+</ol>
+<p>​        在MySQL5.7中，默认对衍生表的有合并优化，所以在不关闭的情况下，看不到<strong>derived</strong>类型，所以我们要先设置一下（测试完记得还原）：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set session optimizer_switch&#x3D;&#39;derived_merge&#x3D;off&#39;; #关闭mysql5.7新特性对衍 生表的合并优化</span><br><span class="line">set session optimizer_switch&#x3D;&#39;derived_merge&#x3D;on&#39;; # 还原默认配置 测试完记得执行一下这个还原</span><br></pre></td></tr></table></figure>
+
+<p>​        关闭以后，我们来进行一下测试：</p>
+<blockquote>
+<p> explain select (select 1 from author where id = 1) from (select * from book where id = 1) b;</p>
+</blockquote>
+<p>​      <img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201216163211208.png" alt="image-20201216163211208"></p>
+<h3 id="table列"><a href="#table列" class="headerlink" title="table列"></a>table列</h3><p>​        这一列表示 explain 的一行正在访问哪个表。 </p>
+<ul>
+<li><p>当 from 子句中有子查询时，table列是 <derivenN> 格式，表示当前查询依赖 id=N 的查询，于是先执行id=N 的查询。 </p>
+</li>
+<li><p>当有 union 时，UNION RESULT 的 table 列的值为&lt;union1,2&gt;，1和2表示参与 union 的select 行id。 </p>
+</li>
+</ul>
+<h3 id="type列"><a href="#type列" class="headerlink" title="type列"></a>type列</h3><p>​        这一列表示关联类型或访问类型，即MySQL决定如何查找表中的行，查找数据行记录的大概范围。 依次从最优到最差分别为：<strong>system &gt; const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; ALL</strong>。一般来说，得保证查询达到range级别，最好达到ref。</p>
+<p><strong>NULL：</strong>mysql能够在优化阶段分解查询语句，在执行阶段用不着再访问表或索引。例如：在索引列中选取最小值，可以单独查找索引来完成，不需要在执行时访问表 </p>
+<blockquote>
+<p> explain select min(id) from book;</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201216164214463.png" alt="image-20201216164214463"></p>
+<p><strong>const, system：</strong>mysql能对查询的某部分进行优化并将其转化成一个常量（可以看show warnings 的结果）。用于 primary key 或 unique key 的所有列与常数比较时，表最多有一个匹配行，读取1次，速度比较快。system是const的特例，表里只有一条元组匹配时为system。</p>
+<blockquote>
+<p>explain select * from (select * from book where id = 1) book; </p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201216170931639.png" alt="image-20201216170931639"></p>
+<p><strong>eq_ref：</strong>当连接使用索引的所有部分时，<strong>索引是主键或唯一非 NULL 索引</strong>时 ，<strong>本表每条记录在关联表中关联最多只会返回一条符合条件的记录一一对应</strong>，就会出现该类型。这可能是在 const 之外最好的联接类型了，简单的 select 查询不会出现这种type。 </p>
+<blockquote>
+<p>explain select * from book_author left join book on book_author.book_id = book.id;</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201216171356563.png" alt="image-20201216171356563"></p>
+<p><strong>ref：</strong>相比 eq_ref，不使用唯一索引，而是<strong>使用普通索引或者唯一性索引的部分前缀，索引要和某个值相比较，可能会找到多个符合条件的行。</strong> </p>
+<ol>
+<li>简单 select 查询，title是普通索引（非唯一索引） </li>
+</ol>
+<blockquote>
+<p>explain select * from book where title = ‘Java’; </p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217102218237.png" alt="image-20201217102218237"></p>
+<ol start="2">
+<li>关联表查询，idx_book_author_id是book_id和author_id的联合索引，这里使用到了book_author的左边前缀book_id部分。 </li>
+</ol>
+<blockquote>
+<p>explain select book_id from book left join book_author on book.id = book_author.book_id; </p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217102430391.png" alt="image-20201217102430391"></p>
+<p><strong>range：</strong>范围扫描通常出现在 in(), between ,&gt; ,&lt;, &gt;= 等操作中。使用一个索引来检索给定范围的行。 </p>
+<blockquote>
+<p>explain select * from book where id &gt; 1;</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217102524303.png" alt="image-20201217102524303"></p>
+<p><strong>index：</strong>扫描全表索引，这通常比ALL快一些。 </p>
+<blockquote>
+<p>explain select * from book; </p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217102558032.png" alt="image-20201217102558032"></p>
+<p><strong>ALL：</strong>即全表扫描，意味着mysql需要从头到尾去查找所需要的行。通常情况下这需要增加索引来进行优化了 </p>
+<blockquote>
+<p>explain select * from author; </p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217102722166.png" alt="image-20201217102722166"></p>
+<p><strong>Q：</strong>为什么同样是select * 查询，上面的结果一个是<code>index</code>，一个是<code>ALL</code>呢？</p>
+<p><strong>A：</strong>book表中所有字段都是索引，id为主键，title为自建索引，而author表中则不是。</p>
+<h3 id="possible-keys列"><a href="#possible-keys列" class="headerlink" title="possible_keys列"></a>possible_keys列</h3><p>​        <strong>这一列用于显示查询可能使用哪些索引来查找。</strong> </p>
+<p>​        explain 时可能出现 possible_keys 有列，而 key 显示 NULL 的情况，这种情况是因为表中数据不多，mysql认为索引对此查询帮助不大，选择了全表查询。 </p>
+<p>​        如果该列是NULL，则没有相关的索引。在这种情况下，可以通过检查 where 子句看是否可以创造一个适当的索引来提高查询性能，然后用 explain 查看效果。 </p>
+<h3 id="key列"><a href="#key列" class="headerlink" title="key列"></a>key列</h3><p>​        <strong>这一列显示mysql实际采用哪个索引来优化对该表的访问。</strong> 如果没有使用索引，则该列是 NULL。如果想强制mysql使用或忽视possible_keys列中的索引，可在查询中使用 force index、ignore index。 </p>
+<h3 id="key-len列"><a href="#key-len列" class="headerlink" title="key_len列"></a>key_len列</h3><p>​        <strong>这一列显示了mysql在索引里使用的字节数，通过这个值可以算出具体使用了索引中的哪些列。</strong>就比如：</p>
+<blockquote>
+<p>explain select * from book_author where book_id = 1;</p>
+</blockquote>
+<p>![image-20201217103603588](/Users/cheng/Library/Application Support/typora-user-images/image-20201217103603588.png)</p>
+<blockquote>
+<p>explain select * from book_author where book_id = 1 and author_id = 2;</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217103619992.png" alt="image-20201217103619992"></p>
+<p>​        从上面的结果可以看出，book_author的联合索引 idx_book_author_id 由 book_id 和 author_id 两个int列组成，并且每个int是4字节。只使用book_id，则key_len=4，而使用book_id和author_id，则key_len=8。 </p>
+<p>​        <strong>常见属性key_len计算规则如下：</strong> </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>char(n)</td>
+<td>n字节长度</td>
+</tr>
+<tr>
+<td>varchar(n)</td>
+<td>2字节存储字符串长度，如果是utf-8，则长度 3n+2</td>
+</tr>
+<tr>
+<td>tinyint</td>
+<td>1字节</td>
+</tr>
+<tr>
+<td>smallint</td>
+<td>2字节</td>
+</tr>
+<tr>
+<td>int</td>
+<td>4字节</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>8字节</td>
+</tr>
+<tr>
+<td>date</td>
+<td>3字节</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>4字节</td>
+</tr>
+<tr>
+<td>datetime</td>
+<td>8字节</td>
+</tr>
+</tbody></table>
+<p><strong>注：如果字段允许为 NULL，需要1字节记录是否为 NULL，索引最大长度是768字节，当字符串过长时，mysql会做一个类似左前缀索引的处理，将前半部分的字符提取出来做索引。</strong> </p>
+<h3 id="ref列"><a href="#ref列" class="headerlink" title="ref列"></a>ref列</h3><p>​        这一列显示了在key列记录的索引中，表查找值所用到的列或常量，常见的有：const（常量），字段名（例：book.id） </p>
+<h3 id="rows列"><a href="#rows列" class="headerlink" title="rows列"></a>rows列</h3><p>​        这一列是mysql估计要读取并检测的行数，<strong>注意这个不是结果集里的行数。</strong> </p>
+<h3 id="Extra列"><a href="#Extra列" class="headerlink" title="Extra列"></a>Extra列</h3><p>​        这一列展示的是额外信息。常见的重要值如下： </p>
+<ol>
+<li><strong>Using index：使用覆盖索引</strong> </li>
+</ol>
+<blockquote>
+<p>explain select book_id from book_author where book_id = 1; </p>
+</blockquote>
+<p>![image-20201217104935922](/Users/cheng/Library/Application Support/typora-user-images/image-20201217104935922.png)</p>
+<ol start="2">
+<li><strong>Using where：</strong>使用 where 语句来处理结果，<strong>查询的列未被索引覆盖</strong> </li>
+</ol>
+<blockquote>
+<p>explain select * from author where name = ‘a’; </p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217105101440.png" alt="image-20201217105101440"></p>
+<ol start="3">
+<li><strong>Using index condition：</strong>查询的列不完全被索引覆盖，where条件中是一个前导列的范围；</li>
+</ol>
+<blockquote>
+<p>explain select * from book_author where book_id &gt; 1;</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217105401750.png" alt="image-20201217105401750"></p>
+<ol start="4">
+<li><strong>Using temporary：mysql需要创建一张临时表来处理查询</strong>。出现这种情况一般是要进行优化的，首先是想到用索引来优化。 </li>
+</ol>
+<ul>
+<li>author.name没有索引，此时创建了张临时表来distinct </li>
+</ul>
+<blockquote>
+<p>explain select distinct name from author; </p>
+</blockquote>
+<p>![image-20201217105653196](/Users/cheng/Library/Application Support/typora-user-images/image-20201217105653196.png)</p>
+<ul>
+<li>book.title建立了idx_title索引，此时查询时extra是using index，没有用临时表 </li>
+</ul>
+<blockquote>
+<p>explain select distinct title from book; </p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217105809339.png" alt="image-20201217105809339"></p>
+<ol start="5">
+<li><strong>Using filesort：</strong>将用外部排序而不是索引排序，数据较小时从内存排序，否则需要在磁盘完成排序。这种情况下一般也是要考虑使用索引来优化的。 </li>
+</ol>
+<ul>
+<li>author.name未创建索引，会浏览author整个表，保存排序关键字name和对应的id，然后排序name并检索行记录 </li>
+</ul>
+<blockquote>
+<p>explain select * from author order by name; </p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217105955030.png" alt="image-20201217105955030"></p>
+<ul>
+<li>book.title建立了idx_title索引,此时查询时extra是using index </li>
+</ul>
+<blockquote>
+<p>explain select * from book order by title; </p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217110015480.png" alt="image-20201217110015480"></p>
+<ol start="6">
+<li><strong>Select tables optimized away：</strong>使用<strong>某些聚合函数</strong>（比如 max、min等，而sum，avg等就不会）来访问存在索引的某个字段是 </li>
+</ol>
+<blockquote>
+<p>explain select max(id) from book; </p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217110132495.png" alt="image-20201217110132495"></p>
+<h2 id="索引实践及问题分析"><a href="#索引实践及问题分析" class="headerlink" title="索引实践及问题分析"></a>索引实践及问题分析</h2><p>​        虽然创建索引能很大程度的提高查询效率，但是操作方式不对，创建完索引以后我们在查询时，索引并不会生效。</p>
+<p>创建测试表并建立联合索引：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DROP TABLE IF EXISTS &#96;t_user&#96;;</span><br><span class="line">CREATE TABLE &#96;t_user&#96; (</span><br><span class="line">  &#96;pk_id&#96; int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;account&#96; varchar(16) DEFAULT NULL,</span><br><span class="line">  &#96;age&#96; int(11) DEFAULT NULL,</span><br><span class="line">  &#96;nickname&#96; varchar(16) DEFAULT NULL,</span><br><span class="line">  &#96;create_time&#96; datetime DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;pk_id&#96;),</span><br><span class="line">  KEY &#96;idx_account_age_nickname&#96; (&#96;account&#96;,&#96;age&#96;,&#96;nickname&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;4 DEFAULT CHARSET&#x3D;utf8mb4;</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;t_user&#96; VALUES (1, &#39;zhangsan&#39;, 11, &#39;张三&#39;, &#39;2020-10-01 13:21:54&#39;);</span><br><span class="line">INSERT INTO &#96;t_user&#96; VALUES (2, &#39;lisi&#39;, 12, &#39;李四&#39;, &#39;2020-10-01 13:24:06&#39;);</span><br><span class="line">INSERT INTO &#96;t_user&#96; VALUES (3, &#39;wangwu&#39;, 13, &#39;王五&#39;, &#39;2020-10-01 13:24:29&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>然后我们分别执行如下三条语句：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">explain SELECT * from t_user WHERE account &#x3D; &#39;zhangsan&#39;;</span><br><span class="line">explain SELECT * from t_user WHERE account &#x3D; &#39;zhangsan&#39; and age &#x3D; 11 ;</span><br><span class="line">explain SELECT * from t_user WHERE account &#x3D; &#39;zhangsan&#39; and age &#x3D; 11 and nickname &#x3D; &#39;张三&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>执行结果如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217133944757.png" alt="image-20201217133944757"></p>
+<p>![image-20201217134003779](/Users/cheng/Library/Application Support/typora-user-images/image-20201217134003779.png)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217134024741.png" alt="image-20201217134024741"></p>
+<p>​        从上图中我们能发现，三条语句分别走了一个、两个、三个索引。所以正常情况下，我们建立了索引以后，使用时是会生效的，但是在很多情况下，使用的不恰当，我们哪怕建立了索引，查询时可能也是无法生效的。</p>
+<h4 id="最左前缀法则"><a href="#最左前缀法则" class="headerlink" title="最左前缀法则"></a>最左前缀法则</h4><p>​        在上一篇文章(<a href="./c468c6f9.html">MySQL索引</a>)中，介绍了<strong>联合索引</strong>最左前缀以及为什么不符合最左前缀的索引会失效的问题，忘记了的话可以回去回顾一下。简而言之就是<strong>联合索引</strong>查询<strong>要从索引的最左前列开始并且不跳过索引中的列，索引才会生效，且范围查询(&gt;、&lt;、between、like左匹配)等查询条件后的索引会生效</strong>，常见情况总结：</p>
+<p>索引生效的情况：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * from t_user WHERE account &#x3D; &#39;zhangsan&#39; and age &#x3D; 11;</span><br><span class="line">SELECT * from t_user WHERE account &#x3D; &#39;zhangsan&#39; and age &#x3D; 11 and nickname &#x3D; &#39;张三&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>索引不生效的情况：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * from t_user WHERE age &#x3D; 11; -- 不是account起始，不走索引</span><br><span class="line">SELECT * from t_user WHERE age &#x3D; 11 and nickname &#x3D; &#39;张三&#39;; -- 不是account起始，不走索引</span><br></pre></td></tr></table></figure>
+
+<p>部分索引失效的情况：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * from t_user WHERE account &#x3D; &#39;zhangsan&#39; and age &gt; 10 and nickname &#x3D; &#39;张三&#39;; -- age使用了范围查询，只走了account和age两个索引,nickname索引失效</span><br></pre></td></tr></table></figure>
+
+<h4 id="索引列上做计算、函数导致索引失效"><a href="#索引列上做计算、函数导致索引失效" class="headerlink" title="索引列上做计算、函数导致索引失效"></a>索引列上做计算、函数导致索引失效</h4><p>不能在查询条件上做计算或者使用函数，不然索引会失效，例如：</p>
+<blockquote>
+<p>explain SELECT * from t_user WHERE left(account,4) = ‘zhangsan’;</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217140337085.png" alt="image-20201217140337085"></p>
+<h4 id="隐式转换导致索引失效"><a href="#隐式转换导致索引失效" class="headerlink" title="隐式转换导致索引失效"></a>隐式转换导致索引失效</h4><blockquote>
+<p>explain SELECT *  from t_user WHERE account = 123;</p>
+</blockquote>
+<p>​        <code>account</code>是<code>varchar</code>，而查询条件缺使用了整型，会导致隐式转化，使得索引失效。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217140624328.png" alt="image-20201217140624328"></p>
+<p>​        网上都说隐式转化会导致索引失效，但是我测试发现，数值类型使用<code>String</code>查询好像还是能走索引，例如下面的情况，索引就能生效。</p>
+<blockquote>
+<p>explain SELECT * from t_user WHERE account = ‘zhangsan’ and age = ‘11’;</p>
+<p>explain SELECT * from t_user WHERE id = ‘1’;</p>
+</blockquote>
+<p>​        查阅<a href="https://dev.mysql.com/doc/refman/5.7/en/type-conversion.html">官方文档</a>发现好像MySQL在字符串到数字隐式转换时情况比较复杂，实践后也发现：</p>
+<ol>
+<li><p>当操作符<strong>左右两边的数据类型不一致</strong>时，会发生<strong>隐式转换</strong>。</p>
+</li>
+<li><p>当where查询操作符<strong>左边为数值类型</strong>时发生了隐式转换，转换结果稳定，会走索引，但是不建议这么写。</p>
+</li>
+<li><p>当where查询操作符<strong>左边为字符类型</strong>时发生了隐式转换，那么会导致索引失效。</p>
+<p>字符串转换为数值类型时，非数字开头的字符串会转化为<code>0</code>，以数字开头的字符串会截取从第一个字符到第一个非数字内容为止的值为转化结果，例如以下查询结果都是1。</p>
+<blockquote>
+<p>select ‘123aaa’ = 123;<br>select ‘123’ = 123;<br>select ‘aaa123’ = 0;</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>注：不管怎样，还是建议规范写，避免发生隐式转化</strong></p>
+<h4 id="对于频繁的查询优先考虑使用覆盖索引"><a href="#对于频繁的查询优先考虑使用覆盖索引" class="headerlink" title="对于频繁的查询优先考虑使用覆盖索引"></a>对于频繁的查询优先考虑使用覆盖索引</h4><blockquote>
+<p>覆盖索引：就是包含了所有查询字段 (where,select,ordery by,group by 包含的字段) 的索引</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT account,age,nickname from t_user WHERE account &#x3D; &#39;zhangsan&#39; and age &#x3D; 11 and nickname &#x3D; &#39;张三&#39;; -- 覆盖索引样例</span><br></pre></td></tr></table></figure>
+
+<p><strong>覆盖索引的好处：</strong></p>
+<ul>
+<li><strong>避免 Innodb 表进行索引的二次查询:</strong> Innodb 是以聚集索引的顺序来存储的，对于 <strong>Innodb</strong> 来说，<strong>二级索引在叶子节点中所保存的是行的主键信息</strong>，如果是用二级索引查询数据的话，在<strong>查找到相应的键值</strong>后，<strong>还要通过主键进行二次查询才能获取我们真实所需要的数据</strong>。而<strong>在覆盖索引中，二级索引的键值中可以获取所有的数据，避免了对主键的二次查询 ，减少了 IO 操作，提升了查询效率。</strong></li>
+<li><strong>可以把随机 IO 变成顺序 IO 加快查询效率:</strong> 由于覆盖索引是按键值的顺序存储的，对于 IO 密集型的范围查找来说，对比随机从磁盘读取每一行的数据 IO 要少的多，因此利用覆盖索引在访问时也可以把磁盘的随机读取的 IO 转变成索引查找的顺序 IO。</li>
+</ul>
+<p>*<em>所以在条件允许的情况下，最好不要直接使用select * 。*</em></p>
+<h4 id="使用不等于（-或者-lt-gt-）无法使用索引"><a href="#使用不等于（-或者-lt-gt-）无法使用索引" class="headerlink" title="使用不等于（!=或者&lt;&gt;）无法使用索引"></a>使用不等于（!=或者&lt;&gt;）无法使用索引</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">explain SELECT * from t_user WHERE account !&#x3D; &#39;zhangsan&#39;</span><br><span class="line">explain SELECT * from t_user WHERE account &lt;&gt; &#39;zhangsan&#39;</span><br></pre></td></tr></table></figure>
+
+<h4 id="is-null，is-not-null也无法使用索引"><a href="#is-null，is-not-null也无法使用索引" class="headerlink" title="is null，is not null也无法使用索引"></a>is null，is not null也无法使用索引</h4><p>​        这个也不是绝对的，研究透再写。</p>
+<h4 id="like左模糊查询mysql索引失效"><a href="#like左模糊查询mysql索引失效" class="headerlink" title="like左模糊查询mysql索引失效"></a>like左模糊查询mysql索引失效</h4><blockquote>
+<p>explain SELECT * from t_user WHERE account like ‘%zhangsan’ and age  = 11 </p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201217145539399.png" alt="image-20201217145539399"></p>
+<p>右模糊可以生效</p>
+<blockquote>
+<p>explain SELECT * from t_user WHERE account like ‘zhang%’ and age  = 11 </p>
+</blockquote>
+<p>![image-20201217145701674](/Users/cheng/Library/Application Support/typora-user-images/image-20201217145701674.png)</p>
+<p><strong>Q：</strong>如何解决带左前缀like索引失效问题？ </p>
+<p><strong>A：</strong></p>
+<ul>
+<li>使用覆盖索引，查询字段必须是建立覆盖索引字段 </li>
+</ul>
+<blockquote>
+<p>SELECT account,age from t_user WHERE account like ‘%zhangsan’ and age  = 11;</p>
+</blockquote>
+<ul>
+<li>借助其它数据库或搜索工具</li>
+</ul>
+<h4 id="少用or或in"><a href="#少用or或in" class="headerlink" title="少用or或in"></a>少用or或in</h4><p>​        用它查询时，mysql不一定使用索引，mysql内部优化器会根据检索比例、 表大小等多个因素整体评估是否使用索引。</p>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MySQL索引</title>
     <url>/posts/c468c6f9.html</url>
     <content><![CDATA[<blockquote>
 <p>MySQL索引使用的数据结构主要有<strong>BTree</strong>索引和哈希索引 。对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快;其余大部分场景，建议选择BTree索引。</p>
 </blockquote>
 <h1 id="MySQL索引介绍"><a href="#MySQL索引介绍" class="headerlink" title="MySQL索引介绍"></a>MySQL索引介绍</h1><h2 id="底层结构"><a href="#底层结构" class="headerlink" title="底层结构"></a>底层结构</h2><h3 id="MySQL有哪些索引结构？"><a href="#MySQL有哪些索引结构？" class="headerlink" title="MySQL有哪些索引结构？"></a>MySQL有哪些索引结构？</h3><p>​    hash、BTree</p>
-<h3 id="为什么哈希表、二叉树、完全平衡二叉树、B树、B-树都可以优化查询，为何Mysql独独喜欢B-树？"><a href="#为什么哈希表、二叉树、完全平衡二叉树、B树、B-树都可以优化查询，为何Mysql独独喜欢B-树？" class="headerlink" title="为什么哈希表、二叉树、完全平衡二叉树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？"></a>为什么哈希表、二叉树、完全平衡二叉树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？</h3><ul>
+<h3 id="为什么哈希表、二叉树、红黑树、B树、B-树都可以优化查询，为何Mysql独独喜欢B-树？"><a href="#为什么哈希表、二叉树、红黑树、B树、B-树都可以优化查询，为何Mysql独独喜欢B-树？" class="headerlink" title="为什么哈希表、二叉树、红黑树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？"></a>为什么哈希表、二叉树、红黑树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？</h3><ul>
 <li><p><strong>为什么不选哈希表呢？</strong></p>
 <ul>
 <li>哈希索引没办法利用索引完成排序。</li>
@@ -2473,19 +2791,19 @@
 <li><p><strong>为什么不用二叉树</strong></p>
 <p>二叉树在的结构导致他在对<strong>递增</strong>数据索引时让树的高度变得很长，就类似于链表，所以不适合。</p>
 </li>
-<li><p><strong>为什么不用平衡二叉树</strong></p>
-<p>平衡二叉树与普通二叉树不同的是当一棵树的左右子树高度差 &gt; 1 时，它会进行<strong>自旋</strong>操作，保持树的平衡。它支持<strong>精确查找和范围查找（会回旋）</strong>，但是树的深度依旧很大，查找时IO操作可能会很多，所以不考虑。</p>
+<li><p><strong>为什么不用平衡二叉树或者红黑树</strong></p>
+<p>平衡二叉树或红黑树与普通二叉树不同的是当一棵树的左右子树高度差 &gt; 1 时，它会进行<strong>自旋</strong>操作，保持树的平衡。它支持<strong>精确查找和范围查找（回旋查找）</strong>，但是主要原因还是因为<strong>树的深度依旧很大（不可控）</strong>，查找时IO操作可能会很多，所以不考虑。</p>
 </li>
 <li><p><strong>为什么不用B树</strong></p>
 <p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L09vb29fbXVtdXhp,size_16,color_FFFFFF,t_70-20201113140903381.png" alt="在这里插入图片描述"></p>
-<p>虽然有优化，一个节点上能存储更多的数据，但是B数的每个节点上还附带了数据信息的指针，<strong>IO操作依旧比B+多，而且范围查找也需要回旋，查询效率不是最优。</strong></p>
+<p>虽然有优化，即一个节点上能存储更多的数据，但是B数的每个节点上还附带了数据信息，而一个大节点所占用的空间是一定的，所以当数据信息比较大时，树的高度依旧不是很可控，相对B+树来说，<strong>IO操作依旧比B+多，而且范围查找也需要回旋查找，查询效率不是最优。</strong></p>
 </li>
 <li><p><strong>为什么用B+树</strong></p>
 <p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L09vb29fbXVtdXhp,size_16,color_FFFFFF,t_70-20201113103933243.png" alt="在这里插入图片描述"></p>
 <p>1、 <strong>B+树的磁盘读写代价更低</strong>：B+树的内部节点并没有指向关键字具体信息的指针，因此其内部节点相对B树更小，如果把所有同一内部节点的关键字存放在同一盘块中，那么盘块所能容纳的关键字数量也越多，一次性读入内存的需要查找的关键字也就越多，相对IO读写次数就降低了。</p>
-<p>2、<strong>B+树的查询效率更加稳定</strong>：由于非终结点并不是最终指向文件内容的结点，而只是叶子结点中关键字的索引。所以任何关键字的查找必须走一条从根结点到叶子结点的路。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当。</p>
+<p>2、<strong>B+树的查询效率更加稳定</strong>：由于<strong>非终结点并不存储数据信息</strong>，而<strong>只是叶子结点中关键字的索引</strong>。所以<strong>任何关键字的查找必须走一条从根结点到叶子结点的路</strong>。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当。</p>
 <p>3、<strong>B+树更便于遍历</strong>：由于B+树的数据都存储在叶子结点中，分支结点均为索引，方便扫库，只需要扫一遍叶子结点即可，但是B树因为其分支结点同样存储着数据，我们要找到具体的数据，需要进行一次中序遍历按序来扫，所以B+树更加适合在区间查询的情况，所以通常B+树用于数据库索引。</p>
-<p>4、<strong>B+树更适合基于范围的查询</strong>：B树在提高了IO性能的同时并没有解决元素遍历的我效率低下的问题，正是为了解决这个问题，B+树应用而生。B+树只需要去遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作或者说效率太低。</p>
+<p>4、<strong>B+树更适合基于范围的查询</strong>：B树在提高了IO性能的同时并没有解决元素遍历效率低下的问题，正是为了解决这个问题，B+树应运而生。B+树只需要去遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作或者说效率太低。</p>
 </li>
 </ul>
 <h3 id="B-树中一个节点到底多大合适？"><a href="#B-树中一个节点到底多大合适？" class="headerlink" title="B+树中一个节点到底多大合适？"></a>B+树中一个节点到底多大合适？</h3><blockquote>
@@ -2586,35 +2904,30 @@
 <p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113150541648.png" alt="image-20201113150541648"></p>
 <p>把<code>first_name LIKE &#39;%zi&#39;</code>下推给存储引擎后，只会从数据表读取所需的 1 条记录。 </p>
 <p><strong>注：</strong>索引条件下推（Index Condition Pushdown）是5.6 以后完善的功能。只适用于<strong>二级索引</strong>。ICP 的目标是减少访问表的完整行的读数量从而减少 I/O 操作。 </p>
-<h2 id="什么时候不走索引？"><a href="#什么时候不走索引？" class="headerlink" title="什么时候不走索引？"></a>什么时候不走索引？</h2><ul>
-<li>*<em>索引列上使用函数（replace\SUBSTR\CONCAT\sum count avg）、表达式、 计算（+ - * /）时不走索引*</em></li>
-<li><strong>出现隐式转换不走索引</strong>，例如：字符串不加引号</li>
-<li>like 条件中前面带%</li>
-<li>负向查询：NOT LIKE 不能，!= （&lt;&gt;）和 NOT IN 在某些情况下可以</li>
-</ul>
-<h2 id="MySQL-数据存储文件"><a href="#MySQL-数据存储文件" class="headerlink" title="MySQL 数据存储文件"></a>MySQL 数据存储文件</h2><blockquote>
+<h2 id="MySQL-数据存储文件及索引数据结构"><a href="#MySQL-数据存储文件及索引数据结构" class="headerlink" title="MySQL 数据存储文件及索引数据结构"></a>MySQL 数据存储文件及索引数据结构</h2><blockquote>
 <p>每个数据库有一个目录，我们新建了一个叫做 db_test 的数据库，那么这里就有一个db_test 的文件夹。 </p>
 <p>这个数据库里面我们又建了 5 张表：archive、innodb、memory、myisam、csv。 我们进入 db_test 的目录，就能发现里面有一些跟我们创建的表名对应的文件。 区别如下：</p>
 <p>每张 InnoDB 的表有两个文件（.frm 和.ibd），MyISAM 的表 有三个文件（.frm、.MYD、.MYI）。</p>
 </blockquote>
 <p>有一个是相同的文件：.frm。 .frm 是 MySQL 里面表结构定义的文件，不管你建表的时候选用任何一个存储引擎都会生成。</p>
-<h3 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h3><p>在 MyISAM 里面，另外有两个文件： </p>
+<h3 id="MyISAM（非聚集）"><a href="#MyISAM（非聚集）" class="headerlink" title="MyISAM（非聚集）"></a>MyISAM（非聚集）</h3><p><strong>注：MyISAM索引文件和数据文件是分离的（非聚集）</strong></p>
+<p>在 MyISAM 里面，<strong>除了.frm文件</strong>另外有两个文件： </p>
 <ul>
 <li><p><strong>.MYD 文件：D代表 Data，是 MyISAM 的数据文件，存放数据记录</strong>，比如 archive 表的所有的表数据。 </p>
 </li>
 <li><p><strong>.MYI 文件： I代表 Index，是 MyISAM 的索引文件，存放索引</strong>，比如我们在 id 字段上面创建了一个主键索引，那么主键索引就是在这个索引文件里面。 </p>
 </li>
 </ul>
-<p>也就是说，在 <strong>MyISAM 里面，索引和数据是两个独立的文件</strong>。 那我们怎么根据索引找到数据呢？ <strong>MyISAM 的 B+Tree 里面，叶子节点存储的是数据文件对应的磁盘地址。所以从索 引文件.MYI 中找到键值后，会到数据文件.MYD 中获取相应的数据记录。</strong></p>
+<p>也就是说，在 <strong>MyISAM 里面，索引和数据是两个独立的文件</strong>。 那我们怎么根据索引找到数据呢？ MyISAM 的 B+Tree 里面，<strong>叶子节点存储的是数据文件对应的磁盘地址</strong>。所以从<strong>索引文件.MYI 中找到键值后，会到数据文件.MYD 中获取相应的数据记录</strong>。</p>
 <img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140159755.png" alt="image-20201113140159755" style="zoom:50%;" />
 
 <p>这是主键索引，在 MyISAM 里面，辅助索引也在这个.MYI 文件里面。 辅助索引跟主键索引存储和检索数据的方式是没有任何区别的，一样是在索引文件 里面找到磁盘地址，然后到数据文件里面获取数据。 </p>
 <img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140344683.png" alt="image-20201113140344683" style="zoom:50%;" />
 
-<h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h3><p>InnoDB 只有一个文件（.ibd 文件），那索引放在哪里呢？ 在 InnoDB 里面，它是以主键为索引来组织数据的存储的，所以索引文件和数据文 件是同一个文件，都在.ibd 文件里面。 在 InnoDB 的主键索引的叶子节点上，它直接存储了我们的数据。</p>
+<h3 id="InnoDB-（聚集）"><a href="#InnoDB-（聚集）" class="headerlink" title="InnoDB （聚集）"></a>InnoDB （聚集）</h3><p>InnoDB <strong>除了.frm文件外</strong>只有一个文件（.ibd 文件），这个<strong>文件本身就按按照B+树组织的一个索引结构的文件</strong>，那索引放在哪里呢？ 在 InnoDB 里面，它是以主键为索引来组织数据的存储的，所以索引文件和数据文 件是同一个文件，都在.ibd 文件里面。 在 InnoDB 的<strong>主键索引的叶子节点上，包含了索引对应的完整数据记录</strong>。</p>
 <img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140538497.png" alt="image-20201113140538497" style="zoom:50%;" />
 
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="索引建立注意事项"><a href="#索引建立注意事项" class="headerlink" title="索引建立注意事项"></a>索引建立注意事项</h4><ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="为什么InnoDB表必须有主键，开且推存使用整型的目增主键"><a href="#为什么InnoDB表必须有主键，开且推存使用整型的目增主键" class="headerlink" title="为什么InnoDB表必须有主键，开且推存使用整型的目增主键?"></a>为什么InnoDB表必须有主键，开且推存使用整型的目增主键?</h4><h4 id="为什么非主键索引结构叶子节点存储的是主键值-一致性和节省存储空间"><a href="#为什么非主键索引结构叶子节点存储的是主键值-一致性和节省存储空间" class="headerlink" title="为什么非主键索引结构叶子节点存储的是主键值? (一致性和节省存储空间)"></a>为什么非主键索引结构叶子节点存储的是主键值? (一致性和节省存储空间)</h4><h4 id="索引建立注意事项"><a href="#索引建立注意事项" class="headerlink" title="索引建立注意事项"></a>索引建立注意事项</h4><ul>
 <li><p>索引的个数不要过多–浪费空间，更新变慢</p>
 </li>
 <li><p>区分度低的字段，例如性别，不要建索引。 –离散度太低，导致扫描行数过多。 </p>
@@ -2639,163 +2952,12 @@
 <li><p>禁止对列进行函数转换和计算</p>
 </li>
 </ul>
-<h4 id="对于频繁的查询优先考虑使用覆盖索引"><a href="#对于频繁的查询优先考虑使用覆盖索引" class="headerlink" title="对于频繁的查询优先考虑使用覆盖索引"></a>对于频繁的查询优先考虑使用覆盖索引</h4><blockquote>
-<p>覆盖索引：就是包含了所有查询字段 (where,select,ordery by,group by 包含的字段) 的索引</p>
-</blockquote>
-<p><strong>覆盖索引的好处：</strong></p>
-<ul>
-<li><strong>避免 Innodb 表进行索引的二次查询:</strong> Innodb 是以聚集索引的顺序来存储的，对于 Innodb 来说，二级索引在叶子节点中所保存的是行的主键信息，如果是用二级索引查询数据的话，在查找到相应的键值后，还要通过主键进行二次查询才能获取我们真实所需要的数据。而在覆盖索引中，二级索引的键值中可以获取所有的数据，避免了对主键的二次查询 ，减少了 IO 操作，提升了查询效率。</li>
-<li><strong>可以把随机 IO 变成顺序 IO 加快查询效率:</strong> 由于覆盖索引是按键值的顺序存储的，对于 IO 密集型的范围查找来说，对比随机从磁盘读取每一行的数据 IO 要少的多，因此利用覆盖索引在访问时也可以把磁盘的随机读取的 IO 转变成索引查找的顺序 IO。</li>
-</ul>
 ]]></content>
       <categories>
         <category>MySQL</category>
       </categories>
       <tags>
         <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>02.Spring IOC</title>
-    <url>/posts/288f5944.html</url>
-    <content><![CDATA[<h3 id="Spring-IoC-和-DI-简介"><a href="#Spring-IoC-和-DI-简介" class="headerlink" title="Spring IoC 和 DI 简介"></a>Spring IoC 和 DI 简介</h3><h4 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h4><ul>
-<li>读作 <strong>“反转控制”</strong>，更好理解，不是什么技术，而是一种<strong>设计思想</strong>，就是<strong>将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</strong></li>
-<li><strong>正控：</strong>若要使用某个对象，需要<strong>自己去负责对象的创建</strong></li>
-<li><strong>反控：</strong>若要使用某个对象，只需要<strong>从 Spring 容器中获取需要使用的对象，不关心对象的创建过程</strong>，也就是把<strong>创建对象的控制权反转给了Spring框架</strong></li>
-<li><strong>好莱坞法则：</strong> Don’t call me ,I’ll call you</li>
-</ul>
-<blockquote>
-<h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><p>控制反转显然是一个抽象的概念，我们举一个鲜明的例子来说明。</p>
-</blockquote>
-<blockquote>
-<p>在现实生活中，人们要用到一样东西的时候，第一反应就是去找到这件东西，比如想喝新鲜橙汁，在没有饮品店的日子里，最直观的做法就是：买果汁机、买橙子，然后准备开水。值得注意的是：这些都是你自己<strong>“主动”创造</strong>的过程，也就是说一杯橙汁需要你自己创造。</p>
-</blockquote>
-<blockquote>
-<p>然而到了今时今日，由于饮品店的盛行，当我们想喝橙汁时，第一想法就转换成了找到饮品店的联系方式，通过电话等渠道描述你的需要、地址、联系方式等，下订单等待，过一会儿就会有人送来橙汁了。请注意你并没有“主动”去创造橙汁，橙汁是由饮品店创造的，而不是你，然而也完全达到了你的要求，甚至比你创造的要好上那么一些。</p>
-</blockquote>
-<h4 id="更经典全方位的理解"><a href="#更经典全方位的理解" class="headerlink" title="更经典全方位的理解"></a>更经典全方位的理解</h4><p>要了解<strong>控制反转( Inversion of Control )</strong>, 我觉得有必要先了解软件设计的一个重要思想：<strong>依赖倒置原则（Dependency Inversion Principle ）</strong>。</p>
-<p><img src="https://pic3.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p><strong>什么是依赖倒置原则？</strong>假设我们设计一辆汽车：先设计轮子，然后根据轮子大小设计底盘，接着根据底盘设计车身，最后根据车身设计好整个汽车。这里就出现了一个“依赖”关系：汽车依赖车身，车身依赖底盘，底盘依赖轮子。</p>
-<p><img src="https://pic1.zhimg.com/v2-c68248bb5d9b4d64d22600571e996446_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这样的设计看起来没问题，但是可维护性却很低。假设设计完工之后，上司却突然说根据市场需求的变动，要我们把车子的轮子设计都改大一码。这下我们就蛋疼了：因为我们是根据轮子的尺寸设计的底盘，轮子的尺寸一改，底盘的设计就得修改；同样因为我们是根据底盘设计的车身，那么车身也得改，同理汽车设计也得改——整个设计几乎都得改！</p>
-<p>我们现在换一种思路。我们先设计汽车的大概样子，然后根据汽车的样子来设计车身，根据车身来设计底盘，最后根据底盘来设计轮子。这时候，依赖关系就倒置过来了：轮子依赖底盘， 底盘依赖车身， 车身依赖汽车。</p>
-<p><img src="https://pic4.zhimg.com/v2-e64bf72c5c04412f626b21753aa9e1a1_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这时候，上司再说要改动轮子的设计，我们就只需要改动轮子的设计，而不需要动底盘，车身，汽车的设计了。</p>
-<p>这就是<strong>依赖倒置原则——把原本的高层建筑依赖底层建筑“倒置”过来，变成底层建筑依赖高层建筑。高层建筑决定需要什么，底层去实现这样的需求，但是高层并不用管底层是怎么实现的。</strong>这样就不会出现前面的“牵一发动全身”的情况。</p>
-<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p><strong>控制反转（Inversion of Control）</strong> 就是依赖倒置原则的一种代码设计的思路。具体采用的方法就是所谓的<strong>依赖注入（Dependency Injection）</strong>。其实这些概念初次接触都会感到云里雾里的。说穿了，这几种概念的关系大概如下：</p>
-<p><img src="https://pic1.zhimg.com/v2-ee924f8693cff51785ad6637ac5b21c1_r.jpg?source=1940ef5c" alt="img"></p>
-<p>为了理解这几个概念，我们还是用上面汽车的例子。只不过这次换成代码。我们先定义四个Class，车，车身，底盘，轮胎。然后初始化这辆车，最后跑这辆车。代码结构如下：</p>
-<p><img src="https://pic2.zhimg.com/v2-8ec294de7d0f9013788e3fb5c76069ef_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这样，就相当于上面第一个例子，上层建筑依赖下层建筑——每一个类的构造函数都直接调用了底层代码的构造函数。假设我们需要改动一下轮胎（Tire）类，把它的尺寸变成动态的，而不是一直都是30。我们需要这样改：</p>
-<p><img src="https://pic1.zhimg.com/50/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_hd.jpg?source=1940ef5c" alt="img"><img src="https://pic4.zhimg.com/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_r.jpg?source=1940ef5c" alt="img"></p>
-<p>由于我们修改了轮胎的定义，为了让整个程序正常运行，我们需要做以下改动：</p>
-<p><img src="https://pic4.zhimg.com/v2-82e0c12a1b26f7979ed9241e169affda_r.jpg?source=1940ef5c" alt="img"></p>
-<p>由此我们可以看到，仅仅是为了修改轮胎的构造函数，这种设计却需要<strong>修改整个上层所有类的构造函数</strong>！在软件工程中，<strong>这样的设计几乎是不可维护的</strong>——在实际工程项目中，有的类可能会是几千个类的底层，如果每次修改这个类，我们都要修改所有以它作为依赖的类，那软件的维护成本就太高了。</p>
-<p>所以我们需要进行控制反转（IoC），及上层控制下层，而不是下层控制着上层。我们用依赖注入（Dependency Injection）这种方式来实现控制反转。<strong>所谓依赖注入，就是把底层类作为参数传入上层类，实现上层类对下层类的“控制</strong>”。这里我们用<strong>构造方法传递的依赖注入方式</strong>重新写车类的定义：</p>
-<p><img src="https://pic4.zhimg.com/v2-c920a0540ce0651003a5326f6ef9891d_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这里我们再把轮胎尺寸变成动态的，同样为了让整个系统顺利运行，我们需要做如下修改：</p>
-<p><img src="https://pic2.zhimg.com/v2-99ad2cd809fcb86dd791ff7f65fb1779_r.jpg?source=1940ef5c" alt="img"></p>
-<p>看到没？这里<strong>我只需要修改轮胎类就行了，不用修改其他任何上层类。</strong>这显然是更容易维护的代码。不仅如此，在实际的工程中，这种设计模式还有利于<strong>不同组的协同合作和单元测试：</strong>比如开发这四个类的分别是四个不同的组，那么只要定义好了接口，四个不同的组可以同时进行开发而不相互受限制；而对于单元测试，如果我们要写Car类的单元测试，就只需要Mock一下Framework类传入Car就行了，而不用把Framework, Bottom, Tire全部new一遍再来构造Car。</p>
-<p>这里我们是采用的<strong>构造函数传入</strong>的方式进行的依赖注入。其实还有另外两种方法：<strong>Setter传递</strong>和<strong>接口传递</strong>。这里就不多讲了，核心思路都是一样的，都是为了实现<strong>控制反转</strong>。</p>
-<p><img src="https://pic1.zhimg.com/v2-861683acac47577c81f2b7493dd05649_r.jpg?source=1940ef5c" alt="img"></p>
-<p><img src="https://pic1.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p>看到这里你应该能理解什么控制反转和依赖注入了。那什么是**控制反转容器(IoC Container)**呢？其实上面的例子中，对车类进行初始化的那段代码发生的地方，就是控制反转容器。</p>
-<p><img src="https://pic2.zhimg.com/v2-c845802f9187953ed576e0555f76da42_r.jpg?source=1940ef5c" alt="img"></p>
-<p>显然你也应该观察到了，因为采用了依赖注入，在初始化的过程中就不可避免的会写大量的new。这里IoC容器就解决了这个问题。<strong>这个容器可以自动对你的代码进行初始化，你只需要维护一个Configuration（可以是xml可以是一段代码），而不用每次初始化一辆车都要亲手去写那一大段初始化的代码</strong>。这是引入IoC Container的第一个好处。</p>
-<p>IoC Container的第二个好处是：<strong>我们在创建实例的时候不需要了解其中的细节。</strong>在上面的例子中，我们自己手动创建一个车instance时候，是从底层往上层new的：</p>
-<p><img src="https://pic1.zhimg.com/v2-555b2be7d76e78511a6d6fed3304927f_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这个过程中，我们需要了解整个Car/Framework/Bottom/Tire类构造函数是怎么定义的，才能一步一步new/注入。</p>
-<p>而IoC Container在进行这个工作的时候是反过来的，它先从最上层开始往下找依赖关系，到达最底层之后再往上一步一步new（有点像深度优先遍历）：</p>
-<p><img src="https://pic4.zhimg.com/v2-24a96669241e81439c636e83976ba152_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这里IoC Container可以直接隐藏具体的创建实例的细节，在我们来看它就像一个工厂：</p>
-<p><img src="https://pic4.zhimg.com/v2-5ca61395f37cef73c7bbe7808f9ea219_r.jpg?source=1940ef5c" alt="img"></p>
-<p>我们就像是工厂的客户。我们只需要向工厂请求一个Car实例，然后它就给我们按照Config创建了一个Car实例。我们完全不用管这个Car实例是怎么一步一步被创建出来。</p>
-<p>实际项目中，有的Service Class可能是十年前写的，有几百个类作为它的底层。假设我们新写的一个API需要实例化这个Service，我们总不可能回头去搞清楚这几百个类的构造函数吧？IoC Container的这个特性就很完美的解决了这类问题——<strong>因为这个架构要求你在写class的时候需要写相应的Config文件，所以你要初始化很久以前的Service类的时候，前人都已经写好了Config文件，你直接在需要用的地方注入这个Service就可以了</strong>。这大大增加了项目的可维护性且降低了开发难度。</p>
-<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这里只是很粗略的讲了一下我自己对IoC和DI的理解。主要的目的是在于<strong>最大限度避免晦涩难懂的专业词汇，用尽量简洁，通俗，直观的例子</strong>来解释这些概念。如果让大家能有一个类似“哦！原来就是这么个玩意嘛！”的印象，我觉得就OK了。想要深入了解的话，可以上网查阅一些更权威的资料。这里推荐一下 <a href="https://link.zhihu.com/?target=https://en.wikipedia.org/wiki/Dependency_injection">Dependency injection </a> 和 <a href="https://link.zhihu.com/?target=https://martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency Injection pattern</a> 这两篇文章，讲的很好很详细。</p>
-<h3 id="Spring-IOC-容器源码分析"><a href="#Spring-IOC-容器源码分析" class="headerlink" title="Spring IOC 容器源码分析"></a>Spring IOC 容器源码分析</h3><h4 id="Spring-IoC-容器的设计"><a href="#Spring-IoC-容器的设计" class="headerlink" title="Spring IoC 容器的设计"></a>Spring IoC 容器的设计</h4><p>Spring IoC 容器的设计主要是基于以下两个接口：</p>
-<ul>
-<li><strong>BeanFactory</strong></li>
-<li><strong>ApplicationContext</strong></li>
-</ul>
-<p>其中 ApplicationContext 是 BeanFactory 的子接口之一，换句话说：<strong>BeanFactory 是 Spring IoC 容器所定义的最底层接口，</strong>而 ApplicationContext 是其最高级接口之一，并对 BeanFactory 功能做了许多的扩展，所以在<strong>绝大部分的工作场景下</strong>，都会使用 ApplicationContext 作为 Spring IoC 容器。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-539d3860abb6b3f7.png"></p>
-<h5 id="BeanFactory"><a href="#BeanFactory" class="headerlink" title="BeanFactory"></a>BeanFactory</h5><p>从上图中我们可以几乎看到， BeanFactory 位于设计的最底层，它提供了 Spring IoC 最底层的设计，为此，我们先来看看该类中提供了哪些方法：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-ec7f8eb4cc563216.png"></p>
-<p>由于这个接口的重要性，所以有必要在这里作一下简短的说明：</p>
-<ul>
-<li><p>【getBean】 对应了多个方法来获取配置给 Spring IoC 容器的 Bean。<br>① 按照类型拿 bean：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(Bean.class)</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：</strong> 要求在 Spring 中只配置了一个这种类型的实例，否则报错。（如果有多个那 Spring 就懵了，不知道该获取哪一个）<br>② 按照 bean 的名字拿 bean:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：</strong> 这种方法不太安全，IDE 不会检查其安全性（关联性）<br>③ 按照名字和类型拿 bean：<strong>（推荐）</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>, Bean.class);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>【isSingleton】 用于判断是否单例，如果判断为真，其意思是该 Bean 在容器中是作为一个唯一单例存在的。而【isPrototype】则相反，如果判断为真，意思是当你从容器中获取 Bean，容器就为你生成一个新的实例。</p>
-<p><strong>注意：</strong> 在默认情况下，【isSingleton】为 ture，而【isPrototype】为 false</p>
-</li>
-<li><p>关于 type 的匹配，这是一个按 Java 类型匹配的方式</p>
-</li>
-<li><p>【getAliases】方法是获取别名的方法</p>
-</li>
-</ul>
-<p>这就是 Spring IoC 最底层的设计，所有关于 Spring IoC 的容器将会遵守它所定义的方法</p>
-<h5 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h5><p>根据 ApplicationContext 的类继承关系图，可以看到 ApplicationContext 接口扩展了许许多多的接口，因此它的功能十分强大，所以在实际应用中常常会使用到的是 ApplicationContext 接口，因为 BeanFactory 的方法和功能较少，而 ApplicationContext 的方法和功能较多。</p>
-<p>我们来认识一个 ApplicationContext 的子类——ClassPathXmlApplicationContext。</p>
-<ol>
-<li>先在【src】目录下创建一个 【bean.xml】 文件：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 通过 xml 方式装配 bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;source&quot;</span> <span class="attr">class</span>=<span class="string">&quot;pojo.Source&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;橙子&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sugar&quot;</span> <span class="attr">value</span>=<span class="string">&quot;多糖&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;size&quot;</span> <span class="attr">value</span>=<span class="string">&quot;超大杯&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>这里定义了一个 bean ，这样 Spring IoC 容器在初始化的时候就能找到它们，然后使用ClassPathXmlApplicationContext 容器就可以将其初始化：</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;bean.xml&quot;</span>);</span><br><span class="line">Source source = (Source) context.getBean(<span class="string">&quot;source&quot;</span>, Source.class);</span><br><span class="line"></span><br><span class="line">System.out.println(source.getFruit());</span><br><span class="line">System.out.println(source.getSugar());</span><br><span class="line">System.out.println(source.getSize());</span><br></pre></td></tr></table></figure>
-
-<p>这样就会使用 Application 的实现类 <code>ClassPathXmlApplicationContext</code> 去初始化 Spring IoC 容器，然后开发者就可以通过 IoC 容器来获取资源了！</p>
-<p><strong>ApplicationContext 常见实现类：</strong></p>
-<p><strong>ClassPathXmlApplicationContext：</strong><br>读取classpath中的资源</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>FileSystemXmlApplicationContext:-</strong><br>读取指定路径的资源</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ac = <span class="keyword">new</span> FileSystemXmlApplicationContext(<span class="string">&quot;c:/applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>XmlWebApplicationContext:</strong><br>需要在Web的环境下才可以运行</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYXmlWebApplicationContext ac = <span class="keyword">new</span> XmlWebApplicationContext(); <span class="comment">// 这时并没有初始化容器</span></span><br><span class="line">ac.setServletContext(servletContext); <span class="comment">// 需要指定ServletContext对象</span></span><br><span class="line">ac.setConfigLocation(<span class="string">&quot;/WEB-INF/applicationContext.xml&quot;</span>); <span class="comment">// 指定配置文件路径，开头的斜线表示Web应用的根目录</span></span><br><span class="line">ac.refresh(); <span class="comment">// 初始化容器</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="BeanFactory-和-ApplicationContext-的区别："><a href="#BeanFactory-和-ApplicationContext-的区别：" class="headerlink" title="BeanFactory 和 ApplicationContext 的区别："></a>BeanFactory 和 ApplicationContext 的区别：</h5><ul>
-<li><p><strong>BeanFactory：</strong> 是Spring中最底层的接口，只提供了最简单的IoC功能,负责配置，创建和管理bean。<br>在应用中，一般不使用 BeanFactory，而推荐使用ApplicationContext（应用上下文），原因如下。</p>
-</li>
-<li><p><strong>ApplicationContext：</strong></p>
-<p>1.继承了 BeanFactory，拥有了基本的 IoC 功能；<br>2.除此之外，ApplicationContext 还提供了以下功能：<br>① 支持国际化；<br>② 支持消息机制；<br>③ 支持统一的资源加载；<br>④ 支持AOP功能；</p>
-</li>
-</ul>
-<h3 id="Spring-IoC-的容器的初始化和依赖注入"><a href="#Spring-IoC-的容器的初始化和依赖注入" class="headerlink" title="Spring IoC 的容器的初始化和依赖注入"></a>Spring IoC 的容器的初始化和依赖注入</h3><p>虽然 Spring IoC 容器的生成十分的复杂，但是大体了解一下 Spring IoC 初始化的过程还是必要的。这对于理解 Spring 的一系列行为是很有帮助的。</p>
-<p><strong>注意：</strong> Bean 的定义和初始化在 Spring IoC 容器是两大步骤，它是先定义，然后初始化和依赖注入的。</p>
-<ul>
-<li><p><strong>Bean 的定义分为 3 步：定位、加载、注册</strong></p>
-</li>
-<li><p>Resource 定位<br>Spring IoC 容器先根据开发者的配置，进行资源的定位，在 Spring 的开发中，通过 XML 或者注解都是十分常见的方式，定位的内容是由开发者提供的。</p>
-</li>
-<li><p>BeanDefinition 的加载<br>这个时候只是将 Resource 定位到的信息，保存到 Bean 定义（BeanDefinition）中，此时并不会创建 Bean 的实例</p>
-</li>
-<li><p>BeanDefinition 的注册<br>这个过程就是将 BeanDefinition 的信息发布到 Spring IoC 容器中<br><strong>注意：</strong>此时仍然没有对应的 Bean 的实例。</p>
-</li>
-</ul>
-<p>做完了以上 3 步，Bean 就在 Spring IoC 容器中被定义了，而没有被初始化，更没有完成依赖注入，也就是没有注入其配置的资源给 Bean，那么它还不能完全使用。</p>
-<p>对于初始化和依赖注入，Spring Bean 还有一个配置选项——<strong>【lazy-init】</strong>，其含义就是<strong>是否初始化 Spring Bean</strong>。在没有任何配置的情况下，它的默认值为 default，实际值为 false，也就是 <strong>Spring IoC 默认会自动初始化 Bean</strong>。如果将其设置为 true，那么只有当我们使用 Spring IoC 容器的 getBean 方法获取它时，它才会进行 Bean 的初始化，完成依赖注入。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zhihu.com/question/23277575/answer/169698662">https://www.zhihu.com/question/23277575/answer/169698662</a></p>
-<p><a href="https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/">https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/</a></p>
-<p><a href="https://javadoop.com/post/spring-ioc">https://javadoop.com/post/spring-ioc</a></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
@@ -2962,6 +3124,149 @@
       </categories>
       <tags>
         <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>02.Spring IOC</title>
+    <url>/posts/288f5944.html</url>
+    <content><![CDATA[<h3 id="Spring-IoC-和-DI-简介"><a href="#Spring-IoC-和-DI-简介" class="headerlink" title="Spring IoC 和 DI 简介"></a>Spring IoC 和 DI 简介</h3><h4 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h4><ul>
+<li>读作 <strong>“反转控制”</strong>，更好理解，不是什么技术，而是一种<strong>设计思想</strong>，就是<strong>将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</strong></li>
+<li><strong>正控：</strong>若要使用某个对象，需要<strong>自己去负责对象的创建</strong></li>
+<li><strong>反控：</strong>若要使用某个对象，只需要<strong>从 Spring 容器中获取需要使用的对象，不关心对象的创建过程</strong>，也就是把<strong>创建对象的控制权反转给了Spring框架</strong></li>
+<li><strong>好莱坞法则：</strong> Don’t call me ,I’ll call you</li>
+</ul>
+<blockquote>
+<h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><p>控制反转显然是一个抽象的概念，我们举一个鲜明的例子来说明。</p>
+</blockquote>
+<blockquote>
+<p>在现实生活中，人们要用到一样东西的时候，第一反应就是去找到这件东西，比如想喝新鲜橙汁，在没有饮品店的日子里，最直观的做法就是：买果汁机、买橙子，然后准备开水。值得注意的是：这些都是你自己<strong>“主动”创造</strong>的过程，也就是说一杯橙汁需要你自己创造。</p>
+</blockquote>
+<blockquote>
+<p>然而到了今时今日，由于饮品店的盛行，当我们想喝橙汁时，第一想法就转换成了找到饮品店的联系方式，通过电话等渠道描述你的需要、地址、联系方式等，下订单等待，过一会儿就会有人送来橙汁了。请注意你并没有“主动”去创造橙汁，橙汁是由饮品店创造的，而不是你，然而也完全达到了你的要求，甚至比你创造的要好上那么一些。</p>
+</blockquote>
+<h4 id="更经典全方位的理解"><a href="#更经典全方位的理解" class="headerlink" title="更经典全方位的理解"></a>更经典全方位的理解</h4><p>要了解<strong>控制反转( Inversion of Control )</strong>, 我觉得有必要先了解软件设计的一个重要思想：<strong>依赖倒置原则（Dependency Inversion Principle ）</strong>。</p>
+<p><img src="https://pic3.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p><strong>什么是依赖倒置原则？</strong>假设我们设计一辆汽车：先设计轮子，然后根据轮子大小设计底盘，接着根据底盘设计车身，最后根据车身设计好整个汽车。这里就出现了一个“依赖”关系：汽车依赖车身，车身依赖底盘，底盘依赖轮子。</p>
+<p><img src="https://pic1.zhimg.com/v2-c68248bb5d9b4d64d22600571e996446_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这样的设计看起来没问题，但是可维护性却很低。假设设计完工之后，上司却突然说根据市场需求的变动，要我们把车子的轮子设计都改大一码。这下我们就蛋疼了：因为我们是根据轮子的尺寸设计的底盘，轮子的尺寸一改，底盘的设计就得修改；同样因为我们是根据底盘设计的车身，那么车身也得改，同理汽车设计也得改——整个设计几乎都得改！</p>
+<p>我们现在换一种思路。我们先设计汽车的大概样子，然后根据汽车的样子来设计车身，根据车身来设计底盘，最后根据底盘来设计轮子。这时候，依赖关系就倒置过来了：轮子依赖底盘， 底盘依赖车身， 车身依赖汽车。</p>
+<p><img src="https://pic4.zhimg.com/v2-e64bf72c5c04412f626b21753aa9e1a1_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这时候，上司再说要改动轮子的设计，我们就只需要改动轮子的设计，而不需要动底盘，车身，汽车的设计了。</p>
+<p>这就是<strong>依赖倒置原则——把原本的高层建筑依赖底层建筑“倒置”过来，变成底层建筑依赖高层建筑。高层建筑决定需要什么，底层去实现这样的需求，但是高层并不用管底层是怎么实现的。</strong>这样就不会出现前面的“牵一发动全身”的情况。</p>
+<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p><strong>控制反转（Inversion of Control）</strong> 就是依赖倒置原则的一种代码设计的思路。具体采用的方法就是所谓的<strong>依赖注入（Dependency Injection）</strong>。其实这些概念初次接触都会感到云里雾里的。说穿了，这几种概念的关系大概如下：</p>
+<p><img src="https://pic1.zhimg.com/v2-ee924f8693cff51785ad6637ac5b21c1_r.jpg?source=1940ef5c" alt="img"></p>
+<p>为了理解这几个概念，我们还是用上面汽车的例子。只不过这次换成代码。我们先定义四个Class，车，车身，底盘，轮胎。然后初始化这辆车，最后跑这辆车。代码结构如下：</p>
+<p><img src="https://pic2.zhimg.com/v2-8ec294de7d0f9013788e3fb5c76069ef_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这样，就相当于上面第一个例子，上层建筑依赖下层建筑——每一个类的构造函数都直接调用了底层代码的构造函数。假设我们需要改动一下轮胎（Tire）类，把它的尺寸变成动态的，而不是一直都是30。我们需要这样改：</p>
+<p><img src="https://pic1.zhimg.com/50/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_hd.jpg?source=1940ef5c" alt="img"><img src="https://pic4.zhimg.com/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_r.jpg?source=1940ef5c" alt="img"></p>
+<p>由于我们修改了轮胎的定义，为了让整个程序正常运行，我们需要做以下改动：</p>
+<p><img src="https://pic4.zhimg.com/v2-82e0c12a1b26f7979ed9241e169affda_r.jpg?source=1940ef5c" alt="img"></p>
+<p>由此我们可以看到，仅仅是为了修改轮胎的构造函数，这种设计却需要<strong>修改整个上层所有类的构造函数</strong>！在软件工程中，<strong>这样的设计几乎是不可维护的</strong>——在实际工程项目中，有的类可能会是几千个类的底层，如果每次修改这个类，我们都要修改所有以它作为依赖的类，那软件的维护成本就太高了。</p>
+<p>所以我们需要进行控制反转（IoC），及上层控制下层，而不是下层控制着上层。我们用依赖注入（Dependency Injection）这种方式来实现控制反转。<strong>所谓依赖注入，就是把底层类作为参数传入上层类，实现上层类对下层类的“控制</strong>”。这里我们用<strong>构造方法传递的依赖注入方式</strong>重新写车类的定义：</p>
+<p><img src="https://pic4.zhimg.com/v2-c920a0540ce0651003a5326f6ef9891d_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里我们再把轮胎尺寸变成动态的，同样为了让整个系统顺利运行，我们需要做如下修改：</p>
+<p><img src="https://pic2.zhimg.com/v2-99ad2cd809fcb86dd791ff7f65fb1779_r.jpg?source=1940ef5c" alt="img"></p>
+<p>看到没？这里<strong>我只需要修改轮胎类就行了，不用修改其他任何上层类。</strong>这显然是更容易维护的代码。不仅如此，在实际的工程中，这种设计模式还有利于<strong>不同组的协同合作和单元测试：</strong>比如开发这四个类的分别是四个不同的组，那么只要定义好了接口，四个不同的组可以同时进行开发而不相互受限制；而对于单元测试，如果我们要写Car类的单元测试，就只需要Mock一下Framework类传入Car就行了，而不用把Framework, Bottom, Tire全部new一遍再来构造Car。</p>
+<p>这里我们是采用的<strong>构造函数传入</strong>的方式进行的依赖注入。其实还有另外两种方法：<strong>Setter传递</strong>和<strong>接口传递</strong>。这里就不多讲了，核心思路都是一样的，都是为了实现<strong>控制反转</strong>。</p>
+<p><img src="https://pic1.zhimg.com/v2-861683acac47577c81f2b7493dd05649_r.jpg?source=1940ef5c" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p>看到这里你应该能理解什么控制反转和依赖注入了。那什么是**控制反转容器(IoC Container)**呢？其实上面的例子中，对车类进行初始化的那段代码发生的地方，就是控制反转容器。</p>
+<p><img src="https://pic2.zhimg.com/v2-c845802f9187953ed576e0555f76da42_r.jpg?source=1940ef5c" alt="img"></p>
+<p>显然你也应该观察到了，因为采用了依赖注入，在初始化的过程中就不可避免的会写大量的new。这里IoC容器就解决了这个问题。<strong>这个容器可以自动对你的代码进行初始化，你只需要维护一个Configuration（可以是xml可以是一段代码），而不用每次初始化一辆车都要亲手去写那一大段初始化的代码</strong>。这是引入IoC Container的第一个好处。</p>
+<p>IoC Container的第二个好处是：<strong>我们在创建实例的时候不需要了解其中的细节。</strong>在上面的例子中，我们自己手动创建一个车instance时候，是从底层往上层new的：</p>
+<p><img src="https://pic1.zhimg.com/v2-555b2be7d76e78511a6d6fed3304927f_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这个过程中，我们需要了解整个Car/Framework/Bottom/Tire类构造函数是怎么定义的，才能一步一步new/注入。</p>
+<p>而IoC Container在进行这个工作的时候是反过来的，它先从最上层开始往下找依赖关系，到达最底层之后再往上一步一步new（有点像深度优先遍历）：</p>
+<p><img src="https://pic4.zhimg.com/v2-24a96669241e81439c636e83976ba152_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里IoC Container可以直接隐藏具体的创建实例的细节，在我们来看它就像一个工厂：</p>
+<p><img src="https://pic4.zhimg.com/v2-5ca61395f37cef73c7bbe7808f9ea219_r.jpg?source=1940ef5c" alt="img"></p>
+<p>我们就像是工厂的客户。我们只需要向工厂请求一个Car实例，然后它就给我们按照Config创建了一个Car实例。我们完全不用管这个Car实例是怎么一步一步被创建出来。</p>
+<p>实际项目中，有的Service Class可能是十年前写的，有几百个类作为它的底层。假设我们新写的一个API需要实例化这个Service，我们总不可能回头去搞清楚这几百个类的构造函数吧？IoC Container的这个特性就很完美的解决了这类问题——<strong>因为这个架构要求你在写class的时候需要写相应的Config文件，所以你要初始化很久以前的Service类的时候，前人都已经写好了Config文件，你直接在需要用的地方注入这个Service就可以了</strong>。这大大增加了项目的可维护性且降低了开发难度。</p>
+<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里只是很粗略的讲了一下我自己对IoC和DI的理解。主要的目的是在于<strong>最大限度避免晦涩难懂的专业词汇，用尽量简洁，通俗，直观的例子</strong>来解释这些概念。如果让大家能有一个类似“哦！原来就是这么个玩意嘛！”的印象，我觉得就OK了。想要深入了解的话，可以上网查阅一些更权威的资料。这里推荐一下 <a href="https://link.zhihu.com/?target=https://en.wikipedia.org/wiki/Dependency_injection">Dependency injection </a> 和 <a href="https://link.zhihu.com/?target=https://martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency Injection pattern</a> 这两篇文章，讲的很好很详细。</p>
+<h3 id="Spring-IOC-容器源码分析"><a href="#Spring-IOC-容器源码分析" class="headerlink" title="Spring IOC 容器源码分析"></a>Spring IOC 容器源码分析</h3><h4 id="Spring-IoC-容器的设计"><a href="#Spring-IoC-容器的设计" class="headerlink" title="Spring IoC 容器的设计"></a>Spring IoC 容器的设计</h4><p>Spring IoC 容器的设计主要是基于以下两个接口：</p>
+<ul>
+<li><strong>BeanFactory</strong></li>
+<li><strong>ApplicationContext</strong></li>
+</ul>
+<p>其中 ApplicationContext 是 BeanFactory 的子接口之一，换句话说：<strong>BeanFactory 是 Spring IoC 容器所定义的最底层接口，</strong>而 ApplicationContext 是其最高级接口之一，并对 BeanFactory 功能做了许多的扩展，所以在<strong>绝大部分的工作场景下</strong>，都会使用 ApplicationContext 作为 Spring IoC 容器。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-539d3860abb6b3f7.png"></p>
+<h5 id="BeanFactory"><a href="#BeanFactory" class="headerlink" title="BeanFactory"></a>BeanFactory</h5><p>从上图中我们可以几乎看到， BeanFactory 位于设计的最底层，它提供了 Spring IoC 最底层的设计，为此，我们先来看看该类中提供了哪些方法：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-ec7f8eb4cc563216.png"></p>
+<p>由于这个接口的重要性，所以有必要在这里作一下简短的说明：</p>
+<ul>
+<li><p>【getBean】 对应了多个方法来获取配置给 Spring IoC 容器的 Bean。<br>① 按照类型拿 bean：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(Bean.class)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 要求在 Spring 中只配置了一个这种类型的实例，否则报错。（如果有多个那 Spring 就懵了，不知道该获取哪一个）<br>② 按照 bean 的名字拿 bean:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 这种方法不太安全，IDE 不会检查其安全性（关联性）<br>③ 按照名字和类型拿 bean：<strong>（推荐）</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>, Bean.class);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【isSingleton】 用于判断是否单例，如果判断为真，其意思是该 Bean 在容器中是作为一个唯一单例存在的。而【isPrototype】则相反，如果判断为真，意思是当你从容器中获取 Bean，容器就为你生成一个新的实例。</p>
+<p><strong>注意：</strong> 在默认情况下，【isSingleton】为 ture，而【isPrototype】为 false</p>
+</li>
+<li><p>关于 type 的匹配，这是一个按 Java 类型匹配的方式</p>
+</li>
+<li><p>【getAliases】方法是获取别名的方法</p>
+</li>
+</ul>
+<p>这就是 Spring IoC 最底层的设计，所有关于 Spring IoC 的容器将会遵守它所定义的方法</p>
+<h5 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h5><p>根据 ApplicationContext 的类继承关系图，可以看到 ApplicationContext 接口扩展了许许多多的接口，因此它的功能十分强大，所以在实际应用中常常会使用到的是 ApplicationContext 接口，因为 BeanFactory 的方法和功能较少，而 ApplicationContext 的方法和功能较多。</p>
+<p>我们来认识一个 ApplicationContext 的子类——ClassPathXmlApplicationContext。</p>
+<ol>
+<li>先在【src】目录下创建一个 【bean.xml】 文件：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 通过 xml 方式装配 bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;source&quot;</span> <span class="attr">class</span>=<span class="string">&quot;pojo.Source&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;橙子&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sugar&quot;</span> <span class="attr">value</span>=<span class="string">&quot;多糖&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;size&quot;</span> <span class="attr">value</span>=<span class="string">&quot;超大杯&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>这里定义了一个 bean ，这样 Spring IoC 容器在初始化的时候就能找到它们，然后使用ClassPathXmlApplicationContext 容器就可以将其初始化：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;bean.xml&quot;</span>);</span><br><span class="line">Source source = (Source) context.getBean(<span class="string">&quot;source&quot;</span>, Source.class);</span><br><span class="line"></span><br><span class="line">System.out.println(source.getFruit());</span><br><span class="line">System.out.println(source.getSugar());</span><br><span class="line">System.out.println(source.getSize());</span><br></pre></td></tr></table></figure>
+
+<p>这样就会使用 Application 的实现类 <code>ClassPathXmlApplicationContext</code> 去初始化 Spring IoC 容器，然后开发者就可以通过 IoC 容器来获取资源了！</p>
+<p><strong>ApplicationContext 常见实现类：</strong></p>
+<p><strong>ClassPathXmlApplicationContext：</strong><br>读取classpath中的资源</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>FileSystemXmlApplicationContext:-</strong><br>读取指定路径的资源</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ac = <span class="keyword">new</span> FileSystemXmlApplicationContext(<span class="string">&quot;c:/applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>XmlWebApplicationContext:</strong><br>需要在Web的环境下才可以运行</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYXmlWebApplicationContext ac = <span class="keyword">new</span> XmlWebApplicationContext(); <span class="comment">// 这时并没有初始化容器</span></span><br><span class="line">ac.setServletContext(servletContext); <span class="comment">// 需要指定ServletContext对象</span></span><br><span class="line">ac.setConfigLocation(<span class="string">&quot;/WEB-INF/applicationContext.xml&quot;</span>); <span class="comment">// 指定配置文件路径，开头的斜线表示Web应用的根目录</span></span><br><span class="line">ac.refresh(); <span class="comment">// 初始化容器</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="BeanFactory-和-ApplicationContext-的区别："><a href="#BeanFactory-和-ApplicationContext-的区别：" class="headerlink" title="BeanFactory 和 ApplicationContext 的区别："></a>BeanFactory 和 ApplicationContext 的区别：</h5><ul>
+<li><p><strong>BeanFactory：</strong> 是Spring中最底层的接口，只提供了最简单的IoC功能,负责配置，创建和管理bean。<br>在应用中，一般不使用 BeanFactory，而推荐使用ApplicationContext（应用上下文），原因如下。</p>
+</li>
+<li><p><strong>ApplicationContext：</strong></p>
+<p>1.继承了 BeanFactory，拥有了基本的 IoC 功能；<br>2.除此之外，ApplicationContext 还提供了以下功能：<br>① 支持国际化；<br>② 支持消息机制；<br>③ 支持统一的资源加载；<br>④ 支持AOP功能；</p>
+</li>
+</ul>
+<h3 id="Spring-IoC-的容器的初始化和依赖注入"><a href="#Spring-IoC-的容器的初始化和依赖注入" class="headerlink" title="Spring IoC 的容器的初始化和依赖注入"></a>Spring IoC 的容器的初始化和依赖注入</h3><p>虽然 Spring IoC 容器的生成十分的复杂，但是大体了解一下 Spring IoC 初始化的过程还是必要的。这对于理解 Spring 的一系列行为是很有帮助的。</p>
+<p><strong>注意：</strong> Bean 的定义和初始化在 Spring IoC 容器是两大步骤，它是先定义，然后初始化和依赖注入的。</p>
+<ul>
+<li><p><strong>Bean 的定义分为 3 步：定位、加载、注册</strong></p>
+</li>
+<li><p>Resource 定位<br>Spring IoC 容器先根据开发者的配置，进行资源的定位，在 Spring 的开发中，通过 XML 或者注解都是十分常见的方式，定位的内容是由开发者提供的。</p>
+</li>
+<li><p>BeanDefinition 的加载<br>这个时候只是将 Resource 定位到的信息，保存到 Bean 定义（BeanDefinition）中，此时并不会创建 Bean 的实例</p>
+</li>
+<li><p>BeanDefinition 的注册<br>这个过程就是将 BeanDefinition 的信息发布到 Spring IoC 容器中<br><strong>注意：</strong>此时仍然没有对应的 Bean 的实例。</p>
+</li>
+</ul>
+<p>做完了以上 3 步，Bean 就在 Spring IoC 容器中被定义了，而没有被初始化，更没有完成依赖注入，也就是没有注入其配置的资源给 Bean，那么它还不能完全使用。</p>
+<p>对于初始化和依赖注入，Spring Bean 还有一个配置选项——<strong>【lazy-init】</strong>，其含义就是<strong>是否初始化 Spring Bean</strong>。在没有任何配置的情况下，它的默认值为 default，实际值为 false，也就是 <strong>Spring IoC 默认会自动初始化 Bean</strong>。如果将其设置为 true，那么只有当我们使用 Spring IoC 容器的 getBean 方法获取它时，它才会进行 Bean 的初始化，完成依赖注入。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zhihu.com/question/23277575/answer/169698662">https://www.zhihu.com/question/23277575/answer/169698662</a></p>
+<p><a href="https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/">https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/</a></p>
+<p><a href="https://javadoop.com/post/spring-ioc">https://javadoop.com/post/spring-ioc</a></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
