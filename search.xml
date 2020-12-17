@@ -157,7 +157,7 @@
     <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="密码不正确，请重新输入！" data-whm="文章不能被校验, 不过您还是能看看解密后的内容！">
   <div class="hbe-input-container">
   <input type="password" id="hbePass" placeholder="" />
-    <label for="hbePass">该文章已加密, 请输入密码查看。</label>
+    <label for="hbePass">该文章还未完全完成, 请输入密码查看。</label>
     <div class="bottom-line"></div>
   </div>
   <script id="hbeData" type="hbeData" data-hmacdigest="4d26bf5e8af3bdb80a084a205c502f9b65f591c64112802761a3cdd5d3859f30">249d63f61f66a83e2cce6900f57704ca0dfceed793e38fd205dc88f783a92fd2f8056f7a243da7350ac906b86819cc68b2fa49cf195bee80e91f89fe0a0295f8176375bae327e7aba0a9c669f26e93e886f270380b3cd85093f7bbf56a456a025e883bbe693ee405f9375f12239966d5ccecc00c4df29686fbdb7a4da6cac8df21c9238fbf792a2d370f50a9e467fbf51a1b54bb345483092ef1e9c9d88dc211c3e2aed471b5eb8f145952be870dd898cf84b21fc2ee07735dec29f80958268f729ee0dedb209518f9dfc2f93f2afe66221c60b6a64f34d03530eb86497604aea06462de7a1fc615c96ebfd3a1008845bab2c94cb18bf07def72867734d7e3d51ca74f025bbbba015bcf0aacbdd5663d23c2300d1731880f5bedddd94232417c446322184a8af520053cabe941507b2a34820c8685f71d2850088149409f1c6a6359c7ea4aa2ada9095dcb2651673a0f2e123c99823b2dd50cc36ea3c76cc010e01b4437f7ea76182d4ddf201c80ff2d1e7bd74b24122fc4afade4288313e52f098c46a8a96a8afa846e76d210e06190903cc31f7c07955f27995466d8d47538a33b4283566d1c1e804d9bc38af13f06379b55f61f23ad06fdca80af5eb97a1f67455e0a85ebe4b69ac4404ada3a309187a9d358bc61040ff73ab3c076f7bcecafc362dc597ef12c920ab280db14a8933ccfad7c5e5209eb1f6a0ede7b54c22bc9680bb911803058b5164bcf22ff94fb34b02caf785ac00672f90d9518716d3d4644c7b198177916cdfc70ae5042cad2c4582958bd8c6e41e41ea3b1e9ff711b65b4763110aa2c6a3ad7027512a6bdd6881746da13b5e9e21c3d49439102d3ef0f1d3d7c664f25ad0337744c31e10c8c50e192754a9f26a0de86f583707d8650cda6172ec9cf48256ee398d0ed35f342b482748e4f5779428a0c7f4924b6144661ca76a7d9e4c29ac0214ecaaa338666c1b2f612f5c550942bbc3f4606b29a04f6b1909d61f097012f2f5b1f28cb2a002f494c21169f898f94cbb92358573dba2c56233c9fc2c51236ae0da7489fc81c9fe54c3d9782af2f0d4486629f7f4c42cfc3c11fabca90470b7110b87a5824ee4e769d802bb792b5cd2aba02167c27ab6e14e9395188f8818354ab883efd6afc585cfa0eeca738060cc6b1667c460b8ce756cec79c4c38b54bedc417114a0a5cf3eaaa9e2c9a2080ee95f8c63d13717e6d944f619348861b6dbed913de9872fe173c7476af1901596be91d148541c7257a95fd40b41d6d7b2afe56e6328ad32e3ba8ade84160cce964f1bb32fcd287d045db2bc774a3f93643b2357d21c421a34288acaed8864f4ab38734e5058c13b3950c516f2bd23dbeeab78156a67473896760dca22c47d538d695608087fe370a94d9dbb8d36f1de3f51fe5c43ff8da283a48c49390205acf14a4698686eb148d7b42aa67bc8a0753e0834e51ffa55492eb24b3cf7535c3c63e4d1465bb28bf26e902cdb1f879dc6b412e5c8f0a4d30aec801dceb1ff7b2f40dab2ab90c65f067f7b54cbf2d11b18cb11ffae2bfc2f015c72d9749724c7a6b7a03f4cae5193d5844237e60586c71805dcde0d10cbcfea9b38246ffd398903b23d3cc1e546dc3f2f12ed7b219819c72e376212d17d85afde20409bd715551ea83bdb6de787a3fead41e911c7bb84805c79c7a6c3b567c776bf961a2a55f39945f6ac5a981f2a3c28a3fe0f423d8df1ed7b17fbb694c4832f3fe6f02dd67d786d362c89a27128cf0fa92be88ba41cae803cc8e2672fc4d991993794adb99da789919abc652f441a0e0c09423cfe5accde9b96469bb7e0e0cf6d9f5f2f3e54e5bd15bf3e15a45375767a21901f6a7c25520a2e4399345bd3373c445954bc62af5028651b732cd930ad594ab50796339ed1eda453a784988fdbe062dccce13a4b47b570fb7fdd8b1963356f8fa174aa868ab1f89e4a85175497dfe0b9d2b29117b2fa6e9d4a7c869baf7c0a8802210f90fd8833a26719fefdfaac5b0fc6e40968010b902f26acfe6b009158faec642026f018b621dac7d6bbb706540ad6ad60106e555846281f2e35e6709f630a688d5a2facfad93aecc0b93ffd905dba59401943952b0ab90c230d1b3605ae166a04703fff7d86164e647feb9fd802ffb1b337baf4f6266e14cf645b6df650a96e5ec5c71caf62d5b00032eafd342c82f11d97490466cbf0c101578057f0e8aa31fd9ab9117d7c29a8ee237ca99c74dde1c82dd75ad03118efccb72ebb1dfc2b09489d0519fca2228da5504cbec4ff9826c7adb361a77f478699438d403b33afaf81f3fb90c08c60333aa33cb61378b8a8f00ce570b7fecf800ae07bb5fd9e41d2a8cbfc56ea37a060cd19fbe66a6546a708f6306ce37c460afae0abdab2b624765b79acd7172976e55084d570c9aede3b3e2254aa86f1d1534d4b7</script>
@@ -317,6 +317,241 @@
       </categories>
       <tags>
         <tag>MyBatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring Cloud整合服务注册中心</title>
+    <url>/posts/dcff784e.html</url>
+    <content><![CDATA[<p><strong>注：这一部分就是演示一下整合Eureka、Zookpper、以及consul相关的操作，如果只想要学习Nacos，请移步到后面的文章。</strong></p>
+<h1 id="RestTemplate实现微服务"><a href="#RestTemplate实现微服务" class="headerlink" title="RestTemplate实现微服务"></a>RestTemplate实现微服务</h1><p>我们使用 RestTemplate ，来搭建一个微服务项目。现在有三个个模块：</p>
+<ol>
+<li>基础模块（模块名：<code>cloud-api-commons</code>）</li>
+<li>服务提供模块（模块名：<code>cloud-provider-payment8001</code>）</li>
+<li>服务消费模块（模块名：<code>cloud-consumer-order80</code>）</li>
+</ol>
+<p>  这两个模块之间的通信，是基于 <code>RestTemplate</code> 来完成通信的。<strong>Spring 框架提供的 RestTemplate 类可用于在应用中调用 rest 服务，它简化了与http服务的通信方式，统一了Restful的标准，封装了http 链接， 我们只需要传入url 及返回值类型即可。</strong> 相较于之前常用的 HttpClient，RestTemplate 是一种更优雅的调用 Restful 服务的方式。</p>
+<p>​        这一部分就不演示了，就是新建一个项目，然后创建三个子模块，<code>order</code>利用<code>RestTemplate</code>调用<code>payment</code>模块中的接口。核心代码如下（其实就是一个简单的http请求）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210161727486.png" alt="image-20201210161727486"></p>
+<p>​        虽然上面的也能实现服务间的调用，但是从截图中，你也能发现：地址是写死的，后期如果<code>payment</code>模块换地址了，还得过来重新修改，而且要是<code>payment</code>模块集群化部署，单单写死一个地址肯定也不能解决问题。</p>
+<p>​        也就是说，虽然使用简单的<code>http</code>请求可以实现服务之间的调用，但是 <strong>随着服务模块的增加 、服务模块需要变更为集群模式</strong> 等情况，这时候 <strong>服务与服务之间的管理（链路调用管理、配置管理、注册管理 等等）</strong> 就变得非常的困难。<strong>此时就需要用到 Spring Cloud 全家桶来对我们多个服务进行管理了。</strong></p>
+<h1 id="Spring-Cloud"><a href="#Spring-Cloud" class="headerlink" title="Spring Cloud"></a>Spring Cloud</h1><h2 id="Spring-Cloud有哪些常用组件？"><a href="#Spring-Cloud有哪些常用组件？" class="headerlink" title="Spring Cloud有哪些常用组件？"></a>Spring Cloud有哪些常用组件？</h2><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210134349006.png" alt="image-20201210134349006"></p>
+<h1 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a>Eureka</h1><p>​        在我们没有服务注册中心时，也可以实现多个服务之间调用。服务调用之间，我们是通过<code>RestTemplate</code> 直接将 <strong>服务提供者</strong> URL写死在代码中的方式来完成调用。</p>
+<p>  当服务很多时，单靠代码来手动管理就变得很麻烦。此时就需要引入一个<strong>公共组件</strong>来帮我们统一管理这么多的服务，包括 <strong>服务是否正常运行、集群服务管理、动态感知服务上下线</strong> 等。这个时候我们就用到了<code>Eureka</code>。</p>
+<p>​        <code>Eureka</code>是<code>Netflix</code>的子模块，也是核心模块之一。Eureka是基于REST的服务，用于定位服务，以实现云端中间件层服务发现和故障转移，<strong>「服务注册与发现对于微服务来说是非常重要的」</strong>，有了服务注册与发现，只需要使用服务的标识符，就可以访问到服务，而不需要修改服务调用的配置文件了，功能类似于Dubbo的注册中心，比如Zookeeper。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/640.png" alt="图片"></p>
+<h2 id="服务治理"><a href="#服务治理" class="headerlink" title="服务治理"></a>服务治理</h2><h3 id="什么是服务治理"><a href="#什么是服务治理" class="headerlink" title="什么是服务治理"></a>什么是服务治理</h3><p>  在传统的 RPC 远程调用框架中，管理每个服务与服务之间的依赖关系非常复杂，所以需要使用 <strong><code>服务治理</code></strong> 来管理服务与服务之间的依赖关系，从而实现 <strong><code>服务调用</code>**、</strong><code>负载均衡</code><strong>、</strong><code>容错</code><strong>、</strong><code>服务的注册与发现</code>** 等。</p>
+<h3 id="什么是服务注册与发现"><a href="#什么是服务注册与发现" class="headerlink" title="什么是服务注册与发现"></a>什么是服务注册与发现</h3><p>  Eureka 采用了 <strong>CS</strong> 的设计机构 **<code>（C指的是client（客户端软件），S指的是Server（服务端软件）</code>**，Eureka Server 作为服务注册功能的服务器，它是服务注册中心。而系统中的其他微服务，使用 Eureka 的客户端连接到 Eureka Server，并维持心跳连接。这样系统的维护人员就可以通过 Eureka Server 来监听系统中各个微服务是否正常运行。</p>
+<p>  在服务注册与发现中，有一个注册中心。当服务器启动的时候，会把当前自己服务器的信息（服务地址、通讯地址等）以别名的方式注册到注册中心上。另一方（消费者|服务提供者）会以该别名的方式去注册中心上获取到实际的服务通讯地址，然后再通过本地RPC调用、远程RPC调用等方式来实现通信。</p>
+<h2 id="Eureka-组件介绍"><a href="#Eureka-组件介绍" class="headerlink" title="Eureka 组件介绍"></a>Eureka 组件介绍</h2><p>Eureka 包含两个组件：<strong>1.Eureka Server</strong>   <strong>2.Eureka Client</strong></p>
+<h3 id="Eureka-Server"><a href="#Eureka-Server" class="headerlink" title="Eureka Server"></a>Eureka Server</h3><p>   Eureka Server 提供 <strong>服务注册</strong> 服务。各个微服务节点通过配置启动后，会在 Eureka Server 中进行注册，这样 Eureka Server 中的服务注册表中就会存储所有可用服务节点的信息，服务节点的信息可以在界面中直观的看到。</p>
+<h3 id="Eureka-Client"><a href="#Eureka-Client" class="headerlink" title="Eureka Client"></a>Eureka Client</h3><p>   Eureka Client 通过 <strong>注册中心</strong> 进行访问。它是一个 Java 客户端，用于简化与 Eureka Server 的交互，客户端同时也具备一个内置的、使用轮询（round-robin）负载算法的负载均衡器。</p>
+<p>   在应用启动后，Eureka Client 将会向 Eureka Server <strong>发送心跳连接（周期为30s）</strong>。如果 Eureka Server 在多个心跳周期内没有接收到某个节点的心跳，Eureka Server 将 <strong>会从服务注册表中把这个服务节点移除（默认 90s）</strong></p>
+<h2 id="Eureka服务搭建"><a href="#Eureka服务搭建" class="headerlink" title="Eureka服务搭建"></a>Eureka服务搭建</h2><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>尚硅谷周阳的视频及脑图 - <a href="https://www.bilibili.com/video/BV18E411x7eT">https://www.bilibili.com/video/BV18E411x7eT</a></p>
+<p>注：下面这个博客很全面也很详细，我这边就记录了一些我想要的和我自己理解的东西</p>
+<p>抗麻袋的少年 - <a href="https://blog.csdn.net/lzb348110175">https://blog.csdn.net/lzb348110175</a></p>
+]]></content>
+      <categories>
+        <category>Spring Cloud</category>
+      </categories>
+      <tags>
+        <tag>Spring Cloud</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>00 Spring Cloud目录</title>
+    <url>/posts/f9118d52.html</url>
+    <content><![CDATA[<p>本系列代码及顺序基本都是参考：</p>
+<p>尚硅谷Spring Cloud H版的视频及脑图 - <a href="https://www.bilibili.com/video/BV18E411x7eT">https://www.bilibili.com/video/BV18E411x7eT</a></p>
+<p>(如果你发现很相似，不用怀疑，我就是照着写的😹)</p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>微服务概念及Spring Cloud简介</p>
+<p>Spring Cloud整合服务注册中心</p>
+]]></content>
+      <categories>
+        <category>Spring Cloud</category>
+      </categories>
+      <tags>
+        <tag>Spring Cloud</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>微服务概念及Spring Cloud简介</title>
+    <url>/posts/21280ae4.html</url>
+    <content><![CDATA[<h1 id="什么是微服务"><a href="#什么是微服务" class="headerlink" title="什么是微服务"></a>什么是微服务</h1><p>​        通常而言，微服务架构是一种<strong>架构模式</strong>，或者说是一种架构风格，<strong>它体长将单一的应用程序划分成一组小的服务</strong>，每个服务运行在其独立的自己的进程内，服务之间互相协调，互相配置，为用户提供最终价值，服务之间采用轻量级的通信机制(<strong>HTTP</strong>)互相沟通，每个服务都围绕着具体的业务进行构建，并且能狗被独立的部署到生产环境中，另外，应尽量避免统一的，集中式的服务管理机制，对具体的一个服务而言，应该根据业务上下文，选择合适的语言，工具(<strong>Maven</strong>)对其进行构建，可以有一个非常轻量级的集中式管理来协调这些服务，可以使用不同的语言来编写服务，也可以使用不同的数据存储。</p>
+<h1 id="集群、分布式区别是什么？"><a href="#集群、分布式区别是什么？" class="headerlink" title="集群、分布式区别是什么？"></a>集群、分布式区别是什么？</h1><h3 id="什么是集群"><a href="#什么是集群" class="headerlink" title="什么是集群"></a>什么是集群</h3><blockquote>
+<p>同一个业务，部署在多个服务器上(<strong>不同的服务器运行同样的代码，干同一件事</strong>)</p>
+</blockquote>
+<p><strong>特点：</strong></p>
+<ul>
+<li>多台服务器都是运行<strong>同一个系统</strong></li>
+</ul>
+<p><strong>好处：</strong></p>
+<ul>
+<li>本来只有一台机器处理访问，现在有多台机器处理访问了，<strong>分担了压力</strong>。</li>
+<li>如果其中一台或几台机器宕机，暂时不能用了。还有其他机器可以使用。</li>
+</ul>
+<p><strong>举例：</strong></p>
+<p>​        小饭店原来只有一个厨师，切菜洗菜备料炒菜全干。后来客人多了，厨房一个厨师忙不过来，又请了个厨师，两个厨师都能炒一样的菜，这两个厨师的关系是集群。    </p>
+<h2 id="什么是分布式"><a href="#什么是分布式" class="headerlink" title="什么是分布式"></a>什么是分布式</h2><blockquote>
+<p>一个业务分拆多个子业务，部署在不同的服务器上(不同的服务器，运行不同的代码，为了同一个目的)</p>
+</blockquote>
+<p><strong>特点：</strong></p>
+<ul>
+<li>将一个系统的<strong>功能拆分，模块之间独立</strong>，在使用的时候再将这些<strong>独立的模块组合起来</strong>就是一个系统了。</li>
+</ul>
+<p><strong>好处：</strong></p>
+<ul>
+<li>模块之间独立，各做各的事，<strong>便于扩展，复用性高</strong></li>
+<li><strong>高吞吐量</strong>。某个任务需要一个机器运行10个小时，将该任务用10台机器的分布式跑(将这个任务拆分成10个小任务)，可能2个小时就跑完了</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>​        小饭店原来只有一个厨师，切菜洗菜备料炒菜全干。这就是单体，后来客人多了，厨房一个厨师忙不过来，又请了个厨师，两个厨师都能炒一样的菜，这两个厨师的关系是集群。为了让厨师专心炒菜，把菜做到极致，又请了个配菜师负责切菜，备菜，备料，厨师和配菜师的关系是分布式，集群和分布式本身不冲突，例如一个配菜师也忙不过来了，又请了个配菜师，两个配菜师关系是集群。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>概念</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>集群</td>
+<td><strong>不同的服务器运行同样的代码，干同一件事</strong></td>
+<td>多台服务器都是运行<strong>同一个系统</strong></td>
+</tr>
+<tr>
+<td>分布式</td>
+<td><strong>不同的服务器，运行不同的代码，为了同一个目的</strong></td>
+<td>多态服务器运行的是不用模块的代码</td>
+</tr>
+</tbody></table>
+<p>关于这个知识点我还看到一个比较好玩的图片：</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/v2-e628e972ac34b597ba2c1f7f0d326705_r.jpg" alt="img" style="zoom: 67%;" />
+
+<h1 id="微服务优缺点"><a href="#微服务优缺点" class="headerlink" title="微服务优缺点"></a>微服务优缺点</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li><strong>单一职责</strong>原则，每个服务足够内聚，足够小，代码容易理解，这样能聚焦一个指定的业务功能或业务需求；</li>
+<li>开发简单，开发效率高，一个服务可能就是专一的只干一件事；</li>
+<li>微服务能够被小团队<strong>单独开发</strong>，这个团队只需2-5个开发人员组成；</li>
+<li>微服务是<strong>松耦合</strong>的，是有功能意义的服务，无论是在开发阶段或部署阶段都是独立的；</li>
+<li>微服务能使用不同的语言开发；</li>
+<li>易于和第三方集成，微服务允许容易且灵活的方式集成自动部署，通过持续集成工具，如jenkins，Hudson，bamboo；</li>
+<li>微服务易于被一个开发人员理解，修改和维护，这样小团队能够更关注自己的工作成果，无需通过合作才能体现价值；</li>
+<li>微服务允许利用和融合最新技术；</li>
+<li><strong>微服务只是业务逻辑的代码，不会和HTML，CSS，或其他的界面混合;</strong></li>
+<li><strong>每个微服务都有自己的存储能力，可以有自己的数据库，也可以有统一的数据库；</strong></li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>开发人员要处理分布式系统的复杂性；</li>
+<li>多服务运维难度，随着服务的增加，运维的压力也在增大；</li>
+<li>系统部署依赖问题；</li>
+<li>服务间通信成本问题；</li>
+<li>数据一致性问题；</li>
+<li>系统集成测试问题；</li>
+<li>性能和监控问题；</li>
+</ul>
+<h1 id="Spring-Cloud-介绍"><a href="#Spring-Cloud-介绍" class="headerlink" title="Spring Cloud 介绍"></a>Spring Cloud 介绍</h1><p>  <strong>Spring Cloud 其实是一系列框架的有序集合</strong>。它利用 Spring Boot 的开发便利性巧妙地简化了分布式系统基础设施的开发，如<strong>服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控</strong>等，都可以用 Spring Boot 的开发风格做到<strong>一键启动和部署</strong>。</p>
+<p>  <strong>Spring Cloud 并没有重复制造轮子，它只是将各家公司开发的比较成熟、经得起实际考验的服务框架组合起来，通过Spring Boot 风格进行再封装屏蔽掉了复杂的配置和实现原理，最终给开发者留出了一套简单易懂、易部署和易维护的分布式系统开发工具包。</strong></p>
+<h2 id="SpringCloud和SpringBoot的关系"><a href="#SpringCloud和SpringBoot的关系" class="headerlink" title="SpringCloud和SpringBoot的关系"></a>SpringCloud和SpringBoot的关系</h2><ul>
+<li>SpringBoot专注于方便的<strong>「开发单个个体微服务」</strong>；</li>
+<li>SpringCloud是关注<strong>「全局的微服务协调整理治理框架」</strong>，它将SpringBoot开发的一个个单体微服务，整合并管理起来，为各个微服务之间提供：<strong>「配置管理、服务发现、断路器、路由、为代理、事件总栈、全局锁、决策竞选、分布式会话」</strong>等等集成服务；</li>
+<li>SpringBoot可以离开SpringCloud独立使用，开发项目，但SpringCloud离不开SpringBoot，属于依赖关系；</li>
+</ul>
+<h1 id="Spring-Cloud-升级后的替代品"><a href="#Spring-Cloud-升级后的替代品" class="headerlink" title="Spring Cloud 升级后的替代品"></a>Spring Cloud 升级后的替代品</h1><p>​        虽然早期Spring Cloud之前有些组件很火爆，但是好景不长， <strong>2018 年 Eureka 2.0 版本的闭源，开源版本停止更新</strong>。（Eureka 来自 Netflix 公司）。在这之后，断断续续很多技术都有所<strong>变更、停更、升级</strong>。**几乎全套都停更了!!!**。导致 Spring Cloud 一度变得很难。</p>
+<p>  伴随着Spring Cloud 体系各种技术的停更，<strong>几乎全套都停更了</strong>，Spring Cloud 被迫选择其他技术来替代升级。<strong>Spring Cloud 升级后的技术架构，如下图所示：</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210134349006.png" alt="image-20201210134349006"></p>
+<ul>
+<li><strong>服务注册中心：</strong> 推荐使用 <strong><code>Spring Cloud Alibaba Nacos</code></strong> ，不推荐使用 Consul和Eureka（如果公司不想用新的技术，也可以使用 ZK 作为服务注册中心，用阳哥的话说就是Eureka已经是进ICU了，也不建议使用。）</li>
+<li><strong>服务调用：</strong> 使用的是 Ribbon，但这是个<strong>半生不熟</strong>的组件，也进入到了维护的状态。**<code>Spring 官方还在继续用，但是后续会推出一个 Spring Cloud LoadBalancer ，它会慢慢取代 Ribbon</code>**（官方说明：Ribbon 可以继续使用，但停止更新）</li>
+<li><strong>服务调用2：</strong> 跟 Ribbon 齐名的 Feign，这哥们差不多也挂了。这哥们长期不更新，Spring 社区实在是等不起了，就自己新出了一个 **<code>OpenFeign</code>**。（所以Feign可以不用了，现在推荐使用 OpenFeign）</li>
+<li><strong>服务降级：</strong> 服务降级领域，当属 <strong>豪猪哥</strong> <code>Hystrix</code>了 。但是豪猪哥也<strong>寿终正寝</strong>了。官网已经不推荐使用。<strong>但是在国内 Hystrix 豪猪哥 是 Spring Cloud 自带的一套服务降级和熔断框架，还在大规模的使用。</strong>Hystrix 停更后，国外老外推荐使用 <strong><code>resilience4j</code>**，</strong>但是在国内，我们还是推荐使用Spring Cloud Alibaba 的 Sentinel（强烈推荐，比 Hystrix 还好用）**</li>
+<li><strong>服务网关：</strong> <code>Zuul</code>，也属于 Netflix。**<code>它就有点搞笑了，内部开发团队产生分裂，自己把自己作死了。</code>** Netflex 公司后台想自己再出一个 Zuul2，但是没有开发出来便胎死腹中。此时，Spring 便自己开发出了一个新的服务网关 <strong><code>gateway</code></strong> ，这也是目前推荐的主流网关服务组件。</li>
+<li><strong>服务配置：</strong> <code>Spring Cloud Config</code> 。它也不再使用了。现在主流推荐：**<code>1.携程网的 apolo</code>** **<code>2. 强烈推荐使用 Spring Cloud Alibaba Nacos(强烈推荐)</code>**。</li>
+<li><strong>服务总线：</strong> Spring Cloud 原生，使用的是 <code>Bus</code>，现在也慢慢的被 <code>Spring Cloud Alibaba Nacos</code>替换了。</li>
+</ul>
+<h1 id="Spring-Cloud版本选择"><a href="#Spring-Cloud版本选择" class="headerlink" title="Spring Cloud版本选择"></a>Spring Cloud版本选择</h1><h2 id="版本命名规则"><a href="#版本命名规则" class="headerlink" title="版本命名规则"></a>版本命名规则</h2><p>​        大多数 Spring 项目是以 <strong><code>&quot;主版本号.次版本号.增量版本号.里程碑版本号&quot;</code></strong> 的形式命名版本。**<code>主版本号</code>** 表示项目的重大重构；**<code>次版本号</code>** 表示新特性的添加和变化；**<code>增量版本号</code>** 一般表示Bug修复；**<code>里程碑版本号</code>** 表示某版本号的里程碑；例如：Spring Framework 稳定版本4.3.5.RELEASE、里程碑版本 5.0.0.M4 等。</p>
+<p>  来到 Spring Cloud 这块，它并未采用上面这种方式。而是以 <strong><code>&quot;英文单词SRX（X为数字）&quot;</code></strong> 的形式命名版本号。<strong>因为 Spring Cloud 是一个综合项目，包含很多的子项目，由于子项目也维护着自己的版本号，所以采用这种命名方式避免与子项目的版本混淆。</strong></p>
+<p>  <strong>“英文单词”</strong> 叫做 <strong>Release Train</strong>(俗称：火车发版)，Camden、Dalston、Edgware、Finchley、Greenwich、Hoxton 等都是 <strong><code>伦敦地铁</code></strong> 的名称，按照字母顺序发行；</p>
+<p>  <strong>“SRX”</strong> 表示 <strong>Service Release</strong>，其中X是一个递增数字。一般表示 Bug 后的版本；在 SR 版本发布之前，会先发布一个 Release 版本，例如在发布 Edgware SR1之前，会先发布 Edgware RELEASE。</p>
+<p>  <strong>“GA”</strong> 表示 <strong>General Availability</strong>，正式发布的版本，官方推荐使用此版本。在国外都是用 GA 来说明 Release 版本的。</p>
+<p>  <strong>“RC”</strong> 表示 <strong>Release Candidate</strong>，候选版本，几乎不会加入新功能，着重于除错，是最终版之前的最后版本。</p>
+<p>  <strong>“SNAPSHOT”</strong> 表示 <strong>快照版本</strong>，不稳定、尚处于开发中的版本。</p>
+<p>  <strong>“PRE”</strong> 表示 <strong>预览版</strong>，内部测试版。主要是给开发人员和测试人员测试和找BUG用的，不建议使用。</p>
+<h2 id="版本选择问题"><a href="#版本选择问题" class="headerlink" title="版本选择问题"></a>版本选择问题</h2><p>官方有这么一段话：</p>
+<blockquote>
+<p>If you an existing Spring Boot app you want to add Spring Cloud to that app, the first step is to determine the version of Spring Cloud you should use. The version you use in your app will depend on the version of Spring Boot you are using.</p>
+</blockquote>
+<p>​        大概意思就是你现在有一个Spring Boot的项目要整合Spring Cloud，则第一步是确定应使用的Spring Cloud版本。而这个版本取决于你使用的Spring Boot的版本。</p>
+<p>​        所以我们能发现，我们在创建Spring Cloud项目时也不是随便选择Spring Boot及Spring Cloud版本的，Spring Boot就不用说了，2020年那肯定是推荐使用Spring Boot2.0X的版本了，但是要注意Spring Boot版本要和Spring Cloud版本对应上，不然可能也会出现一些奇怪的问题。下面就介绍一下如何寻找对应关系：</p>
+<h3 id="官网查找"><a href="#官网查找" class="headerlink" title="官网查找"></a>官网查找</h3><ol>
+<li>在 <a href="https://spring.io/projects/spring-cloud#overview">Spring Cloud官网</a>，我们可以找到图中所对应的关系。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210140729317.png" alt="image-20201210140729317"></p>
+<ol start="2">
+<li>还是刚刚的页面，在页面最顶端，选择<code>LEARN</code>并点击对应版本还后面的<code>Reference Doc</code>链接，能看到最新的对应关系了</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210141057174.png" alt="image-20201210141057174"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210141443421.png" alt="image-20201210141443421"></p>
+<h3 id="接口方式查找"><a href="#接口方式查找" class="headerlink" title="接口方式查找"></a>接口方式查找</h3><p>​         我们也可以通过调用接口的方式，来查看它们的对应关系。接口如下：<a href="https://start.spring.io/actuator/info%EF%BC%88%E4%B8%8D%E5%A4%AA%E5%87%86%E7%A1%AE%EF%BC%8C%E6%98%AF%E4%B8%80%E4%B8%AA%E8%8C%83%E5%9B%B4%EF%BC%89%E3%80%82%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E5%A6%82%E4%B8%8B%EF%BC%9A">https://start.spring.io/actuator/info（不太准确，是一个范围）。查询结果如下：</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210141607537.png" alt="image-20201210141607537"></p>
+<h1 id="Dubbo与Spring-Cloud对比"><a href="#Dubbo与Spring-Cloud对比" class="headerlink" title="Dubbo与Spring Cloud对比"></a>Dubbo与Spring Cloud对比</h1><p>  Spring Cloud 俨然已经成为了微服务开发的主流技术栈，在国内开发者社区也是非常的火爆。<strong>虽然 Dubbo 也可以做微服务。Dubbo 是在 2012年开源的，距今也 8 年有余了，在Dubbo 开发中途，阿里也在曾经有过放弃 Dubbo 的维护，处于某些原因，后来将其捐献给了 Apache</strong>。</p>
+<p>   Dubbo 框架年代久远，现在 <strong>Spring Cloud Alibaba</strong> 也已经正式的加入到了 <strong>Spring Cloud</strong> 大家庭。并且 Spring Cloud 是最新出来的技术，一定会比 Dubbo 更受欢迎。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Spring Cloud</th>
+<th>Dubbo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>服务注册发现</td>
+<td>Eureka,zk,consul</td>
+<td>zk</td>
+</tr>
+<tr>
+<td>服务调用方式</td>
+<td>rest方式</td>
+<td>rpc</td>
+</tr>
+<tr>
+<td>服务监控</td>
+<td>spring boot admin</td>
+<td>dubbo monitor</td>
+</tr>
+<tr>
+<td>熔断降级</td>
+<td>Hystrix/Sentinel</td>
+<td>不完善(Mock)</td>
+</tr>
+<tr>
+<td>服务网关</td>
+<td>Zuul/Gateway</td>
+<td>无</td>
+</tr>
+<tr>
+<td>分布式配置中心</td>
+<td>Config/nacos</td>
+<td>无</td>
+</tr>
+<tr>
+<td>消息总线</td>
+<td>Bus</td>
+<td>无</td>
+</tr>
+<tr>
+<td>MQ消息数据流</td>
+<td>Stream</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>尚硅谷周阳的视频及脑图 - <a href="https://www.bilibili.com/video/BV18E411x7eT">https://www.bilibili.com/video/BV18E411x7eT</a></p>
+<p>知乎 - <a href="https://www.zhihu.com/question/20004877">https://www.zhihu.com/question/20004877</a></p>
+<p>注：下面这个博客很全面也很详细，我这边就记录了一些我想要的和我自己理解的东西</p>
+<p>抗麻袋的少年 - <a href="https://blog.csdn.net/lzb348110175">https://blog.csdn.net/lzb348110175</a></p>
+]]></content>
+      <categories>
+        <category>Spring Cloud</category>
+      </categories>
+      <tags>
+        <tag>Spring Cloud</tag>
       </tags>
   </entry>
   <entry>
@@ -1127,241 +1362,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Spring Cloud整合服务注册中心</title>
-    <url>/posts/dcff784e.html</url>
-    <content><![CDATA[<p><strong>注：这一部分就是演示一下整合Eureka、Zookpper、以及consul相关的操作，如果只想要学习Nacos，请移步到后面的文章。</strong></p>
-<h1 id="RestTemplate实现微服务"><a href="#RestTemplate实现微服务" class="headerlink" title="RestTemplate实现微服务"></a>RestTemplate实现微服务</h1><p>我们使用 RestTemplate ，来搭建一个微服务项目。现在有三个个模块：</p>
-<ol>
-<li>基础模块（模块名：<code>cloud-api-commons</code>）</li>
-<li>服务提供模块（模块名：<code>cloud-provider-payment8001</code>）</li>
-<li>服务消费模块（模块名：<code>cloud-consumer-order80</code>）</li>
-</ol>
-<p>  这两个模块之间的通信，是基于 <code>RestTemplate</code> 来完成通信的。<strong>Spring 框架提供的 RestTemplate 类可用于在应用中调用 rest 服务，它简化了与http服务的通信方式，统一了Restful的标准，封装了http 链接， 我们只需要传入url 及返回值类型即可。</strong> 相较于之前常用的 HttpClient，RestTemplate 是一种更优雅的调用 Restful 服务的方式。</p>
-<p>​        这一部分就不演示了，就是新建一个项目，然后创建三个子模块，<code>order</code>利用<code>RestTemplate</code>调用<code>payment</code>模块中的接口。核心代码如下（其实就是一个简单的http请求）：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210161727486.png" alt="image-20201210161727486"></p>
-<p>​        虽然上面的也能实现服务间的调用，但是从截图中，你也能发现：地址是写死的，后期如果<code>payment</code>模块换地址了，还得过来重新修改，而且要是<code>payment</code>模块集群化部署，单单写死一个地址肯定也不能解决问题。</p>
-<p>​        也就是说，虽然使用简单的<code>http</code>请求可以实现服务之间的调用，但是 <strong>随着服务模块的增加 、服务模块需要变更为集群模式</strong> 等情况，这时候 <strong>服务与服务之间的管理（链路调用管理、配置管理、注册管理 等等）</strong> 就变得非常的困难。<strong>此时就需要用到 Spring Cloud 全家桶来对我们多个服务进行管理了。</strong></p>
-<h1 id="Spring-Cloud"><a href="#Spring-Cloud" class="headerlink" title="Spring Cloud"></a>Spring Cloud</h1><h2 id="Spring-Cloud有哪些常用组件？"><a href="#Spring-Cloud有哪些常用组件？" class="headerlink" title="Spring Cloud有哪些常用组件？"></a>Spring Cloud有哪些常用组件？</h2><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210134349006.png" alt="image-20201210134349006"></p>
-<h1 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a>Eureka</h1><p>​        在我们没有服务注册中心时，也可以实现多个服务之间调用。服务调用之间，我们是通过<code>RestTemplate</code> 直接将 <strong>服务提供者</strong> URL写死在代码中的方式来完成调用。</p>
-<p>  当服务很多时，单靠代码来手动管理就变得很麻烦。此时就需要引入一个<strong>公共组件</strong>来帮我们统一管理这么多的服务，包括 <strong>服务是否正常运行、集群服务管理、动态感知服务上下线</strong> 等。这个时候我们就用到了<code>Eureka</code>。</p>
-<p>​        <code>Eureka</code>是<code>Netflix</code>的子模块，也是核心模块之一。Eureka是基于REST的服务，用于定位服务，以实现云端中间件层服务发现和故障转移，<strong>「服务注册与发现对于微服务来说是非常重要的」</strong>，有了服务注册与发现，只需要使用服务的标识符，就可以访问到服务，而不需要修改服务调用的配置文件了，功能类似于Dubbo的注册中心，比如Zookeeper。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/640.png" alt="图片"></p>
-<h2 id="服务治理"><a href="#服务治理" class="headerlink" title="服务治理"></a>服务治理</h2><h3 id="什么是服务治理"><a href="#什么是服务治理" class="headerlink" title="什么是服务治理"></a>什么是服务治理</h3><p>  在传统的 RPC 远程调用框架中，管理每个服务与服务之间的依赖关系非常复杂，所以需要使用 <strong><code>服务治理</code></strong> 来管理服务与服务之间的依赖关系，从而实现 <strong><code>服务调用</code>**、</strong><code>负载均衡</code><strong>、</strong><code>容错</code><strong>、</strong><code>服务的注册与发现</code>** 等。</p>
-<h3 id="什么是服务注册与发现"><a href="#什么是服务注册与发现" class="headerlink" title="什么是服务注册与发现"></a>什么是服务注册与发现</h3><p>  Eureka 采用了 <strong>CS</strong> 的设计机构 **<code>（C指的是client（客户端软件），S指的是Server（服务端软件）</code>**，Eureka Server 作为服务注册功能的服务器，它是服务注册中心。而系统中的其他微服务，使用 Eureka 的客户端连接到 Eureka Server，并维持心跳连接。这样系统的维护人员就可以通过 Eureka Server 来监听系统中各个微服务是否正常运行。</p>
-<p>  在服务注册与发现中，有一个注册中心。当服务器启动的时候，会把当前自己服务器的信息（服务地址、通讯地址等）以别名的方式注册到注册中心上。另一方（消费者|服务提供者）会以该别名的方式去注册中心上获取到实际的服务通讯地址，然后再通过本地RPC调用、远程RPC调用等方式来实现通信。</p>
-<h2 id="Eureka-组件介绍"><a href="#Eureka-组件介绍" class="headerlink" title="Eureka 组件介绍"></a>Eureka 组件介绍</h2><p>Eureka 包含两个组件：<strong>1.Eureka Server</strong>   <strong>2.Eureka Client</strong></p>
-<h3 id="Eureka-Server"><a href="#Eureka-Server" class="headerlink" title="Eureka Server"></a>Eureka Server</h3><p>   Eureka Server 提供 <strong>服务注册</strong> 服务。各个微服务节点通过配置启动后，会在 Eureka Server 中进行注册，这样 Eureka Server 中的服务注册表中就会存储所有可用服务节点的信息，服务节点的信息可以在界面中直观的看到。</p>
-<h3 id="Eureka-Client"><a href="#Eureka-Client" class="headerlink" title="Eureka Client"></a>Eureka Client</h3><p>   Eureka Client 通过 <strong>注册中心</strong> 进行访问。它是一个 Java 客户端，用于简化与 Eureka Server 的交互，客户端同时也具备一个内置的、使用轮询（round-robin）负载算法的负载均衡器。</p>
-<p>   在应用启动后，Eureka Client 将会向 Eureka Server <strong>发送心跳连接（周期为30s）</strong>。如果 Eureka Server 在多个心跳周期内没有接收到某个节点的心跳，Eureka Server 将 <strong>会从服务注册表中把这个服务节点移除（默认 90s）</strong></p>
-<h2 id="Eureka服务搭建"><a href="#Eureka服务搭建" class="headerlink" title="Eureka服务搭建"></a>Eureka服务搭建</h2><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>尚硅谷周阳的视频及脑图 - <a href="https://www.bilibili.com/video/BV18E411x7eT">https://www.bilibili.com/video/BV18E411x7eT</a></p>
-<p>注：下面这个博客很全面也很详细，我这边就记录了一些我想要的和我自己理解的东西</p>
-<p>抗麻袋的少年 - <a href="https://blog.csdn.net/lzb348110175">https://blog.csdn.net/lzb348110175</a></p>
-]]></content>
-      <categories>
-        <category>Spring Cloud</category>
-      </categories>
-      <tags>
-        <tag>Spring Cloud</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>00 Spring Cloud目录</title>
-    <url>/posts/f9118d52.html</url>
-    <content><![CDATA[<p>本系列代码及顺序基本都是参考：</p>
-<p>尚硅谷Spring Cloud H版的视频及脑图 - <a href="https://www.bilibili.com/video/BV18E411x7eT">https://www.bilibili.com/video/BV18E411x7eT</a></p>
-<p>(如果你发现很相似，不用怀疑，我就是照着写的😹)</p>
-<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p>微服务概念及Spring Cloud简介</p>
-<p>Spring Cloud整合服务注册中心</p>
-]]></content>
-      <categories>
-        <category>Spring Cloud</category>
-      </categories>
-      <tags>
-        <tag>Spring Cloud</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>微服务概念及Spring Cloud简介</title>
-    <url>/posts/21280ae4.html</url>
-    <content><![CDATA[<h1 id="什么是微服务"><a href="#什么是微服务" class="headerlink" title="什么是微服务"></a>什么是微服务</h1><p>​        通常而言，微服务架构是一种<strong>架构模式</strong>，或者说是一种架构风格，<strong>它体长将单一的应用程序划分成一组小的服务</strong>，每个服务运行在其独立的自己的进程内，服务之间互相协调，互相配置，为用户提供最终价值，服务之间采用轻量级的通信机制(<strong>HTTP</strong>)互相沟通，每个服务都围绕着具体的业务进行构建，并且能狗被独立的部署到生产环境中，另外，应尽量避免统一的，集中式的服务管理机制，对具体的一个服务而言，应该根据业务上下文，选择合适的语言，工具(<strong>Maven</strong>)对其进行构建，可以有一个非常轻量级的集中式管理来协调这些服务，可以使用不同的语言来编写服务，也可以使用不同的数据存储。</p>
-<h1 id="集群、分布式区别是什么？"><a href="#集群、分布式区别是什么？" class="headerlink" title="集群、分布式区别是什么？"></a>集群、分布式区别是什么？</h1><h3 id="什么是集群"><a href="#什么是集群" class="headerlink" title="什么是集群"></a>什么是集群</h3><blockquote>
-<p>同一个业务，部署在多个服务器上(<strong>不同的服务器运行同样的代码，干同一件事</strong>)</p>
-</blockquote>
-<p><strong>特点：</strong></p>
-<ul>
-<li>多台服务器都是运行<strong>同一个系统</strong></li>
-</ul>
-<p><strong>好处：</strong></p>
-<ul>
-<li>本来只有一台机器处理访问，现在有多台机器处理访问了，<strong>分担了压力</strong>。</li>
-<li>如果其中一台或几台机器宕机，暂时不能用了。还有其他机器可以使用。</li>
-</ul>
-<p><strong>举例：</strong></p>
-<p>​        小饭店原来只有一个厨师，切菜洗菜备料炒菜全干。后来客人多了，厨房一个厨师忙不过来，又请了个厨师，两个厨师都能炒一样的菜，这两个厨师的关系是集群。    </p>
-<h2 id="什么是分布式"><a href="#什么是分布式" class="headerlink" title="什么是分布式"></a>什么是分布式</h2><blockquote>
-<p>一个业务分拆多个子业务，部署在不同的服务器上(不同的服务器，运行不同的代码，为了同一个目的)</p>
-</blockquote>
-<p><strong>特点：</strong></p>
-<ul>
-<li>将一个系统的<strong>功能拆分，模块之间独立</strong>，在使用的时候再将这些<strong>独立的模块组合起来</strong>就是一个系统了。</li>
-</ul>
-<p><strong>好处：</strong></p>
-<ul>
-<li>模块之间独立，各做各的事，<strong>便于扩展，复用性高</strong></li>
-<li><strong>高吞吐量</strong>。某个任务需要一个机器运行10个小时，将该任务用10台机器的分布式跑(将这个任务拆分成10个小任务)，可能2个小时就跑完了</li>
-</ul>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>​        小饭店原来只有一个厨师，切菜洗菜备料炒菜全干。这就是单体，后来客人多了，厨房一个厨师忙不过来，又请了个厨师，两个厨师都能炒一样的菜，这两个厨师的关系是集群。为了让厨师专心炒菜，把菜做到极致，又请了个配菜师负责切菜，备菜，备料，厨师和配菜师的关系是分布式，集群和分布式本身不冲突，例如一个配菜师也忙不过来了，又请了个配菜师，两个配菜师关系是集群。</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>概念</th>
-<th>特点</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>集群</td>
-<td><strong>不同的服务器运行同样的代码，干同一件事</strong></td>
-<td>多台服务器都是运行<strong>同一个系统</strong></td>
-</tr>
-<tr>
-<td>分布式</td>
-<td><strong>不同的服务器，运行不同的代码，为了同一个目的</strong></td>
-<td>多态服务器运行的是不用模块的代码</td>
-</tr>
-</tbody></table>
-<p>关于这个知识点我还看到一个比较好玩的图片：</p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/v2-e628e972ac34b597ba2c1f7f0d326705_r.jpg" alt="img" style="zoom: 67%;" />
-
-<h1 id="微服务优缺点"><a href="#微服务优缺点" class="headerlink" title="微服务优缺点"></a>微服务优缺点</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
-<li><strong>单一职责</strong>原则，每个服务足够内聚，足够小，代码容易理解，这样能聚焦一个指定的业务功能或业务需求；</li>
-<li>开发简单，开发效率高，一个服务可能就是专一的只干一件事；</li>
-<li>微服务能够被小团队<strong>单独开发</strong>，这个团队只需2-5个开发人员组成；</li>
-<li>微服务是<strong>松耦合</strong>的，是有功能意义的服务，无论是在开发阶段或部署阶段都是独立的；</li>
-<li>微服务能使用不同的语言开发；</li>
-<li>易于和第三方集成，微服务允许容易且灵活的方式集成自动部署，通过持续集成工具，如jenkins，Hudson，bamboo；</li>
-<li>微服务易于被一个开发人员理解，修改和维护，这样小团队能够更关注自己的工作成果，无需通过合作才能体现价值；</li>
-<li>微服务允许利用和融合最新技术；</li>
-<li><strong>微服务只是业务逻辑的代码，不会和HTML，CSS，或其他的界面混合;</strong></li>
-<li><strong>每个微服务都有自己的存储能力，可以有自己的数据库，也可以有统一的数据库；</strong></li>
-</ul>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
-<li>开发人员要处理分布式系统的复杂性；</li>
-<li>多服务运维难度，随着服务的增加，运维的压力也在增大；</li>
-<li>系统部署依赖问题；</li>
-<li>服务间通信成本问题；</li>
-<li>数据一致性问题；</li>
-<li>系统集成测试问题；</li>
-<li>性能和监控问题；</li>
-</ul>
-<h1 id="Spring-Cloud-介绍"><a href="#Spring-Cloud-介绍" class="headerlink" title="Spring Cloud 介绍"></a>Spring Cloud 介绍</h1><p>  <strong>Spring Cloud 其实是一系列框架的有序集合</strong>。它利用 Spring Boot 的开发便利性巧妙地简化了分布式系统基础设施的开发，如<strong>服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控</strong>等，都可以用 Spring Boot 的开发风格做到<strong>一键启动和部署</strong>。</p>
-<p>  <strong>Spring Cloud 并没有重复制造轮子，它只是将各家公司开发的比较成熟、经得起实际考验的服务框架组合起来，通过Spring Boot 风格进行再封装屏蔽掉了复杂的配置和实现原理，最终给开发者留出了一套简单易懂、易部署和易维护的分布式系统开发工具包。</strong></p>
-<h2 id="SpringCloud和SpringBoot的关系"><a href="#SpringCloud和SpringBoot的关系" class="headerlink" title="SpringCloud和SpringBoot的关系"></a>SpringCloud和SpringBoot的关系</h2><ul>
-<li>SpringBoot专注于方便的<strong>「开发单个个体微服务」</strong>；</li>
-<li>SpringCloud是关注<strong>「全局的微服务协调整理治理框架」</strong>，它将SpringBoot开发的一个个单体微服务，整合并管理起来，为各个微服务之间提供：<strong>「配置管理、服务发现、断路器、路由、为代理、事件总栈、全局锁、决策竞选、分布式会话」</strong>等等集成服务；</li>
-<li>SpringBoot可以离开SpringCloud独立使用，开发项目，但SpringCloud离不开SpringBoot，属于依赖关系；</li>
-</ul>
-<h1 id="Spring-Cloud-升级后的替代品"><a href="#Spring-Cloud-升级后的替代品" class="headerlink" title="Spring Cloud 升级后的替代品"></a>Spring Cloud 升级后的替代品</h1><p>​        虽然早期Spring Cloud之前有些组件很火爆，但是好景不长， <strong>2018 年 Eureka 2.0 版本的闭源，开源版本停止更新</strong>。（Eureka 来自 Netflix 公司）。在这之后，断断续续很多技术都有所<strong>变更、停更、升级</strong>。**几乎全套都停更了!!!**。导致 Spring Cloud 一度变得很难。</p>
-<p>  伴随着Spring Cloud 体系各种技术的停更，<strong>几乎全套都停更了</strong>，Spring Cloud 被迫选择其他技术来替代升级。<strong>Spring Cloud 升级后的技术架构，如下图所示：</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210134349006.png" alt="image-20201210134349006"></p>
-<ul>
-<li><strong>服务注册中心：</strong> 推荐使用 <strong><code>Spring Cloud Alibaba Nacos</code></strong> ，不推荐使用 Consul和Eureka（如果公司不想用新的技术，也可以使用 ZK 作为服务注册中心，用阳哥的话说就是Eureka已经是进ICU了，也不建议使用。）</li>
-<li><strong>服务调用：</strong> 使用的是 Ribbon，但这是个<strong>半生不熟</strong>的组件，也进入到了维护的状态。**<code>Spring 官方还在继续用，但是后续会推出一个 Spring Cloud LoadBalancer ，它会慢慢取代 Ribbon</code>**（官方说明：Ribbon 可以继续使用，但停止更新）</li>
-<li><strong>服务调用2：</strong> 跟 Ribbon 齐名的 Feign，这哥们差不多也挂了。这哥们长期不更新，Spring 社区实在是等不起了，就自己新出了一个 **<code>OpenFeign</code>**。（所以Feign可以不用了，现在推荐使用 OpenFeign）</li>
-<li><strong>服务降级：</strong> 服务降级领域，当属 <strong>豪猪哥</strong> <code>Hystrix</code>了 。但是豪猪哥也<strong>寿终正寝</strong>了。官网已经不推荐使用。<strong>但是在国内 Hystrix 豪猪哥 是 Spring Cloud 自带的一套服务降级和熔断框架，还在大规模的使用。</strong>Hystrix 停更后，国外老外推荐使用 <strong><code>resilience4j</code>**，</strong>但是在国内，我们还是推荐使用Spring Cloud Alibaba 的 Sentinel（强烈推荐，比 Hystrix 还好用）**</li>
-<li><strong>服务网关：</strong> <code>Zuul</code>，也属于 Netflix。**<code>它就有点搞笑了，内部开发团队产生分裂，自己把自己作死了。</code>** Netflex 公司后台想自己再出一个 Zuul2，但是没有开发出来便胎死腹中。此时，Spring 便自己开发出了一个新的服务网关 <strong><code>gateway</code></strong> ，这也是目前推荐的主流网关服务组件。</li>
-<li><strong>服务配置：</strong> <code>Spring Cloud Config</code> 。它也不再使用了。现在主流推荐：**<code>1.携程网的 apolo</code>** **<code>2. 强烈推荐使用 Spring Cloud Alibaba Nacos(强烈推荐)</code>**。</li>
-<li><strong>服务总线：</strong> Spring Cloud 原生，使用的是 <code>Bus</code>，现在也慢慢的被 <code>Spring Cloud Alibaba Nacos</code>替换了。</li>
-</ul>
-<h1 id="Spring-Cloud版本选择"><a href="#Spring-Cloud版本选择" class="headerlink" title="Spring Cloud版本选择"></a>Spring Cloud版本选择</h1><h2 id="版本命名规则"><a href="#版本命名规则" class="headerlink" title="版本命名规则"></a>版本命名规则</h2><p>​        大多数 Spring 项目是以 <strong><code>&quot;主版本号.次版本号.增量版本号.里程碑版本号&quot;</code></strong> 的形式命名版本。**<code>主版本号</code>** 表示项目的重大重构；**<code>次版本号</code>** 表示新特性的添加和变化；**<code>增量版本号</code>** 一般表示Bug修复；**<code>里程碑版本号</code>** 表示某版本号的里程碑；例如：Spring Framework 稳定版本4.3.5.RELEASE、里程碑版本 5.0.0.M4 等。</p>
-<p>  来到 Spring Cloud 这块，它并未采用上面这种方式。而是以 <strong><code>&quot;英文单词SRX（X为数字）&quot;</code></strong> 的形式命名版本号。<strong>因为 Spring Cloud 是一个综合项目，包含很多的子项目，由于子项目也维护着自己的版本号，所以采用这种命名方式避免与子项目的版本混淆。</strong></p>
-<p>  <strong>“英文单词”</strong> 叫做 <strong>Release Train</strong>(俗称：火车发版)，Camden、Dalston、Edgware、Finchley、Greenwich、Hoxton 等都是 <strong><code>伦敦地铁</code></strong> 的名称，按照字母顺序发行；</p>
-<p>  <strong>“SRX”</strong> 表示 <strong>Service Release</strong>，其中X是一个递增数字。一般表示 Bug 后的版本；在 SR 版本发布之前，会先发布一个 Release 版本，例如在发布 Edgware SR1之前，会先发布 Edgware RELEASE。</p>
-<p>  <strong>“GA”</strong> 表示 <strong>General Availability</strong>，正式发布的版本，官方推荐使用此版本。在国外都是用 GA 来说明 Release 版本的。</p>
-<p>  <strong>“RC”</strong> 表示 <strong>Release Candidate</strong>，候选版本，几乎不会加入新功能，着重于除错，是最终版之前的最后版本。</p>
-<p>  <strong>“SNAPSHOT”</strong> 表示 <strong>快照版本</strong>，不稳定、尚处于开发中的版本。</p>
-<p>  <strong>“PRE”</strong> 表示 <strong>预览版</strong>，内部测试版。主要是给开发人员和测试人员测试和找BUG用的，不建议使用。</p>
-<h2 id="版本选择问题"><a href="#版本选择问题" class="headerlink" title="版本选择问题"></a>版本选择问题</h2><p>官方有这么一段话：</p>
-<blockquote>
-<p>If you an existing Spring Boot app you want to add Spring Cloud to that app, the first step is to determine the version of Spring Cloud you should use. The version you use in your app will depend on the version of Spring Boot you are using.</p>
-</blockquote>
-<p>​        大概意思就是你现在有一个Spring Boot的项目要整合Spring Cloud，则第一步是确定应使用的Spring Cloud版本。而这个版本取决于你使用的Spring Boot的版本。</p>
-<p>​        所以我们能发现，我们在创建Spring Cloud项目时也不是随便选择Spring Boot及Spring Cloud版本的，Spring Boot就不用说了，2020年那肯定是推荐使用Spring Boot2.0X的版本了，但是要注意Spring Boot版本要和Spring Cloud版本对应上，不然可能也会出现一些奇怪的问题。下面就介绍一下如何寻找对应关系：</p>
-<h3 id="官网查找"><a href="#官网查找" class="headerlink" title="官网查找"></a>官网查找</h3><ol>
-<li>在 <a href="https://spring.io/projects/spring-cloud#overview">Spring Cloud官网</a>，我们可以找到图中所对应的关系。</li>
-</ol>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210140729317.png" alt="image-20201210140729317"></p>
-<ol start="2">
-<li>还是刚刚的页面，在页面最顶端，选择<code>LEARN</code>并点击对应版本还后面的<code>Reference Doc</code>链接，能看到最新的对应关系了</li>
-</ol>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210141057174.png" alt="image-20201210141057174"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210141443421.png" alt="image-20201210141443421"></p>
-<h3 id="接口方式查找"><a href="#接口方式查找" class="headerlink" title="接口方式查找"></a>接口方式查找</h3><p>​         我们也可以通过调用接口的方式，来查看它们的对应关系。接口如下：<a href="https://start.spring.io/actuator/info%EF%BC%88%E4%B8%8D%E5%A4%AA%E5%87%86%E7%A1%AE%EF%BC%8C%E6%98%AF%E4%B8%80%E4%B8%AA%E8%8C%83%E5%9B%B4%EF%BC%89%E3%80%82%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E5%A6%82%E4%B8%8B%EF%BC%9A">https://start.spring.io/actuator/info（不太准确，是一个范围）。查询结果如下：</a></p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201210141607537.png" alt="image-20201210141607537"></p>
-<h1 id="Dubbo与Spring-Cloud对比"><a href="#Dubbo与Spring-Cloud对比" class="headerlink" title="Dubbo与Spring Cloud对比"></a>Dubbo与Spring Cloud对比</h1><p>  Spring Cloud 俨然已经成为了微服务开发的主流技术栈，在国内开发者社区也是非常的火爆。<strong>虽然 Dubbo 也可以做微服务。Dubbo 是在 2012年开源的，距今也 8 年有余了，在Dubbo 开发中途，阿里也在曾经有过放弃 Dubbo 的维护，处于某些原因，后来将其捐献给了 Apache</strong>。</p>
-<p>   Dubbo 框架年代久远，现在 <strong>Spring Cloud Alibaba</strong> 也已经正式的加入到了 <strong>Spring Cloud</strong> 大家庭。并且 Spring Cloud 是最新出来的技术，一定会比 Dubbo 更受欢迎。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Spring Cloud</th>
-<th>Dubbo</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>服务注册发现</td>
-<td>Eureka,zk,consul</td>
-<td>zk</td>
-</tr>
-<tr>
-<td>服务调用方式</td>
-<td>rest方式</td>
-<td>rpc</td>
-</tr>
-<tr>
-<td>服务监控</td>
-<td>spring boot admin</td>
-<td>dubbo monitor</td>
-</tr>
-<tr>
-<td>熔断降级</td>
-<td>Hystrix/Sentinel</td>
-<td>不完善(Mock)</td>
-</tr>
-<tr>
-<td>服务网关</td>
-<td>Zuul/Gateway</td>
-<td>无</td>
-</tr>
-<tr>
-<td>分布式配置中心</td>
-<td>Config/nacos</td>
-<td>无</td>
-</tr>
-<tr>
-<td>消息总线</td>
-<td>Bus</td>
-<td>无</td>
-</tr>
-<tr>
-<td>MQ消息数据流</td>
-<td>Stream</td>
-<td>无</td>
-</tr>
-</tbody></table>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>尚硅谷周阳的视频及脑图 - <a href="https://www.bilibili.com/video/BV18E411x7eT">https://www.bilibili.com/video/BV18E411x7eT</a></p>
-<p>知乎 - <a href="https://www.zhihu.com/question/20004877">https://www.zhihu.com/question/20004877</a></p>
-<p>注：下面这个博客很全面也很详细，我这边就记录了一些我想要的和我自己理解的东西</p>
-<p>抗麻袋的少年 - <a href="https://blog.csdn.net/lzb348110175">https://blog.csdn.net/lzb348110175</a></p>
-]]></content>
-      <categories>
-        <category>Spring Cloud</category>
-      </categories>
-      <tags>
-        <tag>Spring Cloud</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>多线程01-多线程基础</title>
     <url>/posts/1983de0a.html</url>
     <content><![CDATA[<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>​        进程(Process)是计算机中的程序关于某数据集合上的一次运行活动，是操作系统进行资源分配与调度的基本单位，可以把进程简单的理解为正在操作系统中运行的一个程序。</p>
@@ -1873,6 +1873,91 @@
       </tags>
   </entry>
   <entry>
+    <title>springboot对接微信公众号授权登录接口</title>
+    <url>/posts/a74cd567.html</url>
+    <content><![CDATA[<h1 id="获取测试账号"><a href="#获取测试账号" class="headerlink" title="获取测试账号"></a>获取测试账号</h1><p>以下引用自微信开发者文档，有账号的可以跳过</p>
+<blockquote>
+<p>由于用户体验和安全性方面的考虑，微信公众号的注册有一定门槛，某些高级接口的权限需要微信认证后才可以获取。</p>
+<p>所以，为了帮助开发者快速了解和上手微信公众号开发，熟悉各个接口的调用，我们推出了微信公众帐号测试号，通过手机微信扫描二维码即可获得测试号。</p>
+</blockquote>
+<h2 id="申请测试账号"><a href="#申请测试账号" class="headerlink" title="申请测试账号"></a>申请测试账号</h2><p>申请很简单，点击下面的链接，微信登录，填写信息即可申请成功。</p>
+<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login">进入微信公众帐号测试号申请系统</a></p>
+<p>申请完以后就能看到appId和appsecret了</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125134549671.png" alt="image-20201125134549671" style="zoom: 33%;" />
+
+<h2 id="测试账号配置"><a href="#测试账号配置" class="headerlink" title="测试账号配置"></a>测试账号配置</h2><p><strong>1. 首先我们在刚刚的页面，往下翻，找到这个修改入口</strong></p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/64d61b8303344ac298e5956eee139ed3.png" alt="64d61b8303344ac298e5956eee139ed3.png" style="zoom:33%;" />
+
+<p><strong>2. 在弹出的窗口中配置域名</strong></p>
+<p>这边填写域名就行，但是注意这个域名一定要公网能访问到</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125135147371.png" alt="image-20201125135147371" style="zoom:33%;" />
+
+<p><strong>3. 填写js安全域名</strong></p>
+<p>​    这个地址和上一步一样就行，区别就是上一步不需要加https，这一步需要</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2ac3b922f8aa41a69c71237c4e9fb9b7.png" alt="2ac3b922f8aa41a69c71237c4e9fb9b7.png"></p>
+<p><strong>4. 配置接口</strong></p>
+<p>​    这个比较简单，主要是为了让这边访问一下，不然就会失败。参考代码如下：</p>
+<p><strong>controller</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        Enumeration pNames = request.getParameterNames();</span><br><span class="line">        <span class="keyword">while</span> (pNames.hasMoreElements()) &#123;</span><br><span class="line">            String name = (String) pNames.nextElement();</span><br><span class="line">            String value = request.getParameter(name);</span><br><span class="line">            String log = <span class="string">&quot;name =&quot;</span> + name + <span class="string">&quot; value =&quot;</span> + value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String signature = request.getParameter(<span class="string">&quot;signature&quot;</span>);<span class="comment">/// 微信加密签名</span></span><br><span class="line">        String timestamp = request.getParameter(<span class="string">&quot;timestamp&quot;</span>);<span class="comment">/// 时间戳</span></span><br><span class="line">        String nonce = request.getParameter(<span class="string">&quot;nonce&quot;</span>); <span class="comment">/// 随机数</span></span><br><span class="line">        String echostr = request.getParameter(<span class="string">&quot;echostr&quot;</span>); <span class="comment">// 随机字符串</span></span><br><span class="line">        PrintWriter out = response.getWriter();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (SignUtil.checkSignature(signature, timestamp, nonce)) &#123;</span><br><span class="line">            out.print(echostr);</span><br><span class="line">        &#125;</span><br><span class="line">        out.close();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>SignUtil</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SignUtil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String token = <span class="string">&quot;weixin&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 校验签名</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">checkSignature</span><span class="params">(String signature, String timestamp, String nonce)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;signature:&quot;</span> + signature + <span class="string">&quot;timestamp:&quot;</span> + timestamp + <span class="string">&quot;nonc:&quot;</span> + nonce);</span><br><span class="line">        String[] arr = <span class="keyword">new</span> String[]&#123;token, timestamp, nonce&#125;;</span><br><span class="line">        <span class="comment">// 将token、timestamp、nonce三个参数进行字典序排序</span></span><br><span class="line">        Arrays.sort(arr);</span><br><span class="line">        StringBuilder content = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            content.append(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        MessageDigest md = <span class="keyword">null</span>;</span><br><span class="line">        String tmpStr = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            md = MessageDigest.getInstance(<span class="string">&quot;SHA-1&quot;</span>);</span><br><span class="line">        <span class="comment">// 将三个参数字符串拼接成一个字符串进行sha1加密</span></span><br><span class="line">            <span class="keyword">byte</span>[] digest = md.digest(content.toString().getBytes());</span><br><span class="line">            tmpStr = byteToStr(digest);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        content = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">// 将sha1加密后的字符串可与signature对比，标识该请求来源于微信</span></span><br><span class="line">        System.out.println(tmpStr.equals(signature.toUpperCase()));</span><br><span class="line">        <span class="keyword">return</span> tmpStr != <span class="keyword">null</span> ? tmpStr.equals(signature.toUpperCase()) : <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将字节数组转换为十六进制字符串</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> byteArray</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">byteToStr</span><span class="params">(<span class="keyword">byte</span>[] byteArray)</span> </span>&#123;</span><br><span class="line">        String strDigest = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; byteArray.length; i++) &#123;</span><br><span class="line">            strDigest += byteToHexStr(byteArray[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> strDigest;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将字节转换为十六进制字符串</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> mByte</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">byteToHexStr</span><span class="params">(<span class="keyword">byte</span> mByte)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">char</span>[] Digit = &#123;<span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;E&#x27;</span>, <span class="string">&#x27;F&#x27;</span>&#125;;</span><br><span class="line">        <span class="keyword">char</span>[] tempArr = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">2</span>];</span><br><span class="line">        tempArr[<span class="number">0</span>] = Digit[(mByte &gt;&gt;&gt; <span class="number">4</span>) &amp; <span class="number">0X0F</span>];</span><br><span class="line">        tempArr[<span class="number">1</span>] = Digit[mByte &amp; <span class="number">0X0F</span>];</span><br><span class="line"></span><br><span class="line">        String s = <span class="keyword">new</span> String(tempArr);</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>配置截图</strong></p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125140514288.png" alt="image-20201125140514288" style="zoom: 33%;" />
+
+<p>至此，配置完毕。</p>
+<h2 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h2><p><strong>注：这里必须先关注测试账号，不然无法授权成功</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125140737132.png" alt="image-20201125140737132"></p>
+<h2 id="获取code"><a href="#获取code" class="headerlink" title="获取code"></a>获取code</h2><p>用微信浏览器打开如下地址：</p>
+<p><a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=appId&amp;redirect_uri=redirectUri&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=STATE#wechat_redirect">https://open.weixin.qq.com/connect/oauth2/authorize?appid=appId&amp;redirect_uri=redirectUri&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=STATE#wechat_redirect</a> </p>
+<p><strong>注：将链接中的appId和redirectUri换成自己的</strong></p>
+<h2 id="获取AccessToken及用户信息相关代码参考"><a href="#获取AccessToken及用户信息相关代码参考" class="headerlink" title="获取AccessToken及用户信息相关代码参考"></a>获取AccessToken及用户信息相关代码参考</h2><p><strong>yml</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">auth:</span></span><br><span class="line">  <span class="attr">wechat:</span></span><br><span class="line">    <span class="attr">accounts:</span></span><br><span class="line">      <span class="attr">appId:</span> <span class="string">xxxxxxxx</span>		<span class="comment"># 换成自己的测试账号</span></span><br><span class="line">      <span class="attr">appSecret:</span> <span class="string">xxxxxx</span> <span class="comment"># 换成自己的测试账号</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>WechatAuth关键代码</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;auth.wechat.accounts&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WechatAuth</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String appId;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String appSecret;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取openId</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String GET_ACCESS_TOKEN_URL = <span class="string">&quot;https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&amp;secret=%s&amp;code=%s&amp;grant_type=authorization_code&quot;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取openId</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String GET_INFO_URL = <span class="string">&quot;https://api.weixin.qq.com/sns/userinfo?access_token=%s&amp;openid=%s&amp;lang=zh_CN&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取openId</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> code</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map <span class="title">getInfoByCode</span><span class="params">(String code)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 通过code换取网页授权access_token</span></span><br><span class="line">        String url = String.format(GET_ACCESS_TOKEN_URL, appId, appSecret, code);</span><br><span class="line">        JSONObject jsonObject = HttpUtils.sendWechatGet(url, JSONObject.class);</span><br><span class="line">        String openId = jsonObject.getString(APIConstant.OPEN_ID);</span><br><span class="line">        String accessToken = jsonObject.getString(APIConstant.ACCESS_TOKEN);</span><br><span class="line">        System.out.println(<span class="string">&quot;access_Token&quot;</span> + accessToken + <span class="string">&quot; opeId:&quot;</span> + openId);</span><br><span class="line">        <span class="comment">// 拉取用户信息(需scope为 snsapi_userinfo)</span></span><br><span class="line">        url = String.format(GET_INFO_URL, accessToken, openId);</span><br><span class="line">        Map&lt;String, Object&gt; infoMap = HttpUtils.sendWechatGet(url, HashMap.class);</span><br><span class="line">        infoMap.put(APIConstant.OPEN_ID, openId);</span><br><span class="line">        infoMap.put(APIConstant.ACCESS_TOKEN, accessToken);</span><br><span class="line">        <span class="keyword">return</span> infoMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**** getter/setter ****/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAppId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> appId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAppId</span><span class="params">(String appId)</span> </span>&#123;</span><br><span class="line">        WechatAuth.appId = appId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAppSecret</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> appSecret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAppSecret</span><span class="params">(String appSecret)</span> </span>&#123;</span><br><span class="line">        WechatAuth.appSecret = appSecret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>sendWechatGet方法参考</strong></p>
+<p>之前测试的时候，RestTemplate调用小程序有个小坑，所以加入了这个Converter，换成自己的http请求方式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">sendWechatGet</span><span class="params">(String url, Class&lt;T&gt; clazz)</span> </span>&#123;</span><br><span class="line">        RestTemplate restTemplate = <span class="keyword">new</span> RestTemplate();</span><br><span class="line">        restTemplate.getMessageConverters().add(<span class="keyword">new</span> WxMappingJackson2HttpMessageConverter()); <span class="comment">// 加这个是因为这边有个坑</span></span><br><span class="line">        <span class="keyword">return</span> restTemplate.getForObject(url, clazz);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>WxMappingJackson2HttpMessageConverter类代码</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 参考https://www.cnblogs.com/eternityz/p/12241211.html</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxMappingJackson2HttpMessageConverter</span> <span class="keyword">extends</span> <span class="title">MappingJackson2HttpMessageConverter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WxMappingJackson2HttpMessageConverter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        List&lt;MediaType&gt; mediaTypes = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        mediaTypes.add(MediaType.TEXT_PLAIN);</span><br><span class="line">        setSupportedMediaTypes(mediaTypes);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，就能获取成功了。</p>
+<h1 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h1><ul>
+<li><p><strong>微信网页授权errcode:48001</strong></p>
+<blockquote>
+<p>出现errcode”:48001,”errmsg”:”api unauthorized, hints: [ req_id: 86klWa06252167 ]，</p>
+</blockquote>
+<p>原因：</p>
+<p>①：你的服务号必须是通过腾讯认证，每年是300元，如果没有认证而导致的错误提示，那就去认证，别往下看了！如果你已认证，本条原因排除。</p>
+<p>②：你是否是<strong>第三方网页授权</strong>，那么你的url地址里面的<code>scope</code>这个参数要写<code>snsapi_userinfo</code>,否则会报这个错！原因如下：</p>
+<p>snssapi_base静默授权，只能获取openid，获取不了用户其他信息。而snsapi_userinfo需要用户手动同意，才可以获取用户的信息。</p>
+</li>
+<li><p><strong>获取不到unionId</strong></p>
+<p>根据文档中的说明，绑定一下开放平台就行了。<a href="https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html">文档地址</a></p>
+</li>
+</ul>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125164536855.png" alt="image-20201125164536855" style="zoom: 50%;" />
+
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125164602381.png" alt="image-20201125164602381" style="zoom:50%;" />
+
+]]></content>
+      <categories>
+        <category>微信</category>
+      </categories>
+      <tags>
+        <tag>微信</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/posts/0.html</url>
+    <content><![CDATA[<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201124140928472.png" alt="image-20201124140928472" style="zoom:50%;" />]]></content>
+  </entry>
+  <entry>
     <title>01.设计模式概念及工厂模式</title>
     <url>/posts/bcfa4501.html</url>
     <content><![CDATA[<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="软件设计原则"><a href="#软件设计原则" class="headerlink" title="软件设计原则"></a>软件设计原则</h3><table>
@@ -2126,91 +2211,6 @@
       </tags>
   </entry>
   <entry>
-    <title>springboot对接微信公众号授权登录接口</title>
-    <url>/posts/a74cd567.html</url>
-    <content><![CDATA[<h1 id="获取测试账号"><a href="#获取测试账号" class="headerlink" title="获取测试账号"></a>获取测试账号</h1><p>以下引用自微信开发者文档，有账号的可以跳过</p>
-<blockquote>
-<p>由于用户体验和安全性方面的考虑，微信公众号的注册有一定门槛，某些高级接口的权限需要微信认证后才可以获取。</p>
-<p>所以，为了帮助开发者快速了解和上手微信公众号开发，熟悉各个接口的调用，我们推出了微信公众帐号测试号，通过手机微信扫描二维码即可获得测试号。</p>
-</blockquote>
-<h2 id="申请测试账号"><a href="#申请测试账号" class="headerlink" title="申请测试账号"></a>申请测试账号</h2><p>申请很简单，点击下面的链接，微信登录，填写信息即可申请成功。</p>
-<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login">进入微信公众帐号测试号申请系统</a></p>
-<p>申请完以后就能看到appId和appsecret了</p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125134549671.png" alt="image-20201125134549671" style="zoom: 33%;" />
-
-<h2 id="测试账号配置"><a href="#测试账号配置" class="headerlink" title="测试账号配置"></a>测试账号配置</h2><p><strong>1. 首先我们在刚刚的页面，往下翻，找到这个修改入口</strong></p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/64d61b8303344ac298e5956eee139ed3.png" alt="64d61b8303344ac298e5956eee139ed3.png" style="zoom:33%;" />
-
-<p><strong>2. 在弹出的窗口中配置域名</strong></p>
-<p>这边填写域名就行，但是注意这个域名一定要公网能访问到</p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125135147371.png" alt="image-20201125135147371" style="zoom:33%;" />
-
-<p><strong>3. 填写js安全域名</strong></p>
-<p>​    这个地址和上一步一样就行，区别就是上一步不需要加https，这一步需要</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2ac3b922f8aa41a69c71237c4e9fb9b7.png" alt="2ac3b922f8aa41a69c71237c4e9fb9b7.png"></p>
-<p><strong>4. 配置接口</strong></p>
-<p>​    这个比较简单，主要是为了让这边访问一下，不然就会失败。参考代码如下：</p>
-<p><strong>controller</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/test&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        Enumeration pNames = request.getParameterNames();</span><br><span class="line">        <span class="keyword">while</span> (pNames.hasMoreElements()) &#123;</span><br><span class="line">            String name = (String) pNames.nextElement();</span><br><span class="line">            String value = request.getParameter(name);</span><br><span class="line">            String log = <span class="string">&quot;name =&quot;</span> + name + <span class="string">&quot; value =&quot;</span> + value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String signature = request.getParameter(<span class="string">&quot;signature&quot;</span>);<span class="comment">/// 微信加密签名</span></span><br><span class="line">        String timestamp = request.getParameter(<span class="string">&quot;timestamp&quot;</span>);<span class="comment">/// 时间戳</span></span><br><span class="line">        String nonce = request.getParameter(<span class="string">&quot;nonce&quot;</span>); <span class="comment">/// 随机数</span></span><br><span class="line">        String echostr = request.getParameter(<span class="string">&quot;echostr&quot;</span>); <span class="comment">// 随机字符串</span></span><br><span class="line">        PrintWriter out = response.getWriter();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (SignUtil.checkSignature(signature, timestamp, nonce)) &#123;</span><br><span class="line">            out.print(echostr);</span><br><span class="line">        &#125;</span><br><span class="line">        out.close();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>SignUtil</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SignUtil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String token = <span class="string">&quot;weixin&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 校验签名</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">checkSignature</span><span class="params">(String signature, String timestamp, String nonce)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;signature:&quot;</span> + signature + <span class="string">&quot;timestamp:&quot;</span> + timestamp + <span class="string">&quot;nonc:&quot;</span> + nonce);</span><br><span class="line">        String[] arr = <span class="keyword">new</span> String[]&#123;token, timestamp, nonce&#125;;</span><br><span class="line">        <span class="comment">// 将token、timestamp、nonce三个参数进行字典序排序</span></span><br><span class="line">        Arrays.sort(arr);</span><br><span class="line">        StringBuilder content = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            content.append(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        MessageDigest md = <span class="keyword">null</span>;</span><br><span class="line">        String tmpStr = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            md = MessageDigest.getInstance(<span class="string">&quot;SHA-1&quot;</span>);</span><br><span class="line">        <span class="comment">// 将三个参数字符串拼接成一个字符串进行sha1加密</span></span><br><span class="line">            <span class="keyword">byte</span>[] digest = md.digest(content.toString().getBytes());</span><br><span class="line">            tmpStr = byteToStr(digest);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        content = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">// 将sha1加密后的字符串可与signature对比，标识该请求来源于微信</span></span><br><span class="line">        System.out.println(tmpStr.equals(signature.toUpperCase()));</span><br><span class="line">        <span class="keyword">return</span> tmpStr != <span class="keyword">null</span> ? tmpStr.equals(signature.toUpperCase()) : <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将字节数组转换为十六进制字符串</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> byteArray</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">byteToStr</span><span class="params">(<span class="keyword">byte</span>[] byteArray)</span> </span>&#123;</span><br><span class="line">        String strDigest = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; byteArray.length; i++) &#123;</span><br><span class="line">            strDigest += byteToHexStr(byteArray[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> strDigest;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将字节转换为十六进制字符串</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> mByte</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">byteToHexStr</span><span class="params">(<span class="keyword">byte</span> mByte)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">char</span>[] Digit = &#123;<span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;E&#x27;</span>, <span class="string">&#x27;F&#x27;</span>&#125;;</span><br><span class="line">        <span class="keyword">char</span>[] tempArr = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">2</span>];</span><br><span class="line">        tempArr[<span class="number">0</span>] = Digit[(mByte &gt;&gt;&gt; <span class="number">4</span>) &amp; <span class="number">0X0F</span>];</span><br><span class="line">        tempArr[<span class="number">1</span>] = Digit[mByte &amp; <span class="number">0X0F</span>];</span><br><span class="line"></span><br><span class="line">        String s = <span class="keyword">new</span> String(tempArr);</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>配置截图</strong></p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125140514288.png" alt="image-20201125140514288" style="zoom: 33%;" />
-
-<p>至此，配置完毕。</p>
-<h2 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h2><p><strong>注：这里必须先关注测试账号，不然无法授权成功</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125140737132.png" alt="image-20201125140737132"></p>
-<h2 id="获取code"><a href="#获取code" class="headerlink" title="获取code"></a>获取code</h2><p>用微信浏览器打开如下地址：</p>
-<p><a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=appId&amp;redirect_uri=redirectUri&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=STATE#wechat_redirect">https://open.weixin.qq.com/connect/oauth2/authorize?appid=appId&amp;redirect_uri=redirectUri&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=STATE#wechat_redirect</a> </p>
-<p><strong>注：将链接中的appId和redirectUri换成自己的</strong></p>
-<h2 id="获取AccessToken及用户信息相关代码参考"><a href="#获取AccessToken及用户信息相关代码参考" class="headerlink" title="获取AccessToken及用户信息相关代码参考"></a>获取AccessToken及用户信息相关代码参考</h2><p><strong>yml</strong></p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">auth:</span></span><br><span class="line">  <span class="attr">wechat:</span></span><br><span class="line">    <span class="attr">accounts:</span></span><br><span class="line">      <span class="attr">appId:</span> <span class="string">xxxxxxxx</span>		<span class="comment"># 换成自己的测试账号</span></span><br><span class="line">      <span class="attr">appSecret:</span> <span class="string">xxxxxx</span> <span class="comment"># 换成自己的测试账号</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>WechatAuth关键代码</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;auth.wechat.accounts&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WechatAuth</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String appId;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String appSecret;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取openId</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String GET_ACCESS_TOKEN_URL = <span class="string">&quot;https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&amp;secret=%s&amp;code=%s&amp;grant_type=authorization_code&quot;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取openId</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String GET_INFO_URL = <span class="string">&quot;https://api.weixin.qq.com/sns/userinfo?access_token=%s&amp;openid=%s&amp;lang=zh_CN&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取openId</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> code</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map <span class="title">getInfoByCode</span><span class="params">(String code)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 通过code换取网页授权access_token</span></span><br><span class="line">        String url = String.format(GET_ACCESS_TOKEN_URL, appId, appSecret, code);</span><br><span class="line">        JSONObject jsonObject = HttpUtils.sendWechatGet(url, JSONObject.class);</span><br><span class="line">        String openId = jsonObject.getString(APIConstant.OPEN_ID);</span><br><span class="line">        String accessToken = jsonObject.getString(APIConstant.ACCESS_TOKEN);</span><br><span class="line">        System.out.println(<span class="string">&quot;access_Token&quot;</span> + accessToken + <span class="string">&quot; opeId:&quot;</span> + openId);</span><br><span class="line">        <span class="comment">// 拉取用户信息(需scope为 snsapi_userinfo)</span></span><br><span class="line">        url = String.format(GET_INFO_URL, accessToken, openId);</span><br><span class="line">        Map&lt;String, Object&gt; infoMap = HttpUtils.sendWechatGet(url, HashMap.class);</span><br><span class="line">        infoMap.put(APIConstant.OPEN_ID, openId);</span><br><span class="line">        infoMap.put(APIConstant.ACCESS_TOKEN, accessToken);</span><br><span class="line">        <span class="keyword">return</span> infoMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**** getter/setter ****/</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAppId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> appId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAppId</span><span class="params">(String appId)</span> </span>&#123;</span><br><span class="line">        WechatAuth.appId = appId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAppSecret</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> appSecret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAppSecret</span><span class="params">(String appSecret)</span> </span>&#123;</span><br><span class="line">        WechatAuth.appSecret = appSecret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>sendWechatGet方法参考</strong></p>
-<p>之前测试的时候，RestTemplate调用小程序有个小坑，所以加入了这个Converter，换成自己的http请求方式</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">sendWechatGet</span><span class="params">(String url, Class&lt;T&gt; clazz)</span> </span>&#123;</span><br><span class="line">        RestTemplate restTemplate = <span class="keyword">new</span> RestTemplate();</span><br><span class="line">        restTemplate.getMessageConverters().add(<span class="keyword">new</span> WxMappingJackson2HttpMessageConverter()); <span class="comment">// 加这个是因为这边有个坑</span></span><br><span class="line">        <span class="keyword">return</span> restTemplate.getForObject(url, clazz);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>WxMappingJackson2HttpMessageConverter类代码</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 参考https://www.cnblogs.com/eternityz/p/12241211.html</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxMappingJackson2HttpMessageConverter</span> <span class="keyword">extends</span> <span class="title">MappingJackson2HttpMessageConverter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WxMappingJackson2HttpMessageConverter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        List&lt;MediaType&gt; mediaTypes = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        mediaTypes.add(MediaType.TEXT_PLAIN);</span><br><span class="line">        setSupportedMediaTypes(mediaTypes);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>至此，就能获取成功了。</p>
-<h1 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h1><ul>
-<li><p><strong>微信网页授权errcode:48001</strong></p>
-<blockquote>
-<p>出现errcode”:48001,”errmsg”:”api unauthorized, hints: [ req_id: 86klWa06252167 ]，</p>
-</blockquote>
-<p>原因：</p>
-<p>①：你的服务号必须是通过腾讯认证，每年是300元，如果没有认证而导致的错误提示，那就去认证，别往下看了！如果你已认证，本条原因排除。</p>
-<p>②：你是否是<strong>第三方网页授权</strong>，那么你的url地址里面的<code>scope</code>这个参数要写<code>snsapi_userinfo</code>,否则会报这个错！原因如下：</p>
-<p>snssapi_base静默授权，只能获取openid，获取不了用户其他信息。而snsapi_userinfo需要用户手动同意，才可以获取用户的信息。</p>
-</li>
-<li><p><strong>获取不到unionId</strong></p>
-<p>根据文档中的说明，绑定一下开放平台就行了。<a href="https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html">文档地址</a></p>
-</li>
-</ul>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125164536855.png" alt="image-20201125164536855" style="zoom: 50%;" />
-
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201125164602381.png" alt="image-20201125164602381" style="zoom:50%;" />
-
-]]></content>
-      <categories>
-        <category>微信</category>
-      </categories>
-      <tags>
-        <tag>微信</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/posts/0.html</url>
-    <content><![CDATA[<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201124140928472.png" alt="image-20201124140928472" style="zoom:50%;" />]]></content>
-  </entry>
-  <entry>
     <title>01.集合常见面试题</title>
     <url>/posts/712091b3.html</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201123135855532.png" alt="image-20201123135855532"></p>
@@ -2438,6 +2438,194 @@
       </categories>
       <tags>
         <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL索引</title>
+    <url>/posts/c468c6f9.html</url>
+    <content><![CDATA[<blockquote>
+<p>MySQL索引使用的数据结构主要有<strong>BTree</strong>索引和哈希索引 。对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快;其余大部分场景，建议选择BTree索引。</p>
+</blockquote>
+<h1 id="MySQL索引介绍"><a href="#MySQL索引介绍" class="headerlink" title="MySQL索引介绍"></a>MySQL索引介绍</h1><h2 id="底层结构"><a href="#底层结构" class="headerlink" title="底层结构"></a>底层结构</h2><h3 id="MySQL有哪些索引结构？"><a href="#MySQL有哪些索引结构？" class="headerlink" title="MySQL有哪些索引结构？"></a>MySQL有哪些索引结构？</h3><p>​    hash、BTree</p>
+<h3 id="为什么哈希表、二叉树、红黑树、B树、B-树都可以优化查询，为何Mysql独独喜欢B-树？"><a href="#为什么哈希表、二叉树、红黑树、B树、B-树都可以优化查询，为何Mysql独独喜欢B-树？" class="headerlink" title="为什么哈希表、二叉树、红黑树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？"></a>为什么哈希表、二叉树、红黑树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？</h3><ul>
+<li><p><strong>为什么不选哈希表呢？</strong></p>
+<ul>
+<li>哈希索引没办法利用索引完成排序。</li>
+<li>不能进行多字段查询。</li>
+<li>在有大量重复键值的情况下，哈希索引的效率也是极低的（出现哈希碰撞问题）。</li>
+<li>hash因为散列计算之后是乱序的，所以不支持范围查询。</li>
+</ul>
+</li>
+<li><p><strong>为什么不用二叉树</strong></p>
+<p>二叉树在的结构导致他在对<strong>递增</strong>数据索引时让树的高度变得很长，就类似于链表，所以不适合。</p>
+</li>
+<li><p><strong>为什么不用平衡二叉树或者红黑树</strong></p>
+<p>平衡二叉树或红黑树与普通二叉树不同的是当一棵树的左右子树高度差 &gt; 1 时，它会进行<strong>自旋</strong>操作，保持树的平衡。它支持<strong>精确查找和范围查找（回旋查找）</strong>，但是主要原因还是因为<strong>树的深度依旧很大（不可控）</strong>，查找时IO操作可能会很多，所以不考虑。</p>
+</li>
+<li><p><strong>为什么不用B树</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L09vb29fbXVtdXhp,size_16,color_FFFFFF,t_70-20201113140903381.png" alt="在这里插入图片描述"></p>
+<p>虽然有优化，即一个节点上能存储更多的数据，但是B数的每个节点上还附带了数据信息，而一个大节点所占用的空间是一定的，所以当数据信息比较大时，树的高度依旧不是很可控，相对B+树来说，<strong>IO操作依旧比B+多，而且范围查找也需要回旋查找，查询效率不是最优。</strong></p>
+</li>
+<li><p><strong>为什么用B+树</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L09vb29fbXVtdXhp,size_16,color_FFFFFF,t_70-20201113103933243.png" alt="在这里插入图片描述"></p>
+<p>1、 <strong>B+树的磁盘读写代价更低</strong>：B+树的内部节点并没有指向关键字具体信息的指针，因此其内部节点相对B树更小，如果把所有同一内部节点的关键字存放在同一盘块中，那么盘块所能容纳的关键字数量也越多，一次性读入内存的需要查找的关键字也就越多，相对IO读写次数就降低了。</p>
+<p>2、<strong>B+树的查询效率更加稳定</strong>：由于<strong>非终结点并不存储数据信息</strong>，而<strong>只是叶子结点中关键字的索引</strong>。所以<strong>任何关键字的查找必须走一条从根结点到叶子结点的路</strong>。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当。</p>
+<p>3、<strong>B+树更便于遍历</strong>：由于B+树的数据都存储在叶子结点中，分支结点均为索引，方便扫库，只需要扫一遍叶子结点即可，但是B树因为其分支结点同样存储着数据，我们要找到具体的数据，需要进行一次中序遍历按序来扫，所以B+树更加适合在区间查询的情况，所以通常B+树用于数据库索引。</p>
+<p>4、<strong>B+树更适合基于范围的查询</strong>：B树在提高了IO性能的同时并没有解决元素遍历效率低下的问题，正是为了解决这个问题，B+树应运而生。B+树只需要去遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作或者说效率太低。</p>
+</li>
+</ul>
+<h3 id="B-树中一个节点到底多大合适？"><a href="#B-树中一个节点到底多大合适？" class="headerlink" title="B+树中一个节点到底多大合适？"></a>B+树中一个节点到底多大合适？</h3><blockquote>
+<p><strong>B+树中一个节点为一页或页的倍数最为合适</strong></p>
+</blockquote>
+<p>因为如果一个节点的大小小于1页，那么读取这个节点的时候其实也会读出1页，造成资源的浪费。如果一个节点的大小大于1页，比如1.2页，那么读取这个节点的时候会读出2页，也会造成资源的浪费。所以为了不造成浪费，所以最后把一个节点的大小控制在1页、2页、3页、4页等倍数页大小最为合适。</p>
+<h2 id="如何创建索引"><a href="#如何创建索引" class="headerlink" title="如何创建索引"></a>如何创建索引</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- 方式1 CREATE INDEX 索引名称 on 表名(字段名,字段名,.....);</span><br><span class="line">CREATE INDEX idx_name_phone on user_innodb(name,phone);</span><br><span class="line">-- 方式2 alter table 表名 add index 索引名称(字段名,字段名,.....)</span><br><span class="line">alter table user_innodb add index index_name(name,phone)</span><br></pre></td></tr></table></figure>
+
+<h2 id="什么是回表，如何避免？"><a href="#什么是回表，如何避免？" class="headerlink" title="什么是回表，如何避免？"></a>什么是回表，如何避免？</h2><blockquote>
+<p>说到回表，那就有必要先了解一下聚簇索引和非聚簇索引了</p>
+</blockquote>
+<h3 id="聚簇索引和非聚簇索引"><a href="#聚簇索引和非聚簇索引" class="headerlink" title="聚簇索引和非聚簇索引"></a>聚簇索引和非聚簇索引</h3><ul>
+<li><p><strong>聚簇索引</strong></p>
+<p>　　<strong>聚簇索引就是按照每张表的主键构造一棵B+树，同时叶子节点中存放的就是整张表的行记录数据</strong>，也将聚集索引的叶子节点称为数据页。这个特性决定了索引组织表中数据也是索引的一部分，<strong>每张表只能拥有一个聚簇索引。</strong></p>
+<p>  　　Innodb通过主键聚集数据，如果没有定义主键，innodb会选择非空的唯一索引代替。如果没有这样的索引，innodb会隐式的定义一个主键来作为聚簇索引。</p>
+<p><strong>聚簇索引的优缺点</strong></p>
+<p>　　<strong>优点：</strong></p>
+<p>　　　　1.<strong>数据访问更快</strong>，因为聚簇索引将索引和数据保存在同一个B+树中，因此从聚簇索引中获取数据比非聚簇索引更快</p>
+<p>　　　　2.聚簇索引对于主键的排序查找和范围查找速度非常快<br>　　<strong>缺点：</strong></p>
+<p>　　　　1.插入速度严重依赖于插入顺序，按照主键的<strong>顺序插入</strong>是最快的方式，否则将会出现页分裂，严重影响性能。因此，对于InnoDB表，我们一般都会定义一个<strong>自增的ID列为主键</strong><br>　　　　2.<strong>更新主键的代价很高</strong>，因为将会导致被更新的行移动。因此，对于InnoDB表，我们一般定义主键为不可更新。<br>　　　　3.二级索引访问需要两次索引查找，第一次找到主键值，第二次根据主键值找到行数据。</p>
+</li>
+<li><p><strong>非聚簇索引</strong></p>
+<p>MySQL innodb的主键索引是簇集索引，也就是索引的叶子节点存的是整个单条记录的所有字段值，所以通俗点讲，<strong>不是主键索引的就是非簇集索引，非簇集索引的叶子节点存的是主键字段的值。</strong></p>
+</li>
+</ul>
+<h3 id="什么是回表？"><a href="#什么是回表？" class="headerlink" title="什么是回表？"></a>什么是回表？</h3><blockquote>
+<p>回表大概就是我们有个主键为Id的索引，和一个普通a字段的索引。执行的流程是先查询到a索引上的数据，然后找到他的id，最后利用id去主键索引，找到id对应的值。所以回到主键索引树搜索的过程，就是<strong>回表</strong>。</p>
+</blockquote>
+<p>例如：表t_test有id,a,b三个字段，其中id是主键，a上建了索引，然后编写sql语句</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * FROM t_test WHERE id&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<p>这样不会产生回表，因为所有的数据在a的索引树中均能找到</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * FROM t_test WHERE a&#x3D;&#39;aaa&#39;</span><br></pre></td></tr></table></figure>
+
+<p>这样就会产生回表，因为where条件是a字段，那么会去a的索引树里查找数据，但a的索引里面只有id，a两个字段的值，没有b，那么这个查询为了取到b字段，就要取出主键id的值，然后去id的索引树去找b字段的数据。查了两个索引树，这就叫回表。</p>
+<ul>
+<li><p>如何避免回表？</p>
+<ul>
+<li><p>用主键搜索</p>
+</li>
+<li><p>只查询被联合索引覆盖的字段</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="最左前缀"><a href="#最左前缀" class="headerlink" title="最左前缀"></a>最左前缀</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ul>
+<li>索引可以简单如一个列 (a)，也可以复杂如多个列 (a,b,c,d)，即联合索引。</li>
+<li>如果是联合索引，那么key也由多个列组成，同时，索引只能用于查找key是否<strong>存在（相等）</strong>，遇到范围查询 (&gt;、&lt;、between、like左匹配)等就<strong>不能进一步匹配</strong>了，后续退化为线性查找。</li>
+<li>因此，<strong>列的排列顺序决定了可命中索引的列数</strong>。</li>
+</ul>
+<p><strong>例子：</strong></p>
+<ul>
+<li>如有索引 (a,b,c,d)，查询条件 a=1 and b=2 and c&gt;3 and d=4，则会在每个节点依次命中a、b、c，无法命中d。(c已经是范围查询了，d肯定是排不了序了)</li>
+</ul>
+<h3 id="为什么不符合最左前缀的索引会失效？"><a href="#为什么不符合最左前缀的索引会失效？" class="headerlink" title="为什么不符合最左前缀的索引会失效？"></a>为什么不符合最左前缀的索引会失效？</h3><p>首先我们看看联合索引的结构</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113114147955.png" alt="image-20201113114147955"></p>
+<p>上图我们建立了(a, b)联合索引在 B+Tree 中是复合的数据结构，它是按照从左到右的顺序来建立搜索树的 （a 在左边，b 在右边）。 从这张图可以看出来，<strong>a 是有序的，b 是无序的。且当 a 相等的时候，b才是有序的。</strong> </p>
+<p>这个时候我们使用 where a ‘123’ and b = ‘456’去查询数据的时候，B+Tree 会优先比较 a 来确定下一步应该搜索的方向，往左还是往右。如果 a 相同的时候再比较 b。但是如果查询条件没有 a，就不知道第一步应该查哪个点，因为建立搜索树的时候 a 是第一个比较因子，所以用不到索引。</p>
+<h2 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h2><p>当字段值比较长的时候，建立索引会消耗很多的空间，搜索起来也会很慢。我们可以通过截取字段的前面一部分内容建立索引，这个就叫前缀索引。 </p>
+<p>创建一张商户表，因为地址字段比较长，在地址字段上建立前缀索引： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create table shop(address varchar(120) not null); </span><br><span class="line">alter table shop add key (address(12)); </span><br></pre></td></tr></table></figure>
+
+<p>问题是，截取多少呢？截取得多了，达不到节省索引存储空间的目的，截取得少了，重复内容太多，字段的散列度（选择性）会降低。怎么计算不同的长度的选择性呢？ </p>
+<p>先看一下字段在全部数据中的选择度： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select count(distinct address) &#x2F; count(*) from shop; </span><br></pre></td></tr></table></figure>
+
+<p>通过不同长度去计算，与全表的选择性对比： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 10 ))&#x2F; count(*) AS sub10,</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 11 ))&#x2F; count(*) AS sub11,</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 12 ))&#x2F; count(*) AS sub12,</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 13 ))&#x2F; count(*) AS sub13 </span><br><span class="line">FROM</span><br><span class="line">	shop;</span><br></pre></td></tr></table></figure>
+
+<h2 id="索引添加下推（ICP）"><a href="#索引添加下推（ICP）" class="headerlink" title="索引添加下推（ICP）"></a>索引添加下推（ICP）</h2><p>再来看这么一张表，在 last_name 和 first_name 上面创建联合索引。 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DROP TABLE  IF EXISTS employees;</span><br><span class="line"></span><br><span class="line">CREATE TABLE &#96;employees&#96; (</span><br><span class="line">	&#96;emp_no&#96; int(11) NOT NULL,</span><br><span class="line">	&#96;birth_date&#96; date NULL,</span><br><span class="line">	&#96;first_name&#96; varchar(14) NOT NULL,</span><br><span class="line">	&#96;last_name&#96; varchar(16) NOT NULL,</span><br><span class="line">	&#96;gender&#96; enum(&#39;M&#39;, &#39;F&#39;) NOT NULL,</span><br><span class="line">	&#96;hire_date&#96; date NULL,</span><br><span class="line">	PRIMARY KEY (&#96;emp_no&#96;)</span><br><span class="line">) ENGINE &#x3D; InnoDB CHARSET &#x3D; latin1;</span><br><span class="line"></span><br><span class="line">ALTER TABLE employees ADD INDEX idx_lastname_firstname (last_name, first_name);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;) VALUES (1, NULL, &#39;698&#39;, &#39;liu&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (2, NULL, &#39;d99&#39;, &#39;zheng&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (3, NULL, &#39;e08&#39;, &#39;huang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (4, NULL, &#39;59d&#39;, &#39;lu&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (5, NULL, &#39;0dc&#39;, &#39;yu&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (6, NULL, &#39;989&#39;, &#39;wang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (7, NULL, &#39;e38&#39;, &#39;wang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (8, NULL, &#39;0zi&#39;, &#39;wang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (9, NULL, &#39;dc9&#39;, &#39;xie&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (10, NULL, &#39;5ba&#39;, &#39;zhou&#39;, &#39;F&#39;, NULL);</span><br></pre></td></tr></table></figure>
+
+<p><strong>关闭 ICP：(测试用)</strong> </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set optimizer_switch&#x3D;&#39;index_condition_pushdown&#x3D;off&#39;; </span><br></pre></td></tr></table></figure>
+
+<p><strong>查看参数：</strong> </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show variables like &#39;optimizer_switch&#39;; </span><br></pre></td></tr></table></figure>
+
+<p>现在我们要查询所有姓 wang，并且名字最后一个字是 zi 的员工，比如王胖子，王瘦子。查询的 SQL： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from employees where last_name&#x3D;&#39;wang&#39; and first_name LIKE &#39;%zi&#39; ; </span><br></pre></td></tr></table></figure>
+
+<p>这条 SQL 有两种执行方式： </p>
+<p>1、根据联合索引查出所有姓 wang 的二级索引数据，然后回表，到主键索引上查询 全部符合条件的数据（3 条数据）。然后返回给 Server 层，在 Server 层过滤出名字以 zi 结尾的员工。 </p>
+<p>2、根据联合索引查出所有姓 wang 的二级索引数据（3 个索引），然后从二级索引中筛选出 first_name 以 zi 结尾的索引（1 个索引），然后再回表，到主键索引上查询全部符合条件的数据（1 条数据），返回给 Server 层。 </p>
+<p><strong>很明显，第二种方式到主键索引上查询的数据更少。</strong> </p>
+<p>注意，<strong>索引的比较是在存储引擎进行的，数据记录的比较，是在 Server 层进行的。</strong>而当 first_name 的条件不能用于索引过滤时，Server 层不会把 first_name 的条件传递 给存储引擎，所以读取了两条没有必要的记录。 这时候，如果满足 last_name=’wang’的记录有 100000 条，就会有 99999 条没有必要读取的记录。 </p>
+<p><strong>测试：</strong></p>
+<p><strong>执行分析SQL：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">explain select * from employees where last_name&#x3D;&#39;wang&#39; and first_name LIKE &#39;%zi&#39; ;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113150329640.png" alt="image-20201113150329640"></p>
+<p>Using Where 代表从存储引擎取回的数据不全部满足条件，需要在 Server 层过滤。 </p>
+<p>先用 last_name 条件进行索引范围扫描，读取数据表记录，然后进行比较，检查是否符合 first_name LIKE ‘%zi’ 的条件。此时 3 条中只有 1 条符合条件。 </p>
+<p><strong>开启 ICP：</strong> </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set optimizer_switch&#x3D;&#39;index_condition_pushdown&#x3D;on&#39;; </span><br></pre></td></tr></table></figure>
+
+<p><strong>再次执行上面的SQL分析</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113150541648.png" alt="image-20201113150541648"></p>
+<p>把<code>first_name LIKE &#39;%zi&#39;</code>下推给存储引擎后，只会从数据表读取所需的 1 条记录。 </p>
+<p><strong>注：</strong>索引条件下推（Index Condition Pushdown）是5.6 以后完善的功能。只适用于<strong>二级索引</strong>。ICP 的目标是减少访问表的完整行的读数量从而减少 I/O 操作。 </p>
+<h2 id="MySQL-数据存储文件及索引数据结构"><a href="#MySQL-数据存储文件及索引数据结构" class="headerlink" title="MySQL 数据存储文件及索引数据结构"></a>MySQL 数据存储文件及索引数据结构</h2><blockquote>
+<p>每个数据库有一个目录，我们新建了一个叫做 db_test 的数据库，那么这里就有一个db_test 的文件夹。 </p>
+<p>这个数据库里面我们又建了 5 张表：archive、innodb、memory、myisam、csv。 我们进入 db_test 的目录，就能发现里面有一些跟我们创建的表名对应的文件。 区别如下：</p>
+<p>每张 InnoDB 的表有两个文件（.frm 和.ibd），MyISAM 的表 有三个文件（.frm、.MYD、.MYI）。</p>
+</blockquote>
+<p>有一个是相同的文件：.frm。 .frm 是 MySQL 里面表结构定义的文件，不管你建表的时候选用任何一个存储引擎都会生成。</p>
+<h3 id="MyISAM（非聚集）"><a href="#MyISAM（非聚集）" class="headerlink" title="MyISAM（非聚集）"></a>MyISAM（非聚集）</h3><p><strong>注：MyISAM索引文件和数据文件是分离的（非聚集）</strong></p>
+<p>在 MyISAM 里面，<strong>除了.frm文件</strong>另外有两个文件： </p>
+<ul>
+<li><p><strong>.MYD 文件：D代表 Data，是 MyISAM 的数据文件，存放数据记录</strong>，比如 archive 表的所有的表数据。 </p>
+</li>
+<li><p><strong>.MYI 文件： I代表 Index，是 MyISAM 的索引文件，存放索引</strong>，比如我们在 id 字段上面创建了一个主键索引，那么主键索引就是在这个索引文件里面。 </p>
+</li>
+</ul>
+<p>也就是说，在 <strong>MyISAM 里面，索引和数据是两个独立的文件</strong>。 那我们怎么根据索引找到数据呢？ MyISAM 的 B+Tree 里面，<strong>叶子节点存储的是数据文件对应的磁盘地址</strong>。所以从<strong>索引文件.MYI 中找到键值后，会到数据文件.MYD 中获取相应的数据记录</strong>。</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140159755.png" alt="image-20201113140159755" style="zoom:50%;" />
+
+<p>这是主键索引，在 MyISAM 里面，辅助索引也在这个.MYI 文件里面。 辅助索引跟主键索引存储和检索数据的方式是没有任何区别的，一样是在索引文件 里面找到磁盘地址，然后到数据文件里面获取数据。 </p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140344683.png" alt="image-20201113140344683" style="zoom:50%;" />
+
+<h3 id="InnoDB-（聚集）"><a href="#InnoDB-（聚集）" class="headerlink" title="InnoDB （聚集）"></a>InnoDB （聚集）</h3><p>InnoDB <strong>除了.frm文件外</strong>只有一个文件（.ibd 文件），这个<strong>文件本身就按按照B+树组织的一个索引结构的文件</strong>，那索引放在哪里呢？ 在 InnoDB 里面，它是以主键为索引来组织数据的存储的，所以索引文件和数据文 件是同一个文件，都在.ibd 文件里面。 在 InnoDB 的<strong>主键索引的叶子节点上，包含了索引对应的完整数据记录</strong>。</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140538497.png" alt="image-20201113140538497" style="zoom:50%;" />
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="为什么InnoDB表必须有主键，开且推存使用整型的目增主键"><a href="#为什么InnoDB表必须有主键，开且推存使用整型的目增主键" class="headerlink" title="为什么InnoDB表必须有主键，开且推存使用整型的目增主键?"></a>为什么InnoDB表必须有主键，开且推存使用整型的目增主键?</h4><h4 id="为什么非主键索引结构叶子节点存储的是主键值-一致性和节省存储空间"><a href="#为什么非主键索引结构叶子节点存储的是主键值-一致性和节省存储空间" class="headerlink" title="为什么非主键索引结构叶子节点存储的是主键值? (一致性和节省存储空间)"></a>为什么非主键索引结构叶子节点存储的是主键值? (一致性和节省存储空间)</h4><h4 id="索引建立注意事项"><a href="#索引建立注意事项" class="headerlink" title="索引建立注意事项"></a>索引建立注意事项</h4><ul>
+<li><p>索引的个数不要过多–浪费空间，更新变慢</p>
+</li>
+<li><p>区分度低的字段，例如性别，不要建索引。 –离散度太低，导致扫描行数过多。 </p>
+</li>
+<li><p>频繁更新的值，不要作为主键或者索引。–页分裂 </p>
+</li>
+<li><p>避免冗余、重复索引</p>
+</li>
+<li><p>联合索引，最左前缀</p>
+</li>
+<li><p>多表join的关联列</p>
+</li>
+<li><p>区分度最高的放在联合索引的最左侧（区分度=列中不同值的数量/列的总行数）</p>
+</li>
+<li><p>尽量把字段长度小的列放在联合索引的最左侧（因为字段长度越小，一页能存储的数据量越大，IO 性能也就越好）</p>
+</li>
+<li><p>使用最频繁的列放到联合索引的左侧（这样可以比较少的建立一些索引）</p>
+</li>
+<li><p>避免数据类型的隐式转换</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select name,phone from customer where id &#x3D; &#39;111&#39;; # 隐式转换会导致索引失效</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>禁止对列进行函数转换和计算</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
@@ -2764,194 +2952,6 @@
 <li>借助其它数据库或搜索工具</li>
 </ul>
 <h4 id="少用or或in"><a href="#少用or或in" class="headerlink" title="少用or或in"></a>少用or或in</h4><p>​        用它查询时，mysql不一定使用索引，mysql内部优化器会根据检索比例、 表大小等多个因素整体评估是否使用索引。</p>
-]]></content>
-      <categories>
-        <category>MySQL</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MySQL索引</title>
-    <url>/posts/c468c6f9.html</url>
-    <content><![CDATA[<blockquote>
-<p>MySQL索引使用的数据结构主要有<strong>BTree</strong>索引和哈希索引 。对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快;其余大部分场景，建议选择BTree索引。</p>
-</blockquote>
-<h1 id="MySQL索引介绍"><a href="#MySQL索引介绍" class="headerlink" title="MySQL索引介绍"></a>MySQL索引介绍</h1><h2 id="底层结构"><a href="#底层结构" class="headerlink" title="底层结构"></a>底层结构</h2><h3 id="MySQL有哪些索引结构？"><a href="#MySQL有哪些索引结构？" class="headerlink" title="MySQL有哪些索引结构？"></a>MySQL有哪些索引结构？</h3><p>​    hash、BTree</p>
-<h3 id="为什么哈希表、二叉树、红黑树、B树、B-树都可以优化查询，为何Mysql独独喜欢B-树？"><a href="#为什么哈希表、二叉树、红黑树、B树、B-树都可以优化查询，为何Mysql独独喜欢B-树？" class="headerlink" title="为什么哈希表、二叉树、红黑树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？"></a>为什么哈希表、二叉树、红黑树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？</h3><ul>
-<li><p><strong>为什么不选哈希表呢？</strong></p>
-<ul>
-<li>哈希索引没办法利用索引完成排序。</li>
-<li>不能进行多字段查询。</li>
-<li>在有大量重复键值的情况下，哈希索引的效率也是极低的（出现哈希碰撞问题）。</li>
-<li>hash因为散列计算之后是乱序的，所以不支持范围查询。</li>
-</ul>
-</li>
-<li><p><strong>为什么不用二叉树</strong></p>
-<p>二叉树在的结构导致他在对<strong>递增</strong>数据索引时让树的高度变得很长，就类似于链表，所以不适合。</p>
-</li>
-<li><p><strong>为什么不用平衡二叉树或者红黑树</strong></p>
-<p>平衡二叉树或红黑树与普通二叉树不同的是当一棵树的左右子树高度差 &gt; 1 时，它会进行<strong>自旋</strong>操作，保持树的平衡。它支持<strong>精确查找和范围查找（回旋查找）</strong>，但是主要原因还是因为<strong>树的深度依旧很大（不可控）</strong>，查找时IO操作可能会很多，所以不考虑。</p>
-</li>
-<li><p><strong>为什么不用B树</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L09vb29fbXVtdXhp,size_16,color_FFFFFF,t_70-20201113140903381.png" alt="在这里插入图片描述"></p>
-<p>虽然有优化，即一个节点上能存储更多的数据，但是B数的每个节点上还附带了数据信息，而一个大节点所占用的空间是一定的，所以当数据信息比较大时，树的高度依旧不是很可控，相对B+树来说，<strong>IO操作依旧比B+多，而且范围查找也需要回旋查找，查询效率不是最优。</strong></p>
-</li>
-<li><p><strong>为什么用B+树</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L09vb29fbXVtdXhp,size_16,color_FFFFFF,t_70-20201113103933243.png" alt="在这里插入图片描述"></p>
-<p>1、 <strong>B+树的磁盘读写代价更低</strong>：B+树的内部节点并没有指向关键字具体信息的指针，因此其内部节点相对B树更小，如果把所有同一内部节点的关键字存放在同一盘块中，那么盘块所能容纳的关键字数量也越多，一次性读入内存的需要查找的关键字也就越多，相对IO读写次数就降低了。</p>
-<p>2、<strong>B+树的查询效率更加稳定</strong>：由于<strong>非终结点并不存储数据信息</strong>，而<strong>只是叶子结点中关键字的索引</strong>。所以<strong>任何关键字的查找必须走一条从根结点到叶子结点的路</strong>。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当。</p>
-<p>3、<strong>B+树更便于遍历</strong>：由于B+树的数据都存储在叶子结点中，分支结点均为索引，方便扫库，只需要扫一遍叶子结点即可，但是B树因为其分支结点同样存储着数据，我们要找到具体的数据，需要进行一次中序遍历按序来扫，所以B+树更加适合在区间查询的情况，所以通常B+树用于数据库索引。</p>
-<p>4、<strong>B+树更适合基于范围的查询</strong>：B树在提高了IO性能的同时并没有解决元素遍历效率低下的问题，正是为了解决这个问题，B+树应运而生。B+树只需要去遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作或者说效率太低。</p>
-</li>
-</ul>
-<h3 id="B-树中一个节点到底多大合适？"><a href="#B-树中一个节点到底多大合适？" class="headerlink" title="B+树中一个节点到底多大合适？"></a>B+树中一个节点到底多大合适？</h3><blockquote>
-<p><strong>B+树中一个节点为一页或页的倍数最为合适</strong></p>
-</blockquote>
-<p>因为如果一个节点的大小小于1页，那么读取这个节点的时候其实也会读出1页，造成资源的浪费。如果一个节点的大小大于1页，比如1.2页，那么读取这个节点的时候会读出2页，也会造成资源的浪费。所以为了不造成浪费，所以最后把一个节点的大小控制在1页、2页、3页、4页等倍数页大小最为合适。</p>
-<h2 id="如何创建索引"><a href="#如何创建索引" class="headerlink" title="如何创建索引"></a>如何创建索引</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- 方式1 CREATE INDEX 索引名称 on 表名(字段名,字段名,.....);</span><br><span class="line">CREATE INDEX idx_name_phone on user_innodb(name,phone);</span><br><span class="line">-- 方式2 alter table 表名 add index 索引名称(字段名,字段名,.....)</span><br><span class="line">alter table user_innodb add index index_name(name,phone)</span><br></pre></td></tr></table></figure>
-
-<h2 id="什么是回表，如何避免？"><a href="#什么是回表，如何避免？" class="headerlink" title="什么是回表，如何避免？"></a>什么是回表，如何避免？</h2><blockquote>
-<p>说到回表，那就有必要先了解一下聚簇索引和非聚簇索引了</p>
-</blockquote>
-<h3 id="聚簇索引和非聚簇索引"><a href="#聚簇索引和非聚簇索引" class="headerlink" title="聚簇索引和非聚簇索引"></a>聚簇索引和非聚簇索引</h3><ul>
-<li><p><strong>聚簇索引</strong></p>
-<p>　　<strong>聚簇索引就是按照每张表的主键构造一棵B+树，同时叶子节点中存放的就是整张表的行记录数据</strong>，也将聚集索引的叶子节点称为数据页。这个特性决定了索引组织表中数据也是索引的一部分，<strong>每张表只能拥有一个聚簇索引。</strong></p>
-<p>  　　Innodb通过主键聚集数据，如果没有定义主键，innodb会选择非空的唯一索引代替。如果没有这样的索引，innodb会隐式的定义一个主键来作为聚簇索引。</p>
-<p><strong>聚簇索引的优缺点</strong></p>
-<p>　　<strong>优点：</strong></p>
-<p>　　　　1.<strong>数据访问更快</strong>，因为聚簇索引将索引和数据保存在同一个B+树中，因此从聚簇索引中获取数据比非聚簇索引更快</p>
-<p>　　　　2.聚簇索引对于主键的排序查找和范围查找速度非常快<br>　　<strong>缺点：</strong></p>
-<p>　　　　1.插入速度严重依赖于插入顺序，按照主键的<strong>顺序插入</strong>是最快的方式，否则将会出现页分裂，严重影响性能。因此，对于InnoDB表，我们一般都会定义一个<strong>自增的ID列为主键</strong><br>　　　　2.<strong>更新主键的代价很高</strong>，因为将会导致被更新的行移动。因此，对于InnoDB表，我们一般定义主键为不可更新。<br>　　　　3.二级索引访问需要两次索引查找，第一次找到主键值，第二次根据主键值找到行数据。</p>
-</li>
-<li><p><strong>非聚簇索引</strong></p>
-<p>MySQL innodb的主键索引是簇集索引，也就是索引的叶子节点存的是整个单条记录的所有字段值，所以通俗点讲，<strong>不是主键索引的就是非簇集索引，非簇集索引的叶子节点存的是主键字段的值。</strong></p>
-</li>
-</ul>
-<h3 id="什么是回表？"><a href="#什么是回表？" class="headerlink" title="什么是回表？"></a>什么是回表？</h3><blockquote>
-<p>回表大概就是我们有个主键为Id的索引，和一个普通a字段的索引。执行的流程是先查询到a索引上的数据，然后找到他的id，最后利用id去主键索引，找到id对应的值。所以回到主键索引树搜索的过程，就是<strong>回表</strong>。</p>
-</blockquote>
-<p>例如：表t_test有id,a,b三个字段，其中id是主键，a上建了索引，然后编写sql语句</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * FROM t_test WHERE id&#x3D;1</span><br></pre></td></tr></table></figure>
-
-<p>这样不会产生回表，因为所有的数据在a的索引树中均能找到</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * FROM t_test WHERE a&#x3D;&#39;aaa&#39;</span><br></pre></td></tr></table></figure>
-
-<p>这样就会产生回表，因为where条件是a字段，那么会去a的索引树里查找数据，但a的索引里面只有id，a两个字段的值，没有b，那么这个查询为了取到b字段，就要取出主键id的值，然后去id的索引树去找b字段的数据。查了两个索引树，这就叫回表。</p>
-<ul>
-<li><p>如何避免回表？</p>
-<ul>
-<li><p>用主键搜索</p>
-</li>
-<li><p>只查询被联合索引覆盖的字段</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="最左前缀"><a href="#最左前缀" class="headerlink" title="最左前缀"></a>最左前缀</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ul>
-<li>索引可以简单如一个列 (a)，也可以复杂如多个列 (a,b,c,d)，即联合索引。</li>
-<li>如果是联合索引，那么key也由多个列组成，同时，索引只能用于查找key是否<strong>存在（相等）</strong>，遇到范围查询 (&gt;、&lt;、between、like左匹配)等就<strong>不能进一步匹配</strong>了，后续退化为线性查找。</li>
-<li>因此，<strong>列的排列顺序决定了可命中索引的列数</strong>。</li>
-</ul>
-<p><strong>例子：</strong></p>
-<ul>
-<li>如有索引 (a,b,c,d)，查询条件 a=1 and b=2 and c&gt;3 and d=4，则会在每个节点依次命中a、b、c，无法命中d。(c已经是范围查询了，d肯定是排不了序了)</li>
-</ul>
-<h3 id="为什么不符合最左前缀的索引会失效？"><a href="#为什么不符合最左前缀的索引会失效？" class="headerlink" title="为什么不符合最左前缀的索引会失效？"></a>为什么不符合最左前缀的索引会失效？</h3><p>首先我们看看联合索引的结构</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113114147955.png" alt="image-20201113114147955"></p>
-<p>上图我们建立了(a, b)联合索引在 B+Tree 中是复合的数据结构，它是按照从左到右的顺序来建立搜索树的 （a 在左边，b 在右边）。 从这张图可以看出来，<strong>a 是有序的，b 是无序的。且当 a 相等的时候，b才是有序的。</strong> </p>
-<p>这个时候我们使用 where a ‘123’ and b = ‘456’去查询数据的时候，B+Tree 会优先比较 a 来确定下一步应该搜索的方向，往左还是往右。如果 a 相同的时候再比较 b。但是如果查询条件没有 a，就不知道第一步应该查哪个点，因为建立搜索树的时候 a 是第一个比较因子，所以用不到索引。</p>
-<h2 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h2><p>当字段值比较长的时候，建立索引会消耗很多的空间，搜索起来也会很慢。我们可以通过截取字段的前面一部分内容建立索引，这个就叫前缀索引。 </p>
-<p>创建一张商户表，因为地址字段比较长，在地址字段上建立前缀索引： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create table shop(address varchar(120) not null); </span><br><span class="line">alter table shop add key (address(12)); </span><br></pre></td></tr></table></figure>
-
-<p>问题是，截取多少呢？截取得多了，达不到节省索引存储空间的目的，截取得少了，重复内容太多，字段的散列度（选择性）会降低。怎么计算不同的长度的选择性呢？ </p>
-<p>先看一下字段在全部数据中的选择度： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select count(distinct address) &#x2F; count(*) from shop; </span><br></pre></td></tr></table></figure>
-
-<p>通过不同长度去计算，与全表的选择性对比： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 10 ))&#x2F; count(*) AS sub10,</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 11 ))&#x2F; count(*) AS sub11,</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 12 ))&#x2F; count(*) AS sub12,</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 13 ))&#x2F; count(*) AS sub13 </span><br><span class="line">FROM</span><br><span class="line">	shop;</span><br></pre></td></tr></table></figure>
-
-<h2 id="索引添加下推（ICP）"><a href="#索引添加下推（ICP）" class="headerlink" title="索引添加下推（ICP）"></a>索引添加下推（ICP）</h2><p>再来看这么一张表，在 last_name 和 first_name 上面创建联合索引。 </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DROP TABLE  IF EXISTS employees;</span><br><span class="line"></span><br><span class="line">CREATE TABLE &#96;employees&#96; (</span><br><span class="line">	&#96;emp_no&#96; int(11) NOT NULL,</span><br><span class="line">	&#96;birth_date&#96; date NULL,</span><br><span class="line">	&#96;first_name&#96; varchar(14) NOT NULL,</span><br><span class="line">	&#96;last_name&#96; varchar(16) NOT NULL,</span><br><span class="line">	&#96;gender&#96; enum(&#39;M&#39;, &#39;F&#39;) NOT NULL,</span><br><span class="line">	&#96;hire_date&#96; date NULL,</span><br><span class="line">	PRIMARY KEY (&#96;emp_no&#96;)</span><br><span class="line">) ENGINE &#x3D; InnoDB CHARSET &#x3D; latin1;</span><br><span class="line"></span><br><span class="line">ALTER TABLE employees ADD INDEX idx_lastname_firstname (last_name, first_name);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;) VALUES (1, NULL, &#39;698&#39;, &#39;liu&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (2, NULL, &#39;d99&#39;, &#39;zheng&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (3, NULL, &#39;e08&#39;, &#39;huang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (4, NULL, &#39;59d&#39;, &#39;lu&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (5, NULL, &#39;0dc&#39;, &#39;yu&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (6, NULL, &#39;989&#39;, &#39;wang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (7, NULL, &#39;e38&#39;, &#39;wang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (8, NULL, &#39;0zi&#39;, &#39;wang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (9, NULL, &#39;dc9&#39;, &#39;xie&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (10, NULL, &#39;5ba&#39;, &#39;zhou&#39;, &#39;F&#39;, NULL);</span><br></pre></td></tr></table></figure>
-
-<p><strong>关闭 ICP：(测试用)</strong> </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set optimizer_switch&#x3D;&#39;index_condition_pushdown&#x3D;off&#39;; </span><br></pre></td></tr></table></figure>
-
-<p><strong>查看参数：</strong> </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show variables like &#39;optimizer_switch&#39;; </span><br></pre></td></tr></table></figure>
-
-<p>现在我们要查询所有姓 wang，并且名字最后一个字是 zi 的员工，比如王胖子，王瘦子。查询的 SQL： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from employees where last_name&#x3D;&#39;wang&#39; and first_name LIKE &#39;%zi&#39; ; </span><br></pre></td></tr></table></figure>
-
-<p>这条 SQL 有两种执行方式： </p>
-<p>1、根据联合索引查出所有姓 wang 的二级索引数据，然后回表，到主键索引上查询 全部符合条件的数据（3 条数据）。然后返回给 Server 层，在 Server 层过滤出名字以 zi 结尾的员工。 </p>
-<p>2、根据联合索引查出所有姓 wang 的二级索引数据（3 个索引），然后从二级索引中筛选出 first_name 以 zi 结尾的索引（1 个索引），然后再回表，到主键索引上查询全部符合条件的数据（1 条数据），返回给 Server 层。 </p>
-<p><strong>很明显，第二种方式到主键索引上查询的数据更少。</strong> </p>
-<p>注意，<strong>索引的比较是在存储引擎进行的，数据记录的比较，是在 Server 层进行的。</strong>而当 first_name 的条件不能用于索引过滤时，Server 层不会把 first_name 的条件传递 给存储引擎，所以读取了两条没有必要的记录。 这时候，如果满足 last_name=’wang’的记录有 100000 条，就会有 99999 条没有必要读取的记录。 </p>
-<p><strong>测试：</strong></p>
-<p><strong>执行分析SQL：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">explain select * from employees where last_name&#x3D;&#39;wang&#39; and first_name LIKE &#39;%zi&#39; ;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113150329640.png" alt="image-20201113150329640"></p>
-<p>Using Where 代表从存储引擎取回的数据不全部满足条件，需要在 Server 层过滤。 </p>
-<p>先用 last_name 条件进行索引范围扫描，读取数据表记录，然后进行比较，检查是否符合 first_name LIKE ‘%zi’ 的条件。此时 3 条中只有 1 条符合条件。 </p>
-<p><strong>开启 ICP：</strong> </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set optimizer_switch&#x3D;&#39;index_condition_pushdown&#x3D;on&#39;; </span><br></pre></td></tr></table></figure>
-
-<p><strong>再次执行上面的SQL分析</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113150541648.png" alt="image-20201113150541648"></p>
-<p>把<code>first_name LIKE &#39;%zi&#39;</code>下推给存储引擎后，只会从数据表读取所需的 1 条记录。 </p>
-<p><strong>注：</strong>索引条件下推（Index Condition Pushdown）是5.6 以后完善的功能。只适用于<strong>二级索引</strong>。ICP 的目标是减少访问表的完整行的读数量从而减少 I/O 操作。 </p>
-<h2 id="MySQL-数据存储文件及索引数据结构"><a href="#MySQL-数据存储文件及索引数据结构" class="headerlink" title="MySQL 数据存储文件及索引数据结构"></a>MySQL 数据存储文件及索引数据结构</h2><blockquote>
-<p>每个数据库有一个目录，我们新建了一个叫做 db_test 的数据库，那么这里就有一个db_test 的文件夹。 </p>
-<p>这个数据库里面我们又建了 5 张表：archive、innodb、memory、myisam、csv。 我们进入 db_test 的目录，就能发现里面有一些跟我们创建的表名对应的文件。 区别如下：</p>
-<p>每张 InnoDB 的表有两个文件（.frm 和.ibd），MyISAM 的表 有三个文件（.frm、.MYD、.MYI）。</p>
-</blockquote>
-<p>有一个是相同的文件：.frm。 .frm 是 MySQL 里面表结构定义的文件，不管你建表的时候选用任何一个存储引擎都会生成。</p>
-<h3 id="MyISAM（非聚集）"><a href="#MyISAM（非聚集）" class="headerlink" title="MyISAM（非聚集）"></a>MyISAM（非聚集）</h3><p><strong>注：MyISAM索引文件和数据文件是分离的（非聚集）</strong></p>
-<p>在 MyISAM 里面，<strong>除了.frm文件</strong>另外有两个文件： </p>
-<ul>
-<li><p><strong>.MYD 文件：D代表 Data，是 MyISAM 的数据文件，存放数据记录</strong>，比如 archive 表的所有的表数据。 </p>
-</li>
-<li><p><strong>.MYI 文件： I代表 Index，是 MyISAM 的索引文件，存放索引</strong>，比如我们在 id 字段上面创建了一个主键索引，那么主键索引就是在这个索引文件里面。 </p>
-</li>
-</ul>
-<p>也就是说，在 <strong>MyISAM 里面，索引和数据是两个独立的文件</strong>。 那我们怎么根据索引找到数据呢？ MyISAM 的 B+Tree 里面，<strong>叶子节点存储的是数据文件对应的磁盘地址</strong>。所以从<strong>索引文件.MYI 中找到键值后，会到数据文件.MYD 中获取相应的数据记录</strong>。</p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140159755.png" alt="image-20201113140159755" style="zoom:50%;" />
-
-<p>这是主键索引，在 MyISAM 里面，辅助索引也在这个.MYI 文件里面。 辅助索引跟主键索引存储和检索数据的方式是没有任何区别的，一样是在索引文件 里面找到磁盘地址，然后到数据文件里面获取数据。 </p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140344683.png" alt="image-20201113140344683" style="zoom:50%;" />
-
-<h3 id="InnoDB-（聚集）"><a href="#InnoDB-（聚集）" class="headerlink" title="InnoDB （聚集）"></a>InnoDB （聚集）</h3><p>InnoDB <strong>除了.frm文件外</strong>只有一个文件（.ibd 文件），这个<strong>文件本身就按按照B+树组织的一个索引结构的文件</strong>，那索引放在哪里呢？ 在 InnoDB 里面，它是以主键为索引来组织数据的存储的，所以索引文件和数据文 件是同一个文件，都在.ibd 文件里面。 在 InnoDB 的<strong>主键索引的叶子节点上，包含了索引对应的完整数据记录</strong>。</p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140538497.png" alt="image-20201113140538497" style="zoom:50%;" />
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="为什么InnoDB表必须有主键，开且推存使用整型的目增主键"><a href="#为什么InnoDB表必须有主键，开且推存使用整型的目增主键" class="headerlink" title="为什么InnoDB表必须有主键，开且推存使用整型的目增主键?"></a>为什么InnoDB表必须有主键，开且推存使用整型的目增主键?</h4><h4 id="为什么非主键索引结构叶子节点存储的是主键值-一致性和节省存储空间"><a href="#为什么非主键索引结构叶子节点存储的是主键值-一致性和节省存储空间" class="headerlink" title="为什么非主键索引结构叶子节点存储的是主键值? (一致性和节省存储空间)"></a>为什么非主键索引结构叶子节点存储的是主键值? (一致性和节省存储空间)</h4><h4 id="索引建立注意事项"><a href="#索引建立注意事项" class="headerlink" title="索引建立注意事项"></a>索引建立注意事项</h4><ul>
-<li><p>索引的个数不要过多–浪费空间，更新变慢</p>
-</li>
-<li><p>区分度低的字段，例如性别，不要建索引。 –离散度太低，导致扫描行数过多。 </p>
-</li>
-<li><p>频繁更新的值，不要作为主键或者索引。–页分裂 </p>
-</li>
-<li><p>避免冗余、重复索引</p>
-</li>
-<li><p>联合索引，最左前缀</p>
-</li>
-<li><p>多表join的关联列</p>
-</li>
-<li><p>区分度最高的放在联合索引的最左侧（区分度=列中不同值的数量/列的总行数）</p>
-</li>
-<li><p>尽量把字段长度小的列放在联合索引的最左侧（因为字段长度越小，一页能存储的数据量越大，IO 性能也就越好）</p>
-</li>
-<li><p>使用最频繁的列放到联合索引的左侧（这样可以比较少的建立一些索引）</p>
-</li>
-<li><p>避免数据类型的隐式转换</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select name,phone from customer where id &#x3D; &#39;111&#39;; # 隐式转换会导致索引失效</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>禁止对列进行函数转换和计算</p>
-</li>
-</ul>
 ]]></content>
       <categories>
         <category>MySQL</category>
