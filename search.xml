@@ -301,258 +301,6 @@
       </tags>
   </entry>
   <entry>
-    <title>01.Spring基础</title>
-    <url>/posts/c9e764a5.html</url>
-    <content><![CDATA[<h3 id="什么是spring"><a href="#什么是spring" class="headerlink" title="什么是spring?"></a>什么是spring?</h3><p>Spring 是一个<strong>轻量级的 DI / IoC 和 AOP 容器的开源框架</strong>，目的是为了解决企业级应用开发的业务逻辑层和其他各层的耦合问题。它是一个轻量级开源框架，为开发Java应用程序提供全面的基础架构支持。Spring负责基础架构，因此Java开发者可以专注于应用程序的开发。</p>
-<p>Spring最根本的使命是<strong>解决企业级应用开发的复杂性，即简化Java开发</strong>。</p>
-<h3 id="侵⼊式概念"><a href="#侵⼊式概念" class="headerlink" title="侵⼊式概念"></a>侵⼊式概念</h3><p><strong>侵⼊式</strong>：对于EJB、Struts2等⼀些传统的框架，通常是要实现特定的接⼝，继承特定的类才能增强功能</p>
-<ul>
-<li>改变了<strong>java</strong>类的结构</li>
-</ul>
-<p><strong>⾮侵⼊式</strong>：对于Hibernate、Spring等框架，对现有的类结构没有影响，就能够增强<strong>JavaBean</strong>的功能</p>
-<h3 id="Spring的优缺点是什么？"><a href="#Spring的优缺点是什么？" class="headerlink" title="Spring的优缺点是什么？"></a>Spring的优缺点是什么？</h3><p><strong>优点</strong></p>
-<ul>
-<li><p>方便解耦，简化开发</p>
-<p>Spring就是一个大工厂，可以将所有对象的创建和依赖关系的维护，交给Spring管理。</p>
-</li>
-<li><p>AOP编程的支持</p>
-<p>Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能。</p>
-</li>
-<li><p>声明式事务的支持</p>
-<p>只需要通过配置就可以完成对事务的管理，而无需手动编程。</p>
-</li>
-<li><p>方便程序的测试</p>
-<p>Spring对Junit4支持，可以通过注解方便的测试Spring程序。</p>
-</li>
-<li><p>方便集成各种优秀框架</p>
-<p>Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架的直接支持（如：Struts、Hibernate、MyBatis等）。</p>
-</li>
-<li><p>降低JavaEE API的使用难度</p>
-<p>Spring对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低。</p>
-</li>
-</ul>
-<p><strong>缺点</strong></p>
-<ul>
-<li>Spring明明一个很轻量级的框架，却给人感觉大而全</li>
-<li>Spring依赖反射，反射影响性能</li>
-<li>使用门槛升高，入门Spring需要较长时间</li>
-</ul>
-<h3 id="Spring核心模块"><a href="#Spring核心模块" class="headerlink" title="Spring核心模块"></a>Spring核心模块</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2019102923475419.png" alt="在这里插入图片描述"></p>
-<ul>
-<li><strong>spring core</strong>：提供了框架的基本组成部分，包括<strong>控制反转</strong>（Inversion of Control，IOC）和<strong>依赖注入</strong>（Dependency Injection，DI）功能。</li>
-<li><strong>spring beans</strong>：提供了BeanFactory，是工厂模式的一个经典实现，Spring将管理对象称为Bean。</li>
-<li><strong>spring context</strong>：构建于 core 封装包基础上的 context 封装包，提供了一种框架式的对象访问方法。</li>
-<li><strong>spring jdbc</strong>：提供了一个JDBC的抽象层，消除了烦琐的JDBC编码和数据库厂商特有的错误代码解析， 用于简化JDBC。</li>
-<li><strong>spring aop</strong>：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。</li>
-<li><strong>spring Web</strong>：提供了针对 Web 开发的集成特性，例如文件上传，利用 servlet listeners 进行 ioc 容器初始化和针对 Web 的 ApplicationContext。</li>
-<li><strong>spring test</strong>：主要为测试提供支持的，支持使用JUnit或TestNG对Spring组件进行单元测试和集成测试。</li>
-</ul>
-<h3 id="Spring-框架中都用到了哪些设计模式？"><a href="#Spring-框架中都用到了哪些设计模式？" class="headerlink" title="Spring 框架中都用到了哪些设计模式？"></a>Spring 框架中都用到了哪些设计模式？</h3><ol>
-<li><strong>工厂模式</strong>：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；</li>
-<li><strong>单例模式</strong>：Bean默认为单例模式。</li>
-<li><strong>代理模式</strong>：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；</li>
-<li><strong>模板方法</strong>：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。</li>
-<li><strong>观察者模式</strong>：定义对象键一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知被制动更新，如Spring中listener的实现–ApplicationListener。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>03.SpringAOP</title>
-    <url>/posts/d1427ef9.html</url>
-    <content><![CDATA[<h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。</p>
-<h4 id="AOP-即-Aspect-Oriented-Program-面向切面编程"><a href="#AOP-即-Aspect-Oriented-Program-面向切面编程" class="headerlink" title="AOP 即 Aspect Oriented Program 面向切面编程"></a>AOP 即 Aspect Oriented Program 面向切面编程</h4><p>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。</p>
-<ul>
-<li><strong>所谓的核心业务</strong>，比如登陆，增加数据，删除数据都叫核心业务</li>
-<li><strong>所谓的周边功能</strong>，比如性能统计，日志，事务管理等等</li>
-</ul>
-<p>周边功能在 Spring 的面向切面编程AOP思想里，即被定义为切面</p>
-<p>在面向切面编程AOP的思想里面，核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫AOP</p>
-<h4 id="OOP缺陷"><a href="#OOP缺陷" class="headerlink" title="OOP缺陷"></a>OOP缺陷</h4><ul>
-<li><strong>代码混乱</strong>：核心业务模块可能需要兼顾处理其他不相干的业务外围操作，这些外围操作可能会混乱核心操作的代码，而且当外围模块有重大修改时也会影响到核心模块，这显然是不合理的。</li>
-<li><strong>代码分散和冗余</strong>：同样的功能代码，在其他的模块几乎随处可见，导致代码分散并且冗余度高。</li>
-<li><strong>代码质量低扩展难</strong>：由于不太相关的业务代码混杂在一起，无法专注核心业务代码，当进行类似无关业务扩展时又会直接涉及到核心业务的代码，导致拓展性低。</li>
-</ul>
-<h4 id="AOP-的目的"><a href="#AOP-的目的" class="headerlink" title="AOP 的目的"></a>AOP 的目的</h4><p>AOP能够将那些与业务无关，<strong>却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来</strong>，便于<strong>减少系统的重复代码</strong>，<strong>降低模块间的耦合度</strong>，并<strong>有利于未来的可拓展性和可维护性</strong>。</p>
-<h4 id="AOP代理"><a href="#AOP代理" class="headerlink" title="AOP代理"></a>AOP代理</h4><p><strong>Spring AOP</strong>就是基于动态代理的，如果要代理的对象，实现了某个接⼝，那么Spring AOP会使⽤<strong>JDK Proxy</strong>，去创建代理对象，⽽对于没有实现接⼝的对象，就⽆法使⽤ JDK Proxy 去进⾏代理了，这时候Spring AOP会使⽤<strong>Cglib</strong> ，这时候Spring AOP会使⽤ <strong>Cglib</strong> ⽣成⼀个被代理对象的⼦类来作为代理。</p>
-<h4 id="AOP-当中的概念："><a href="#AOP-当中的概念：" class="headerlink" title="AOP 当中的概念："></a>AOP 当中的概念：</h4><ul>
-<li>切入点（Pointcut）<br>在哪些类，哪些方法上切入（<strong>where</strong>）</li>
-<li>通知（Advice）<br>在方法执行的什么实际（<strong>when:**方法前/方法后/方法前后）做什么（</strong>what:**增强的功能）</li>
-<li>切面（Aspect）<br>切面 = 切入点 + 通知，通俗点就是：<strong>在什么时机，什么地方，做什么增强！</strong></li>
-<li>织入（Weaving）<br>把切面加入到对象，并创建出代理对象的过程。（由 Spring 来完成）</li>
-</ul>
-<h4 id="Spring-中的-AspectJ-注解："><a href="#Spring-中的-AspectJ-注解：" class="headerlink" title="Spring 中的 AspectJ 注解："></a>Spring 中的 AspectJ 注解：</h4><table>
-<thead>
-<tr>
-<th>注解</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>@Before</code></td>
-<td>前置通知，在连接点方法前调用</td>
-</tr>
-<tr>
-<td><code>@Around</code></td>
-<td>环绕通知，它将覆盖原有方法，但是允许你通过反射调用原有方法，后面会讲</td>
-</tr>
-<tr>
-<td><code>@After</code></td>
-<td>后置通知，在连接点方法后调用</td>
-</tr>
-<tr>
-<td><code>@AfterReturning</code></td>
-<td>返回通知，在连接点方法执行并正常返回后调用，要求连接点方法在执行过程中没有发生异常</td>
-</tr>
-<tr>
-<td><code>@AfterThrowing</code></td>
-<td>异常通知，当连接点方法异常时调用</td>
-</tr>
-</tbody></table>
-<h4 id="AOP-编程"><a href="#AOP-编程" class="headerlink" title="AOP 编程"></a>AOP 编程</h4><ul>
-<li>在 Packge【service】下创建 【ProductService】类：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomeService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;doSomeService&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在 xml 文件中装配该 bean：</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在【TestSpring】中编写测试代码，运行：</li>
-</ul>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-c190e07d3a051a65.png" alt="img"></p>
-<ul>
-<li>在 Packge【aspect】下准备日志切面 【LoggerAspect】类：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage aspect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggerAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">log</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;start log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        Object object = joinPoint.proceed();</span><br><span class="line">        System.out.println(<span class="string">&quot;end log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        <span class="keyword">return</span> object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在 xml 文件中声明业务对象和日志切面：</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:tx</span>=<span class="string">&quot;http://www.springframework.org/schema/tx&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;loggerAspect&quot;</span> <span class="attr">class</span>=<span class="string">&quot;aspect.LoggerAspect&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 配置AOP --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- where：在哪些地方（包.类.方法）做增加 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;loggerCutpoint&quot;</span></span></span><br><span class="line"><span class="tag">                      <span class="attr">expression</span>=<span class="string">&quot;execution(* service.ProductService.*(..)) &quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- what:做什么增强 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">id</span>=<span class="string">&quot;logAspect&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;loggerAspect&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- when:在什么时机（方法前/后/前后） --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">aop:around</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;loggerCutpoint&quot;</span> <span class="attr">method</span>=<span class="string">&quot;log&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>再次运行 TestSpring 中的测试代码，代码并没有改变，但是在业务方法运行之前和运行之后，都分别输出了日志信息：</li>
-</ul>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-343746f0a4eb7ce0.png" alt="img"></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>04.Spring 事物</title>
-    <url>/posts/c31fb5e7.html</url>
-    <content><![CDATA[<h3 id="Spring-事务Spring-管理事务的⽅式有⼏种？"><a href="#Spring-事务Spring-管理事务的⽅式有⼏种？" class="headerlink" title="Spring 事务Spring 管理事务的⽅式有⼏种？"></a>Spring 事务Spring 管理事务的⽅式有⼏种？</h3><ol>
-<li><p>编程式事务，在代码中硬编码。(不推荐使⽤)</p>
-</li>
-<li><p>声明式事务，在配置⽂件中配置（推荐使⽤）</p>
-<p>声明式事务⼜分为两种：</p>
-<ol>
-<li>基于XML的声明式事务</li>
-<li>基于注解的声明式事务</li>
-</ol>
-</li>
-</ol>
-<h3 id="Spring-事务中的隔离级别有哪⼏种"><a href="#Spring-事务中的隔离级别有哪⼏种" class="headerlink" title="Spring 事务中的隔离级别有哪⼏种?"></a>Spring 事务中的隔离级别有哪⼏种?</h3><p><strong>TransactionDefinition</strong> 接⼝中定义了五个表示隔离级别的常量：</p>
-<p><strong>TransactionDefinition.ISOLATION_DEFAULT:</strong> 使⽤后端数据库默认的隔离级别，Mysql 默认采</p>
-<p>⽤的 REPEATABLE_READ隔离级别 Oracle 默认采⽤的 READ_COMMITTED隔离级别.</p>
-<p><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED:</strong> 最低的隔离级别，允许读取尚未提交的</p>
-<p>数据变更，可能会导致脏读、幻读或不可重复读</p>
-<p><strong>TransactionDefinition.ISOLATION_READ_COMMITTED:</strong> 允许读取并发事务已经提交的数据，可以</p>
-<p>阻⽌脏读，但是幻读或不可重复读仍有可能发⽣</p>
-<p><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ:</strong> 对同⼀字段的多次读取结果都是⼀致</p>
-<p>的，除⾮数据是被本身事务⾃⼰所修改，可以阻⽌脏读和不可重复读，但幻读仍有可能发⽣。</p>
-<p><strong>TransactionDefinition.ISOLATION_SERIALIZABLE:</strong> 最⾼的隔离级别，完全服从ACID的隔离级</p>
-<p>别。所有的事务依次逐个执⾏，这样事务之间就完全不可能产⽣⼲扰，也就是说，该级别可以防</p>
-<p>⽌脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会⽤到该级别。</p>
-<h3 id="Spring-事务中哪⼏种事务传播⾏为"><a href="#Spring-事务中哪⼏种事务传播⾏为" class="headerlink" title="Spring 事务中哪⼏种事务传播⾏为?"></a>Spring 事务中哪⼏种事务传播⾏为?</h3><p><strong>⽀持当前事务的情况：</strong></p>
-<ul>
-<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRED</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则创建⼀个新的事务。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_SUPPORTS</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则以⾮事务的⽅式继续运⾏。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_MANDATORY</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）不⽀持当前事务的情况：</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRES_NEW</strong>： 创建⼀个新的事务，如果当前存在事务，则把当前事务挂起。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_NOT_SUPPORTED</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则把当前事务挂起。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_NEVER</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则抛出异常。</p>
-</li>
-</ul>
-<p><strong>其他情况：</strong></p>
-<ul>
-<li><strong>TransactionDefinition.PROPAGATION_NESTED</strong>： 如果当前存在事务，则创建⼀个事务作为当前事务的嵌套事务来运⾏；如果当前没有事务，则该取值等价TransactionDefinition.PROPAGATION_REQUIRED。</li>
-</ul>
-<h3 id="Transactional-rollbackFor-Exception-class-注解了解吗？"><a href="#Transactional-rollbackFor-Exception-class-注解了解吗？" class="headerlink" title="@Transactional(rollbackFor = Exception.class)注解了解吗？"></a>@Transactional(rollbackFor = Exception.class)注解了解吗？</h3><p>我们知道：Exception分为运⾏时异常RuntimeException和⾮运⾏时异常。事务管理对于企业应⽤来说是⾄关重要的，即使出现异常情况，它也可以保证数据的⼀致性。当 @Transactional 注解作⽤于类上时，该类的所有 public ⽅法将都具有该类型的事务属性，同时，我们也可以在⽅法级别使⽤该标注来覆盖类级别的定义。如果类或者⽅法加了这个注解，那么这个类⾥⾯的⽅法抛出异常，就会回滚，数据库⾥⾯的数据也会回滚。在 <strong>@Transactional 注解中如果不配置 rollbackFor 属性,那么事物只会在遇到 RuntimeException 的时候才会回滚,加上 rollbackFor=Exception.class ,可以让事物在遇到⾮运⾏时异常时也回滚。</strong></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>05 SpringMVC</title>
-    <url>/posts/319a95ab.html</url>
-    <content><![CDATA[<h3 id="什么是SpringMVC"><a href="#什么是SpringMVC" class="headerlink" title="什么是SpringMVC?"></a>什么是<strong>SpringMVC?</strong></h3><p>⽤在基于<strong>MVC</strong>的表现层开发，类似于<strong>struts2</strong>框架</p>
-<h3 id="为什么要使⽤SpringMVC？"><a href="#为什么要使⽤SpringMVC？" class="headerlink" title="为什么要使⽤SpringMVC？"></a>为什么要使⽤<strong>SpringMVC</strong>？</h3><p>下⾯我们来看⼀下Struts2不⾜之处：</p>
-<ul>
-<li><p>有漏洞【详细可以去搜索】</p>
-</li>
-<li><p>运⾏速度较慢【⽐SpringMVC要慢】</p>
-</li>
-<li><p>配置的内容较多【需要使⽤Struts.xml⽂件】</p>
-</li>
-</ul>
-<h3 id="SpringMVC⼯作流程"><a href="#SpringMVC⼯作流程" class="headerlink" title="SpringMVC⼯作流程"></a><strong>SpringMVC</strong>⼯作流程</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/1121080-20190509202147059-745656946-20201110113822800.jpg" alt="img"></p>
-<ul>
-<li>用户向服务端发送一次请求，这个请求会先到前端控制器**DispatcherServlet(也叫中央控制器)**。</li>
-<li><strong>DispatcherServlet</strong>接收到请求后会调用<strong>HandlerMapping</strong>处理器映射器。由此得知，该请求该由哪<strong>Controller来处理（并未调用Controller，只是得知）</strong></li>
-<li><strong>DispatcherServlet</strong>调用<strong>HandlerAdapter</strong>处理器适配器，告诉处理器适配器应该要去<strong>执行哪个Controller</strong></li>
-<li><strong>HandlerAdapter</strong>处理器适配器去执行<strong>Controller</strong>并得到<strong>ModelAndView</strong>(数据和视图)，并层层返回给<strong>DispatcherServlet</strong></li>
-<li><strong>DispatcherServlet将ModelAndView交给ViewReslover视图解析器解析</strong>，然后返回真正的视图。</li>
-<li><strong>DispatcherServlet</strong>将模型数据填充到视图中</li>
-<li><strong>DispatcherServlet</strong>将结果响应给用户</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis学习目录</title>
-    <url>/posts/207e4c9d.html</url>
-    <content><![CDATA[<p><a href="./fe29e710.html">Redis基础</a></p>
-<p><a href="./3a0d04cf.html">Redis跳跃表</a></p>
-<p><a href="./ed3b1c3a.html">Redis数据结构及常用命令</a></p>
-<p><a href="./35743b4b.html">Redis缓存雪崩、缓存穿透、缓存击穿</a></p>
-<p><a href="./119ed1dc.html">Redis持久化</a></p>
-<p><a href="./b7e51ad7.html">Redis主从复制</a></p>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis主从复制</title>
     <url>/posts/b7e51ad7.html</url>
     <content><![CDATA[<blockquote>
@@ -711,6 +459,23 @@
       </tags>
   </entry>
   <entry>
+    <title>Redis学习目录</title>
+    <url>/posts/207e4c9d.html</url>
+    <content><![CDATA[<p><a href="./fe29e710.html">Redis基础</a></p>
+<p><a href="./3a0d04cf.html">Redis跳跃表</a></p>
+<p><a href="./ed3b1c3a.html">Redis数据结构及常用命令</a></p>
+<p><a href="./35743b4b.html">Redis缓存雪崩、缓存穿透、缓存击穿</a></p>
+<p><a href="./119ed1dc.html">Redis持久化</a></p>
+<p><a href="./b7e51ad7.html">Redis主从复制</a></p>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Redis持久化</title>
     <url>/posts/119ed1dc.html</url>
     <content><![CDATA[<h1 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h1><h3 id="RDB（Redis-DataBase）"><a href="#RDB（Redis-DataBase）" class="headerlink" title="RDB（Redis DataBase）"></a>RDB（Redis DataBase）</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在指定的时间间隔内生成内存中整个数据集的持久化快照。快照文件默认被存储在当前文件夹中，名称为<code>dump.rdb</code>，可以通过dir和dbfilename参数来修改默认值。</p>
@@ -793,41 +558,6 @@
 <p>如果不Enable AOF，仅靠Master-Slave Replication 实现高可用性也可以。能省掉一大笔IO也减少了rewrite时带来的系统波动。代价是如果Master/Slave同时宕掉，会丢失10几分钟的数据，启动脚本也要比较两个Master/Slave中的RDB文件，载入较新的那个。新浪微博就选用了这种架构。</p>
 </li>
 </ol>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis缓存雪崩、缓存穿透、缓存击穿</title>
-    <url>/posts/35743b4b.html</url>
-    <content><![CDATA[<h1 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h1><ul>
-<li><p><strong>缓存雪崩</strong>：当缓存服务器重启或者<strong>大量缓存集中在某一个时间段失效</strong>，这样在失效的时候，大量的请求直接落在了数据库上，造成数据库短时间内承受⼤量请求⽽崩掉。</p>
-</li>
-<li><p><strong>缓存穿透</strong>：<strong>key对应的数据在数据源并不存在，每次针对此key的请求从缓存获取不到</strong>，请求都会到数据源，从而可能压垮数据源。比如用一个不存在的用户id获取用户信息，不论缓存还是数据库都没有，若黑客利用此漏洞进行攻击可能压垮数据库。</p>
-</li>
-<li><p><strong>缓存击穿：key对应的数据存在，但在redis中过期。</strong>例如一个Key非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个Key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库。</p>
-</li>
-</ul>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>处理缓存雪崩的一种方式是在批量往<strong>Redis</strong>存数据的时候，<strong>把每个Key的失效时间都加个随机值</strong>就好了，这样可以保证数据不会在同一时间大面积失效。</p>
-<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><ul>
-<li><p><strong>接口参数校验</strong>：一般处理方式是在接口层增加校验，比如用户鉴权校验，参数做校验，不合法的参数直接返回校验失败信息。</p>
-</li>
-<li><p><strong>设置默认值</strong>：从缓存取不到的数据，在数据库中也没有取到，这时也可以<strong>将对应Key的Value对写为null、位置错误、稍后重试等，同时设置短点的超时时间</strong>。</p>
-</li>
-<li><p><strong>布隆过滤器（Bloom Filter）</strong>也能很好的防止缓存穿透的发生，他的原理也很简单就是利用高效的数据结构和算法快速判断出你这个Key是否在数据库中存在，不存在你return就好了，存在你就去查了DB刷新KV再return。<a href="https://www.wmyskxz.com/2020/03/11/redis-5-yi-ji-shu-ju-guo-lu-he-bu-long-guo-lu-qi/">布隆过滤器</a></p>
-</li>
-</ul>
-<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p><strong>设置热点数据永远不过期</strong>，或者<strong>加上互斥锁</strong>就行了。</p>
-<h2 id="Redis-挂掉了，请求全部走数据库解决"><a href="#Redis-挂掉了，请求全部走数据库解决" class="headerlink" title="Redis 挂掉了，请求全部走数据库解决"></a>Redis 挂掉了，请求全部走数据库解决</h2><p>从三个时间段去分析下：</p>
-<ul>
-<li>事前：<strong>Redis</strong> 高可用，主从+哨兵，<strong>Redis cluster</strong>，避免全盘崩溃。</li>
-<li>事中：本地 <strong>ehcache</strong> 缓存 + <strong>Hystrix</strong> 限流+降级，避免<strong>MySQL</strong>被打死。</li>
-<li>事后：<strong>Redis</strong> 持久化 <strong>RDB</strong>+<strong>AOF</strong>，一旦重启，自动从磁盘上加载数据，快速恢复缓存数据。</li>
-</ul>
 ]]></content>
       <categories>
         <category>Redis</category>
@@ -1068,6 +798,103 @@
       </tags>
   </entry>
   <entry>
+    <title>Redis缓存雪崩、缓存穿透、缓存击穿</title>
+    <url>/posts/35743b4b.html</url>
+    <content><![CDATA[<h1 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h1><ul>
+<li><p><strong>缓存雪崩</strong>：当缓存服务器重启或者<strong>大量缓存集中在某一个时间段失效</strong>，这样在失效的时候，大量的请求直接落在了数据库上，造成数据库短时间内承受⼤量请求⽽崩掉。</p>
+</li>
+<li><p><strong>缓存穿透</strong>：<strong>key对应的数据在数据源并不存在，每次针对此key的请求从缓存获取不到</strong>，请求都会到数据源，从而可能压垮数据源。比如用一个不存在的用户id获取用户信息，不论缓存还是数据库都没有，若黑客利用此漏洞进行攻击可能压垮数据库。</p>
+</li>
+<li><p><strong>缓存击穿：key对应的数据存在，但在redis中过期。</strong>例如一个Key非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个Key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库。</p>
+</li>
+</ul>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>处理缓存雪崩的一种方式是在批量往<strong>Redis</strong>存数据的时候，<strong>把每个Key的失效时间都加个随机值</strong>就好了，这样可以保证数据不会在同一时间大面积失效。</p>
+<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><ul>
+<li><p><strong>接口参数校验</strong>：一般处理方式是在接口层增加校验，比如用户鉴权校验，参数做校验，不合法的参数直接返回校验失败信息。</p>
+</li>
+<li><p><strong>设置默认值</strong>：从缓存取不到的数据，在数据库中也没有取到，这时也可以<strong>将对应Key的Value对写为null、位置错误、稍后重试等，同时设置短点的超时时间</strong>。</p>
+</li>
+<li><p><strong>布隆过滤器（Bloom Filter）</strong>也能很好的防止缓存穿透的发生，他的原理也很简单就是利用高效的数据结构和算法快速判断出你这个Key是否在数据库中存在，不存在你return就好了，存在你就去查了DB刷新KV再return。<a href="https://www.wmyskxz.com/2020/03/11/redis-5-yi-ji-shu-ju-guo-lu-he-bu-long-guo-lu-qi/">布隆过滤器</a></p>
+</li>
+</ul>
+<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p><strong>设置热点数据永远不过期</strong>，或者<strong>加上互斥锁</strong>就行了。</p>
+<h2 id="Redis-挂掉了，请求全部走数据库解决"><a href="#Redis-挂掉了，请求全部走数据库解决" class="headerlink" title="Redis 挂掉了，请求全部走数据库解决"></a>Redis 挂掉了，请求全部走数据库解决</h2><p>从三个时间段去分析下：</p>
+<ul>
+<li>事前：<strong>Redis</strong> 高可用，主从+哨兵，<strong>Redis cluster</strong>，避免全盘崩溃。</li>
+<li>事中：本地 <strong>ehcache</strong> 缓存 + <strong>Hystrix</strong> 限流+降级，避免<strong>MySQL</strong>被打死。</li>
+<li>事后：<strong>Redis</strong> 持久化 <strong>RDB</strong>+<strong>AOF</strong>，一旦重启，自动从磁盘上加载数据，快速恢复缓存数据。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>01.Spring基础</title>
+    <url>/posts/c9e764a5.html</url>
+    <content><![CDATA[<h3 id="什么是spring"><a href="#什么是spring" class="headerlink" title="什么是spring?"></a>什么是spring?</h3><p>Spring 是一个<strong>轻量级的 DI / IoC 和 AOP 容器的开源框架</strong>，目的是为了解决企业级应用开发的业务逻辑层和其他各层的耦合问题。它是一个轻量级开源框架，为开发Java应用程序提供全面的基础架构支持。Spring负责基础架构，因此Java开发者可以专注于应用程序的开发。</p>
+<p>Spring最根本的使命是<strong>解决企业级应用开发的复杂性，即简化Java开发</strong>。</p>
+<h3 id="侵⼊式概念"><a href="#侵⼊式概念" class="headerlink" title="侵⼊式概念"></a>侵⼊式概念</h3><p><strong>侵⼊式</strong>：对于EJB、Struts2等⼀些传统的框架，通常是要实现特定的接⼝，继承特定的类才能增强功能</p>
+<ul>
+<li>改变了<strong>java</strong>类的结构</li>
+</ul>
+<p><strong>⾮侵⼊式</strong>：对于Hibernate、Spring等框架，对现有的类结构没有影响，就能够增强<strong>JavaBean</strong>的功能</p>
+<h3 id="Spring的优缺点是什么？"><a href="#Spring的优缺点是什么？" class="headerlink" title="Spring的优缺点是什么？"></a>Spring的优缺点是什么？</h3><p><strong>优点</strong></p>
+<ul>
+<li><p>方便解耦，简化开发</p>
+<p>Spring就是一个大工厂，可以将所有对象的创建和依赖关系的维护，交给Spring管理。</p>
+</li>
+<li><p>AOP编程的支持</p>
+<p>Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能。</p>
+</li>
+<li><p>声明式事务的支持</p>
+<p>只需要通过配置就可以完成对事务的管理，而无需手动编程。</p>
+</li>
+<li><p>方便程序的测试</p>
+<p>Spring对Junit4支持，可以通过注解方便的测试Spring程序。</p>
+</li>
+<li><p>方便集成各种优秀框架</p>
+<p>Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架的直接支持（如：Struts、Hibernate、MyBatis等）。</p>
+</li>
+<li><p>降低JavaEE API的使用难度</p>
+<p>Spring对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低。</p>
+</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>Spring明明一个很轻量级的框架，却给人感觉大而全</li>
+<li>Spring依赖反射，反射影响性能</li>
+<li>使用门槛升高，入门Spring需要较长时间</li>
+</ul>
+<h3 id="Spring核心模块"><a href="#Spring核心模块" class="headerlink" title="Spring核心模块"></a>Spring核心模块</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/2019102923475419.png" alt="在这里插入图片描述"></p>
+<ul>
+<li><strong>spring core</strong>：提供了框架的基本组成部分，包括<strong>控制反转</strong>（Inversion of Control，IOC）和<strong>依赖注入</strong>（Dependency Injection，DI）功能。</li>
+<li><strong>spring beans</strong>：提供了BeanFactory，是工厂模式的一个经典实现，Spring将管理对象称为Bean。</li>
+<li><strong>spring context</strong>：构建于 core 封装包基础上的 context 封装包，提供了一种框架式的对象访问方法。</li>
+<li><strong>spring jdbc</strong>：提供了一个JDBC的抽象层，消除了烦琐的JDBC编码和数据库厂商特有的错误代码解析， 用于简化JDBC。</li>
+<li><strong>spring aop</strong>：提供了面向切面的编程实现，让你可以自定义拦截器、切点等。</li>
+<li><strong>spring Web</strong>：提供了针对 Web 开发的集成特性，例如文件上传，利用 servlet listeners 进行 ioc 容器初始化和针对 Web 的 ApplicationContext。</li>
+<li><strong>spring test</strong>：主要为测试提供支持的，支持使用JUnit或TestNG对Spring组件进行单元测试和集成测试。</li>
+</ul>
+<h3 id="Spring-框架中都用到了哪些设计模式？"><a href="#Spring-框架中都用到了哪些设计模式？" class="headerlink" title="Spring 框架中都用到了哪些设计模式？"></a>Spring 框架中都用到了哪些设计模式？</h3><ol>
+<li><strong>工厂模式</strong>：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；</li>
+<li><strong>单例模式</strong>：Bean默认为单例模式。</li>
+<li><strong>代理模式</strong>：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；</li>
+<li><strong>模板方法</strong>：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。</li>
+<li><strong>观察者模式</strong>：定义对象键一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知被制动更新，如Spring中listener的实现–ApplicationListener。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Redis跳跃表</title>
     <url>/posts/3a0d04cf.html</url>
     <content><![CDATA[<p>原文：<a href="http://www.wmyskxz.com/2020/02/29/redis-2-tiao-yue-biao/">http://www.wmyskxz.com/2020/02/29/redis-2-tiao-yue-biao/</a></p>
@@ -1105,6 +932,179 @@
       </categories>
       <tags>
         <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>03.SpringAOP</title>
+    <url>/posts/d1427ef9.html</url>
+    <content><![CDATA[<h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。</p>
+<h4 id="AOP-即-Aspect-Oriented-Program-面向切面编程"><a href="#AOP-即-Aspect-Oriented-Program-面向切面编程" class="headerlink" title="AOP 即 Aspect Oriented Program 面向切面编程"></a>AOP 即 Aspect Oriented Program 面向切面编程</h4><p>首先，在面向切面编程的思想里面，把功能分为核心业务功能，和周边功能。</p>
+<ul>
+<li><strong>所谓的核心业务</strong>，比如登陆，增加数据，删除数据都叫核心业务</li>
+<li><strong>所谓的周边功能</strong>，比如性能统计，日志，事务管理等等</li>
+</ul>
+<p>周边功能在 Spring 的面向切面编程AOP思想里，即被定义为切面</p>
+<p>在面向切面编程AOP的思想里面，核心业务功能和切面功能分别独立进行开发，然后把切面功能和核心业务功能 “编织” 在一起，这就叫AOP</p>
+<h4 id="OOP缺陷"><a href="#OOP缺陷" class="headerlink" title="OOP缺陷"></a>OOP缺陷</h4><ul>
+<li><strong>代码混乱</strong>：核心业务模块可能需要兼顾处理其他不相干的业务外围操作，这些外围操作可能会混乱核心操作的代码，而且当外围模块有重大修改时也会影响到核心模块，这显然是不合理的。</li>
+<li><strong>代码分散和冗余</strong>：同样的功能代码，在其他的模块几乎随处可见，导致代码分散并且冗余度高。</li>
+<li><strong>代码质量低扩展难</strong>：由于不太相关的业务代码混杂在一起，无法专注核心业务代码，当进行类似无关业务扩展时又会直接涉及到核心业务的代码，导致拓展性低。</li>
+</ul>
+<h4 id="AOP-的目的"><a href="#AOP-的目的" class="headerlink" title="AOP 的目的"></a>AOP 的目的</h4><p>AOP能够将那些与业务无关，<strong>却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来</strong>，便于<strong>减少系统的重复代码</strong>，<strong>降低模块间的耦合度</strong>，并<strong>有利于未来的可拓展性和可维护性</strong>。</p>
+<h4 id="AOP代理"><a href="#AOP代理" class="headerlink" title="AOP代理"></a>AOP代理</h4><p><strong>Spring AOP</strong>就是基于动态代理的，如果要代理的对象，实现了某个接⼝，那么Spring AOP会使⽤<strong>JDK Proxy</strong>，去创建代理对象，⽽对于没有实现接⼝的对象，就⽆法使⽤ JDK Proxy 去进⾏代理了，这时候Spring AOP会使⽤<strong>Cglib</strong> ，这时候Spring AOP会使⽤ <strong>Cglib</strong> ⽣成⼀个被代理对象的⼦类来作为代理。</p>
+<h4 id="AOP-当中的概念："><a href="#AOP-当中的概念：" class="headerlink" title="AOP 当中的概念："></a>AOP 当中的概念：</h4><ul>
+<li>切入点（Pointcut）<br>在哪些类，哪些方法上切入（<strong>where</strong>）</li>
+<li>通知（Advice）<br>在方法执行的什么实际（<strong>when:**方法前/方法后/方法前后）做什么（</strong>what:**增强的功能）</li>
+<li>切面（Aspect）<br>切面 = 切入点 + 通知，通俗点就是：<strong>在什么时机，什么地方，做什么增强！</strong></li>
+<li>织入（Weaving）<br>把切面加入到对象，并创建出代理对象的过程。（由 Spring 来完成）</li>
+</ul>
+<h4 id="Spring-中的-AspectJ-注解："><a href="#Spring-中的-AspectJ-注解：" class="headerlink" title="Spring 中的 AspectJ 注解："></a>Spring 中的 AspectJ 注解：</h4><table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Before</code></td>
+<td>前置通知，在连接点方法前调用</td>
+</tr>
+<tr>
+<td><code>@Around</code></td>
+<td>环绕通知，它将覆盖原有方法，但是允许你通过反射调用原有方法，后面会讲</td>
+</tr>
+<tr>
+<td><code>@After</code></td>
+<td>后置通知，在连接点方法后调用</td>
+</tr>
+<tr>
+<td><code>@AfterReturning</code></td>
+<td>返回通知，在连接点方法执行并正常返回后调用，要求连接点方法在执行过程中没有发生异常</td>
+</tr>
+<tr>
+<td><code>@AfterThrowing</code></td>
+<td>异常通知，当连接点方法异常时调用</td>
+</tr>
+</tbody></table>
+<h4 id="AOP-编程"><a href="#AOP-编程" class="headerlink" title="AOP 编程"></a>AOP 编程</h4><ul>
+<li>在 Packge【service】下创建 【ProductService】类：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomeService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;doSomeService&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 xml 文件中装配该 bean：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在【TestSpring】中编写测试代码，运行：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-c190e07d3a051a65.png" alt="img"></p>
+<ul>
+<li>在 Packge【aspect】下准备日志切面 【LoggerAspect】类：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYpackage aspect;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggerAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">log</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;start log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        Object object = joinPoint.proceed();</span><br><span class="line">        System.out.println(<span class="string">&quot;end log:&quot;</span> + joinPoint.getSignature().getName());</span><br><span class="line">        <span class="keyword">return</span> object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 xml 文件中声明业务对象和日志切面：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:tx</span>=<span class="string">&quot;http://www.springframework.org/schema/tx&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;productService&quot;</span> <span class="attr">class</span>=<span class="string">&quot;service.ProductService&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;loggerAspect&quot;</span> <span class="attr">class</span>=<span class="string">&quot;aspect.LoggerAspect&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 配置AOP --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- where：在哪些地方（包.类.方法）做增加 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;loggerCutpoint&quot;</span></span></span><br><span class="line"><span class="tag">                      <span class="attr">expression</span>=<span class="string">&quot;execution(* service.ProductService.*(..)) &quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- what:做什么增强 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">id</span>=<span class="string">&quot;logAspect&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;loggerAspect&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- when:在什么时机（方法前/后/前后） --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">aop:around</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;loggerCutpoint&quot;</span> <span class="attr">method</span>=<span class="string">&quot;log&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>再次运行 TestSpring 中的测试代码，代码并没有改变，但是在业务方法运行之前和运行之后，都分别输出了日志信息：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-343746f0a4eb7ce0.png" alt="img"></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>04.Spring 事物</title>
+    <url>/posts/c31fb5e7.html</url>
+    <content><![CDATA[<h3 id="Spring-事务Spring-管理事务的⽅式有⼏种？"><a href="#Spring-事务Spring-管理事务的⽅式有⼏种？" class="headerlink" title="Spring 事务Spring 管理事务的⽅式有⼏种？"></a>Spring 事务Spring 管理事务的⽅式有⼏种？</h3><ol>
+<li><p>编程式事务，在代码中硬编码。(不推荐使⽤)</p>
+</li>
+<li><p>声明式事务，在配置⽂件中配置（推荐使⽤）</p>
+<p>声明式事务⼜分为两种：</p>
+<ol>
+<li>基于XML的声明式事务</li>
+<li>基于注解的声明式事务</li>
+</ol>
+</li>
+</ol>
+<h3 id="Spring-事务中的隔离级别有哪⼏种"><a href="#Spring-事务中的隔离级别有哪⼏种" class="headerlink" title="Spring 事务中的隔离级别有哪⼏种?"></a>Spring 事务中的隔离级别有哪⼏种?</h3><p><strong>TransactionDefinition</strong> 接⼝中定义了五个表示隔离级别的常量：</p>
+<p><strong>TransactionDefinition.ISOLATION_DEFAULT:</strong> 使⽤后端数据库默认的隔离级别，Mysql 默认采</p>
+<p>⽤的 REPEATABLE_READ隔离级别 Oracle 默认采⽤的 READ_COMMITTED隔离级别.</p>
+<p><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED:</strong> 最低的隔离级别，允许读取尚未提交的</p>
+<p>数据变更，可能会导致脏读、幻读或不可重复读</p>
+<p><strong>TransactionDefinition.ISOLATION_READ_COMMITTED:</strong> 允许读取并发事务已经提交的数据，可以</p>
+<p>阻⽌脏读，但是幻读或不可重复读仍有可能发⽣</p>
+<p><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ:</strong> 对同⼀字段的多次读取结果都是⼀致</p>
+<p>的，除⾮数据是被本身事务⾃⼰所修改，可以阻⽌脏读和不可重复读，但幻读仍有可能发⽣。</p>
+<p><strong>TransactionDefinition.ISOLATION_SERIALIZABLE:</strong> 最⾼的隔离级别，完全服从ACID的隔离级</p>
+<p>别。所有的事务依次逐个执⾏，这样事务之间就完全不可能产⽣⼲扰，也就是说，该级别可以防</p>
+<p>⽌脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会⽤到该级别。</p>
+<h3 id="Spring-事务中哪⼏种事务传播⾏为"><a href="#Spring-事务中哪⼏种事务传播⾏为" class="headerlink" title="Spring 事务中哪⼏种事务传播⾏为?"></a>Spring 事务中哪⼏种事务传播⾏为?</h3><p><strong>⽀持当前事务的情况：</strong></p>
+<ul>
+<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRED</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则创建⼀个新的事务。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_SUPPORTS</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则以⾮事务的⽅式继续运⾏。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_MANDATORY</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）不⽀持当前事务的情况：</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRES_NEW</strong>： 创建⼀个新的事务，如果当前存在事务，则把当前事务挂起。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_NOT_SUPPORTED</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则把当前事务挂起。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_NEVER</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则抛出异常。</p>
+</li>
+</ul>
+<p><strong>其他情况：</strong></p>
+<ul>
+<li><strong>TransactionDefinition.PROPAGATION_NESTED</strong>： 如果当前存在事务，则创建⼀个事务作为当前事务的嵌套事务来运⾏；如果当前没有事务，则该取值等价TransactionDefinition.PROPAGATION_REQUIRED。</li>
+</ul>
+<h3 id="Transactional-rollbackFor-Exception-class-注解了解吗？"><a href="#Transactional-rollbackFor-Exception-class-注解了解吗？" class="headerlink" title="@Transactional(rollbackFor = Exception.class)注解了解吗？"></a>@Transactional(rollbackFor = Exception.class)注解了解吗？</h3><p>我们知道：Exception分为运⾏时异常RuntimeException和⾮运⾏时异常。事务管理对于企业应⽤来说是⾄关重要的，即使出现异常情况，它也可以保证数据的⼀致性。当 @Transactional 注解作⽤于类上时，该类的所有 public ⽅法将都具有该类型的事务属性，同时，我们也可以在⽅法级别使⽤该标注来覆盖类级别的定义。如果类或者⽅法加了这个注解，那么这个类⾥⾯的⽅法抛出异常，就会回滚，数据库⾥⾯的数据也会回滚。在 <strong>@Transactional 注解中如果不配置 rollbackFor 属性,那么事物只会在遇到 RuntimeException 的时候才会回滚,加上 rollbackFor=Exception.class ,可以让事物在遇到⾮运⾏时异常时也回滚。</strong></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>05 SpringMVC</title>
+    <url>/posts/319a95ab.html</url>
+    <content><![CDATA[<h3 id="什么是SpringMVC"><a href="#什么是SpringMVC" class="headerlink" title="什么是SpringMVC?"></a>什么是<strong>SpringMVC?</strong></h3><p>⽤在基于<strong>MVC</strong>的表现层开发，类似于<strong>struts2</strong>框架</p>
+<h3 id="为什么要使⽤SpringMVC？"><a href="#为什么要使⽤SpringMVC？" class="headerlink" title="为什么要使⽤SpringMVC？"></a>为什么要使⽤<strong>SpringMVC</strong>？</h3><p>下⾯我们来看⼀下Struts2不⾜之处：</p>
+<ul>
+<li><p>有漏洞【详细可以去搜索】</p>
+</li>
+<li><p>运⾏速度较慢【⽐SpringMVC要慢】</p>
+</li>
+<li><p>配置的内容较多【需要使⽤Struts.xml⽂件】</p>
+</li>
+</ul>
+<h3 id="SpringMVC⼯作流程"><a href="#SpringMVC⼯作流程" class="headerlink" title="SpringMVC⼯作流程"></a><strong>SpringMVC</strong>⼯作流程</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/1121080-20190509202147059-745656946-20201110113822800.jpg" alt="img"></p>
+<ul>
+<li>用户向服务端发送一次请求，这个请求会先到前端控制器**DispatcherServlet(也叫中央控制器)**。</li>
+<li><strong>DispatcherServlet</strong>接收到请求后会调用<strong>HandlerMapping</strong>处理器映射器。由此得知，该请求该由哪<strong>Controller来处理（并未调用Controller，只是得知）</strong></li>
+<li><strong>DispatcherServlet</strong>调用<strong>HandlerAdapter</strong>处理器适配器，告诉处理器适配器应该要去<strong>执行哪个Controller</strong></li>
+<li><strong>HandlerAdapter</strong>处理器适配器去执行<strong>Controller</strong>并得到<strong>ModelAndView</strong>(数据和视图)，并层层返回给<strong>DispatcherServlet</strong></li>
+<li><strong>DispatcherServlet将ModelAndView交给ViewReslover视图解析器解析</strong>，然后返回真正的视图。</li>
+<li><strong>DispatcherServlet</strong>将模型数据填充到视图中</li>
+<li><strong>DispatcherServlet</strong>将结果响应给用户</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
@@ -1359,24 +1359,24 @@
 <p>​        CAS 指令直接在硬件(处理器和内存)层次上实现,看作是硬件锁</p>
 <h1 id="多线程编程的优势与代价"><a href="#多线程编程的优势与代价" class="headerlink" title="多线程编程的优势与代价"></a>多线程编程的优势与代价</h1><blockquote>
 <p>并发可以提高以事物的处理效率，即一段时间内可以处理或者完成更多的事情。</p>
-<p>并行是一种更为严格，理想的并发，从硬件角度来说, 如果单核 CPU，一个处理器一次只能执行一个线程的情况下，处理器可以使用时间片轮转技术，可以让 CPU 快速的在 各个线程之间进行切换， 对于用来来说，感觉是多个线程在同时执行。 如果是多核心 CPU，可以为不同的线程分配不同的 CPU 内核。</p>
+<p>并行是一种更为严格，理想的并发，从硬件角度来说, 如果单核 CPU，一个处理器一次只能执行一个线程的情况下，处理器可以使用时间片轮转技术，可以让 CPU 快速的在 各个线程之间进行切换， 对于用户来说，感觉是多个线程在同时执行。 如果是多核心 CPU，可以为不同的线程分配不同的 CPU 内核。</p>
 </blockquote>
 <h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><ol>
-<li>提高系统的吞吐率(Throughout)。多线程编程可以使一个进程有多个并发(concurrent，即同时进行的)的操作。</li>
-<li>提高响应性(Responsiveness)。Web服务器会采用一些专门的线程负责用户的请求处理，缩短了用户的等待时间。</li>
-<li>充分利用多核(Multicore)处理器资源。 通过多线程可以充分的利用 CPU 资源</li>
+<li>提高系统的吞吐率：多线程编程可以使一个进程有多个并发的操作。</li>
+<li>提高响应性：Web服务器会采用一些专门的线程负责用户的请求处理，缩短了用户的等待时间。</li>
+<li>充分利用多核处理器资源： 通过多线程可以充分的利用 CPU 资源</li>
 </ol>
 <h2 id="代价"><a href="#代价" class="headerlink" title="代价"></a>代价</h2><ol>
-<li><p>线程安全(Thread safe)问题：多线程共享数据时，如果没有采取正确的并发访问控制措施，就可能会产生数据一致性问题，如读取脏数据(过期的数据)， 如丢失数据更新。</p>
+<li><p><strong>线程安全(Thread safe)问题</strong>：多线程共享数据时，如果没有采取正确的并发访问控制措施，就可能会产生数据一致性问题，如读取脏数据(过期的数据)， 如丢失数据更新。</p>
 </li>
-<li><p>线程活性(thread liveness)问题：由于程序自身的缺陷或者由资源稀缺性导致线程一直处于非 RUNNABLE 状态，这就是线程活性问题。</p>
+<li><p><strong>线程活性(thread liveness)问题</strong>：由于程序自身的缺陷或者由资源稀缺性导致线程一直处于非 RUNNABLE 状态，这就是线程活性问题。</p>
 <p>常见的活性故障有以下几种:</p>
 <p>(1) 死锁(Deadlock) ：类似鹬蚌相争</p>
 <p>(2) 锁死(Lockout) ：类似于睡美人故事中王子挂了</p>
 <p>(3) 活锁(Livelock) ：类似于小猫咬自己尾巴，一直咬不到</p>
 <p>(4) 饥饿(Starvation) ：类似于健壮的雏鸟总是从母鸟嘴中抢到所有食物</p>
 </li>
-<li><p><strong>增大上下文切换(Context Switch) 开销</strong>：处理器从执行一个线程切换到执行另外一个线程</p>
+<li><p><strong>增大上下文切换(Context Switch) 开销</strong>：处理器从执行一个线程切换到执行另外一个线程，使⽤多线程我们的⽬的就是为了提⾼应⽤程序的使⽤率，但是如果多线程的代码没有好好设计的话，那未必会提⾼效率。<strong>反⽽降低了效率，甚⾄会造成死锁！</strong></p>
 </li>
 <li><p>可靠性：可能会由一个线程导致 JVM 意外终止，其他的线程也无法执行</p>
 </li>
@@ -1393,16 +1393,6 @@
 </li>
 </ul>
 <h2 id="Thread类和Runnable接口的对比"><a href="#Thread类和Runnable接口的对比" class="headerlink" title="Thread类和Runnable接口的对比"></a>Thread类和Runnable接口的对比</h2><p>​        Thread类也是实现的Runnable接口。两种实现方式对比的关键就在于extends和implements的对比，当然是后者好。因为第一，继承只能单继承，实现可以多实现；第二，实现的方式对比继承的方式，也有利于减小程序之间的耦合。因此，多线程的实现几乎都是使用的Runnable接口的方式。</p>
-<h1 id="多线程遇到的问题"><a href="#多线程遇到的问题" class="headerlink" title="多线程遇到的问题"></a>多线程遇到的问题</h1><h2 id="线程安全问题"><a href="#线程安全问题" class="headerlink" title="线程安全问题"></a>线程安全问题</h2><p>如果我们在单线程中以“顺序”(串⾏–&gt;独占)的⽅式执⾏代码是没有任何问题的。但是到了多线程的环境下(并⾏)，如果没有设计和控制得好，就会给我们带来很多意想不到的状况，也就是线程安全性问题因为在多线程的环境下，线程是交替执⾏的，⼀般他们会使⽤多个线程执⾏相同的代码。如果在此相同的代码⾥边有着共享的变量，或者⼀些组合操作，我们想要的正确结果就很容易出现了问题</p>
-<h2 id="性能问题"><a href="#性能问题" class="headerlink" title="性能问题"></a>性能问题</h2><p>使⽤多线程我们的⽬的就是为了提⾼应⽤程序的使⽤率，但是如果多线程的代码没有好好设计的话，那未必会提⾼效率。<strong>反⽽降低了效率，甚⾄会造成死锁！</strong></p>
-<h1 id="并发编程的三个重要特性-1"><a href="#并发编程的三个重要特性-1" class="headerlink" title="并发编程的三个重要特性"></a>并发编程的三个重要特性</h1><ol>
-<li><p><strong>原⼦性</strong> : ⼀个的操作或者多次操作，要么所有的操作全部都得到执⾏并且不会收到任何因素的⼲扰⽽中断，要么所有的操作都执⾏，要么都不执⾏。 <strong>synchronized</strong> 可以保证代码⽚段的<strong>原⼦性</strong>。</p>
-</li>
-<li><p><strong>可⻅性</strong> ：当⼀个变量对共享变量进⾏了修改，那么另外的线程都是⽴即可以看到修改后的最新值。 <strong>volatile</strong> 关键字可以保证共享变量的<strong>可⻅性</strong>。</p>
-</li>
-<li><p><strong>有序性</strong> ：代码在执⾏的过程中的先后顺序，Java 在编译器以及运⾏期间的优化，代码的执⾏顺序未必就是编写代码时候的顺序。 <strong>volatile</strong> 关键字可以<strong>禁⽌指令进⾏重排序优化</strong>。</p>
-</li>
-</ol>
 <h1 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h1><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/1536767960941.png" alt="img"></p>
 <p>虚拟机中的线程状态有六种，定义在Thread.State中：</p>
 <ul>
@@ -1454,18 +1444,18 @@
 <h4 id="getName"><a href="#getName" class="headerlink" title="getName()"></a>getName()</h4><p>new一个线程的时候，可以指定该线程的名字，也可以不指定。如果指定，那么线程的名字就是我们自己指定的，getName()返回的也是开发者指定的线程的名字；如果不指定，那么Thread中有一个int型全局唯一的线程初始号生成器threadInitNum，Java先把threadInitNum自增，然后以”Thread-threadInitNum”的方式来命名新生成的线程</p>
 <h4 id="getPriority-和setPriority-int-newPriority"><a href="#getPriority-和setPriority-int-newPriority" class="headerlink" title="getPriority()和setPriority(int newPriority)"></a>getPriority()和setPriority(int newPriority)</h4><p>这两个方法用于获取和设置线程的优先级，优先级高的CPU得到的CPU资源比较多，设置优先级有助于帮”线程规划器”确定下一次选择哪一个线程优先执行。换句话说，<strong>两个在等待CPU的线程，优先级高的线程越容易被CU选择执行</strong>。</p>
 <h4 id="isDaeMon、setDaemon-boolean-on"><a href="#isDaeMon、setDaemon-boolean-on" class="headerlink" title="isDaeMon、setDaemon(boolean on)"></a>isDaeMon、setDaemon(boolean on)</h4><p>Java中有两种线程，一种是用户线程，一种是守护线程。守护线程是一种特殊的线程，它的作用是为其他线程的运行提供便利的服务，最典型的应用便是GC线程。如果进程中不存在非守护线程了，那么守护线程自动销毁，因为没有存在的必要，为别人服务，结果服务的对象都没了，当然就销毁了。理解了这个概念后，看一下例子：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyThread11 extends Thread&#123;</span><br><span class="line">    private int i &#x3D; 0;</span><br><span class="line">    public void run()&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            while (true)&#123;</span><br><span class="line">                i++;</span><br><span class="line">                System.out.println(&quot;i &#x3D; &quot; + i);</span><br><span class="line">                Thread.sleep(1000);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread11</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                i++;</span><br><span class="line">                System.out.println(<span class="string">&quot;i = &quot;</span> + i);</span><br><span class="line">                Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static void main(String[] args)&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            MyThread11 mt &#x3D; new MyThread11();</span><br><span class="line">            mt.setDaemon(true);</span><br><span class="line">            mt.start();</span><br><span class="line">            Thread.sleep(5000);</span><br><span class="line">            System.out.println(&quot;我离开thread对象再也不打印了，我停止了！&quot;);</span><br><span class="line">        &#125;catch (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            MyThread11 mt = <span class="keyword">new</span> MyThread11();</span><br><span class="line">            mt.setDaemon(<span class="keyword">true</span>);</span><br><span class="line">            mt.start();</span><br><span class="line">            Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">            System.out.println(<span class="string">&quot;我离开thread对象再也不打印了，我停止了！&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>运行结果</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">i &#x3D; 1</span><br><span class="line">i &#x3D; 2</span><br><span class="line">i &#x3D; 3</span><br><span class="line">i &#x3D; 4</span><br><span class="line">i &#x3D; 5</span><br><span class="line">我离开thread对象再也不打印了，我停止了！</span><br><span class="line">i &#x3D; 6</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">i = <span class="number">1</span></span><br><span class="line">i = <span class="number">2</span></span><br><span class="line">i = <span class="number">3</span></span><br><span class="line">i = <span class="number">4</span></span><br><span class="line">i = <span class="number">5</span></span><br><span class="line">我离开thread对象再也不打印了，我停止了！</span><br><span class="line">i = <span class="number">6</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="interrupt"><a href="#interrupt" class="headerlink" title="interrupt()"></a>interrupt()</h4><p><strong>在线程受到阻塞时抛出一个中断信号，这样线程就得以退出阻塞状态</strong>。换句话说，没有被阻塞的线程，调用interrupt()方法是不起作用的。</p>
 <h4 id="isInterrupted"><a href="#isInterrupted" class="headerlink" title="isInterrupted()"></a>isInterrupted()</h4><p>测试线程是否已经中断，但不清除状态标识。这个和interrupt()方法一样。</p>
 <h4 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h4><p>讲解join()方法之前请确保对于<a href="http://www.cnblogs.com/xrq730/p/4853932.html%E4%B8%80%E6%96%87%EF%BC%8C%E5%8D%B3wait()/notify()/notifyAll()%E6%9C%BA%E5%88%B6%E5%B7%B2%E7%86%9F%E7%BB%83%E6%8E%8C%E6%8F%A1%E3%80%82">http://www.cnblogs.com/xrq730/p/4853932.html一文，即wait()/notify()/notifyAll()机制已熟练掌握。</a></p>
 <p><strong>join()方法的作用是等待线程销毁</strong>。join()方法反应的是一个很现实的问题，比如main线程的执行时间是1s，子线程的执行时间是10s，但是主线程依赖子线程执行完的结果，这时怎么办？可以像生产者/消费者模型一样，搞一个缓冲区，子线程执行完把数据放在缓冲区中，通知main线程，main线程去拿，这样就不会浪费main线程的时间了。另外一种方法，就是join()了。先看一下例子： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyThread36 extends Thread&#123;</span><br><span class="line">    public void run()&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            int secondValue &#x3D; (int)(Math.random() * 10000);</span><br><span class="line">            System.out.println(secondValue);</span><br><span class="line">            Thread.sleep(secondValue);</span><br><span class="line">        &#125;catch (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void main(String[] args) throws Exception&#123;</span><br><span class="line">    MyThread36 mt &#x3D; new MyThread36();</span><br><span class="line">    mt.start();</span><br><span class="line">    mt.join();</span><br><span class="line">    System.out.println(&quot;我想当mt对象执行完毕之后我再执行，我做到了&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread36</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="keyword">int</span> secondValue = (<span class="keyword">int</span>)(Math.random() * <span class="number">10000</span>);</span><br><span class="line">            System.out.println(secondValue);</span><br><span class="line">            Thread.sleep(secondValue);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    MyThread36 mt = <span class="keyword">new</span> MyThread36();</span><br><span class="line">    mt.start();</span><br><span class="line">    mt.join();</span><br><span class="line">    System.out.println(<span class="string">&quot;我想当mt对象执行完毕之后我再执行，我做到了&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>运行结果</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">3111</span><br><span class="line">我想当mt对象执行完毕之后我再执行，我做到了</span><br></pre></td></tr></table></figure>
@@ -1473,7 +1463,7 @@
 <p>意思是，join()方法会使调用join()方法的线程（也就是mt线程）所在的线程（也就是main线程）无限阻塞，直到调用join()方法的线程销毁为止，此例中main线程就会无限期阻塞直到mt的run()方法执行完毕。</p>
 <p>join()方法的一个重点是要区分出和sleep()方法的区别。join(2000)也是可以的，表示调用join()方法所在的线程最多等待2000ms，两者的区别在于：</p>
 <p><strong>sleep(2000)不释放锁，join(2000)释放锁</strong>，因为join()方法内部使用的是wait()，因此会释放锁。看一下join(2000)的源码就知道了，join()其实和join(2000)一样，无非是join(0)而已：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public final synchronized void join(long millis)</span><br><span class="line">    throws InterruptedException &#123;</span><br><span class="line">    long base &#x3D; System.currentTimeMillis();</span><br><span class="line">    long now &#x3D; 0;</span><br><span class="line"></span><br><span class="line">    if (millis &lt; 0) &#123;</span><br><span class="line">            throw new IllegalArgumentException(&quot;timeout value is negative&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (millis &#x3D;&#x3D; 0) &#123;</span><br><span class="line">        while (isAlive()) &#123;</span><br><span class="line">        wait(0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        while (isAlive()) &#123;</span><br><span class="line">        long delay &#x3D; millis - now;</span><br><span class="line">        if (delay &lt;&#x3D; 0) &#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        wait(delay);</span><br><span class="line">        now &#x3D; System.currentTimeMillis() - base;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">join</span><span class="params">(<span class="keyword">long</span> millis)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> base = System.currentTimeMillis();</span><br><span class="line">    <span class="keyword">long</span> now = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (millis &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;timeout value is negative&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (millis == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (isAlive()) &#123;</span><br><span class="line">        wait(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (isAlive()) &#123;</span><br><span class="line">        <span class="keyword">long</span> delay = millis - now;</span><br><span class="line">        <span class="keyword">if</span> (delay &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        wait(delay);</span><br><span class="line">        now = System.currentTimeMillis() - base;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="Thread中的静态方法"><a href="#Thread中的静态方法" class="headerlink" title="Thread中的静态方法"></a>Thread中的静态方法</h1><p>Thread类中的静态方法表示操作的线程是”<strong>正在执行静态方法所在的代码块的线程</strong>“。为什么Thread类中的静态方法是为了能对CPU<strong>当前正在运行的线程</strong>进行操作。</p>
 <h4 id="currentThread"><a href="#currentThread" class="headerlink" title="currentThread()"></a>currentThread()</h4><p>currentThread()方法返回的是<strong>对当前正在执行线程对象的引用</strong>。</p>
@@ -1484,13 +1474,13 @@
 
 <p>就是”this.XXX()”和”Thread.currentThread().XXX()”的区别，这个就是最好的例子。必须要清楚的一点就是：<strong>当前执行的Thread未必就是Thread本身</strong>。</p>
 <h4 id="sleep-long-millis"><a href="#sleep-long-millis" class="headerlink" title="sleep(long millis)"></a>sleep(long millis)</h4><p>sleep(long millis)方法的作用是在指定的毫秒内让当前”<strong>正在执行的线程</strong>“休眠（暂停执行）。这个”<strong>正在执行的线程</strong>“是关键，指的是Thread.currentThread()返回的线程。根据JDK API的说法，”该线程不丢失任何监视器的所属权”，简单说就是sleep代码上下文如果被加锁了，锁依然在，但是CPU资源会让出给其他线程。看一下例子：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class MyThread06 extends Thread &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            System.out.println(&quot;run threadName &#x3D; &quot; +</span><br><span class="line">                    this.getName() + &quot; begin&quot;);</span><br><span class="line">            Thread.sleep(2000);</span><br><span class="line">            System.out.println(&quot;run threadName &#x3D; &quot; +</span><br><span class="line">                    this.getName() + &quot; end&quot;);</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class MyThread01 extends Thread &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        MyThread06 mt &#x3D; new MyThread06();</span><br><span class="line">        System.out.println(&quot;begin &#x3D; &quot; + System.currentTimeMillis());</span><br><span class="line">        mt.start();</span><br><span class="line">        System.out.println(&quot;end &#x3D; &quot; + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 运行结果</span><br><span class="line">begin &#x3D; 1604373745809</span><br><span class="line">end &#x3D; 1604373745810</span><br><span class="line">run threadName &#x3D; Thread-0 begin</span><br><span class="line">run threadName &#x3D; Thread-0 end</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread06</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;run threadName = &quot;</span> +</span><br><span class="line">                    <span class="keyword">this</span>.getName() + <span class="string">&quot; begin&quot;</span>);</span><br><span class="line">            Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">            System.out.println(<span class="string">&quot;run threadName = &quot;</span> +</span><br><span class="line">                    <span class="keyword">this</span>.getName() + <span class="string">&quot; end&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread01</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyThread06 mt = <span class="keyword">new</span> MyThread06();</span><br><span class="line">        System.out.println(<span class="string">&quot;begin = &quot;</span> + System.currentTimeMillis());</span><br><span class="line">        mt.start();</span><br><span class="line">        System.out.println(<span class="string">&quot;end = &quot;</span> + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 运行结果</span></span><br><span class="line">begin = <span class="number">1604373745809</span></span><br><span class="line">end = <span class="number">1604373745810</span></span><br><span class="line">run threadName = Thread-<span class="number">0</span> begin</span><br><span class="line">run threadName = Thread-<span class="number">0</span> end</span><br></pre></td></tr></table></figure>
 
 <h4 id="yield"><a href="#yield" class="headerlink" title="yield()"></a>yield()</h4><p>暂停当前执行的线程对象，并执行其他线程。<strong>这个暂停是会放弃CPU资源的，并且放弃CPU的时间不确定</strong>，有可能刚放弃，就获得CPU资源了，也有可能放弃好一会儿，才会被CPU执行。看一下例子：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class MyThread07 extends Thread &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        long beginTime &#x3D; System.currentTimeMillis();</span><br><span class="line">        int count &#x3D; 0;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; 500000000; i++) &#123;</span><br><span class="line">            Thread.yield();</span><br><span class="line">            count &#x3D; count + i + 1;</span><br><span class="line">        &#125;</span><br><span class="line">        long endTime &#x3D; System.currentTimeMillis();</span><br><span class="line">        System.out.println(&quot;用时：&quot; + (endTime - beginTime) + &quot;毫秒！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class MyThread01 extends Thread &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        MyThread07 mt &#x3D; new MyThread07();</span><br><span class="line">        mt.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 这个可以自己运行看看 每次的结果可能都不一样，证明了yield()方法放弃CPU的时间并不确定</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread07</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> beginTime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">500000000</span>; i++) &#123;</span><br><span class="line">            Thread.yield();</span><br><span class="line">            count = count + i + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> endTime = System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">&quot;用时：&quot;</span> + (endTime - beginTime) + <span class="string">&quot;毫秒！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread01</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyThread07 mt = <span class="keyword">new</span> MyThread07();</span><br><span class="line">        mt.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个可以自己运行看看 每次的结果可能都不一样，证明了yield()方法放弃CPU的时间并不确定</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="interrupted"><a href="#interrupted" class="headerlink" title="interrupted()"></a>interrupted()</h4><p>测试当前线程是否已经中断，执行后具有将状态标识清除为false的功能。换句话说，如果连续两次调用该方法，那么返回的必定是false：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    Thread.currentThread().interrupt();</span><br><span class="line">    System.out.println(&quot;是否停止1？&quot; + Thread.interrupted());</span><br><span class="line">    System.out.println(&quot;是否停止2？&quot; + Thread.interrupted());</span><br><span class="line">    System.out.println(&quot;end!&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 运行结果</span><br><span class="line">是否停止1？true</span><br><span class="line">是否停止2？false</span><br><span class="line">end!</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Thread.currentThread().interrupt();</span><br><span class="line">    System.out.println(<span class="string">&quot;是否停止1？&quot;</span> + Thread.interrupted());</span><br><span class="line">    System.out.println(<span class="string">&quot;是否停止2？&quot;</span> + Thread.interrupted());</span><br><span class="line">    System.out.println(<span class="string">&quot;end!&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 运行结果</span></span><br><span class="line">是否停止<span class="number">1</span>？<span class="keyword">true</span></span><br><span class="line">是否停止<span class="number">2</span>？<span class="keyword">false</span></span><br><span class="line">end!</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -1547,11 +1537,11 @@
 <p>的⽅法或者代码块在任意时刻只能有⼀个线程执⾏。</p>
 </blockquote>
 <h2 id="synchronized最主要的三种使⽤⽅式"><a href="#synchronized最主要的三种使⽤⽅式" class="headerlink" title="synchronized最主要的三种使⽤⽅式"></a>synchronized最主要的三种使⽤⽅式</h2><ul>
-<li><p><strong>修饰实例(普通)⽅法:</strong> <strong>对当前对象加锁</strong>，进⼊同步代码前要获得当前对象实例的锁</p>
+<li><p><strong>修饰实例(普通)⽅法：对当前对象加锁。</strong></p>
 </li>
-<li><p><strong>修饰静态⽅法:</strong> 也就是<strong>给当前类加锁</strong>，会作⽤于类的所有对象实例，因为静态成员不属于任何⼀个实例对象，是类成员（ static 表明这是该类的⼀个静态资源，不管new了多少个对象，只有⼀份）。所以如果⼀个线程A调⽤⼀个实例对象的⾮静态 synchronized ⽅法，⽽线程B需要调⽤这个实例对象所属类的静态 synchronized ⽅法，是允许的，不会发⽣互斥现象，因为访问静态<strong>synchronized</strong> ⽅法占⽤的锁是当前类的锁，⽽访问⾮静态 <strong>synchronized</strong> ⽅法占⽤的锁是当前实例对象锁。</p>
+<li><p><strong>修饰静态⽅法： **锁是当前类</strong>，会作⽤于类的所有对象实例，因为静态成员不属于任何⼀个实例对象，是类成员（ static 表明这是该类的⼀个静态资源，不管new了多少个对象，只有⼀份）。所以如果⼀个线程A调⽤⼀个实例对象的⾮静态 synchronized ⽅法，⽽线程B需要调⽤这个实例对象所属类的静态 synchronized ⽅法，是允许的，不会发⽣互斥现象。因为访问静态<strong>synchronized</strong> ⽅法占⽤的锁是当前类的锁，⽽访问⾮静态 <strong>synchronized</strong> ⽅法占⽤的锁是当前实例对象锁。</p>
 </li>
-<li><p><strong>修饰代码块:</strong> <strong>指定加锁对象，对给定对象加锁</strong>，进⼊同步代码块前要获得给定对象的锁。</p>
+<li><p><strong>修饰代码块：锁是Synchonized括号里配置的对象。</strong></p>
 </li>
 </ul>
 <p><strong>注1：</strong></p>
@@ -1577,7 +1567,7 @@
 <h2 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h2><p><strong>双重校验锁实现对象单例（线程安全）</strong></p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton uniqueInstance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> Singleton <span class="title">getUniqueInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//先判断对象是否已经实例过，没有实例化过才进⼊加锁代码</span></span><br><span class="line">        <span class="keyword">if</span> (uniqueInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//类对象加锁</span></span><br><span class="line">            <span class="keyword">synchronized</span> (Singleton.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (uniqueInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    uniqueInstance = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> uniqueInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h1><h2 id="valatile的作用"><a href="#valatile的作用" class="headerlink" title="valatile的作用"></a>valatile的作用</h2><p>volatile 关键的作用使变量在多个线程之间可见</p>
+<h1 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h1><h2 id="valatile的作用"><a href="#valatile的作用" class="headerlink" title="valatile的作用"></a>valatile的作用</h2><p><strong>volatile 关键的作用使变量在多个线程之间可见</strong></p>
 <h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> D丶Cheng</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: volatile 的作用可以强制线程从公共内存中读取变量的值,而不是从工作内存中读取</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VolatileTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建 PrintString 对象</span></span><br><span class="line">        PrintString printString = <span class="keyword">new</span> PrintString();</span><br><span class="line">        <span class="comment">// 开启子线程,让子线程执行 printString 对象的 printStringMethod()方法</span></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            printString.printStringMethod();</span><br><span class="line">        &#125;).start();</span><br><span class="line">        <span class="comment">//main 线程睡眠 1000 毫秒</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;在 main 线程中修改打印标志&quot;</span>);</span><br><span class="line">        printString.setContinuePrint(<span class="keyword">false</span>);</span><br><span class="line">        <span class="comment">//程序运行,查看在 main 线程中修改了打印标志之后,子线程打印是否可以结束打印</span></span><br><span class="line">        <span class="comment">//程序运行后, 可能会出现死循环情况</span></span><br><span class="line">        <span class="comment">//分析原因:</span></span><br><span class="line">        <span class="comment">//解决办法:main线程修改了printString对象的打印标志后,子线程读不到,使用volatile关键字修饰printString对象的打印标志.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">PrintString</span> </span>&#123;</span><br><span class="line">      	<span class="comment">//volatile 的作用可以强制线程从公共内存中读取变量的值,而不是从工作内存中读取</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> continuePrint = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> PrintString <span class="title">setContinuePrint</span><span class="params">(<span class="keyword">boolean</span> continuePrint)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.continuePrint = continuePrint;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printStringMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;开始....&quot;</span>);</span><br><span class="line">            <span class="keyword">while</span> (continuePrint) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;结束++++++++++++++&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h2><p><strong>在 JDK1.2 之前，Java的内存模型实现总是从主存（即共享内存）读取变量</strong>，是不需要进⾏特别的注意的。⽽在<strong>当前的 Java 内存模型下，线程可以把变量保存本地内存（⽐如机器的寄存器）中，⽽不是直接在主存中进⾏读写。这就可能造成⼀个线程在主存中修改了⼀个变量的值，⽽另外⼀个线程还继续使⽤它在寄存器中的变量值的拷⻉，造成数据的不⼀致。</strong>要解决这个问题，就需要把变量声明为<strong>volatile</strong>，这就指示 JVM，这个变量是不稳定的，每次使⽤它都到主存中进⾏读取。</p>
@@ -1729,11 +1719,14 @@
 <p><strong>CAS 原理：</strong> 在把数据更新到主内存时，再次读取主内存变量的值，如果现在变量的值与期望的值(操作起始时读取的值)一样就更新。</p>
 <h3 id="CAS实现简单计数器"><a href="#CAS实现简单计数器" class="headerlink" title="CAS实现简单计数器"></a>CAS实现简单计数器</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CASTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        CASCounter casCounter = <span class="keyword">new</span> CASCounter();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">                System.out.println(casCounter.incrementAndGet());</span><br><span class="line">            &#125;).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CASCounter</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">volatile</span> <span class="keyword">long</span> value = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">compareAndSwap</span><span class="params">(<span class="keyword">long</span> expectedValue, <span class="keyword">long</span> newValue)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (value == expectedValue) &#123;</span><br><span class="line">                    value = newValue;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">incrementAndGet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">long</span> oldvalue;</span><br><span class="line">            <span class="keyword">long</span> newValue;</span><br><span class="line">            <span class="keyword">do</span> &#123;</span><br><span class="line">                oldvalue = value;</span><br><span class="line">                newValue = oldvalue + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">while</span> (!compareAndSwap(oldvalue, newValue));</span><br><span class="line">            <span class="keyword">return</span> newValue;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="CAS-ABA问题"><a href="#CAS-ABA问题" class="headerlink" title="CAS ABA问题"></a>CAS ABA问题</h3><p>​        CAS 实现原子操作背后有一个假设: 共享变量的当前值与当前线程提供的期望值相同, 就认为这个变量没有被其他线程修改过，实际上这种假设不一定总是成立，如有共享变量 count = 0 </p>
-<p> A 线程对 count 值修改为 10<br> B 线程对 count 值修改为 20<br> C 线程对 count 值修改为 0</p>
+<h3 id="CAS常见问题"><a href="#CAS常见问题" class="headerlink" title="CAS常见问题"></a>CAS常见问题</h3><h4 id="CAS-ABA问题"><a href="#CAS-ABA问题" class="headerlink" title="CAS ABA问题"></a>CAS ABA问题</h4><p>​        CAS 实现原子操作背后有一个假设： 共享变量的当前值与当前线程提供的期望值相同， 就认为这个变量没有被其他线程修改过，实际上这种假设不一定总是成立，如有共享变量 count = 0，发生了如下情况： </p>
+<p>​         A 线程对 count 值修改为 10，B 线程对 count 值修改为 20，C 线程对 count 值修改为 0</p>
 <p>​        当前线程看到 count 变量的值现在是0，现在是否认为 count变量的值没有被其他线程更新呢? 这种结果是否能够接受?</p>
 <p>这就是 CAS 中的 ABA 问题,即共享变量经历了 A-&gt;B-&gt;A 的更新</p>
-<p>​        是否能够接收 ABA 问题跟实现的算法有关。如果想要规避 ABA 问题,可以为共享变量引入一个修订号(时间 戳), 每次修改共享变量时，相应的修订号就会增加 1。 ABA 变量更 新过程变量: [A,0] -&gt;[B,1]-&gt;[A,2]， 每次对共享变量的修改都会导致修订号的增加，通过修订号依然可以准确判断变量是否被其他线程修改过。 AtomicStampedReference 类就是基于这种思想产生的。</p>
+<p>​        是否能够接受 ABA 问题跟实现的算法有关。<strong>如果想要规避 ABA 问题，可以为共享变量引入一个修订号(时间 戳), 每次修改共享变量时，相应的修订号就会增加1。</strong> ABA 变量更 新过程变量： [A,0] -&gt;[B,1]-&gt;[A,2]， 每次对共享变量的修改都会导致修订号的增加，通过修订号依然可以准确判断变量是否被其他线程修改过。 AtomicStampedReference 类就是基于这种思想产生的。</p>
+<h4 id="循环时间长开销大"><a href="#循环时间长开销大" class="headerlink" title="循环时间长开销大"></a>循环时间长开销大</h4><p>​        自旋 CAS 如果长时间不成功，会给 CPU 带来非常大的执行开销。如果 JVM 能支持处理器提供的 pause 指令，那么效率会有一定的提升。pause 指令有两个作用：第一，它可以延迟流水线执行指令（de-pipeline），使 CPU 不会消耗过多的执行资源，延迟的时间取决于具体实现的版本，在一些处理器上延迟时间是零；第二，它可以避免在退出循环的时候因内存顺序冲突（Memory Order Violation）而引起 CPU 流水线被清空（CPU Pipeline Flush），从而提高 CPU 的执行效率。</p>
+<h4 id="只能保证一个共享变量的原子操作"><a href="#只能保证一个共享变量的原子操作" class="headerlink" title="只能保证一个共享变量的原子操作"></a>只能保证一个共享变量的原子操作</h4><p>​        当对一个共享变量执行操作时，我们可以使用循环 CAS 的方式来保证原子操作，但是对多个共享变量操作时，循环 CAS 就无法保证操作的原子性，这个时候就可以用锁。还有一个取巧的办法，就是把多个共享变量合并</p>
+<p>成一个共享变量来操作。比如，有两个共享变量 i＝2，j=a，合并一下 ij=2a，然后用CAS 来操作 ij。从 Java 1.5 开始， JDK 提供了 AtomicReference 类来保证引用对象之间的原子性，就可以把多个变量放在一个对象里来进行 CAS 操作。</p>
 <h1 id="常用原子类"><a href="#常用原子类" class="headerlink" title="常用原子类"></a>常用原子类</h1><p>​        原子变量类基于CAS实现的, 当对共享变量进行read-modify-write 更新操作时,通过原子变量类可以保障操作的原子性与可见性.对变量的 read-modify-write 更新操作是指当前操作不是一个简单的赋值,而 是变量的新值依赖变量的旧值,如自增操作i++. 由于volatile只能保证 可见性,无法保障原子性, 原子变量类内部就是借助一个Volatile变量, 并且保障了该变量的 read-modify-write 操作的原子性, 有时把原子变 量类看作增强的 volatile 变量. 原子变量类有 12 个，如下：</p>
 <table>
 <thead>
@@ -1932,11 +1925,6 @@
       <tags>
         <tag>微信</tag>
       </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/posts/0.html</url>
-    <content><![CDATA[<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201124140928472.png" alt="image-20201124140928472" style="zoom:50%;" />]]></content>
   </entry>
   <entry>
     <title>01.设计模式概念及工厂模式</title>
@@ -2961,149 +2949,6 @@
       </tags>
   </entry>
   <entry>
-    <title>02.Spring IOC</title>
-    <url>/posts/288f5944.html</url>
-    <content><![CDATA[<h3 id="Spring-IoC-和-DI-简介"><a href="#Spring-IoC-和-DI-简介" class="headerlink" title="Spring IoC 和 DI 简介"></a>Spring IoC 和 DI 简介</h3><h4 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h4><ul>
-<li>读作 <strong>“反转控制”</strong>，更好理解，不是什么技术，而是一种<strong>设计思想</strong>，就是<strong>将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</strong></li>
-<li><strong>正控：</strong>若要使用某个对象，需要<strong>自己去负责对象的创建</strong></li>
-<li><strong>反控：</strong>若要使用某个对象，只需要<strong>从 Spring 容器中获取需要使用的对象，不关心对象的创建过程</strong>，也就是把<strong>创建对象的控制权反转给了Spring框架</strong></li>
-<li><strong>好莱坞法则：</strong> Don’t call me ,I’ll call you</li>
-</ul>
-<blockquote>
-<h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><p>控制反转显然是一个抽象的概念，我们举一个鲜明的例子来说明。</p>
-</blockquote>
-<blockquote>
-<p>在现实生活中，人们要用到一样东西的时候，第一反应就是去找到这件东西，比如想喝新鲜橙汁，在没有饮品店的日子里，最直观的做法就是：买果汁机、买橙子，然后准备开水。值得注意的是：这些都是你自己<strong>“主动”创造</strong>的过程，也就是说一杯橙汁需要你自己创造。</p>
-</blockquote>
-<blockquote>
-<p>然而到了今时今日，由于饮品店的盛行，当我们想喝橙汁时，第一想法就转换成了找到饮品店的联系方式，通过电话等渠道描述你的需要、地址、联系方式等，下订单等待，过一会儿就会有人送来橙汁了。请注意你并没有“主动”去创造橙汁，橙汁是由饮品店创造的，而不是你，然而也完全达到了你的要求，甚至比你创造的要好上那么一些。</p>
-</blockquote>
-<h4 id="更经典全方位的理解"><a href="#更经典全方位的理解" class="headerlink" title="更经典全方位的理解"></a>更经典全方位的理解</h4><p>要了解<strong>控制反转( Inversion of Control )</strong>, 我觉得有必要先了解软件设计的一个重要思想：<strong>依赖倒置原则（Dependency Inversion Principle ）</strong>。</p>
-<p><img src="https://pic3.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p><strong>什么是依赖倒置原则？</strong>假设我们设计一辆汽车：先设计轮子，然后根据轮子大小设计底盘，接着根据底盘设计车身，最后根据车身设计好整个汽车。这里就出现了一个“依赖”关系：汽车依赖车身，车身依赖底盘，底盘依赖轮子。</p>
-<p><img src="https://pic1.zhimg.com/v2-c68248bb5d9b4d64d22600571e996446_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这样的设计看起来没问题，但是可维护性却很低。假设设计完工之后，上司却突然说根据市场需求的变动，要我们把车子的轮子设计都改大一码。这下我们就蛋疼了：因为我们是根据轮子的尺寸设计的底盘，轮子的尺寸一改，底盘的设计就得修改；同样因为我们是根据底盘设计的车身，那么车身也得改，同理汽车设计也得改——整个设计几乎都得改！</p>
-<p>我们现在换一种思路。我们先设计汽车的大概样子，然后根据汽车的样子来设计车身，根据车身来设计底盘，最后根据底盘来设计轮子。这时候，依赖关系就倒置过来了：轮子依赖底盘， 底盘依赖车身， 车身依赖汽车。</p>
-<p><img src="https://pic4.zhimg.com/v2-e64bf72c5c04412f626b21753aa9e1a1_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这时候，上司再说要改动轮子的设计，我们就只需要改动轮子的设计，而不需要动底盘，车身，汽车的设计了。</p>
-<p>这就是<strong>依赖倒置原则——把原本的高层建筑依赖底层建筑“倒置”过来，变成底层建筑依赖高层建筑。高层建筑决定需要什么，底层去实现这样的需求，但是高层并不用管底层是怎么实现的。</strong>这样就不会出现前面的“牵一发动全身”的情况。</p>
-<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p><strong>控制反转（Inversion of Control）</strong> 就是依赖倒置原则的一种代码设计的思路。具体采用的方法就是所谓的<strong>依赖注入（Dependency Injection）</strong>。其实这些概念初次接触都会感到云里雾里的。说穿了，这几种概念的关系大概如下：</p>
-<p><img src="https://pic1.zhimg.com/v2-ee924f8693cff51785ad6637ac5b21c1_r.jpg?source=1940ef5c" alt="img"></p>
-<p>为了理解这几个概念，我们还是用上面汽车的例子。只不过这次换成代码。我们先定义四个Class，车，车身，底盘，轮胎。然后初始化这辆车，最后跑这辆车。代码结构如下：</p>
-<p><img src="https://pic2.zhimg.com/v2-8ec294de7d0f9013788e3fb5c76069ef_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这样，就相当于上面第一个例子，上层建筑依赖下层建筑——每一个类的构造函数都直接调用了底层代码的构造函数。假设我们需要改动一下轮胎（Tire）类，把它的尺寸变成动态的，而不是一直都是30。我们需要这样改：</p>
-<p><img src="https://pic1.zhimg.com/50/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_hd.jpg?source=1940ef5c" alt="img"><img src="https://pic4.zhimg.com/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_r.jpg?source=1940ef5c" alt="img"></p>
-<p>由于我们修改了轮胎的定义，为了让整个程序正常运行，我们需要做以下改动：</p>
-<p><img src="https://pic4.zhimg.com/v2-82e0c12a1b26f7979ed9241e169affda_r.jpg?source=1940ef5c" alt="img"></p>
-<p>由此我们可以看到，仅仅是为了修改轮胎的构造函数，这种设计却需要<strong>修改整个上层所有类的构造函数</strong>！在软件工程中，<strong>这样的设计几乎是不可维护的</strong>——在实际工程项目中，有的类可能会是几千个类的底层，如果每次修改这个类，我们都要修改所有以它作为依赖的类，那软件的维护成本就太高了。</p>
-<p>所以我们需要进行控制反转（IoC），及上层控制下层，而不是下层控制着上层。我们用依赖注入（Dependency Injection）这种方式来实现控制反转。<strong>所谓依赖注入，就是把底层类作为参数传入上层类，实现上层类对下层类的“控制</strong>”。这里我们用<strong>构造方法传递的依赖注入方式</strong>重新写车类的定义：</p>
-<p><img src="https://pic4.zhimg.com/v2-c920a0540ce0651003a5326f6ef9891d_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这里我们再把轮胎尺寸变成动态的，同样为了让整个系统顺利运行，我们需要做如下修改：</p>
-<p><img src="https://pic2.zhimg.com/v2-99ad2cd809fcb86dd791ff7f65fb1779_r.jpg?source=1940ef5c" alt="img"></p>
-<p>看到没？这里<strong>我只需要修改轮胎类就行了，不用修改其他任何上层类。</strong>这显然是更容易维护的代码。不仅如此，在实际的工程中，这种设计模式还有利于<strong>不同组的协同合作和单元测试：</strong>比如开发这四个类的分别是四个不同的组，那么只要定义好了接口，四个不同的组可以同时进行开发而不相互受限制；而对于单元测试，如果我们要写Car类的单元测试，就只需要Mock一下Framework类传入Car就行了，而不用把Framework, Bottom, Tire全部new一遍再来构造Car。</p>
-<p>这里我们是采用的<strong>构造函数传入</strong>的方式进行的依赖注入。其实还有另外两种方法：<strong>Setter传递</strong>和<strong>接口传递</strong>。这里就不多讲了，核心思路都是一样的，都是为了实现<strong>控制反转</strong>。</p>
-<p><img src="https://pic1.zhimg.com/v2-861683acac47577c81f2b7493dd05649_r.jpg?source=1940ef5c" alt="img"></p>
-<p><img src="https://pic1.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p>看到这里你应该能理解什么控制反转和依赖注入了。那什么是**控制反转容器(IoC Container)**呢？其实上面的例子中，对车类进行初始化的那段代码发生的地方，就是控制反转容器。</p>
-<p><img src="https://pic2.zhimg.com/v2-c845802f9187953ed576e0555f76da42_r.jpg?source=1940ef5c" alt="img"></p>
-<p>显然你也应该观察到了，因为采用了依赖注入，在初始化的过程中就不可避免的会写大量的new。这里IoC容器就解决了这个问题。<strong>这个容器可以自动对你的代码进行初始化，你只需要维护一个Configuration（可以是xml可以是一段代码），而不用每次初始化一辆车都要亲手去写那一大段初始化的代码</strong>。这是引入IoC Container的第一个好处。</p>
-<p>IoC Container的第二个好处是：<strong>我们在创建实例的时候不需要了解其中的细节。</strong>在上面的例子中，我们自己手动创建一个车instance时候，是从底层往上层new的：</p>
-<p><img src="https://pic1.zhimg.com/v2-555b2be7d76e78511a6d6fed3304927f_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这个过程中，我们需要了解整个Car/Framework/Bottom/Tire类构造函数是怎么定义的，才能一步一步new/注入。</p>
-<p>而IoC Container在进行这个工作的时候是反过来的，它先从最上层开始往下找依赖关系，到达最底层之后再往上一步一步new（有点像深度优先遍历）：</p>
-<p><img src="https://pic4.zhimg.com/v2-24a96669241e81439c636e83976ba152_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这里IoC Container可以直接隐藏具体的创建实例的细节，在我们来看它就像一个工厂：</p>
-<p><img src="https://pic4.zhimg.com/v2-5ca61395f37cef73c7bbe7808f9ea219_r.jpg?source=1940ef5c" alt="img"></p>
-<p>我们就像是工厂的客户。我们只需要向工厂请求一个Car实例，然后它就给我们按照Config创建了一个Car实例。我们完全不用管这个Car实例是怎么一步一步被创建出来。</p>
-<p>实际项目中，有的Service Class可能是十年前写的，有几百个类作为它的底层。假设我们新写的一个API需要实例化这个Service，我们总不可能回头去搞清楚这几百个类的构造函数吧？IoC Container的这个特性就很完美的解决了这类问题——<strong>因为这个架构要求你在写class的时候需要写相应的Config文件，所以你要初始化很久以前的Service类的时候，前人都已经写好了Config文件，你直接在需要用的地方注入这个Service就可以了</strong>。这大大增加了项目的可维护性且降低了开发难度。</p>
-<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
-<p>这里只是很粗略的讲了一下我自己对IoC和DI的理解。主要的目的是在于<strong>最大限度避免晦涩难懂的专业词汇，用尽量简洁，通俗，直观的例子</strong>来解释这些概念。如果让大家能有一个类似“哦！原来就是这么个玩意嘛！”的印象，我觉得就OK了。想要深入了解的话，可以上网查阅一些更权威的资料。这里推荐一下 <a href="https://link.zhihu.com/?target=https://en.wikipedia.org/wiki/Dependency_injection">Dependency injection </a> 和 <a href="https://link.zhihu.com/?target=https://martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency Injection pattern</a> 这两篇文章，讲的很好很详细。</p>
-<h3 id="Spring-IOC-容器源码分析"><a href="#Spring-IOC-容器源码分析" class="headerlink" title="Spring IOC 容器源码分析"></a>Spring IOC 容器源码分析</h3><h4 id="Spring-IoC-容器的设计"><a href="#Spring-IoC-容器的设计" class="headerlink" title="Spring IoC 容器的设计"></a>Spring IoC 容器的设计</h4><p>Spring IoC 容器的设计主要是基于以下两个接口：</p>
-<ul>
-<li><strong>BeanFactory</strong></li>
-<li><strong>ApplicationContext</strong></li>
-</ul>
-<p>其中 ApplicationContext 是 BeanFactory 的子接口之一，换句话说：<strong>BeanFactory 是 Spring IoC 容器所定义的最底层接口，</strong>而 ApplicationContext 是其最高级接口之一，并对 BeanFactory 功能做了许多的扩展，所以在<strong>绝大部分的工作场景下</strong>，都会使用 ApplicationContext 作为 Spring IoC 容器。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-539d3860abb6b3f7.png"></p>
-<h5 id="BeanFactory"><a href="#BeanFactory" class="headerlink" title="BeanFactory"></a>BeanFactory</h5><p>从上图中我们可以几乎看到， BeanFactory 位于设计的最底层，它提供了 Spring IoC 最底层的设计，为此，我们先来看看该类中提供了哪些方法：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-ec7f8eb4cc563216.png"></p>
-<p>由于这个接口的重要性，所以有必要在这里作一下简短的说明：</p>
-<ul>
-<li><p>【getBean】 对应了多个方法来获取配置给 Spring IoC 容器的 Bean。<br>① 按照类型拿 bean：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(Bean.class)</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：</strong> 要求在 Spring 中只配置了一个这种类型的实例，否则报错。（如果有多个那 Spring 就懵了，不知道该获取哪一个）<br>② 按照 bean 的名字拿 bean:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：</strong> 这种方法不太安全，IDE 不会检查其安全性（关联性）<br>③ 按照名字和类型拿 bean：<strong>（推荐）</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>, Bean.class);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>【isSingleton】 用于判断是否单例，如果判断为真，其意思是该 Bean 在容器中是作为一个唯一单例存在的。而【isPrototype】则相反，如果判断为真，意思是当你从容器中获取 Bean，容器就为你生成一个新的实例。</p>
-<p><strong>注意：</strong> 在默认情况下，【isSingleton】为 ture，而【isPrototype】为 false</p>
-</li>
-<li><p>关于 type 的匹配，这是一个按 Java 类型匹配的方式</p>
-</li>
-<li><p>【getAliases】方法是获取别名的方法</p>
-</li>
-</ul>
-<p>这就是 Spring IoC 最底层的设计，所有关于 Spring IoC 的容器将会遵守它所定义的方法</p>
-<h5 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h5><p>根据 ApplicationContext 的类继承关系图，可以看到 ApplicationContext 接口扩展了许许多多的接口，因此它的功能十分强大，所以在实际应用中常常会使用到的是 ApplicationContext 接口，因为 BeanFactory 的方法和功能较少，而 ApplicationContext 的方法和功能较多。</p>
-<p>我们来认识一个 ApplicationContext 的子类——ClassPathXmlApplicationContext。</p>
-<ol>
-<li>先在【src】目录下创建一个 【bean.xml】 文件：</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 通过 xml 方式装配 bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;source&quot;</span> <span class="attr">class</span>=<span class="string">&quot;pojo.Source&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;橙子&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sugar&quot;</span> <span class="attr">value</span>=<span class="string">&quot;多糖&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;size&quot;</span> <span class="attr">value</span>=<span class="string">&quot;超大杯&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>这里定义了一个 bean ，这样 Spring IoC 容器在初始化的时候就能找到它们，然后使用ClassPathXmlApplicationContext 容器就可以将其初始化：</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;bean.xml&quot;</span>);</span><br><span class="line">Source source = (Source) context.getBean(<span class="string">&quot;source&quot;</span>, Source.class);</span><br><span class="line"></span><br><span class="line">System.out.println(source.getFruit());</span><br><span class="line">System.out.println(source.getSugar());</span><br><span class="line">System.out.println(source.getSize());</span><br></pre></td></tr></table></figure>
-
-<p>这样就会使用 Application 的实现类 <code>ClassPathXmlApplicationContext</code> 去初始化 Spring IoC 容器，然后开发者就可以通过 IoC 容器来获取资源了！</p>
-<p><strong>ApplicationContext 常见实现类：</strong></p>
-<p><strong>ClassPathXmlApplicationContext：</strong><br>读取classpath中的资源</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>FileSystemXmlApplicationContext:-</strong><br>读取指定路径的资源</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ac = <span class="keyword">new</span> FileSystemXmlApplicationContext(<span class="string">&quot;c:/applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><strong>XmlWebApplicationContext:</strong><br>需要在Web的环境下才可以运行</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYXmlWebApplicationContext ac = <span class="keyword">new</span> XmlWebApplicationContext(); <span class="comment">// 这时并没有初始化容器</span></span><br><span class="line">ac.setServletContext(servletContext); <span class="comment">// 需要指定ServletContext对象</span></span><br><span class="line">ac.setConfigLocation(<span class="string">&quot;/WEB-INF/applicationContext.xml&quot;</span>); <span class="comment">// 指定配置文件路径，开头的斜线表示Web应用的根目录</span></span><br><span class="line">ac.refresh(); <span class="comment">// 初始化容器</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="BeanFactory-和-ApplicationContext-的区别："><a href="#BeanFactory-和-ApplicationContext-的区别：" class="headerlink" title="BeanFactory 和 ApplicationContext 的区别："></a>BeanFactory 和 ApplicationContext 的区别：</h5><ul>
-<li><p><strong>BeanFactory：</strong> 是Spring中最底层的接口，只提供了最简单的IoC功能,负责配置，创建和管理bean。<br>在应用中，一般不使用 BeanFactory，而推荐使用ApplicationContext（应用上下文），原因如下。</p>
-</li>
-<li><p><strong>ApplicationContext：</strong></p>
-<p>1.继承了 BeanFactory，拥有了基本的 IoC 功能；<br>2.除此之外，ApplicationContext 还提供了以下功能：<br>① 支持国际化；<br>② 支持消息机制；<br>③ 支持统一的资源加载；<br>④ 支持AOP功能；</p>
-</li>
-</ul>
-<h3 id="Spring-IoC-的容器的初始化和依赖注入"><a href="#Spring-IoC-的容器的初始化和依赖注入" class="headerlink" title="Spring IoC 的容器的初始化和依赖注入"></a>Spring IoC 的容器的初始化和依赖注入</h3><p>虽然 Spring IoC 容器的生成十分的复杂，但是大体了解一下 Spring IoC 初始化的过程还是必要的。这对于理解 Spring 的一系列行为是很有帮助的。</p>
-<p><strong>注意：</strong> Bean 的定义和初始化在 Spring IoC 容器是两大步骤，它是先定义，然后初始化和依赖注入的。</p>
-<ul>
-<li><p><strong>Bean 的定义分为 3 步：定位、加载、注册</strong></p>
-</li>
-<li><p>Resource 定位<br>Spring IoC 容器先根据开发者的配置，进行资源的定位，在 Spring 的开发中，通过 XML 或者注解都是十分常见的方式，定位的内容是由开发者提供的。</p>
-</li>
-<li><p>BeanDefinition 的加载<br>这个时候只是将 Resource 定位到的信息，保存到 Bean 定义（BeanDefinition）中，此时并不会创建 Bean 的实例</p>
-</li>
-<li><p>BeanDefinition 的注册<br>这个过程就是将 BeanDefinition 的信息发布到 Spring IoC 容器中<br><strong>注意：</strong>此时仍然没有对应的 Bean 的实例。</p>
-</li>
-</ul>
-<p>做完了以上 3 步，Bean 就在 Spring IoC 容器中被定义了，而没有被初始化，更没有完成依赖注入，也就是没有注入其配置的资源给 Bean，那么它还不能完全使用。</p>
-<p>对于初始化和依赖注入，Spring Bean 还有一个配置选项——<strong>【lazy-init】</strong>，其含义就是<strong>是否初始化 Spring Bean</strong>。在没有任何配置的情况下，它的默认值为 default，实际值为 false，也就是 <strong>Spring IoC 默认会自动初始化 Bean</strong>。如果将其设置为 true，那么只有当我们使用 Spring IoC 容器的 getBean 方法获取它时，它才会进行 Bean 的初始化，完成依赖注入。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zhihu.com/question/23277575/answer/169698662">https://www.zhihu.com/question/23277575/answer/169698662</a></p>
-<p><a href="https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/">https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/</a></p>
-<p><a href="https://javadoop.com/post/spring-ioc">https://javadoop.com/post/spring-ioc</a></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis基础</title>
     <url>/posts/fe29e710.html</url>
     <content><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="Redis优缺点"><a href="#Redis优缺点" class="headerlink" title="Redis优缺点"></a>Redis优缺点</h2><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
@@ -3270,6 +3115,203 @@
       </tags>
   </entry>
   <entry>
+    <title>02.Spring IOC</title>
+    <url>/posts/288f5944.html</url>
+    <content><![CDATA[<h3 id="Spring-IoC-和-DI-简介"><a href="#Spring-IoC-和-DI-简介" class="headerlink" title="Spring IoC 和 DI 简介"></a>Spring IoC 和 DI 简介</h3><h4 id="IoC：Inverse-of-Control（控制反转）"><a href="#IoC：Inverse-of-Control（控制反转）" class="headerlink" title="IoC：Inverse of Control（控制反转）"></a>IoC：Inverse of Control（控制反转）</h4><ul>
+<li>读作 <strong>“反转控制”</strong>，更好理解，不是什么技术，而是一种<strong>设计思想</strong>，就是<strong>将原本在程序中手动创建对象的控制权，交由Spring框架来管理。</strong></li>
+<li><strong>正控：</strong>若要使用某个对象，需要<strong>自己去负责对象的创建</strong></li>
+<li><strong>反控：</strong>若要使用某个对象，只需要<strong>从 Spring 容器中获取需要使用的对象，不关心对象的创建过程</strong>，也就是把<strong>创建对象的控制权反转给了Spring框架</strong></li>
+<li><strong>好莱坞法则：</strong> Don’t call me ,I’ll call you</li>
+</ul>
+<blockquote>
+<h4 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h4><p>控制反转显然是一个抽象的概念，我们举一个鲜明的例子来说明。</p>
+</blockquote>
+<blockquote>
+<p>在现实生活中，人们要用到一样东西的时候，第一反应就是去找到这件东西，比如想喝新鲜橙汁，在没有饮品店的日子里，最直观的做法就是：买果汁机、买橙子，然后准备开水。值得注意的是：这些都是你自己<strong>“主动”创造</strong>的过程，也就是说一杯橙汁需要你自己创造。</p>
+</blockquote>
+<blockquote>
+<p>然而到了今时今日，由于饮品店的盛行，当我们想喝橙汁时，第一想法就转换成了找到饮品店的联系方式，通过电话等渠道描述你的需要、地址、联系方式等，下订单等待，过一会儿就会有人送来橙汁了。请注意你并没有“主动”去创造橙汁，橙汁是由饮品店创造的，而不是你，然而也完全达到了你的要求，甚至比你创造的要好上那么一些。</p>
+</blockquote>
+<h4 id="更经典全方位的理解"><a href="#更经典全方位的理解" class="headerlink" title="更经典全方位的理解"></a>更经典全方位的理解</h4><p>要了解<strong>控制反转( Inversion of Control )</strong>, 我觉得有必要先了解软件设计的一个重要思想：<strong>依赖倒置原则（Dependency Inversion Principle ）</strong>。</p>
+<p><img src="https://pic3.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p><strong>什么是依赖倒置原则？</strong>假设我们设计一辆汽车：先设计轮子，然后根据轮子大小设计底盘，接着根据底盘设计车身，最后根据车身设计好整个汽车。这里就出现了一个“依赖”关系：汽车依赖车身，车身依赖底盘，底盘依赖轮子。</p>
+<p><img src="https://pic1.zhimg.com/v2-c68248bb5d9b4d64d22600571e996446_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这样的设计看起来没问题，但是可维护性却很低。假设设计完工之后，上司却突然说根据市场需求的变动，要我们把车子的轮子设计都改大一码。这下我们就蛋疼了：因为我们是根据轮子的尺寸设计的底盘，轮子的尺寸一改，底盘的设计就得修改；同样因为我们是根据底盘设计的车身，那么车身也得改，同理汽车设计也得改——整个设计几乎都得改！</p>
+<p>我们现在换一种思路。我们先设计汽车的大概样子，然后根据汽车的样子来设计车身，根据车身来设计底盘，最后根据底盘来设计轮子。这时候，依赖关系就倒置过来了：轮子依赖底盘， 底盘依赖车身， 车身依赖汽车。</p>
+<p><img src="https://pic4.zhimg.com/v2-e64bf72c5c04412f626b21753aa9e1a1_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这时候，上司再说要改动轮子的设计，我们就只需要改动轮子的设计，而不需要动底盘，车身，汽车的设计了。</p>
+<p>这就是<strong>依赖倒置原则——把原本的高层建筑依赖底层建筑“倒置”过来，变成底层建筑依赖高层建筑。高层建筑决定需要什么，底层去实现这样的需求，但是高层并不用管底层是怎么实现的。</strong>这样就不会出现前面的“牵一发动全身”的情况。</p>
+<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p><strong>控制反转（Inversion of Control）</strong> 就是依赖倒置原则的一种代码设计的思路。具体采用的方法就是所谓的<strong>依赖注入（Dependency Injection）</strong>。其实这些概念初次接触都会感到云里雾里的。说穿了，这几种概念的关系大概如下：</p>
+<p><img src="https://pic1.zhimg.com/v2-ee924f8693cff51785ad6637ac5b21c1_r.jpg?source=1940ef5c" alt="img"></p>
+<p>为了理解这几个概念，我们还是用上面汽车的例子。只不过这次换成代码。我们先定义四个Class，车，车身，底盘，轮胎。然后初始化这辆车，最后跑这辆车。代码结构如下：</p>
+<p><img src="https://pic2.zhimg.com/v2-8ec294de7d0f9013788e3fb5c76069ef_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这样，就相当于上面第一个例子，上层建筑依赖下层建筑——每一个类的构造函数都直接调用了底层代码的构造函数。假设我们需要改动一下轮胎（Tire）类，把它的尺寸变成动态的，而不是一直都是30。我们需要这样改：</p>
+<p><img src="https://pic1.zhimg.com/50/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_hd.jpg?source=1940ef5c" alt="img"><img src="https://pic4.zhimg.com/v2-64e8b19eeb70d9cf87c27fe4c5c0fc81_r.jpg?source=1940ef5c" alt="img"></p>
+<p>由于我们修改了轮胎的定义，为了让整个程序正常运行，我们需要做以下改动：</p>
+<p><img src="https://pic4.zhimg.com/v2-82e0c12a1b26f7979ed9241e169affda_r.jpg?source=1940ef5c" alt="img"></p>
+<p>由此我们可以看到，仅仅是为了修改轮胎的构造函数，这种设计却需要<strong>修改整个上层所有类的构造函数</strong>！在软件工程中，<strong>这样的设计几乎是不可维护的</strong>——在实际工程项目中，有的类可能会是几千个类的底层，如果每次修改这个类，我们都要修改所有以它作为依赖的类，那软件的维护成本就太高了。</p>
+<p>所以我们需要进行控制反转（IoC），及上层控制下层，而不是下层控制着上层。我们用依赖注入（Dependency Injection）这种方式来实现控制反转。<strong>所谓依赖注入，就是把底层类作为参数传入上层类，实现上层类对下层类的“控制</strong>”。这里我们用<strong>构造方法传递的依赖注入方式</strong>重新写车类的定义：</p>
+<p><img src="https://pic4.zhimg.com/v2-c920a0540ce0651003a5326f6ef9891d_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里我们再把轮胎尺寸变成动态的，同样为了让整个系统顺利运行，我们需要做如下修改：</p>
+<p><img src="https://pic2.zhimg.com/v2-99ad2cd809fcb86dd791ff7f65fb1779_r.jpg?source=1940ef5c" alt="img"></p>
+<p>看到没？这里<strong>我只需要修改轮胎类就行了，不用修改其他任何上层类。</strong>这显然是更容易维护的代码。不仅如此，在实际的工程中，这种设计模式还有利于<strong>不同组的协同合作和单元测试：</strong>比如开发这四个类的分别是四个不同的组，那么只要定义好了接口，四个不同的组可以同时进行开发而不相互受限制；而对于单元测试，如果我们要写Car类的单元测试，就只需要Mock一下Framework类传入Car就行了，而不用把Framework, Bottom, Tire全部new一遍再来构造Car。</p>
+<p>这里我们是采用的<strong>构造函数传入</strong>的方式进行的依赖注入。其实还有另外两种方法：<strong>Setter传递</strong>和<strong>接口传递</strong>。这里就不多讲了，核心思路都是一样的，都是为了实现<strong>控制反转</strong>。</p>
+<p><img src="https://pic1.zhimg.com/v2-861683acac47577c81f2b7493dd05649_r.jpg?source=1940ef5c" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p>看到这里你应该能理解什么控制反转和依赖注入了。那什么是**控制反转容器(IoC Container)**呢？其实上面的例子中，对车类进行初始化的那段代码发生的地方，就是控制反转容器。</p>
+<p><img src="https://pic2.zhimg.com/v2-c845802f9187953ed576e0555f76da42_r.jpg?source=1940ef5c" alt="img"></p>
+<p>显然你也应该观察到了，因为采用了依赖注入，在初始化的过程中就不可避免的会写大量的new。这里IoC容器就解决了这个问题。<strong>这个容器可以自动对你的代码进行初始化，你只需要维护一个Configuration（可以是xml可以是一段代码），而不用每次初始化一辆车都要亲手去写那一大段初始化的代码</strong>。这是引入IoC Container的第一个好处。</p>
+<p>IoC Container的第二个好处是：<strong>我们在创建实例的时候不需要了解其中的细节。</strong>在上面的例子中，我们自己手动创建一个车instance时候，是从底层往上层new的：</p>
+<p><img src="https://pic1.zhimg.com/v2-555b2be7d76e78511a6d6fed3304927f_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这个过程中，我们需要了解整个Car/Framework/Bottom/Tire类构造函数是怎么定义的，才能一步一步new/注入。</p>
+<p>而IoC Container在进行这个工作的时候是反过来的，它先从最上层开始往下找依赖关系，到达最底层之后再往上一步一步new（有点像深度优先遍历）：</p>
+<p><img src="https://pic4.zhimg.com/v2-24a96669241e81439c636e83976ba152_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里IoC Container可以直接隐藏具体的创建实例的细节，在我们来看它就像一个工厂：</p>
+<p><img src="https://pic4.zhimg.com/v2-5ca61395f37cef73c7bbe7808f9ea219_r.jpg?source=1940ef5c" alt="img"></p>
+<p>我们就像是工厂的客户。我们只需要向工厂请求一个Car实例，然后它就给我们按照Config创建了一个Car实例。我们完全不用管这个Car实例是怎么一步一步被创建出来。</p>
+<p>实际项目中，有的Service Class可能是十年前写的，有几百个类作为它的底层。假设我们新写的一个API需要实例化这个Service，我们总不可能回头去搞清楚这几百个类的构造函数吧？IoC Container的这个特性就很完美的解决了这类问题——<strong>因为这个架构要求你在写class的时候需要写相应的Config文件，所以你要初始化很久以前的Service类的时候，前人都已经写好了Config文件，你直接在需要用的地方注入这个Service就可以了</strong>。这大大增加了项目的可维护性且降低了开发难度。</p>
+<p><img src="https://pic4.zhimg.com/v2-d53c75e91d959acbb0d95a835212ada5_r.jpg?source=1940ef5c" alt="img"></p>
+<p>这里只是很粗略的讲了一下我自己对IoC和DI的理解。主要的目的是在于<strong>最大限度避免晦涩难懂的专业词汇，用尽量简洁，通俗，直观的例子</strong>来解释这些概念。如果让大家能有一个类似“哦！原来就是这么个玩意嘛！”的印象，我觉得就OK了。想要深入了解的话，可以上网查阅一些更权威的资料。这里推荐一下 <a href="https://link.zhihu.com/?target=https://en.wikipedia.org/wiki/Dependency_injection">Dependency injection </a> 和 <a href="https://link.zhihu.com/?target=https://martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency Injection pattern</a> 这两篇文章，讲的很好很详细。</p>
+<h3 id="Spring-IOC-容器源码分析"><a href="#Spring-IOC-容器源码分析" class="headerlink" title="Spring IOC 容器源码分析"></a>Spring IOC 容器源码分析</h3><h4 id="Spring-IoC-容器的设计"><a href="#Spring-IoC-容器的设计" class="headerlink" title="Spring IoC 容器的设计"></a>Spring IoC 容器的设计</h4><p>Spring IoC 容器的设计主要是基于以下两个接口：</p>
+<ul>
+<li><strong>BeanFactory</strong></li>
+<li><strong>ApplicationContext</strong></li>
+</ul>
+<p>其中 ApplicationContext 是 BeanFactory 的子接口之一，换句话说：<strong>BeanFactory 是 Spring IoC 容器所定义的最底层接口，</strong>而 ApplicationContext 是其最高级接口之一，并对 BeanFactory 功能做了许多的扩展，所以在<strong>绝大部分的工作场景下</strong>，都会使用 ApplicationContext 作为 Spring IoC 容器。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-539d3860abb6b3f7.png"></p>
+<h5 id="BeanFactory"><a href="#BeanFactory" class="headerlink" title="BeanFactory"></a>BeanFactory</h5><p>从上图中我们可以几乎看到， BeanFactory 位于设计的最底层，它提供了 Spring IoC 最底层的设计，为此，我们先来看看该类中提供了哪些方法：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/7896890-ec7f8eb4cc563216.png"></p>
+<p>由于这个接口的重要性，所以有必要在这里作一下简短的说明：</p>
+<ul>
+<li><p>【getBean】 对应了多个方法来获取配置给 Spring IoC 容器的 Bean。<br>① 按照类型拿 bean：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(Bean.class)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 要求在 Spring 中只配置了一个这种类型的实例，否则报错。（如果有多个那 Spring 就懵了，不知道该获取哪一个）<br>② 按照 bean 的名字拿 bean:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 这种方法不太安全，IDE 不会检查其安全性（关联性）<br>③ 按照名字和类型拿 bean：<strong>（推荐）</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">bean = (Bean) factory.getBean(<span class="string">&quot;beanName&quot;</span>, Bean.class);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【isSingleton】 用于判断是否单例，如果判断为真，其意思是该 Bean 在容器中是作为一个唯一单例存在的。而【isPrototype】则相反，如果判断为真，意思是当你从容器中获取 Bean，容器就为你生成一个新的实例。</p>
+<p><strong>注意：</strong> 在默认情况下，【isSingleton】为 ture，而【isPrototype】为 false</p>
+</li>
+<li><p>关于 type 的匹配，这是一个按 Java 类型匹配的方式</p>
+</li>
+<li><p>【getAliases】方法是获取别名的方法</p>
+</li>
+</ul>
+<p>这就是 Spring IoC 最底层的设计，所有关于 Spring IoC 的容器将会遵守它所定义的方法</p>
+<h5 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h5><p>根据 ApplicationContext 的类继承关系图，可以看到 ApplicationContext 接口扩展了许许多多的接口，因此它的功能十分强大，所以在实际应用中常常会使用到的是 ApplicationContext 接口，因为 BeanFactory 的方法和功能较少，而 ApplicationContext 的方法和功能较多。</p>
+<p>我们来认识一个 ApplicationContext 的子类——ClassPathXmlApplicationContext。</p>
+<ol>
+<li>先在【src】目录下创建一个 【bean.xml】 文件：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">COPY<span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 通过 xml 方式装配 bean --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;source&quot;</span> <span class="attr">class</span>=<span class="string">&quot;pojo.Source&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;fruit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;橙子&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sugar&quot;</span> <span class="attr">value</span>=<span class="string">&quot;多糖&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;size&quot;</span> <span class="attr">value</span>=<span class="string">&quot;超大杯&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>这里定义了一个 bean ，这样 Spring IoC 容器在初始化的时候就能找到它们，然后使用ClassPathXmlApplicationContext 容器就可以将其初始化：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;bean.xml&quot;</span>);</span><br><span class="line">Source source = (Source) context.getBean(<span class="string">&quot;source&quot;</span>, Source.class);</span><br><span class="line"></span><br><span class="line">System.out.println(source.getFruit());</span><br><span class="line">System.out.println(source.getSugar());</span><br><span class="line">System.out.println(source.getSize());</span><br></pre></td></tr></table></figure>
+
+<p>这样就会使用 Application 的实现类 <code>ClassPathXmlApplicationContext</code> 去初始化 Spring IoC 容器，然后开发者就可以通过 IoC 容器来获取资源了！</p>
+<p><strong>ApplicationContext 常见实现类：</strong></p>
+<p><strong>ClassPathXmlApplicationContext：</strong><br>读取classpath中的资源</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>FileSystemXmlApplicationContext:-</strong><br>读取指定路径的资源</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYApplicationContext ac = <span class="keyword">new</span> FileSystemXmlApplicationContext(<span class="string">&quot;c:/applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>XmlWebApplicationContext:</strong><br>需要在Web的环境下才可以运行</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">COPYXmlWebApplicationContext ac = <span class="keyword">new</span> XmlWebApplicationContext(); <span class="comment">// 这时并没有初始化容器</span></span><br><span class="line">ac.setServletContext(servletContext); <span class="comment">// 需要指定ServletContext对象</span></span><br><span class="line">ac.setConfigLocation(<span class="string">&quot;/WEB-INF/applicationContext.xml&quot;</span>); <span class="comment">// 指定配置文件路径，开头的斜线表示Web应用的根目录</span></span><br><span class="line">ac.refresh(); <span class="comment">// 初始化容器</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="BeanFactory-和-ApplicationContext-的区别："><a href="#BeanFactory-和-ApplicationContext-的区别：" class="headerlink" title="BeanFactory 和 ApplicationContext 的区别："></a>BeanFactory 和 ApplicationContext 的区别：</h5><ul>
+<li><p><strong>BeanFactory：</strong> 是Spring中最底层的接口，只提供了最简单的IoC功能,负责配置，创建和管理bean。<br>在应用中，一般不使用 BeanFactory，而推荐使用ApplicationContext（应用上下文），原因如下。</p>
+</li>
+<li><p><strong>ApplicationContext：</strong></p>
+<p>1.继承了 BeanFactory，拥有了基本的 IoC 功能；<br>2.除此之外，ApplicationContext 还提供了以下功能：<br>① 支持国际化；<br>② 支持消息机制；<br>③ 支持统一的资源加载；<br>④ 支持AOP功能；</p>
+</li>
+</ul>
+<h3 id="Spring-IoC-的容器的初始化和依赖注入"><a href="#Spring-IoC-的容器的初始化和依赖注入" class="headerlink" title="Spring IoC 的容器的初始化和依赖注入"></a>Spring IoC 的容器的初始化和依赖注入</h3><p>虽然 Spring IoC 容器的生成十分的复杂，但是大体了解一下 Spring IoC 初始化的过程还是必要的。这对于理解 Spring 的一系列行为是很有帮助的。</p>
+<p><strong>注意：</strong> Bean 的定义和初始化在 Spring IoC 容器是两大步骤，它是先定义，然后初始化和依赖注入的。</p>
+<ul>
+<li><p><strong>Bean 的定义分为 3 步：定位、加载、注册</strong></p>
+</li>
+<li><p>Resource 定位<br>Spring IoC 容器先根据开发者的配置，进行资源的定位，在 Spring 的开发中，通过 XML 或者注解都是十分常见的方式，定位的内容是由开发者提供的。</p>
+</li>
+<li><p>BeanDefinition 的加载<br>这个时候只是将 Resource 定位到的信息，保存到 Bean 定义（BeanDefinition）中，此时并不会创建 Bean 的实例</p>
+</li>
+<li><p>BeanDefinition 的注册<br>这个过程就是将 BeanDefinition 的信息发布到 Spring IoC 容器中<br><strong>注意：</strong>此时仍然没有对应的 Bean 的实例。</p>
+</li>
+</ul>
+<p>做完了以上 3 步，Bean 就在 Spring IoC 容器中被定义了，而没有被初始化，更没有完成依赖注入，也就是没有注入其配置的资源给 Bean，那么它还不能完全使用。</p>
+<p>对于初始化和依赖注入，Spring Bean 还有一个配置选项——<strong>【lazy-init】</strong>，其含义就是<strong>是否初始化 Spring Bean</strong>。在没有任何配置的情况下，它的默认值为 default，实际值为 false，也就是 <strong>Spring IoC 默认会自动初始化 Bean</strong>。如果将其设置为 true，那么只有当我们使用 Spring IoC 容器的 getBean 方法获取它时，它才会进行 Bean 的初始化，完成依赖注入。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.zhihu.com/question/23277575/answer/169698662">https://www.zhihu.com/question/23277575/answer/169698662</a></p>
+<p><a href="https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/">https://www.wmyskxz.com/2018/04/11/spring-xue-xi-2-spring-ioc-xiang-jie/</a></p>
+<p><a href="https://javadoop.com/post/spring-ioc">https://javadoop.com/post/spring-ioc</a></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多线程08-线程管理、线程组及线程池</title>
+    <url>/posts/a5631d00.html</url>
+    <content><![CDATA[<h1 id="线程管理"><a href="#线程管理" class="headerlink" title="线程管理"></a>线程管理</h1><h2 id="线程组（选择性看）"><a href="#线程组（选择性看）" class="headerlink" title="线程组（选择性看）"></a>线程组（选择性看）</h2><p>​        线程组开始是出于安全的考虑设计用来区分不同的 Applet，然而ThreadGroup 并未实现这一目标，在新开发的系统中,已经不常用线程组, 现在一般会将一组相关的线程存入一个数组或一个集合中，如果仅仅是用来区分线程时，可以使用线程名称来区分， 多数情况下，可以忽略线程组。</p>
+<p>​        线程组管理线程就类似于在计算机中使用文件夹管理文件， 在线程组中定义一组相似(相关)的线程，在线程组中也可以定义子线程组。</p>
+<p>​        Thread 类有几个构造方法允许在创建线程时指定线程组，如果在创建线程时没有指定线程组则该线程就属于父线程所在的线程组。JVM 在创建 main 线程时会为它指定一个线程组，因此每个 Java 线程都有一个线程组与之关联，可以调用线程的 getThreadGroup()方法返回线程组。</p>
+<h3 id="创建线程组"><a href="#创建线程组" class="headerlink" title="创建线程组"></a>创建线程组</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadGroupTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1 返回当前 main 线程的线程组</span></span><br><span class="line">        ThreadGroup mainGroup = Thread.currentThread().getThreadGroup();</span><br><span class="line">        System.out.println(mainGroup);</span><br><span class="line">        <span class="comment">// 2 定义线程组,如果不指定所属线程组,则自动归属当前线程所属的线程组中</span></span><br><span class="line">        ThreadGroup group1 = <span class="keyword">new</span> ThreadGroup(<span class="string">&quot;group1&quot;</span>);</span><br><span class="line">        System.out.println(group1);</span><br><span class="line">        <span class="comment">// 3 定义线程组, 同时指定父线程组</span></span><br><span class="line">        ThreadGroup group2 = <span class="keyword">new</span> ThreadGroup(mainGroup, <span class="string">&quot;group2&quot;</span>);</span><br><span class="line">        <span class="comment">// 现在group1与group2都是mainGroup线程组中的子线程组, 调用线程组的getParent()方法返回父线程组</span></span><br><span class="line">        System.out.println(group1.getParent() == mainGroup); <span class="comment">// true</span></span><br><span class="line">        System.out.println(group2.getParent() == mainGroup); <span class="comment">// true</span></span><br><span class="line">        <span class="comment">// 4 在创建线程时指定所属线程组</span></span><br><span class="line">        Runnable r = () -&gt; System.out.println(Thread.currentThread());</span><br><span class="line">        <span class="comment">// 在创建线程时,如果没有指定线程组,则默认线程归属到父线程的线程组中</span></span><br><span class="line">        <span class="comment">// 在main线程中创建了t1线程,称main线程为父线程,t1线程为子线程,</span></span><br><span class="line">        <span class="comment">// t1没有指定线程组则t1线程就归属到父线程main线程的线程组中</span></span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(r, <span class="string">&quot;t1&quot;</span>);</span><br><span class="line">        System.out.println(t1);<span class="comment">//Thread[t1,5,main], t1 的线程组 是 main 线程组</span></span><br><span class="line">        <span class="comment">// 创建线程时,可以指定线程所属线程组</span></span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(group1, r, <span class="string">&quot;t2&quot;</span>);</span><br><span class="line">        Thread t3 = <span class="keyword">new</span> Thread(group2, r, <span class="string">&quot;t3&quot;</span>);</span><br><span class="line">        System.out.println(t2);<span class="comment">//Thread[t2,5,group1]</span></span><br><span class="line">        System.out.println(t3);<span class="comment">//Thread[t3,5,group2]</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="线程组的基本操作"><a href="#线程组的基本操作" class="headerlink" title="线程组的基本操作"></a>线程组的基本操作</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> D丶Cheng</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: 线程组基本使用</span></span><br><span class="line"><span class="comment"> * activeCount() 返回当前线程组及子线程组中活动线程的数量(近似值) </span></span><br><span class="line"><span class="comment"> * activeGroupCount() 返回当前线程组及子线程组中活动线程组的数量(近似值) </span></span><br><span class="line"><span class="comment"> * int enumerate(Thread[] list) 将当前线程组中的活动线程复制到参数数组中 </span></span><br><span class="line"><span class="comment"> * enumerate(ThreadGroup[] list) 将当前线程组中的活动线程组复制到参数数组中 </span></span><br><span class="line"><span class="comment"> * getMaxPriority() 返回线程组的最大优先级，默认是 10 </span></span><br><span class="line"><span class="comment"> * getName() 返回线程组的名称 </span></span><br><span class="line"><span class="comment"> * getParent() 返回父线程组 </span></span><br><span class="line"><span class="comment"> * interrupt() 中断线程组中所有的线程 </span></span><br><span class="line"><span class="comment"> * isDaemon() 判断当前线程组是否为守护线程组 </span></span><br><span class="line"><span class="comment"> * list() 将当前线程组中的活动线程打印出来</span></span><br><span class="line"><span class="comment"> * parentOf(ThreadGroup g) 判断当前线程组是否为参数线程组的父线程组</span></span><br><span class="line"><span class="comment"> * setDaemon(boolean daemon) 设置线程组为守护线程组</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadGroupTest02</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//返回当前线程组</span></span><br><span class="line">        ThreadGroup mainGroup = Thread.currentThread().getThreadGroup();</span><br><span class="line">        <span class="comment">// 再定义线程组，默认 group 的父线程组是 main 线程组</span></span><br><span class="line">        ThreadGroup group = <span class="keyword">new</span> ThreadGroup(<span class="string">&quot;group&quot;</span>);</span><br><span class="line">        Runnable r = () -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;-----------当前线程: &quot;</span> + Thread.currentThread());</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">//默认在main</span></span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(r, <span class="string">&quot;t1&quot;</span>);</span><br><span class="line">        <span class="comment">//在指定的group线程组中创建线程</span></span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(group, r, <span class="string">&quot;t2&quot;</span>);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        <span class="comment">//打印线程组的相关属性</span></span><br><span class="line">        <span class="comment">//4, main 线程组中活动线程: main, t1, t2, 垃圾回收器</span></span><br><span class="line">        System.out.println(<span class="string">&quot;main线程组中活动线程数量: &quot;</span> + mainGroup.activeCount());</span><br><span class="line">        System.out.println(<span class="string">&quot;group子线程组中活动线程数量: &quot;</span> + group.activeCount());<span class="comment">//1, t2</span></span><br><span class="line">        System.out.println(<span class="string">&quot;main线程组中子线程组数量: &quot;</span> + mainGroup.activeGroupCount()); <span class="comment">//1, group</span></span><br><span class="line">        System.out.println(<span class="string">&quot;group子线程组中子线程组数量: &quot;</span> + group.activeGroupCount()); <span class="comment">//0</span></span><br><span class="line">        <span class="comment">//main线程组的父线程组是system</span></span><br><span class="line">        System.out.println(<span class="string">&quot;main线程组的父线程组: &quot;</span> + mainGroup.getParent());</span><br><span class="line">        System.out.println(<span class="string">&quot;group线程组的父线程组: &quot;</span> + group.getParent()); <span class="comment">//main</span></span><br><span class="line">        <span class="comment">//true， 线程组也是它自己的父线程组</span></span><br><span class="line">        System.out.println(mainGroup.parentOf(mainGroup));</span><br><span class="line">        System.out.println(mainGroup.parentOf(group)); <span class="comment">//true</span></span><br><span class="line">        <span class="comment">//把 main 线程组中所有的线程打印输出</span></span><br><span class="line">        mainGroup.list();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="复制线程组中的线程及子线程组"><a href="#复制线程组中的线程及子线程组" class="headerlink" title="复制线程组中的线程及子线程组"></a>复制线程组中的线程及子线程组</h3><p>​        enumerate(Thread[] list) 把当前线程组和子线程组中所有的线程复制到参数数组中 </p>
+<p>​        enumerate(Thread[] list, boolean recursive) ，如果第二个参数设置为false，则只复制当前线程组中所有的线程，不复制子线程组中的线程 。</p>
+<p>​        enumerate(ThreadGroup[] list) 把当前线程组和子线程组中所有的线程组复制到参数数组中。</p>
+<p>​        enumerate(ThreadGroup[] list, boolean recurse) 第二个参数设置false，则只复制当前线程组的子线程组。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadGroupTest03</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//返回 main 线程的 main 线程组</span></span><br><span class="line">        ThreadGroup mainGroup = Thread.currentThread().getThreadGroup();</span><br><span class="line">        <span class="comment">//main 线程组中定义了两个子线程组</span></span><br><span class="line">        <span class="comment">//默认group1的父线程组就是当前线程组 main</span></span><br><span class="line">        ThreadGroup group1 = <span class="keyword">new</span> ThreadGroup(<span class="string">&quot;group1&quot;</span>);</span><br><span class="line">        ThreadGroup group2 = <span class="keyword">new</span> ThreadGroup(mainGroup, <span class="string">&quot;group2&quot;</span>);</span><br><span class="line">        Runnable r = () -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;----当前线程: &quot;</span> + Thread.currentThread());</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">//创建并启动三个线程</span></span><br><span class="line">        <span class="comment">//默认在 main 线程组中创建线程</span></span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(r, <span class="string">&quot;t1&quot;</span>);</span><br><span class="line">        <span class="comment">//在 group1 线程组中创建线程</span></span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(group1, r, <span class="string">&quot;t2&quot;</span>);</span><br><span class="line">        <span class="comment">//在 group2 线程组中创建线程</span></span><br><span class="line">        Thread t3 = <span class="keyword">new</span> Thread(group2, r, <span class="string">&quot;t3&quot;</span>);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        t3.start();</span><br><span class="line">        <span class="comment">//1 把 main 线程组中的线程复制到数组中</span></span><br><span class="line">        <span class="comment">//先定义存储线程的数组,数组的长度为main线程组中活动线程的数量</span></span><br><span class="line">        Thread[] threadList = <span class="keyword">new</span> Thread[mainGroup.activeCount()];</span><br><span class="line">         <span class="comment">/*</span></span><br><span class="line"><span class="comment">        //把main线程组包括子线程组中的所有的线程复制到数组中</span></span><br><span class="line"><span class="comment">        mainGroup.enumerate(threadList);</span></span><br><span class="line"><span class="comment">        //遍历 threadList 数组</span></span><br><span class="line"><span class="comment">        for (Thread thread : threadList) &#123;</span></span><br><span class="line"><span class="comment">            System.out.println(thread);</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        System.out.println(&quot;----------------------------&quot;);</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="comment">// 只把 main 线程组中的线程复制到数组中,不包含子线程组的线程</span></span><br><span class="line">        mainGroup.enumerate(threadList, <span class="keyword">false</span>);</span><br><span class="line">        <span class="comment">//遍历 threadList 数组</span></span><br><span class="line">        <span class="keyword">for</span> (Thread thread : threadList) &#123;</span><br><span class="line">            System.out.println(thread);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;----------------------------&quot;</span>);</span><br><span class="line">        <span class="comment">//2 把 main 线程组中的子线程组复制到数组中</span></span><br><span class="line">        <span class="comment">//定义数组存储线程组</span></span><br><span class="line">        ThreadGroup[] threadGroups = <span class="keyword">new</span> ThreadGroup[mainGroup.activeGroupCount()];</span><br><span class="line">        <span class="comment">//把 main 线程组中的子线程组复制到数组中</span></span><br><span class="line">        mainGroup.enumerate(threadGroups);</span><br><span class="line">        System.out.println(<span class="string">&quot;============================&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span> (ThreadGroup threadGroup : threadGroups) &#123;</span><br><span class="line">            System.out.println(threadGroup);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="捕获线程的执行异常"><a href="#捕获线程的执行异常" class="headerlink" title="捕获线程的执行异常"></a>捕获线程的执行异常</h2><p>​        在线程的run方法中，如果有受检异常必须进行捕获处理，如果想要获得run()方法中出现的运行时异常信息，可以通过回调<code>UncaughtExceptionHandler</code>接口获得哪个线程出现了运行时异常。在Thread 类中有关处理运行异常的方法有: </p>
+<p><code>getDefaultUncaughtExceptionHandler()</code> 获得全局的 ( 默认的)<code>UncaughtExceptionHandler</code></p>
+<p><code>getUncaughtExceptionHandler()</code> 获得当前线程的<code>UncaughtExceptionHandler</code> </p>
+<p><code>setDefaultUncaughtExceptionHandler(Thread.UncaughtExceptionHandler eh)</code> 设置全局的 <code>UncaughtExceptionHandler</code> </p>
+<p><code>setUncaughtExceptionHandler(Thread.UncaughtExceptionHandler eh)</code>设置当前线程的 <code>UncaughtExceptionHandler</code></p>
+<p>​        当线程运行过程中出现异常，JVM会调用Thread类的<code>dispatchUncaughtException(Throwable e)</code>方法 , 该方法会调用<code>getUncaughtExceptionHandler().uncaughtException(this, e)</code> 如果想要获得线程中出现异常的信息，就需要设置线程的<code>UncaughtExceptionHandler</code>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnCaughtExceptionHandlerTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1 设置线程全局的回调接口</span></span><br><span class="line">        Thread.setDefaultUncaughtExceptionHandler(<span class="keyword">new</span> Thread.UncaughtExceptionHandler() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">uncaughtException</span><span class="params">(Thread t, Throwable e)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//t 参数接收发生异常的线程, e 就是该线程中的异常</span></span><br><span class="line">                System.out.println(t.getName() + <span class="string">&quot;线程产生了异常: &quot;</span> + e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;开始运行&quot;</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123; <span class="comment">//线程中的受检异常必须捕获处理</span></span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 制造一个异常</span></span><br><span class="line">            System.out.println(<span class="number">12</span> / <span class="number">0</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">        t1.start();</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            String txt = <span class="keyword">null</span>;</span><br><span class="line">            <span class="comment">//制造一个异常</span></span><br><span class="line">            System.out.println(txt.length());</span><br><span class="line">        &#125;).start();</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        在实际开发中,这种设计异常处理的方式还是比较常用的,尤其是异常执行的方法如果线程产生了异常,</span></span><br><span class="line"><span class="comment">        JVM会调用dispatchUncaughtException()方法,在该方法中调用了getUncaughtExceptionHandler()</span></span><br><span class="line"><span class="comment">        .uncaughtException(this, e); 如果当前线程设置了UncaughtExceptionHandler</span></span><br><span class="line"><span class="comment">        回调接口就直接调用它自己的uncaughtException方法,如果没有设置则调用当前线程所在线程组</span></span><br><span class="line"><span class="comment">        UncaughtExceptionHandler回调接口的uncaughtException方法,</span></span><br><span class="line"><span class="comment">        如果线程组也没有设置回调接口,则直接把异常的栈信息定向到 System.err 中</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注入Hook钩子线程"><a href="#注入Hook钩子线程" class="headerlink" title="注入Hook钩子线程"></a>注入Hook钩子线程</h2><p>​        现在很多软件包括 MySQL， Zookeeper， kafka 等都存在 Hook 线程的校验机制，目的是校验进程是否已启动，防止重复启动程序。Hook 线程也称为钩子线程，当 JVM退出的时候会执行Hook线程。经常在程序启动时创建一个.lock 文件， 用.lock 文件校验程序是否启动，在程序退出(JVM 退出)时删除该.lock 文件，在 Hook 线程中除了防止重新启动进程外，还可以做资源释放，尽量避免在 Hook 线程中进行复杂的操作。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HookTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1 注入 Hook 线程,在程序退出时删除.lock 文件</span></span><br><span class="line">        Runtime.getRuntime().addShutdownHook(<span class="keyword">new</span> Thread() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;JVM 退出,会启动当前Hook线程,在Hook线程中删除.lock文件&quot;</span>);</span><br><span class="line">                getLockFile().toFile().delete();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">//2 程序运行时,检查 lock 文件是否存在,如果 lock 文件存在,则抛出异常</span></span><br><span class="line">        <span class="keyword">if</span> (getLockFile().toFile().exists()) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;程序已启动&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//文件不存在,说明程序是第一次启动,创建 lock 文件</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                getLockFile().toFile().createNewFile();</span><br><span class="line">                System.out.println(<span class="string">&quot;程序在启动时创建了 lock 文件&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//模拟程序运行</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;程序正在运行&quot;</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                TimeUnit.SECONDS.sleep(<span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Path <span class="title">getLockFile</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Paths.get(<span class="string">&quot;&quot;</span>, <span class="string">&quot;tmp.lock&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>​        在真实的生产环境中，可能需要很多线程来支撑整个应用，当线程数量非常多时 ，反而会耗尽 CPU 资源。 如果不对线程进行控制与管理，反而会影响程序的性能。线程开销主要包括：创建与启动线程的开销; 线程销毁开销; 线程调度的开销; </p>
+<p>​        线程数量受限 CPU 处理器数量， 线程池就是有效使用线程的一种常用方式。 线程池内部可以预先创建一定数量的工作线程，客户端代码直接将任务作为一个对象提交给线程池，线程池将这些任务缓存在工作队列中，线程池中的工作线程不断地从队列中取出任务并执行。</p>
+<p><strong>线程池有如下的优点：</strong></p>
+<ul>
+<li><p><strong>降低资源消耗</strong>：通过重复利⽤已创建的线程降低线程创建和销毁造成的消耗。</p>
+</li>
+<li><p><strong>提⾼响应速度</strong>：当任务到达时，任务可以不需要的等到线程创建就能⽴即执⾏。</p>
+</li>
+<li><p><strong>提⾼线程的可管理性</strong>：线程是稀缺资源，如果⽆限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使⽤线程池可以进⾏统⼀的分配，调优和监控。</p>
+</li>
+</ul>
+<h3 id="JDK对线程池的支持"><a href="#JDK对线程池的支持" class="headerlink" title="JDK对线程池的支持"></a>JDK对线程池的支持</h3><p>​        JDK 提供了一套Executor框架，可以帮助开发人员有效的使用线程池。</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201209164759514.png" alt="image-20201209164759514" style="zoom:50%;" />
+
+<h3 id="线程池基本使用"><a href="#线程池基本使用" class="headerlink" title="线程池基本使用"></a>线程池基本使用</h3><p><strong>注：根据阿里巴巴的开发手册建议，不推荐（Executors.xxx）这么写，这里只做演示</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExecutorTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建一个有5个线程大小的线程池</span></span><br><span class="line">        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(<span class="number">5</span>);</span><br><span class="line">        <span class="comment">//向线程池中提交 18 个任务,这 18 个任务存储到线程池的阻塞队列中, 线程池中这 5 个线程就从阻塞队列中取任务执行</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">18</span>; i++) &#123;</span><br><span class="line">            fixedThreadPool.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    System.out.println(Thread.currentThread().getId() + <span class="string">&quot; 编号的任务在执行任务，开始时间: &quot;</span> + System.currentTimeMillis());</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">                        <span class="comment">//模拟任务执行时长</span></span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScheduledExecutorTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建一个有调度功能的线程池</span></span><br><span class="line">        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(<span class="number">10</span>);</span><br><span class="line">        System.out.println(<span class="keyword">new</span> Date());</span><br><span class="line">        <span class="comment">// 在延迟2秒后执行任务, schedule(  Runnable任务, 延迟时长, 时间单位)</span></span><br><span class="line">        scheduledExecutorService.schedule(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(Thread.currentThread().getId() + <span class="string">&quot; -- &quot;</span> + <span class="keyword">new</span> Date());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">2</span>, TimeUnit.SECONDS);</span><br><span class="line">        <span class="comment">//以固定的频率执行任务,开启任务的时间是固定的, 在3秒后执行任务,以后每隔2秒重新执行一次</span></span><br><span class="line">        <span class="comment">// 这里的任务时间和间隔时间，以时间长的为准</span></span><br><span class="line">        scheduledExecutorService.scheduleAtFixedRate(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(Thread.currentThread().getId() + <span class="string">&quot;----在固定频率开启任务---&quot;</span> + <span class="keyword">new</span> Date());</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">// 任务时间一秒，效果是每间隔2秒打印一次</span></span><br><span class="line">                    TimeUnit.SECONDS.sleep(<span class="number">1</span>);</span><br><span class="line">                    <span class="comment">// 相当于任务间隔是3秒，效果相当于每隔三秒打印一次</span></span><br><span class="line">                    <span class="comment">// TimeUnit.SECONDS.sleep(3);</span></span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">3</span>, <span class="number">2</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//在上次任务结束后,在固定延迟后再次执行该任务,不管执行任务耗时多长,总是在任务结束后的2秒再次开启新的任务</span></span><br><span class="line">        <span class="comment">// 效果是 3 + 2 秒打印一次</span></span><br><span class="line">        scheduledExecutorService.scheduleWithFixedDelay(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(Thread.currentThread().getId() + <span class="string">&quot;----在固定频率开启任务---&quot;</span> + <span class="keyword">new</span> Date());</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    TimeUnit.SECONDS.sleep(<span class="number">3</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">3</span>, <span class="number">2</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>多线程07-显示锁Lock</title>
     <url>/posts/d233685c.html</url>
     <content><![CDATA[<h1 id="Lock显式锁"><a href="#Lock显式锁" class="headerlink" title="Lock显式锁"></a><strong>Lock</strong>显式锁</h1><h2 id="基本特性"><a href="#基本特性" class="headerlink" title="基本特性"></a>基本特性</h2><ul>
@@ -3356,60 +3398,6 @@
 </ul>
 <p>所以，到现在Lock锁和Synchronized锁的性能<strong>其实差别不是很⼤</strong>！⽽Synchronized锁⽤起来⼜特别简单。<strong>Lock锁还得顾忌到它的特性，要⼿动释放锁才⾏(如果忘了释放，这就是⼀个隐患)</strong></p>
 <p>所以说，我们<strong>绝⼤部分时候还是会使⽤Synchronized锁</strong>，⽤到了Lock锁提及的特性，带来的灵活性才会考虑使⽤Lock显式锁。</p>
-]]></content>
-      <categories>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>多线程08-线程管理、线程组及线程池</title>
-    <url>/posts/a5631d00.html</url>
-    <content><![CDATA[<h1 id="线程管理"><a href="#线程管理" class="headerlink" title="线程管理"></a>线程管理</h1><h2 id="线程组（选择性看）"><a href="#线程组（选择性看）" class="headerlink" title="线程组（选择性看）"></a>线程组（选择性看）</h2><p>​        线程组开始是出于安全的考虑设计用来区分不同的 Applet，然而ThreadGroup 并未实现这一目标，在新开发的系统中,已经不常用线程组, 现在一般会将一组相关的线程存入一个数组或一个集合中，如果仅仅是用来区分线程时，可以使用线程名称来区分， 多数情况下，可以忽略线程组。</p>
-<p>​        线程组管理线程就类似于在计算机中使用文件夹管理文件， 在线程组中定义一组相似(相关)的线程，在线程组中也可以定义子线程组。</p>
-<p>​        Thread 类有几个构造方法允许在创建线程时指定线程组，如果在创建线程时没有指定线程组则该线程就属于父线程所在的线程组。JVM 在创建 main 线程时会为它指定一个线程组，因此每个 Java 线程都有一个线程组与之关联，可以调用线程的 getThreadGroup()方法返回线程组。</p>
-<h3 id="创建线程组"><a href="#创建线程组" class="headerlink" title="创建线程组"></a>创建线程组</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadGroupTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1 返回当前 main 线程的线程组</span></span><br><span class="line">        ThreadGroup mainGroup = Thread.currentThread().getThreadGroup();</span><br><span class="line">        System.out.println(mainGroup);</span><br><span class="line">        <span class="comment">// 2 定义线程组,如果不指定所属线程组,则自动归属当前线程所属的线程组中</span></span><br><span class="line">        ThreadGroup group1 = <span class="keyword">new</span> ThreadGroup(<span class="string">&quot;group1&quot;</span>);</span><br><span class="line">        System.out.println(group1);</span><br><span class="line">        <span class="comment">// 3 定义线程组, 同时指定父线程组</span></span><br><span class="line">        ThreadGroup group2 = <span class="keyword">new</span> ThreadGroup(mainGroup, <span class="string">&quot;group2&quot;</span>);</span><br><span class="line">        <span class="comment">// 现在group1与group2都是mainGroup线程组中的子线程组, 调用线程组的getParent()方法返回父线程组</span></span><br><span class="line">        System.out.println(group1.getParent() == mainGroup); <span class="comment">// true</span></span><br><span class="line">        System.out.println(group2.getParent() == mainGroup); <span class="comment">// true</span></span><br><span class="line">        <span class="comment">// 4 在创建线程时指定所属线程组</span></span><br><span class="line">        Runnable r = () -&gt; System.out.println(Thread.currentThread());</span><br><span class="line">        <span class="comment">// 在创建线程时,如果没有指定线程组,则默认线程归属到父线程的线程组中</span></span><br><span class="line">        <span class="comment">// 在main线程中创建了t1线程,称main线程为父线程,t1线程为子线程,</span></span><br><span class="line">        <span class="comment">// t1没有指定线程组则t1线程就归属到父线程main线程的线程组中</span></span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(r, <span class="string">&quot;t1&quot;</span>);</span><br><span class="line">        System.out.println(t1);<span class="comment">//Thread[t1,5,main], t1 的线程组 是 main 线程组</span></span><br><span class="line">        <span class="comment">// 创建线程时,可以指定线程所属线程组</span></span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(group1, r, <span class="string">&quot;t2&quot;</span>);</span><br><span class="line">        Thread t3 = <span class="keyword">new</span> Thread(group2, r, <span class="string">&quot;t3&quot;</span>);</span><br><span class="line">        System.out.println(t2);<span class="comment">//Thread[t2,5,group1]</span></span><br><span class="line">        System.out.println(t3);<span class="comment">//Thread[t3,5,group2]</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="线程组的基本操作"><a href="#线程组的基本操作" class="headerlink" title="线程组的基本操作"></a>线程组的基本操作</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> D丶Cheng</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: 线程组基本使用</span></span><br><span class="line"><span class="comment"> * activeCount() 返回当前线程组及子线程组中活动线程的数量(近似值) </span></span><br><span class="line"><span class="comment"> * activeGroupCount() 返回当前线程组及子线程组中活动线程组的数量(近似值) </span></span><br><span class="line"><span class="comment"> * int enumerate(Thread[] list) 将当前线程组中的活动线程复制到参数数组中 </span></span><br><span class="line"><span class="comment"> * enumerate(ThreadGroup[] list) 将当前线程组中的活动线程组复制到参数数组中 </span></span><br><span class="line"><span class="comment"> * getMaxPriority() 返回线程组的最大优先级，默认是 10 </span></span><br><span class="line"><span class="comment"> * getName() 返回线程组的名称 </span></span><br><span class="line"><span class="comment"> * getParent() 返回父线程组 </span></span><br><span class="line"><span class="comment"> * interrupt() 中断线程组中所有的线程 </span></span><br><span class="line"><span class="comment"> * isDaemon() 判断当前线程组是否为守护线程组 </span></span><br><span class="line"><span class="comment"> * list() 将当前线程组中的活动线程打印出来</span></span><br><span class="line"><span class="comment"> * parentOf(ThreadGroup g) 判断当前线程组是否为参数线程组的父线程组</span></span><br><span class="line"><span class="comment"> * setDaemon(boolean daemon) 设置线程组为守护线程组</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadGroupTest02</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//返回当前线程组</span></span><br><span class="line">        ThreadGroup mainGroup = Thread.currentThread().getThreadGroup();</span><br><span class="line">        <span class="comment">// 再定义线程组，默认 group 的父线程组是 main 线程组</span></span><br><span class="line">        ThreadGroup group = <span class="keyword">new</span> ThreadGroup(<span class="string">&quot;group&quot;</span>);</span><br><span class="line">        Runnable r = () -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;-----------当前线程: &quot;</span> + Thread.currentThread());</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">//默认在main</span></span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(r, <span class="string">&quot;t1&quot;</span>);</span><br><span class="line">        <span class="comment">//在指定的group线程组中创建线程</span></span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(group, r, <span class="string">&quot;t2&quot;</span>);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        <span class="comment">//打印线程组的相关属性</span></span><br><span class="line">        <span class="comment">//4, main 线程组中活动线程: main, t1, t2, 垃圾回收器</span></span><br><span class="line">        System.out.println(<span class="string">&quot;main线程组中活动线程数量: &quot;</span> + mainGroup.activeCount());</span><br><span class="line">        System.out.println(<span class="string">&quot;group子线程组中活动线程数量: &quot;</span> + group.activeCount());<span class="comment">//1, t2</span></span><br><span class="line">        System.out.println(<span class="string">&quot;main线程组中子线程组数量: &quot;</span> + mainGroup.activeGroupCount()); <span class="comment">//1, group</span></span><br><span class="line">        System.out.println(<span class="string">&quot;group子线程组中子线程组数量: &quot;</span> + group.activeGroupCount()); <span class="comment">//0</span></span><br><span class="line">        <span class="comment">//main线程组的父线程组是system</span></span><br><span class="line">        System.out.println(<span class="string">&quot;main线程组的父线程组: &quot;</span> + mainGroup.getParent());</span><br><span class="line">        System.out.println(<span class="string">&quot;group线程组的父线程组: &quot;</span> + group.getParent()); <span class="comment">//main</span></span><br><span class="line">        <span class="comment">//true， 线程组也是它自己的父线程组</span></span><br><span class="line">        System.out.println(mainGroup.parentOf(mainGroup));</span><br><span class="line">        System.out.println(mainGroup.parentOf(group)); <span class="comment">//true</span></span><br><span class="line">        <span class="comment">//把 main 线程组中所有的线程打印输出</span></span><br><span class="line">        mainGroup.list();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="复制线程组中的线程及子线程组"><a href="#复制线程组中的线程及子线程组" class="headerlink" title="复制线程组中的线程及子线程组"></a>复制线程组中的线程及子线程组</h3><p>​        enumerate(Thread[] list) 把当前线程组和子线程组中所有的线程复制到参数数组中 </p>
-<p>​        enumerate(Thread[] list, boolean recursive) ，如果第二个参数设置为false，则只复制当前线程组中所有的线程，不复制子线程组中的线程 。</p>
-<p>​        enumerate(ThreadGroup[] list) 把当前线程组和子线程组中所有的线程组复制到参数数组中。</p>
-<p>​        enumerate(ThreadGroup[] list, boolean recurse) 第二个参数设置false，则只复制当前线程组的子线程组。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadGroupTest03</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//返回 main 线程的 main 线程组</span></span><br><span class="line">        ThreadGroup mainGroup = Thread.currentThread().getThreadGroup();</span><br><span class="line">        <span class="comment">//main 线程组中定义了两个子线程组</span></span><br><span class="line">        <span class="comment">//默认group1的父线程组就是当前线程组 main</span></span><br><span class="line">        ThreadGroup group1 = <span class="keyword">new</span> ThreadGroup(<span class="string">&quot;group1&quot;</span>);</span><br><span class="line">        ThreadGroup group2 = <span class="keyword">new</span> ThreadGroup(mainGroup, <span class="string">&quot;group2&quot;</span>);</span><br><span class="line">        Runnable r = () -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;----当前线程: &quot;</span> + Thread.currentThread());</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">//创建并启动三个线程</span></span><br><span class="line">        <span class="comment">//默认在 main 线程组中创建线程</span></span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(r, <span class="string">&quot;t1&quot;</span>);</span><br><span class="line">        <span class="comment">//在 group1 线程组中创建线程</span></span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(group1, r, <span class="string">&quot;t2&quot;</span>);</span><br><span class="line">        <span class="comment">//在 group2 线程组中创建线程</span></span><br><span class="line">        Thread t3 = <span class="keyword">new</span> Thread(group2, r, <span class="string">&quot;t3&quot;</span>);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        t3.start();</span><br><span class="line">        <span class="comment">//1 把 main 线程组中的线程复制到数组中</span></span><br><span class="line">        <span class="comment">//先定义存储线程的数组,数组的长度为main线程组中活动线程的数量</span></span><br><span class="line">        Thread[] threadList = <span class="keyword">new</span> Thread[mainGroup.activeCount()];</span><br><span class="line">         <span class="comment">/*</span></span><br><span class="line"><span class="comment">        //把main线程组包括子线程组中的所有的线程复制到数组中</span></span><br><span class="line"><span class="comment">        mainGroup.enumerate(threadList);</span></span><br><span class="line"><span class="comment">        //遍历 threadList 数组</span></span><br><span class="line"><span class="comment">        for (Thread thread : threadList) &#123;</span></span><br><span class="line"><span class="comment">            System.out.println(thread);</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        System.out.println(&quot;----------------------------&quot;);</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="comment">// 只把 main 线程组中的线程复制到数组中,不包含子线程组的线程</span></span><br><span class="line">        mainGroup.enumerate(threadList, <span class="keyword">false</span>);</span><br><span class="line">        <span class="comment">//遍历 threadList 数组</span></span><br><span class="line">        <span class="keyword">for</span> (Thread thread : threadList) &#123;</span><br><span class="line">            System.out.println(thread);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;----------------------------&quot;</span>);</span><br><span class="line">        <span class="comment">//2 把 main 线程组中的子线程组复制到数组中</span></span><br><span class="line">        <span class="comment">//定义数组存储线程组</span></span><br><span class="line">        ThreadGroup[] threadGroups = <span class="keyword">new</span> ThreadGroup[mainGroup.activeGroupCount()];</span><br><span class="line">        <span class="comment">//把 main 线程组中的子线程组复制到数组中</span></span><br><span class="line">        mainGroup.enumerate(threadGroups);</span><br><span class="line">        System.out.println(<span class="string">&quot;============================&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span> (ThreadGroup threadGroup : threadGroups) &#123;</span><br><span class="line">            System.out.println(threadGroup);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="捕获线程的执行异常"><a href="#捕获线程的执行异常" class="headerlink" title="捕获线程的执行异常"></a>捕获线程的执行异常</h2><p>​        在线程的run方法中，如果有受检异常必须进行捕获处理，如果想要获得run()方法中出现的运行时异常信息，可以通过回调<code>UncaughtExceptionHandler</code>接口获得哪个线程出现了运行时异常。在Thread 类中有关处理运行异常的方法有: </p>
-<p><code>getDefaultUncaughtExceptionHandler()</code> 获得全局的 ( 默认的)<code>UncaughtExceptionHandler</code></p>
-<p><code>getUncaughtExceptionHandler()</code> 获得当前线程的<code>UncaughtExceptionHandler</code> </p>
-<p><code>setDefaultUncaughtExceptionHandler(Thread.UncaughtExceptionHandler eh)</code> 设置全局的 <code>UncaughtExceptionHandler</code> </p>
-<p><code>setUncaughtExceptionHandler(Thread.UncaughtExceptionHandler eh)</code>设置当前线程的 <code>UncaughtExceptionHandler</code></p>
-<p>​        当线程运行过程中出现异常，JVM会调用Thread类的<code>dispatchUncaughtException(Throwable e)</code>方法 , 该方法会调用<code>getUncaughtExceptionHandler().uncaughtException(this, e)</code> 如果想要获得线程中出现异常的信息，就需要设置线程的<code>UncaughtExceptionHandler</code>。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnCaughtExceptionHandlerTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1 设置线程全局的回调接口</span></span><br><span class="line">        Thread.setDefaultUncaughtExceptionHandler(<span class="keyword">new</span> Thread.UncaughtExceptionHandler() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">uncaughtException</span><span class="params">(Thread t, Throwable e)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//t 参数接收发生异常的线程, e 就是该线程中的异常</span></span><br><span class="line">                System.out.println(t.getName() + <span class="string">&quot;线程产生了异常: &quot;</span> + e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;开始运行&quot;</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123; <span class="comment">//线程中的受检异常必须捕获处理</span></span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 制造一个异常</span></span><br><span class="line">            System.out.println(<span class="number">12</span> / <span class="number">0</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">        t1.start();</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            String txt = <span class="keyword">null</span>;</span><br><span class="line">            <span class="comment">//制造一个异常</span></span><br><span class="line">            System.out.println(txt.length());</span><br><span class="line">        &#125;).start();</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        在实际开发中,这种设计异常处理的方式还是比较常用的,尤其是异常执行的方法如果线程产生了异常,</span></span><br><span class="line"><span class="comment">        JVM会调用dispatchUncaughtException()方法,在该方法中调用了getUncaughtExceptionHandler()</span></span><br><span class="line"><span class="comment">        .uncaughtException(this, e); 如果当前线程设置了UncaughtExceptionHandler</span></span><br><span class="line"><span class="comment">        回调接口就直接调用它自己的uncaughtException方法,如果没有设置则调用当前线程所在线程组</span></span><br><span class="line"><span class="comment">        UncaughtExceptionHandler回调接口的uncaughtException方法,</span></span><br><span class="line"><span class="comment">        如果线程组也没有设置回调接口,则直接把异常的栈信息定向到 System.err 中</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="注入Hook钩子线程"><a href="#注入Hook钩子线程" class="headerlink" title="注入Hook钩子线程"></a>注入Hook钩子线程</h2><p>​        现在很多软件包括 MySQL， Zookeeper， kafka 等都存在 Hook 线程的校验机制，目的是校验进程是否已启动，防止重复启动程序。Hook 线程也称为钩子线程，当 JVM退出的时候会执行Hook线程。经常在程序启动时创建一个.lock 文件， 用.lock 文件校验程序是否启动，在程序退出(JVM 退出)时删除该.lock 文件，在 Hook 线程中除了防止重新启动进程外，还可以做资源释放，尽量避免在 Hook 线程中进行复杂的操作。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HookTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1 注入 Hook 线程,在程序退出时删除.lock 文件</span></span><br><span class="line">        Runtime.getRuntime().addShutdownHook(<span class="keyword">new</span> Thread() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;JVM 退出,会启动当前Hook线程,在Hook线程中删除.lock文件&quot;</span>);</span><br><span class="line">                getLockFile().toFile().delete();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">//2 程序运行时,检查 lock 文件是否存在,如果 lock 文件存在,则抛出异常</span></span><br><span class="line">        <span class="keyword">if</span> (getLockFile().toFile().exists()) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;程序已启动&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//文件不存在,说明程序是第一次启动,创建 lock 文件</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                getLockFile().toFile().createNewFile();</span><br><span class="line">                System.out.println(<span class="string">&quot;程序在启动时创建了 lock 文件&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//模拟程序运行</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;程序正在运行&quot;</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                TimeUnit.SECONDS.sleep(<span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Path <span class="title">getLockFile</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Paths.get(<span class="string">&quot;&quot;</span>, <span class="string">&quot;tmp.lock&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>​        在真实的生产环境中，可能需要很多线程来支撑整个应用，当线程数量非常多时 ，反而会耗尽 CPU 资源。 如果不对线程进行控制与管理，反而会影响程序的性能。线程开销主要包括：创建与启动线程的开销; 线程销毁开销; 线程调度的开销; </p>
-<p>​        线程数量受限 CPU 处理器数量， 线程池就是有效使用线程的一种常用方式。 线程池内部可以预先创建一定数量的工作线程，客户端代码直接将任务作为一个对象提交给线程池，线程池将这些任务缓存在工作队列中，线程池中的工作线程不断地从队列中取出任务并执行。</p>
-<p><strong>线程池有如下的优点：</strong></p>
-<ul>
-<li><p><strong>降低资源消耗</strong>：通过重复利⽤已创建的线程降低线程创建和销毁造成的消耗。</p>
-</li>
-<li><p><strong>提⾼响应速度</strong>：当任务到达时，任务可以不需要的等到线程创建就能⽴即执⾏。</p>
-</li>
-<li><p><strong>提⾼线程的可管理性</strong>：线程是稀缺资源，如果⽆限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使⽤线程池可以进⾏统⼀的分配，调优和监控。</p>
-</li>
-</ul>
-<h3 id="JDK对线程池的支持"><a href="#JDK对线程池的支持" class="headerlink" title="JDK对线程池的支持"></a>JDK对线程池的支持</h3><p>​        JDK 提供了一套Executor框架，可以帮助开发人员有效的使用线程池。</p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201209164759514.png" alt="image-20201209164759514" style="zoom:50%;" />
-
-<h3 id="线程池基本使用"><a href="#线程池基本使用" class="headerlink" title="线程池基本使用"></a>线程池基本使用</h3><p><strong>注：根据阿里巴巴的开发手册建议，不推荐（Executors.xxx）这么写，这里只做演示</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExecutorTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建一个有5个线程大小的线程池</span></span><br><span class="line">        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(<span class="number">5</span>);</span><br><span class="line">        <span class="comment">//向线程池中提交 18 个任务,这 18 个任务存储到线程池的阻塞队列中, 线程池中这 5 个线程就从阻塞队列中取任务执行</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">18</span>; i++) &#123;</span><br><span class="line">            fixedThreadPool.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    System.out.println(Thread.currentThread().getId() + <span class="string">&quot; 编号的任务在执行任务，开始时间: &quot;</span> + System.currentTimeMillis());</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">                        <span class="comment">//模拟任务执行时长</span></span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScheduledExecutorTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建一个有调度功能的线程池</span></span><br><span class="line">        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(<span class="number">10</span>);</span><br><span class="line">        System.out.println(<span class="keyword">new</span> Date());</span><br><span class="line">        <span class="comment">// 在延迟2秒后执行任务, schedule(  Runnable任务, 延迟时长, 时间单位)</span></span><br><span class="line">        scheduledExecutorService.schedule(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(Thread.currentThread().getId() + <span class="string">&quot; -- &quot;</span> + <span class="keyword">new</span> Date());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">2</span>, TimeUnit.SECONDS);</span><br><span class="line">        <span class="comment">//以固定的频率执行任务,开启任务的时间是固定的, 在3秒后执行任务,以后每隔2秒重新执行一次</span></span><br><span class="line">        <span class="comment">// 这里的任务时间和间隔时间，以时间长的为准</span></span><br><span class="line">        scheduledExecutorService.scheduleAtFixedRate(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(Thread.currentThread().getId() + <span class="string">&quot;----在固定频率开启任务---&quot;</span> + <span class="keyword">new</span> Date());</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">// 任务时间一秒，效果是每间隔2秒打印一次</span></span><br><span class="line">                    TimeUnit.SECONDS.sleep(<span class="number">1</span>);</span><br><span class="line">                    <span class="comment">// 相当于任务间隔是3秒，效果相当于每隔三秒打印一次</span></span><br><span class="line">                    <span class="comment">// TimeUnit.SECONDS.sleep(3);</span></span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">3</span>, <span class="number">2</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//在上次任务结束后,在固定延迟后再次执行该任务,不管执行任务耗时多长,总是在任务结束后的2秒再次开启新的任务</span></span><br><span class="line">        <span class="comment">// 效果是 3 + 2 秒打印一次</span></span><br><span class="line">        scheduledExecutorService.scheduleWithFixedDelay(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(Thread.currentThread().getId() + <span class="string">&quot;----在固定频率开启任务---&quot;</span> + <span class="keyword">new</span> Date());</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    TimeUnit.SECONDS.sleep(<span class="number">3</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="number">3</span>, <span class="number">2</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <categories>
         <category>多线程</category>
