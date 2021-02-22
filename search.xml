@@ -463,10 +463,194 @@
     <url>/posts/207e4c9d.html</url>
     <content><![CDATA[<p><a href="./fe29e710.html">Redis基础</a></p>
 <p><a href="./3a0d04cf.html">Redis跳跃表</a></p>
-<p><a href="./ed3b1c3a.html">Redis数据结构及常用命令</a></p>
+<p><a href="./ed3b1c3a.html">Redis常用命令及数据结构相关操作</a></p>
 <p><a href="./35743b4b.html">Redis缓存雪崩、缓存穿透、缓存击穿</a></p>
 <p><a href="./119ed1dc.html">Redis持久化</a></p>
 <p><a href="./b7e51ad7.html">Redis主从复制</a></p>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis常用命令及数据结构相关操作</title>
+    <url>/posts/ed3b1c3a.html</url>
+    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><blockquote>
+<p>命令参考：<a href="https://www.runoob.com/redis/redis-commands.html">菜鸟教程-Redis</a></p>
+</blockquote>
+<h2 id="redis命令"><a href="#redis命令" class="headerlink" title="redis命令"></a>redis命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">select index		# 切换数据库，总共默认有16个</span><br><span class="line">flushdb		# 删除当前db下的所有数据</span><br><span class="line">flushall		# 删除所有db下的所有数据</span><br><span class="line">shutdown		# 关闭redis</span><br></pre></td></tr></table></figure>
+
+<h2 id="key操作公用命令"><a href="#key操作公用命令" class="headerlink" title="key操作公用命令"></a>key操作公用命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">del key  # 删除key</span><br><span class="line">dump key # 序列化给定key，返回被序列化的值</span><br><span class="line">exists key # 检查key是否存在</span><br><span class="line">expire key second # 为key设定过期时间,以秒计算,可以不写second，默认为秒</span><br><span class="line">ttl key # 返回key剩余时间,-1为永久,-2为失效</span><br><span class="line">persist key # 移除key的过期时间，key将持久保存</span><br><span class="line">keys pattern # 查询所有符号给定模式的key eg：keys *</span><br><span class="line">randomkey # 随机返回一个key</span><br><span class="line">rename key newkey # 修改key的名称</span><br><span class="line">move key db # 移动key至指定数据库中 eg:move a 1</span><br><span class="line">type key # 返回key所储存的值的类型</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>expire key second的<strong>使用场景</strong>：<br>1、限时的优惠活动<br>2、网站数据缓存<br>3、手机验证码<br>4、限制网站访客频率</p>
+</blockquote>
+<h2 id="key的命名建议"><a href="#key的命名建议" class="headerlink" title="key的命名建议"></a>key的命名建议</h2><blockquote>
+<ol>
+<li>key不要太长，尽量不要超过1024字节。不仅消耗内存，也会降低查找的效率</li>
+<li>key不要太短，太短可读性会降低</li>
+<li>在一个项目中，key最好使用统一的命名模式，如user:123:password</li>
+<li>key区分大小写</li>
+</ol>
+</blockquote>
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><p>​        string类型是二进制安全的，redis的string可以包含任何数据，如图像、序列化对象。一个键最多能存储512MB。<code>二进制安全是指，在传输数据的时候，能保证二进制数据的信息安全，也就是不会被篡改、破译；如果被攻击，能够及时检测出来 </code></p>
+<h3 id="常用命令-1"><a href="#常用命令-1" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
+<hr>
+<p><strong>get key</strong>：获取key的值</p>
+<p><strong>del key</strong>：删除指定key</p>
+<p><strong>set key value</strong>：设置key，<strong>已存在的会覆盖</strong></p>
+<p><strong>setnx key value</strong>：当key不存在时设置key的值，已存在不会覆盖。（set if not exists）,分布式锁的问题</p>
+<p><strong>strlen key</strong>：返回key所存储的字符串的长度</p>
+<p><strong>setex</strong>：创建一个key，并且设置他的过期时间</p>
+<p><strong>getset key value</strong>：返回key的旧值,并设定key的值。当key不存在，返回nil</p>
+<p><strong>append key value</strong>：字符串拼接，追加至末尾，如果不存在，为其赋值</p>
+<p><strong>字符串操作</strong></p>
+<hr>
+<p><strong>getrange key start end</strong>：获取key中字符串的子字符串，从start开始，end结束</p>
+<p><strong>setrange key start newValue</strong>：设置<strong>startl开始及其往后的值</strong></p>
+<p><strong>批量操作</strong></p>
+<hr>
+<p>**mget key1 [key2 …]**：获取多个key</p>
+<p>**mset key1 value1 [key2 value2…]**：连续设置值</p>
+<p><strong>msetnx</strong> ：连续设置，如果给定key中有一个已存在，则都不设置</p>
+<p><strong>自增自减</strong></p>
+<hr>
+<p><strong>incr key_name</strong> ：INCR命令key中存储的值+1,如果不存在key，则key中的值话先被初始化为0再加1</p>
+<p><strong>incrby key_name</strong>：key中的值增加1</p>
+<p><strong>decr key_name</strong>：key中的值减去1</p>
+<p><strong>incrby key_name num</strong>：key中的值增加指定num值</p>
+<p><strong>decrby key_name num</strong>：  key中的值减少指定num值</p>
+<h3 id="String应用场景："><a href="#String应用场景：" class="headerlink" title="String应用场景："></a><strong>String应用场景</strong>：</h3><p>1、String通常用于保存单个字符串或JSON字符串数据<br>2、因为String是二进制安全的，所以可以把保密要求高的图片文件内容作为字符串来存储<br>3、计数器：常规Key-Value缓存应用，如微博数、粉丝数。INCR本身就具有原子性特性，所以不会有线程安全问题</p>
+<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><p>​        Redis hash是一个string类型的field和value的映射表，<strong>hash特别适用于存储对象（不能有嵌套对象）</strong>。每个hash可以存储<strong>2<sup>32</sup>-1</strong>(40亿左右)键值对。可以看成key和value的map容器。相比于Json，hash占用很少的内存空间。</p>
+<h3 id="常用命令-2"><a href="#常用命令-2" class="headerlink" title="常用命令"></a><strong><em>常用命令</em></strong></h3><p><strong>基础操作</strong></p>
+<hr>
+<p><strong>hset key field value</strong>：为指定的key设定field和value</p>
+<p>–&gt; hset user name tom  # 为user对象设置一个name属性，值为tom</p>
+<p><strong>hget key field</strong>：获取指定key属性值</p>
+<p>–&gt;hget user name  # 获取user对象name属性的值</p>
+<p><strong>hsetnx  key field value</strong>：当不存在这个key才创建该field</p>
+<p><strong>hgetall key</strong>：返回hash表中所有字段和值</p>
+<p><strong>hkeys key</strong>：获取hash表所有字段<br><strong>hvals key</strong>：获取hash表所有值<br><strong>hlen key</strong>：获取hash表中的字段数量<br><strong>hdel key field [field1]**：删除一个或多个hash表的字段<br>**hexists</strong>：在key里面是否存在指定的field，不存在返回0</p>
+<p><strong>自增(hash这个好像没有自减操作)</strong></p>
+<hr>
+<p><strong>hincrby key field num</strong>：增加某个field指定num值</p>
+<p>–&gt;hincrby user age 2</p>
+<p><strong>hincrbyflost key field num</strong>：增加某个field指定num值（浮点数）</p>
+<p>–&gt;hincrbyfloat user age 2.2</p>
+<p><strong>批量操作</strong></p>
+<hr>
+<p>**hmset key field value[field1,value1]**：设置对象中多个键值对</p>
+<p>–&gt; hmset user age 12 gender 1</p>
+<p>**hmget key field[field1]**：获取对象中多个键值对</p>
+<p>–&gt; hmget user age gender</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a><strong><em>应用场景</em></strong></h3><p>Hash的应用场景，通常用来存储一个用户信息的对象数据。</p>
+<ol>
+<li><p>相比于存储对象的string类型的json串，json串修改单个属性需要将整个值取出来。而hash不需要。</p>
+</li>
+<li><p>相比于多个key-value存储对象，hash节省了很多内存空间</p>
+</li>
+<li><p>如果hash的属性值被删除完，那么hash的key也会被redis删除</p>
+</li>
+</ol>
+<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>类似于Java中的LinkedList。</p>
+<h3 id="常用命令-3"><a href="#常用命令-3" class="headerlink" title="常用命令"></a><strong><em>常用命令</em></strong></h3><p><strong>基本操作</strong></p>
+<hr>
+<p><strong>lrange key start end</strong>：列表中指定区间内的元素，以 -1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素，以此类推</p>
+<p><strong>llen key</strong>：获取列表长度</p>
+<p><strong>lindex key index</strong>：获取指定索引的元素，从零开始，-1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素</p>
+<p><strong>lrem</strong>：删除指定个数的同一元素</p>
+<p>–&gt;lrem list 2 3  （删掉了集合中的两个三）</p>
+<p><strong>ltrim key start end</strong> ：对列表进行修改，让列表只保留指定区间的元素，不在指定区间的元素就会被删除（<strong>左闭右开</strong>），从零开始，-1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素</p>
+<p>–&gt;如果list中元素为1 2 3 4 5，则ltrim list 2 3 后list剩余元素为3 4</p>
+<p><strong>lset key index value</strong>：指定索引位置的值（<strong>位置有值会替换</strong>）</p>
+<p><strong>linsert key before|after world value</strong>：在列表元素前或则后插入元素，当指定元素不存在于列表中时，不执行任何操作</p>
+<p><strong>出栈入栈</strong></p>
+<hr>
+<p><strong>lpush key value1 [value2…]**：从左侧插入，右边的先出，</strong>相当于一个栈**</p>
+<p>–&gt; lpush list 1 2 3  注：使用lrange list 0 -1 输出为3 2 1</p>
+<p><strong>rpush key value1 [value2…]</strong>: 从右侧插入，左边的先出</p>
+<p>–&gt; rpush list 1 2 3  注：使用lrange list 0 -1 输出为1 2 3</p>
+<p><strong>lpushx key value</strong>：从左侧插入值，如果list不存在，则不操作</p>
+<p><strong>rpushx key value</strong>：从右侧插入值，如果list不存在，则不操作</p>
+<p><strong>lpop key</strong>：从最左侧移除一个元素</p>
+<p><strong>rpop key</strong>：从最右侧移除一个元素</p>
+<p><strong>blpop key [key1] timeout</strong>：移除并获取列表第一个元素，如果列表没有元素会阻塞列表到等待超时或发现可弹出元素为止</p>
+<p><strong>brpop key [key1] timeout</strong>：移除并获取列表最后一个元素，如果列表没有元素会阻塞列表到等待超时或发现可弹出元素为止</p>
+<h3 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a><strong><em>应用场景</em></strong></h3><ol>
+<li><p>对数据大的集合数据删减</p>
+<p>&nbsp;&nbsp; 列表显示、关注列表、粉丝列表、留言评价…分页、热点新闻等</p>
+</li>
+<li><p>任务队列</p>
+<p>&nbsp;&nbsp; list通常用来实现一个消息队列，而且可以确保先后顺序，不必像MySQL那样通过order by来排序</p>
+</li>
+</ol>
+<h3 id="性能总结"><a href="#性能总结" class="headerlink" title="性能总结"></a><strong>性能总结</strong></h3><p>它是一个字符串链表，left、right都可以插入添加；<br>如果键不存在，创建新的链表；<br>如果键已存在，新增内容；<br>如果值全移除，对应的键也就消失了。<br>链表的操作无论是头和尾效率都极高，但假如是对中间元素进行操作，效率就很惨淡了。</p>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>唯一、无序</p>
+<h3 id="常用命令-4"><a href="#常用命令-4" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
+<hr>
+<p>**sadd key value1[value2]**：向集合添加成员</p>
+<p><strong>scard key</strong>：返回集合成员个数</p>
+<p><strong>smembers key</strong>：返回集合中所有成员</p>
+<p>**srandmember key [count]**：返回集合中一个或多个随机数</p>
+<p>**srem key member1 [member2]**：移除集合中一个或多个成员</p>
+<p><strong>spop key</strong>：移除并返回集合中的一个随机元素</p>
+<p><strong>smove source destination member</strong>：将member元素从source集合移动到destination集合</p>
+<p>**srandmember key [count]**：随机返回集合中一个或多个值</p>
+<p><strong>集合相关操作</strong></p>
+<hr>
+<p>**sdiff key1 [key2]**：返回给定的第一个集合和其他集合的差集(即在key1中的值而在其他key中找不到)</p>
+<p><strong>sismember key member</strong>：判断memeber元素是否是集合key成员的成员</p>
+<p>**sdiffstore destination key1[key2]**：返回给定的第一个集合与其他的集合的差集并存储在destination中</p>
+<p>–&gt; 例如set1：1 2 3   set2：3 4 5 6   则sdiffstore set3 set1 set2之后，用 smembers set3 获取的结果为1 2</p>
+<p>**sunionstore destination key1 [key2]**：所有给定集合的并集存储在 destination 集合中</p>
+<p>**sinter key1 [key2]**：返回所有集合的交集</p>
+<p>**sunion key1 [key2]**：返回所有集合的并集</p>
+<h3 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a><em>应用场景</em></h3><p>对两个集合间的数据[计算]进行交集、并集、差集运算<br>1、以非常方便的实现如共同关注、共同喜好、二度好友等功能。对上面的所有集合操作，你还可以使用不同的命令选择将结果返回给客户端还是存储到一个新的集合中。<br>2、利用唯一性，可以统计访问网站的所有独立 IP</p>
+<h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><p>有序且不重复。每个元素都会关联一个double类型的分数，Redis通过分数进行从小到大的排序。分数可以重复</p>
+<h3 id="常用命令-5"><a href="#常用命令-5" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
+<hr>
+<p>**zadd key score1 memeber1 [score2 memeber2]**：向集合添加成员及对应分数</p>
+<p>–&gt; zadd zset1 1 “a” 2 “b” 3 “c” 2 “d”</p>
+<p><strong>zcard key</strong>：获取集合中的元素数量</p>
+<p><strong>zcount key min max</strong>：计算在有序集合中指定区间分数的成员数</p>
+<p><strong>zrange key start stop</strong>： 指定输出索引范围内的成员</p>
+<p><strong>zrangebyscore key min max</strong>： 指定输出score区间内的成员</p>
+<p><strong>zrank key member</strong>：返回有序集合指定成员的索引</p>
+<p><strong>zrevrange key start stop</strong>：返回有序集中指定区间内的成员，通过索引，分数从高到底</p>
+<p>**zrem key member [member …]**： 移除有序集合中的一个或多个成员</p>
+<p><strong>zremrangebyrank key start stop</strong>： 移除有序集合中给定的索引区间的所有成员(第一名是0)(低到高排序）</p>
+<p><strong>zremrangebyscore  key min max</strong>： 移除有序集合中给定的分数区间的所有成员</p>
+<h3 id="应用场景-3"><a href="#应用场景-3" class="headerlink" title="应用场景"></a>应用场景</h3><p>常用于排行榜：</p>
+<ol>
+<li><p>如推特可以以发表时间作为score来存储</p>
+</li>
+<li><p>存储成绩</p>
+</li>
+<li><p>用zset来做带权重的队列，让重要的任务先执行</p>
+</li>
+</ol>
+<h2 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;添加指定元素到 HyperLogLog 中。</span><br><span class="line">PFADD key element [element ...] </span><br><span class="line">&#x2F;&#x2F;返回给定 HyperLogLog 的基数估算值。</span><br><span class="line">PFCOUNT key [key ...] </span><br><span class="line">&#x2F;&#x2F;将多个 HyperLogLog 合并为一个 HyperLogLog</span><br><span class="line">PFMERGE destkey sourcekey [sourcekey ...] </span><br></pre></td></tr></table></figure>
+
+<p>神奇的HyperLoglog解决统计问题 - <a href="https://www.wmyskxz.com/2020/03/02/reids-4-shen-qi-de-hyperloglog-jie-jue-tong-ji-wen-ti/">https://www.wmyskxz.com/2020/03/02/reids-4-shen-qi-de-hyperloglog-jie-jue-tong-ji-wen-ti/</a></p>
+<h2 id="GEO"><a href="#GEO" class="headerlink" title="GEO"></a>GEO</h2><p>建议查看：<a href="https://www.wmyskxz.com/2020/03/12/redis-6-geohash-cha-zhao-fu-jin-de-ren/">GeoHash查找附近的人</a></p>
+<h2 id="压缩列表了解吗？"><a href="#压缩列表了解吗？" class="headerlink" title="压缩列表了解吗？"></a>压缩列表了解吗？</h2><p>这是 Redis <strong>为了节约内存</strong> 而使用的一种数据结构，<strong>zset</strong> 和 <strong>hash</strong> 容器对象会在元素个数较少的时候，采用压缩列表（ziplist）进行存储。压缩列表是 <strong>一块连续的内存空间</strong>，元素之间紧挨着存储，没有任何冗余空隙。</p>
+<blockquote>
+<p>因为之前自己也没有学习过，所以找了一篇比较好比较容易理解的文章：</p>
+<ul>
+<li>图解Redis之数据结构篇——压缩列表 - <a href="https://mp.weixin.qq.com/s/nba0FUEAVRs0vi24KUoyQg">https://mp.weixin.qq.com/s/nba0FUEAVRs0vi24KUoyQg</a></li>
+<li>这一篇稍微底层稍微硬核一点：<a href="http://www.web-lovers.com/redis-source-ziplist.html">http://www.web-lovers.com/redis-source-ziplist.html</a></li>
+</ul>
+</blockquote>
+<h2 id="快速列表-quicklist-了解吗？"><a href="#快速列表-quicklist-了解吗？" class="headerlink" title="快速列表 quicklist 了解吗？"></a>快速列表 quicklist 了解吗？</h2><p>Redis 早期版本存储 list 列表数据结构使用的是压缩列表 ziplist 和普通的双向链表 linkedlist，也就是说当元素少时使用 ziplist，当元素多时用 linkedlist。但考虑到链表的附加空间相对较高，<code>prev</code> 和 <code>next</code> 指针就要占去 <code>16</code> 个字节（64 位操作系统占用 <code>8</code> 个字节），另外每个节点的内存都是单独分配，会家具内存的碎片化，影响内存管理效率。</p>
+<p>后来 Redis 新版本（3.2）对列表数据结构进行了改造，使用 <code>quicklist</code> 代替了 <code>ziplist</code> 和 <code>linkedlist</code>。</p>
+<blockquote>
+<ul>
+<li>Redis列表list 底层原理 - <a href="https://zhuanlan.zhihu.com/p/102422311">https://zhuanlan.zhihu.com/p/102422311</a></li>
+</ul>
+</blockquote>
 ]]></content>
       <categories>
         <category>Redis</category>
@@ -558,237 +742,6 @@
 <p>如果不Enable AOF，仅靠Master-Slave Replication 实现高可用性也可以。能省掉一大笔IO也减少了rewrite时带来的系统波动。代价是如果Master/Slave同时宕掉，会丢失10几分钟的数据，启动脚本也要比较两个Master/Slave中的RDB文件，载入较新的那个。新浪微博就选用了这种架构。</p>
 </li>
 </ol>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis数据结构及常用命令</title>
-    <url>/posts/ed3b1c3a.html</url>
-    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><blockquote>
-<p>命令参考：<a href="https://www.runoob.com/redis/redis-commands.html">菜鸟教程-Redis</a></p>
-</blockquote>
-<h3 id="公用命令"><a href="#公用命令" class="headerlink" title="公用命令"></a>公用命令</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">del key</span><br><span class="line">dump key：序列化给定key，返回被序列化的值</span><br><span class="line">exists key：检查key是否存在</span><br><span class="line">expire key second：为key设定过期时间,以秒计算,可以不写second，默认为秒</span><br><span class="line">ttl key：返回key剩余时间,-1为永久,-2为失效</span><br><span class="line">persist key：移除key的过期时间，key将持久保存</span><br><span class="line">keys pattern：查询所有符号给定模式的key eg：keys *</span><br><span class="line">randomkey：随机返回一个key</span><br><span class="line">rename key newkey：修改key的名称</span><br><span class="line">move key db：移动key至指定数据库中 eg:move a 1</span><br><span class="line">type key：返回key所储存的值的类型</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>expire key second的<strong>使用场景</strong>：<br>1、限时的优惠活动<br>2、网站数据缓存<br>3、手机验证码<br>4、限制网站访客频率</p>
-</blockquote>
-<h3 id="key的命名建议"><a href="#key的命名建议" class="headerlink" title="key的命名建议"></a>key的命名建议</h3><blockquote>
-<ol>
-<li>key不要太长，尽量不要超过1024字节。不仅消耗内存，也会降低查找的效率</li>
-<li>key不要太短，太短可读性会降低</li>
-<li>在一个项目中，key最好使用统一的命名模式，如user:123:password</li>
-<li>key区分大小写</li>
-</ol>
-</blockquote>
-<h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><blockquote>
-<p>string类型是二进制安全的，redis的string可以包含任何数据，如图像、序列化对象。一个键最多能存储512MB。<code>二进制安全是指，在传输数据的时候，能保证二进制数据的信息安全，也就是不会被篡改、破译；如果被攻击，能够及时检测出来 </code></p>
-</blockquote>
-<blockquote>
-<ul>
-<li><strong>set key_name value</strong>：命令不区分大小写，但是key_name区分大小写</li>
-<li><strong>setnx key value</strong>：当key不存在时设置key的值。（SET if Not eXists）,分布式锁的问题</li>
-<li>setex：创建一个key，并且设置他的过期时间</li>
-<li>get key_name</li>
-<li><strong>getrange</strong> key start end：获取key中字符串的子字符串，从start开始，end结束</li>
-<li>setrange key offset value：设置从offset往后的值</li>
-<li>mget key1 [key2 …]：获取多个key</li>
-<li>getset key_name value：返回key的旧值,并设定key的值。当key不存在，返回nil</li>
-<li>strlen key：返回key所存储的字符串的长度</li>
-<li><strong>incr key_name</strong> ：INCR命令key中存储的值+1,如果不存在key，则key中的值话先被初始化为0再加1</li>
-<li><strong>INCRBY KEY_NAME</strong> 增量</li>
-<li><strong>DECR KEY_NAME</strong>：key中的值自减一</li>
-<li><strong>DECRBY KEY_NAME</strong></li>
-<li>append key_name value：字符串拼接，追加至末尾，如果不存在，为其赋值</li>
-</ul>
-</blockquote>
-<blockquote>
-<p><strong>String应用场景</strong>：<br>1、String通常用于保存单个字符串或JSON字符串数据<br>2、因为String是二进制安全的，所以可以把保密要求高的图片文件内容作为字符串来存储<br>3、计数器：常规Key-Value缓存应用，如微博数、粉丝数。INCR本身就具有原子性特性，所以不会有线程安全问题</p>
-</blockquote>
-<h3 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h3><p>Redis hash是一个string类型的field和value的映射表，<strong>hash特别适用于存储对象</strong>。每个hash可以存储<strong>232-1</strong>(40亿左右)键值对。可以看成KEY和VALUE的MAP容器。相比于JSON，hash占用很少的内存空间。</p>
-<p><strong><em>常用命令</em></strong></p>
-<blockquote>
-<ul>
-<li>hset key_name field value：为指定的key设定field和value</li>
-<li>hmset key field value[field1,value1]</li>
-<li>hsetnx：当不存在才创建该field</li>
-<li>hget key field</li>
-<li>hmget key field[field1]</li>
-<li>hgetall key：返回hash表中所有字段和值</li>
-<li>hkeys key：获取hash表所有字段</li>
-<li>hvals key：获取hash表所有值</li>
-<li>hlen key：获取hash表中的字段数量</li>
-<li>hdel key field [field1]：删除一个或多个hash表的字段</li>
-<li>hexists：在key里面是否存在指定的field</li>
-<li>hincrby key field increment：增加某个field的值</li>
-</ul>
-</blockquote>
-<p><strong><em>应用场景</em></strong></p>
-<blockquote>
-<p>Hash的应用场景，通常用来存储一个用户信息的对象数据。</p>
-<ol>
-<li>相比于存储对象的string类型的json串，json串修改单个属性需要将整个值取出来。而hash不需要。</li>
-<li>相比于多个key-value存储对象，hash节省了很多内存空间</li>
-<li>如果hash的属性值被删除完，那么hash的key也会被redis删除</li>
-</ol>
-</blockquote>
-<h3 id="list"><a href="#list" class="headerlink" title="list"></a>list</h3><p>类似于Java中的LinkedList。</p>
-<p><strong><em>常用命令</em></strong></p>
-<blockquote>
-<ul>
-<li><p>lpush key value1 [value2]：从左侧插入，右边的先出,<strong>相当于一个栈</strong></p>
-</li>
-<li><p>eg:lpush list 1 2 3 lrange list 0 -1 输出：3 2 1</p>
-</li>
-<li><p>rpush key value1 [value2]: 从右侧插入，左边的先出</p>
-</li>
-<li><p>eg:rpush list 1 2 3 lrange list 0 -1 输出：1 2 3</p>
-</li>
-<li><p>lpushx key value：从左侧插入值，如果list不存在，则不操作</p>
-</li>
-<li><p>rpushx key value：从右侧插入值，如果list不存在，则不操作</p>
-</li>
-<li><p>llen key：获取列表长度</p>
-</li>
-<li><p>lindex key index：获取指定索引的元素,从零开始</p>
-</li>
-<li><p>lrange key start stop：获取列表指定范围的元素</p>
-</li>
-<li><p>lpop key ：从左侧移除第一个元素</p>
-</li>
-<li><p>prop key：移除列表最后一个元素</p>
-</li>
-<li><p>irem:删除指定个数的同一元素</p>
-</li>
-<li><p>eg:irem list 2 3 删掉了集合中的两个三</p>
-</li>
-<li><p>blpop key [key1] timeout：移除并获取列表第一个元素，如果列表没有元素会阻塞列表到等待超时或发现可弹出元素为止</p>
-</li>
-<li><p>brpop key [key1] timeout：移除并获取列表最后一个元素，如果列表没有元素会阻塞列表到等待超时或发现可弹出元素为止</p>
-</li>
-<li><p>ltrim key start stop ：对列表进行修改，让列表只保留指定区间的元素，不在指定区间的元素就会被删除</p>
-</li>
-<li><p>eg:list1中元素1 2 3 4 5 ltrim list1 2 3 list1剩余元素:3 4</p>
-</li>
-<li><p>lset key index value ：指定索引的值</p>
-</li>
-<li><p>linsert key before|after world value：在列表元素前或则后插入元素</p>
-</li>
-</ul>
-</blockquote>
-<p><strong><em>应用场景</em></strong></p>
-<blockquote>
-<ol>
-<li><p>对数据大的集合数据删减</p>
-<p>&nbsp;&nbsp; 列表显示、关注列表、粉丝列表、留言评价…分页、热点新闻等</p>
-</li>
-<li><p>任务队列<br>&nbsp;&nbsp; list通常用来实现一个消息队列，而且可以确保先后顺序，不必像MySQL那样通过order by来排序</p>
-</li>
-</ol>
-</blockquote>
-<blockquote>
-<p>补充：</p>
-<ul>
-<li>rpoplpush list1 list2 移除list1最后一个元素，并将该元素添加到list2并返回此元素<br>用此命令可以实现订单下单流程、用户系统登录注册短信等。</li>
-</ul>
-</blockquote>
-<p><strong>性能总结</strong></p>
-<blockquote>
-<p>它是一个字符串链表，left、right都可以插入添加；<br>如果键不存在，创建新的链表；<br>如果键已存在，新增内容；<br>如果值全移除，对应的键也就消失了。<br>链表的操作无论是头和尾效率都极高，但假如是对中间元素进行操作，效率就很惨淡了。</p>
-</blockquote>
-<h3 id="set"><a href="#set" class="headerlink" title="set"></a>set</h3><p>唯一、无序</p>
-<blockquote>
-<ul>
-<li><p>sadd key value1[value2]：向集合添加成员</p>
-</li>
-<li><p>scard key：返回集合成员数</p>
-</li>
-<li><p>smembers key：返回集合中所有成员</p>
-</li>
-<li><p>sismember key member：判断memeber元素是否是集合key成员的成员</p>
-</li>
-<li><p>srandmember key [count]：返回集合中一个或多个随机数</p>
-</li>
-<li><p>srem key member1 [member2]：移除集合中一个或多个成员</p>
-</li>
-<li><p>spop key：移除并返回集合中的一个随机元素</p>
-</li>
-<li><p>smove source destination member：将member元素从source集合移动到destination集合</p>
-</li>
-<li><p>sdiff key1 [key2]：返回给定的第一个集合和其他集合的差集(即在key1中的值而在其他key中找不到)</p>
-</li>
-<li><p>sdiffstore destination key1[key2]：返回给定的第一个集合与其他的集合的差集并存储在destination中</p>
-<p>eg：set1：1 2 3   set2：3 4 5 6   sdiffstore set3 set1 set2   smembers set3  result：1 2</p>
-</li>
-<li><p>sinter key1 [key2]:返回所有集合的交集</p>
-</li>
-<li><p>sunion key1 [key2]：返回所有集合的并集</p>
-</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>对两个集合间的数据[计算]进行交集、并集、差集运算<br>1、以非常方便的实现如共同关注、共同喜好、二度好友等功能。对上面的所有集合操作，你还可以使用不同的命令选择将结果返回给客户端还是存储到一个新的集合中。<br>2、利用唯一性，可以统计访问网站的所有独立 IP</p>
-</blockquote>
-<h3 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h3><p>有序且不重复。每个元素都会关联一个double类型的分数，Redis通过分数进行从小到大的排序。分数可以重复</p>
-<blockquote>
-<ul>
-<li><p>zadd key score1 memeber1</p>
-</li>
-<li><p>zcard key ：获取集合中的元素数量</p>
-</li>
-<li><p>zcount key min max 计算在有序集合中指定区间分数的成员数</p>
-</li>
-<li><p>zcount key min max 计算在有序集合中指定区间分数的成员数</p>
-</li>
-<li><p>zrange key start stop 指定输出索引范围内的成员</p>
-</li>
-<li><p>zrangebyscore key min max 指定输出score区间内的成员</p>
-</li>
-<li><p>zrank key member：返回有序集合指定成员的索引</p>
-</li>
-<li><p>zrevrange key start stop ：返回有序集中指定区间内的成员，通过索引，分数从高到底</p>
-</li>
-<li><p>zrem key member [member …] 移除有序集合中的一个或多个成员</p>
-</li>
-<li><p>zremrangebyrank key start stop 移除有序集合中给定的索引区间的所有成员(第一名是0)(低到高排序）</p>
-</li>
-<li><p>zremrangebyscore  key min max 移除有序集合中给定的分数区间的所有成员</p>
-</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>常用于排行榜：</p>
-<ol>
-<li>如推特可以以发表时间作为score来存储</li>
-<li>存储成绩</li>
-<li>还可以用zset来做带权重的队列，让重要的任务先执行</li>
-</ol>
-</blockquote>
-<h3 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;添加指定元素到 HyperLogLog 中。</span><br><span class="line">PFADD key element [element ...] </span><br><span class="line">&#x2F;&#x2F;返回给定 HyperLogLog 的基数估算值。</span><br><span class="line">PFCOUNT key [key ...] </span><br><span class="line">&#x2F;&#x2F;将多个 HyperLogLog 合并为一个 HyperLogLog</span><br><span class="line">PFMERGE destkey sourcekey [sourcekey ...] </span><br></pre></td></tr></table></figure>
-
-<p>神奇的HyperLoglog解决统计问题 - <a href="https://www.wmyskxz.com/2020/03/02/reids-4-shen-qi-de-hyperloglog-jie-jue-tong-ji-wen-ti/">https://www.wmyskxz.com/2020/03/02/reids-4-shen-qi-de-hyperloglog-jie-jue-tong-ji-wen-ti/</a></p>
-<h2 id="GEO"><a href="#GEO" class="headerlink" title="GEO"></a>GEO</h2><p>建议查看：<a href="https://www.wmyskxz.com/2020/03/12/redis-6-geohash-cha-zhao-fu-jin-de-ren/">GeoHash查找附近的人</a></p>
-<h2 id="压缩列表了解吗？"><a href="#压缩列表了解吗？" class="headerlink" title="压缩列表了解吗？"></a>压缩列表了解吗？</h2><p>这是 Redis <strong>为了节约内存</strong> 而使用的一种数据结构，<strong>zset</strong> 和 <strong>hash</strong> 容器对象会在元素个数较少的时候，采用压缩列表（ziplist）进行存储。压缩列表是 <strong>一块连续的内存空间</strong>，元素之间紧挨着存储，没有任何冗余空隙。</p>
-<blockquote>
-<p>因为之前自己也没有学习过，所以找了一篇比较好比较容易理解的文章：</p>
-<ul>
-<li>图解Redis之数据结构篇——压缩列表 - <a href="https://mp.weixin.qq.com/s/nba0FUEAVRs0vi24KUoyQg">https://mp.weixin.qq.com/s/nba0FUEAVRs0vi24KUoyQg</a></li>
-<li>这一篇稍微底层稍微硬核一点：<a href="http://www.web-lovers.com/redis-source-ziplist.html">http://www.web-lovers.com/redis-source-ziplist.html</a></li>
-</ul>
-</blockquote>
-<h2 id="快速列表-quicklist-了解吗？"><a href="#快速列表-quicklist-了解吗？" class="headerlink" title="快速列表 quicklist 了解吗？"></a>快速列表 quicklist 了解吗？</h2><p>Redis 早期版本存储 list 列表数据结构使用的是压缩列表 ziplist 和普通的双向链表 linkedlist，也就是说当元素少时使用 ziplist，当元素多时用 linkedlist。但考虑到链表的附加空间相对较高，<code>prev</code> 和 <code>next</code> 指针就要占去 <code>16</code> 个字节（64 位操作系统占用 <code>8</code> 个字节），另外每个节点的内存都是单独分配，会家具内存的碎片化，影响内存管理效率。</p>
-<p>后来 Redis 新版本（3.2）对列表数据结构进行了改造，使用 <code>quicklist</code> 代替了 <code>ziplist</code> 和 <code>linkedlist</code>。</p>
-<blockquote>
-<ul>
-<li>Redis列表list 底层原理 - <a href="https://zhuanlan.zhihu.com/p/102422311">https://zhuanlan.zhihu.com/p/102422311</a></li>
-</ul>
-</blockquote>
-<p>附录：</p>
-<p>参考：尚硅谷Redis</p>
 ]]></content>
       <categories>
         <category>Redis</category>
@@ -935,60 +888,6 @@
       </tags>
   </entry>
   <entry>
-    <title>04.Spring 事物</title>
-    <url>/posts/c31fb5e7.html</url>
-    <content><![CDATA[<h3 id="Spring-事务Spring-管理事务的⽅式有⼏种？"><a href="#Spring-事务Spring-管理事务的⽅式有⼏种？" class="headerlink" title="Spring 事务Spring 管理事务的⽅式有⼏种？"></a>Spring 事务Spring 管理事务的⽅式有⼏种？</h3><ol>
-<li><p>编程式事务，在代码中硬编码。(不推荐使⽤)</p>
-</li>
-<li><p>声明式事务，在配置⽂件中配置（推荐使⽤）</p>
-<p>声明式事务⼜分为两种：</p>
-<ol>
-<li>基于XML的声明式事务</li>
-<li>基于注解的声明式事务</li>
-</ol>
-</li>
-</ol>
-<h3 id="Spring-事务中的隔离级别有哪⼏种"><a href="#Spring-事务中的隔离级别有哪⼏种" class="headerlink" title="Spring 事务中的隔离级别有哪⼏种?"></a>Spring 事务中的隔离级别有哪⼏种?</h3><p><strong>TransactionDefinition</strong> 接⼝中定义了五个表示隔离级别的常量：</p>
-<p><strong>TransactionDefinition.ISOLATION_DEFAULT:</strong> 使⽤后端数据库默认的隔离级别，Mysql 默认采</p>
-<p>⽤的 REPEATABLE_READ隔离级别 Oracle 默认采⽤的 READ_COMMITTED隔离级别.</p>
-<p><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED:</strong> 最低的隔离级别，允许读取尚未提交的</p>
-<p>数据变更，可能会导致脏读、幻读或不可重复读</p>
-<p><strong>TransactionDefinition.ISOLATION_READ_COMMITTED:</strong> 允许读取并发事务已经提交的数据，可以</p>
-<p>阻⽌脏读，但是幻读或不可重复读仍有可能发⽣</p>
-<p><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ:</strong> 对同⼀字段的多次读取结果都是⼀致</p>
-<p>的，除⾮数据是被本身事务⾃⼰所修改，可以阻⽌脏读和不可重复读，但幻读仍有可能发⽣。</p>
-<p><strong>TransactionDefinition.ISOLATION_SERIALIZABLE:</strong> 最⾼的隔离级别，完全服从ACID的隔离级</p>
-<p>别。所有的事务依次逐个执⾏，这样事务之间就完全不可能产⽣⼲扰，也就是说，该级别可以防</p>
-<p>⽌脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会⽤到该级别。</p>
-<h3 id="Spring-事务中哪⼏种事务传播⾏为"><a href="#Spring-事务中哪⼏种事务传播⾏为" class="headerlink" title="Spring 事务中哪⼏种事务传播⾏为?"></a>Spring 事务中哪⼏种事务传播⾏为?</h3><p><strong>⽀持当前事务的情况：</strong></p>
-<ul>
-<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRED</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则创建⼀个新的事务。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_SUPPORTS</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则以⾮事务的⽅式继续运⾏。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_MANDATORY</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）不⽀持当前事务的情况：</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRES_NEW</strong>： 创建⼀个新的事务，如果当前存在事务，则把当前事务挂起。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_NOT_SUPPORTED</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则把当前事务挂起。</p>
-</li>
-<li><p><strong>TransactionDefinition.PROPAGATION_NEVER</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则抛出异常。</p>
-</li>
-</ul>
-<p><strong>其他情况：</strong></p>
-<ul>
-<li><strong>TransactionDefinition.PROPAGATION_NESTED</strong>： 如果当前存在事务，则创建⼀个事务作为当前事务的嵌套事务来运⾏；如果当前没有事务，则该取值等价TransactionDefinition.PROPAGATION_REQUIRED。</li>
-</ul>
-<h3 id="Transactional-rollbackFor-Exception-class-注解了解吗？"><a href="#Transactional-rollbackFor-Exception-class-注解了解吗？" class="headerlink" title="@Transactional(rollbackFor = Exception.class)注解了解吗？"></a>@Transactional(rollbackFor = Exception.class)注解了解吗？</h3><p>我们知道：Exception分为运⾏时异常RuntimeException和⾮运⾏时异常。事务管理对于企业应⽤来说是⾄关重要的，即使出现异常情况，它也可以保证数据的⼀致性。当 @Transactional 注解作⽤于类上时，该类的所有 public ⽅法将都具有该类型的事务属性，同时，我们也可以在⽅法级别使⽤该标注来覆盖类级别的定义。如果类或者⽅法加了这个注解，那么这个类⾥⾯的⽅法抛出异常，就会回滚，数据库⾥⾯的数据也会回滚。在 <strong>@Transactional 注解中如果不配置 rollbackFor 属性,那么事物只会在遇到 RuntimeException 的时候才会回滚,加上 rollbackFor=Exception.class ,可以让事物在遇到⾮运⾏时异常时也回滚。</strong></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>03.SpringAOP</title>
     <url>/posts/d1427ef9.html</url>
     <content><![CDATA[<h2 id="Spring-AOP-简介"><a href="#Spring-AOP-简介" class="headerlink" title="Spring AOP 简介"></a>Spring AOP 简介</h2><p>如果说 IoC 是 Spring 的核心，那么面向切面编程就是 Spring 最为重要的功能之一了，在数据库事务中切面编程被广泛使用。</p>
@@ -1099,6 +998,60 @@
 <li><strong>DispatcherServlet</strong>将模型数据填充到视图中</li>
 <li><strong>DispatcherServlet</strong>将结果响应给用户</li>
 </ul>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>04.Spring 事物</title>
+    <url>/posts/c31fb5e7.html</url>
+    <content><![CDATA[<h3 id="Spring-事务Spring-管理事务的⽅式有⼏种？"><a href="#Spring-事务Spring-管理事务的⽅式有⼏种？" class="headerlink" title="Spring 事务Spring 管理事务的⽅式有⼏种？"></a>Spring 事务Spring 管理事务的⽅式有⼏种？</h3><ol>
+<li><p>编程式事务，在代码中硬编码。(不推荐使⽤)</p>
+</li>
+<li><p>声明式事务，在配置⽂件中配置（推荐使⽤）</p>
+<p>声明式事务⼜分为两种：</p>
+<ol>
+<li>基于XML的声明式事务</li>
+<li>基于注解的声明式事务</li>
+</ol>
+</li>
+</ol>
+<h3 id="Spring-事务中的隔离级别有哪⼏种"><a href="#Spring-事务中的隔离级别有哪⼏种" class="headerlink" title="Spring 事务中的隔离级别有哪⼏种?"></a>Spring 事务中的隔离级别有哪⼏种?</h3><p><strong>TransactionDefinition</strong> 接⼝中定义了五个表示隔离级别的常量：</p>
+<p><strong>TransactionDefinition.ISOLATION_DEFAULT:</strong> 使⽤后端数据库默认的隔离级别，Mysql 默认采</p>
+<p>⽤的 REPEATABLE_READ隔离级别 Oracle 默认采⽤的 READ_COMMITTED隔离级别.</p>
+<p><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED:</strong> 最低的隔离级别，允许读取尚未提交的</p>
+<p>数据变更，可能会导致脏读、幻读或不可重复读</p>
+<p><strong>TransactionDefinition.ISOLATION_READ_COMMITTED:</strong> 允许读取并发事务已经提交的数据，可以</p>
+<p>阻⽌脏读，但是幻读或不可重复读仍有可能发⽣</p>
+<p><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ:</strong> 对同⼀字段的多次读取结果都是⼀致</p>
+<p>的，除⾮数据是被本身事务⾃⼰所修改，可以阻⽌脏读和不可重复读，但幻读仍有可能发⽣。</p>
+<p><strong>TransactionDefinition.ISOLATION_SERIALIZABLE:</strong> 最⾼的隔离级别，完全服从ACID的隔离级</p>
+<p>别。所有的事务依次逐个执⾏，这样事务之间就完全不可能产⽣⼲扰，也就是说，该级别可以防</p>
+<p>⽌脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会⽤到该级别。</p>
+<h3 id="Spring-事务中哪⼏种事务传播⾏为"><a href="#Spring-事务中哪⼏种事务传播⾏为" class="headerlink" title="Spring 事务中哪⼏种事务传播⾏为?"></a>Spring 事务中哪⼏种事务传播⾏为?</h3><p><strong>⽀持当前事务的情况：</strong></p>
+<ul>
+<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRED</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则创建⼀个新的事务。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_SUPPORTS</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则以⾮事务的⽅式继续运⾏。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_MANDATORY</strong>： 如果当前存在事务，则加⼊该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）不⽀持当前事务的情况：</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_REQUIRES_NEW</strong>： 创建⼀个新的事务，如果当前存在事务，则把当前事务挂起。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_NOT_SUPPORTED</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则把当前事务挂起。</p>
+</li>
+<li><p><strong>TransactionDefinition.PROPAGATION_NEVER</strong>： 以⾮事务⽅式运⾏，如果当前存在事务，则抛出异常。</p>
+</li>
+</ul>
+<p><strong>其他情况：</strong></p>
+<ul>
+<li><strong>TransactionDefinition.PROPAGATION_NESTED</strong>： 如果当前存在事务，则创建⼀个事务作为当前事务的嵌套事务来运⾏；如果当前没有事务，则该取值等价TransactionDefinition.PROPAGATION_REQUIRED。</li>
+</ul>
+<h3 id="Transactional-rollbackFor-Exception-class-注解了解吗？"><a href="#Transactional-rollbackFor-Exception-class-注解了解吗？" class="headerlink" title="@Transactional(rollbackFor = Exception.class)注解了解吗？"></a>@Transactional(rollbackFor = Exception.class)注解了解吗？</h3><p>我们知道：Exception分为运⾏时异常RuntimeException和⾮运⾏时异常。事务管理对于企业应⽤来说是⾄关重要的，即使出现异常情况，它也可以保证数据的⼀致性。当 @Transactional 注解作⽤于类上时，该类的所有 public ⽅法将都具有该类型的事务属性，同时，我们也可以在⽅法级别使⽤该标注来覆盖类级别的定义。如果类或者⽅法加了这个注解，那么这个类⾥⾯的⽅法抛出异常，就会回滚，数据库⾥⾯的数据也会回滚。在 <strong>@Transactional 注解中如果不配置 rollbackFor 属性,那么事物只会在遇到 RuntimeException 的时候才会回滚,加上 rollbackFor=Exception.class ,可以让事物在遇到⾮运⾏时异常时也回滚。</strong></p>
 ]]></content>
       <categories>
         <category>Spring</category>
@@ -1343,6 +1296,93 @@
       </tags>
   </entry>
   <entry>
+    <title>多线程01-多线程基础</title>
+    <url>/posts/1983de0a.html</url>
+    <content><![CDATA[<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>​        进程(Process)是计算机中的程序关于某数据集合上的一次运行活动，是操作系统进行资源分配与调度的基本单位，可以把进程简单的理解为正在操作系统中运行的一个程序。</p>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>​        线程(thread)是进程的一个执行单元。一个线程就是进程中一个单一顺序的控制流, 进程的一个执行分支进程是线程的容器，一个进程至少有一个线程。一个进程中也可以 有多个线程。在操作系统中是以进程为单位分配资源，如虚拟存储空间，文件描述符等。 每个线程都有各自的线程栈，自己的寄存器环境，自己的线程 本地存储。</p>
+<h2 id="主线程与子线程"><a href="#主线程与子线程" class="headerlink" title="主线程与子线程"></a>主线程与子线程</h2><p>​        JVM 启动时会创建一个主线程，该主线程负责执行 main 方法 。 主线程就是运行 main 方法的线程Java中的线程不孤立的，线程之间存在一些联系。 如果在 A 线程中创建了B线程, 称B线程为A线程的子线程, 相应的A线程就是B线程的父线程</p>
+<h2 id="串行、并发与并行"><a href="#串行、并发与并行" class="headerlink" title="串行、并发与并行"></a>串行、并发与并行</h2><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20200910195621396.png" alt="image-20200910195621396"></p>
+<h1 id="并发编程的三个重要特性"><a href="#并发编程的三个重要特性" class="headerlink" title="并发编程的三个重要特性"></a>并发编程的三个重要特性</h1><ol>
+<li><strong>原⼦性</strong> : ⼀个的操作或者多次操作，要么所有的操作全部都得到执⾏并且不会收到任何因素的⼲扰⽽中断，要么所有的操作都执⾏，要么都不执⾏。 <strong>synchronized</strong> 可以保证代码⽚段的<strong>原⼦性</strong>。</li>
+<li><strong>可⻅性</strong> ：当⼀个变量对共享变量进⾏了修改，那么另外的线程都是⽴即可以看到修改后的最新值。 <strong>volatile</strong> 关键字可以保证<strong>共享变量</strong>的<strong>可⻅性</strong>。</li>
+<li><strong>有序性</strong> ：代码在执⾏的过程中的先后顺序，Java 在编译器以及运⾏期间的优化，代码的执⾏顺序未必就是编写代码时候的顺序。 <strong>volatile 关键字可以禁⽌指令进⾏重排序优化</strong>。</li>
+</ol>
+<p><strong>注意：</strong>Java 有两种方式实现原子性: 一种是使用<strong>锁</strong>; 另一种利用处理器的<strong>CAS(Compare and Swap)指令</strong>. </p>
+<p>​        锁具有排它性,保证共享变量在某一时刻只能被一个线程访问. </p>
+<p>​        CAS 指令直接在硬件(处理器和内存)层次上实现,看作是硬件锁</p>
+<h1 id="多线程编程的优势与代价"><a href="#多线程编程的优势与代价" class="headerlink" title="多线程编程的优势与代价"></a>多线程编程的优势与代价</h1><blockquote>
+<p>并发可以提高事物的处理效率，即一段时间内可以处理或者完成更多的事情。</p>
+<p>并行是一种更为严格，理想的并发，从硬件角度来说, 如果单核 CPU，一个处理器一次只能执行一个线程的情况下，处理器可以使用时间片轮转技术，可以让 CPU 快速的在各个线程之间进行切换， 对于用户来说，感觉是多个线程在同时执行。 如果是多核心 CPU，可以为不同的线程分配不同的 CPU 内核。</p>
+</blockquote>
+<h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><ol>
+<li><strong>提高系统的吞吐率</strong>：多线程编程可以使一个进程有多个并发的操作。</li>
+<li><strong>提高响应性</strong>：Web服务器会采用一些专门的线程负责用户的请求处理，缩短了用户的等待时间。</li>
+<li><strong>充分利用多核处理器资源</strong>： 通过多线程可以充分的利用 CPU 资源</li>
+</ol>
+<h2 id="代价"><a href="#代价" class="headerlink" title="代价"></a>代价</h2><ol>
+<li><p><strong>线程安全(Thread safe)问题</strong>：多线程共享数据时，如果没有采取正确的并发访问控制措施，就可能会产生数据一致性问题，如读取脏数据(过期的数据)， 如丢失数据更新。</p>
+</li>
+<li><p><strong>线程活性(thread liveness)问题</strong>：由于程序自身的缺陷或者由资源稀缺性导致线程一直处于非 RUNNABLE 状态，这就是线程活性问题。</p>
+<p>常见的活性故障有以下几种:</p>
+<p>(1) 死锁(Deadlock) ：类似鹬蚌相争</p>
+<p>(2) 锁死(Lockout) ：类似于睡美人故事中王子挂了</p>
+<p>(3) 活锁(Livelock) ：类似于小猫咬自己尾巴，一直咬不到(一直在重复<strong>尝试—失败—尝试</strong>)</p>
+<p>(4) 饥饿(Starvation) ：类似于健壮的雏鸟总是从母鸟嘴中抢到所有食物</p>
+</li>
+<li><p><strong>增大上下文切换(Context Switch) 开销</strong>：处理器从执行一个线程切换到执行另外一个线程，使⽤多线程我们的⽬的就是为了提⾼应⽤程序的使⽤率，但是如果多线程的代码没有好好设计的话，那未必会提⾼效率。<strong>反⽽降低了效率，甚⾄会造成死锁！</strong></p>
+</li>
+<li><p>可靠性：可能会由一个线程导致 JVM 意外终止，其他的线程也无法执行</p>
+</li>
+</ol>
+<h1 id="创建方法"><a href="#创建方法" class="headerlink" title="创建方法"></a>创建方法</h1><ul>
+<li><p>继承Thread类</p>
+</li>
+<li><p>实现Runnable接口</p>
+</li>
+<li><p>实现 Callable 接口</p>
+<p>与 Runnable 相比，Callable 可以有返回值，返回值通过 FutureTask 进行封装。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCallable</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">123</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ExecutionException, InterruptedException </span>&#123;</span><br><span class="line">        MyCallable mc = <span class="keyword">new</span> MyCallable();</span><br><span class="line">        FutureTask&lt;Integer&gt; ft = <span class="keyword">new</span> FutureTask&lt;&gt;(mc);</span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(ft);</span><br><span class="line">        thread.start();</span><br><span class="line">        System.out.println(ft.get());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Thread类和Runnable接口的对比"><a href="#Thread类和Runnable接口的对比" class="headerlink" title="Thread类和Runnable接口的对比"></a>Thread类和Runnable接口的对比</h2><p>​        Thread类也是实现的Runnable接口。两种实现方式对比的关键就在于extends和implements的对比，当然是后者好。因为第一，继承只能单继承，实现可以多实现；第二，实现的方式对比继承的方式，也有利于减小程序之间的耦合。因此，多线程的实现几乎都是使用的Runnable接口的方式。</p>
+<h1 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h1><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/Java+%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81%E5%8F%98%E8%BF%81.png" alt="Java 线程状态变迁 "></p>
+<p>虚拟机中的线程状态有六种，定义在Thread.State中：</p>
+<p>![image-20210118164441182](/Users/cheng/Library/Application Support/typora-user-images/image-20210118164441182.png)</p>
+<ul>
+<li><strong>新建状态NEW</strong></li>
+</ul>
+<p>new了但是没有启动的线程的状态。比如”Thread t = new Thread()”，t就是一个处于NEW状态的线程</p>
+<ul>
+<li><strong>可运行状态RUNNABLE</strong></li>
+</ul>
+<p>new出来线程，调用start()方法即处于RUNNABLE状态了。处于RUNNABLE状态的线程可能正在Java虚拟机中运行，也可能正在等待处理器的资源，因为一个线程必须获得CPU的资源后，才可以运行其run()方法中的内容，否则排队等待</p>
+<ul>
+<li><strong>阻塞BLOCKED</strong></li>
+</ul>
+<p>如果某一线程正在等待监视器锁，以便进入一个同步的块/方法，那么这个线程的状态就是阻塞BLOCKED</p>
+<ul>
+<li><strong>等待WAITING</strong></li>
+</ul>
+<p>某一线程因为调用不带超时的Object的wait()方法、不带超时的Thread的join()方法、LockSupport的park()方法，就会处于等待WAITING状态</p>
+<ul>
+<li><strong>超时等待TIMED_WAITING</strong></li>
+</ul>
+<p>某一线程因为调用带有指定正等待时间的Object的wait()方法、Thread的join()方法、Thread的sleep()方法、LockSupport的parkNanos()方法、LockSupport的parkUntil()方法，就会处于超时等待TIMED_WAITING状态</p>
+<ul>
+<li><strong>终止状态TERMINATED</strong></li>
+</ul>
+<p>线程调用终止或者run()方法执行结束后，线程即处于终止状态。处于终止状态的线程不具备继续运行的能力</p>
+<h1 id="JAVA内存模型"><a href="#JAVA内存模型" class="headerlink" title="JAVA内存模型"></a>JAVA内存模型</h1><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201207172300825.png" alt="image-20201207172300825"></p>
+]]></content>
+      <categories>
+        <category>多线程</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>多线程02-Thread常见方法</title>
     <url>/posts/bcf988be.html</url>
     <content><![CDATA[<h1 id="Thread中的实例方法"><a href="#Thread中的实例方法" class="headerlink" title="Thread中的实例方法"></a>Thread中的实例方法</h1><blockquote>
@@ -1499,93 +1539,6 @@
 <li><p><strong>volatile</strong>关键字主要⽤于解决变量在多个线程之间的<strong>可⻅性</strong>，⽽ <strong>synchronized</strong>关键字解决的是多个线程之间访问资源的<strong>同步性</strong>。</p>
 </li>
 </ul>
-]]></content>
-      <categories>
-        <category>多线程</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>多线程01-多线程基础</title>
-    <url>/posts/1983de0a.html</url>
-    <content><![CDATA[<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>​        进程(Process)是计算机中的程序关于某数据集合上的一次运行活动，是操作系统进行资源分配与调度的基本单位，可以把进程简单的理解为正在操作系统中运行的一个程序。</p>
-<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>​        线程(thread)是进程的一个执行单元。一个线程就是进程中一个单一顺序的控制流, 进程的一个执行分支进程是线程的容器，一个进程至少有一个线程。一个进程中也可以 有多个线程。在操作系统中是以进程为单位分配资源，如虚拟存储空间，文件描述符等。 每个线程都有各自的线程栈，自己的寄存器环境，自己的线程 本地存储。</p>
-<h2 id="主线程与子线程"><a href="#主线程与子线程" class="headerlink" title="主线程与子线程"></a>主线程与子线程</h2><p>​        JVM 启动时会创建一个主线程，该主线程负责执行 main 方法 。 主线程就是运行 main 方法的线程Java中的线程不孤立的，线程之间存在一些联系。 如果在 A 线程中创建了B线程, 称B线程为A线程的子线程, 相应的A线程就是B线程的父线程</p>
-<h2 id="串行、并发与并行"><a href="#串行、并发与并行" class="headerlink" title="串行、并发与并行"></a>串行、并发与并行</h2><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20200910195621396.png" alt="image-20200910195621396"></p>
-<h1 id="并发编程的三个重要特性"><a href="#并发编程的三个重要特性" class="headerlink" title="并发编程的三个重要特性"></a>并发编程的三个重要特性</h1><ol>
-<li><strong>原⼦性</strong> : ⼀个的操作或者多次操作，要么所有的操作全部都得到执⾏并且不会收到任何因素的⼲扰⽽中断，要么所有的操作都执⾏，要么都不执⾏。 <strong>synchronized</strong> 可以保证代码⽚段的<strong>原⼦性</strong>。</li>
-<li><strong>可⻅性</strong> ：当⼀个变量对共享变量进⾏了修改，那么另外的线程都是⽴即可以看到修改后的最新值。 <strong>volatile</strong> 关键字可以保证<strong>共享变量</strong>的<strong>可⻅性</strong>。</li>
-<li><strong>有序性</strong> ：代码在执⾏的过程中的先后顺序，Java 在编译器以及运⾏期间的优化，代码的执⾏顺序未必就是编写代码时候的顺序。 <strong>volatile 关键字可以禁⽌指令进⾏重排序优化</strong>。</li>
-</ol>
-<p><strong>注意：</strong>Java 有两种方式实现原子性: 一种是使用<strong>锁</strong>; 另一种利用处理器的<strong>CAS(Compare and Swap)指令</strong>. </p>
-<p>​        锁具有排它性,保证共享变量在某一时刻只能被一个线程访问. </p>
-<p>​        CAS 指令直接在硬件(处理器和内存)层次上实现,看作是硬件锁</p>
-<h1 id="多线程编程的优势与代价"><a href="#多线程编程的优势与代价" class="headerlink" title="多线程编程的优势与代价"></a>多线程编程的优势与代价</h1><blockquote>
-<p>并发可以提高事物的处理效率，即一段时间内可以处理或者完成更多的事情。</p>
-<p>并行是一种更为严格，理想的并发，从硬件角度来说, 如果单核 CPU，一个处理器一次只能执行一个线程的情况下，处理器可以使用时间片轮转技术，可以让 CPU 快速的在各个线程之间进行切换， 对于用户来说，感觉是多个线程在同时执行。 如果是多核心 CPU，可以为不同的线程分配不同的 CPU 内核。</p>
-</blockquote>
-<h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><ol>
-<li><strong>提高系统的吞吐率</strong>：多线程编程可以使一个进程有多个并发的操作。</li>
-<li><strong>提高响应性</strong>：Web服务器会采用一些专门的线程负责用户的请求处理，缩短了用户的等待时间。</li>
-<li><strong>充分利用多核处理器资源</strong>： 通过多线程可以充分的利用 CPU 资源</li>
-</ol>
-<h2 id="代价"><a href="#代价" class="headerlink" title="代价"></a>代价</h2><ol>
-<li><p><strong>线程安全(Thread safe)问题</strong>：多线程共享数据时，如果没有采取正确的并发访问控制措施，就可能会产生数据一致性问题，如读取脏数据(过期的数据)， 如丢失数据更新。</p>
-</li>
-<li><p><strong>线程活性(thread liveness)问题</strong>：由于程序自身的缺陷或者由资源稀缺性导致线程一直处于非 RUNNABLE 状态，这就是线程活性问题。</p>
-<p>常见的活性故障有以下几种:</p>
-<p>(1) 死锁(Deadlock) ：类似鹬蚌相争</p>
-<p>(2) 锁死(Lockout) ：类似于睡美人故事中王子挂了</p>
-<p>(3) 活锁(Livelock) ：类似于小猫咬自己尾巴，一直咬不到(一直在重复<strong>尝试—失败—尝试</strong>)</p>
-<p>(4) 饥饿(Starvation) ：类似于健壮的雏鸟总是从母鸟嘴中抢到所有食物</p>
-</li>
-<li><p><strong>增大上下文切换(Context Switch) 开销</strong>：处理器从执行一个线程切换到执行另外一个线程，使⽤多线程我们的⽬的就是为了提⾼应⽤程序的使⽤率，但是如果多线程的代码没有好好设计的话，那未必会提⾼效率。<strong>反⽽降低了效率，甚⾄会造成死锁！</strong></p>
-</li>
-<li><p>可靠性：可能会由一个线程导致 JVM 意外终止，其他的线程也无法执行</p>
-</li>
-</ol>
-<h1 id="创建方法"><a href="#创建方法" class="headerlink" title="创建方法"></a>创建方法</h1><ul>
-<li><p>继承Thread类</p>
-</li>
-<li><p>实现Runnable接口</p>
-</li>
-<li><p>实现 Callable 接口</p>
-<p>与 Runnable 相比，Callable 可以有返回值，返回值通过 FutureTask 进行封装。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCallable</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">123</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ExecutionException, InterruptedException </span>&#123;</span><br><span class="line">        MyCallable mc = <span class="keyword">new</span> MyCallable();</span><br><span class="line">        FutureTask&lt;Integer&gt; ft = <span class="keyword">new</span> FutureTask&lt;&gt;(mc);</span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(ft);</span><br><span class="line">        thread.start();</span><br><span class="line">        System.out.println(ft.get());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="Thread类和Runnable接口的对比"><a href="#Thread类和Runnable接口的对比" class="headerlink" title="Thread类和Runnable接口的对比"></a>Thread类和Runnable接口的对比</h2><p>​        Thread类也是实现的Runnable接口。两种实现方式对比的关键就在于extends和implements的对比，当然是后者好。因为第一，继承只能单继承，实现可以多实现；第二，实现的方式对比继承的方式，也有利于减小程序之间的耦合。因此，多线程的实现几乎都是使用的Runnable接口的方式。</p>
-<h1 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h1><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/Java+%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81%E5%8F%98%E8%BF%81.png" alt="Java 线程状态变迁 "></p>
-<p>虚拟机中的线程状态有六种，定义在Thread.State中：</p>
-<p>![image-20210118164441182](/Users/cheng/Library/Application Support/typora-user-images/image-20210118164441182.png)</p>
-<ul>
-<li><strong>新建状态NEW</strong></li>
-</ul>
-<p>new了但是没有启动的线程的状态。比如”Thread t = new Thread()”，t就是一个处于NEW状态的线程</p>
-<ul>
-<li><strong>可运行状态RUNNABLE</strong></li>
-</ul>
-<p>new出来线程，调用start()方法即处于RUNNABLE状态了。处于RUNNABLE状态的线程可能正在Java虚拟机中运行，也可能正在等待处理器的资源，因为一个线程必须获得CPU的资源后，才可以运行其run()方法中的内容，否则排队等待</p>
-<ul>
-<li><strong>阻塞BLOCKED</strong></li>
-</ul>
-<p>如果某一线程正在等待监视器锁，以便进入一个同步的块/方法，那么这个线程的状态就是阻塞BLOCKED</p>
-<ul>
-<li><strong>等待WAITING</strong></li>
-</ul>
-<p>某一线程因为调用不带超时的Object的wait()方法、不带超时的Thread的join()方法、LockSupport的park()方法，就会处于等待WAITING状态</p>
-<ul>
-<li><strong>超时等待TIMED_WAITING</strong></li>
-</ul>
-<p>某一线程因为调用带有指定正等待时间的Object的wait()方法、Thread的join()方法、Thread的sleep()方法、LockSupport的parkNanos()方法、LockSupport的parkUntil()方法，就会处于超时等待TIMED_WAITING状态</p>
-<ul>
-<li><strong>终止状态TERMINATED</strong></li>
-</ul>
-<p>线程调用终止或者run()方法执行结束后，线程即处于终止状态。处于终止状态的线程不具备继续运行的能力</p>
-<h1 id="JAVA内存模型"><a href="#JAVA内存模型" class="headerlink" title="JAVA内存模型"></a>JAVA内存模型</h1><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201207172300825.png" alt="image-20201207172300825"></p>
 ]]></content>
       <categories>
         <category>多线程</category>
@@ -2186,58 +2139,6 @@
       </tags>
   </entry>
   <entry>
-    <title>设计模式目录</title>
-    <url>/posts/b296eb6f.html</url>
-    <content><![CDATA[<h1 id="设计模式的原则"><a href="#设计模式的原则" class="headerlink" title="设计模式的原则"></a>设计模式的原则</h1><table>
-<thead>
-<tr>
-<th align="center">设计原则名称</th>
-<th align="center">定 义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">单一职责原则</td>
-<td align="center">一个类只负责一个功能领域中的相应职责</td>
-</tr>
-<tr>
-<td align="center">开闭原则</td>
-<td align="center">软件实体应对扩展开放，而对修改关闭</td>
-</tr>
-<tr>
-<td align="center">里氏代换原则</td>
-<td align="center">所有引用基类对象的地方能够透明地使用其子类的对象</td>
-</tr>
-<tr>
-<td align="center">依赖倒转原则</td>
-<td align="center">抽象不应该依赖于细节，细节应该依赖于抽象</td>
-</tr>
-<tr>
-<td align="center">接口隔离原则</td>
-<td align="center">使用多个专门的接口，而不使用单一的总接口</td>
-</tr>
-<tr>
-<td align="center">合成复用原则</td>
-<td align="center">尽量使用对象组合，而不是继承来达到复用的目的</td>
-</tr>
-<tr>
-<td align="center">迪米特法则</td>
-<td align="center">一个软件实体应当尽可能少地与其他实体发生相互作用</td>
-</tr>
-</tbody></table>
-<h1 id="啰嗦几句："><a href="#啰嗦几句：" class="headerlink" title="啰嗦几句："></a>啰嗦几句：</h1><p>​        很久以前就看了设计模式，也写了几篇笔记。虽然写的很长很细，但是还是感觉不太好，于是打算重写。这次就分为3大类写吧，分别为创建型模式、结构型模式和行为型模式。写一篇23种设计模式汇总或者分为23篇总感觉可能会让读者产生内容太多或太长的错觉，从而导致直接吃灰的结果。（反正我就是这样的，🤣）。</p>
-<p>​        废话不多说，目录如下，没链接就表示拖更了🤣。</p>
-<p>创建型模式</p>
-<p>结构型模式</p>
-<p>行为型模式</p>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>01.集合常见面试题</title>
     <url>/posts/712091b3.html</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201123135855532.png" alt="image-20201123135855532"></p>
@@ -2465,6 +2366,58 @@
       </categories>
       <tags>
         <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>设计模式目录</title>
+    <url>/posts/b296eb6f.html</url>
+    <content><![CDATA[<h1 id="设计模式的原则"><a href="#设计模式的原则" class="headerlink" title="设计模式的原则"></a>设计模式的原则</h1><table>
+<thead>
+<tr>
+<th align="center">设计原则名称</th>
+<th align="center">定 义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">单一职责原则</td>
+<td align="center">一个类只负责一个功能领域中的相应职责</td>
+</tr>
+<tr>
+<td align="center">开闭原则</td>
+<td align="center">软件实体应对扩展开放，而对修改关闭</td>
+</tr>
+<tr>
+<td align="center">里氏代换原则</td>
+<td align="center">所有引用基类对象的地方能够透明地使用其子类的对象</td>
+</tr>
+<tr>
+<td align="center">依赖倒转原则</td>
+<td align="center">抽象不应该依赖于细节，细节应该依赖于抽象</td>
+</tr>
+<tr>
+<td align="center">接口隔离原则</td>
+<td align="center">使用多个专门的接口，而不使用单一的总接口</td>
+</tr>
+<tr>
+<td align="center">合成复用原则</td>
+<td align="center">尽量使用对象组合，而不是继承来达到复用的目的</td>
+</tr>
+<tr>
+<td align="center">迪米特法则</td>
+<td align="center">一个软件实体应当尽可能少地与其他实体发生相互作用</td>
+</tr>
+</tbody></table>
+<h1 id="啰嗦几句："><a href="#啰嗦几句：" class="headerlink" title="啰嗦几句："></a>啰嗦几句：</h1><p>​        很久以前就看了设计模式，也写了几篇笔记。虽然写的很长很细，但是还是感觉不太好，于是打算重写。这次就分为3大类写吧，分别为创建型模式、结构型模式和行为型模式。写一篇23种设计模式汇总或者分为23篇总感觉可能会让读者产生内容太多或太长的错觉，从而导致直接吃灰的结果。（反正我就是这样的，🤣）。</p>
+<p>​        废话不多说，目录如下，没链接就表示拖更了🤣。</p>
+<p>创建型模式</p>
+<p>结构型模式</p>
+<p>行为型模式</p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
       </tags>
   </entry>
   <entry>
@@ -3462,6 +3415,437 @@
       </categories>
       <tags>
         <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx</title>
+    <url>/posts/a477be03.html</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>不做额外配置的话，yml安装方式可以在任何地方执行安装或nginx操作命令，自行安装需要进入对应的目录。例如nginx刷新，操作如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> yum方式，在任意目录下执行如下命令即可</span></span><br><span class="line">nginx -s reload</span><br><span class="line"><span class="meta">#</span><span class="bash"> 自行安装方式，需要两步</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 1. 进入nginx的sbin目录,例如安装在了/usr/<span class="built_in">local</span>/nginx下</span></span><br><span class="line">cd /usr/local/nginx/sbin/</span><br><span class="line"><span class="meta">#</span><span class="bash"> 2. 执行如下命令即可</span></span><br><span class="line">./nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<h2 id="yum方式"><a href="#yum方式" class="headerlink" title="yum方式"></a>yum方式</h2><blockquote>
+<p>这个比较简单，一步到位</p>
+</blockquote>
+<h3 id="先安装依赖"><a href="#先安装依赖" class="headerlink" title="先安装依赖"></a>先安装依赖</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum -y install gcc zlib zlib-devel pcre-devel openssl openssl-devel</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> yum install nginx <span class="comment"># 安装</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装完毕以后 可以使用如下常用命令</span></span><br><span class="line">nginx -v # 查看版本</span><br><span class="line">nginx -t # 检查语法</span><br><span class="line">nginx -s reload # 重启</span><br><span class="line">nginx -s stop # 暴力关闭</span><br><span class="line">nginx -s quit # 优雅关闭</span><br></pre></td></tr></table></figure>
+
+<h2 id="自行安装方式"><a href="#自行安装方式" class="headerlink" title="自行安装方式"></a>自行安装方式</h2><ol>
+<li><p>去官网<a href="http://nginx.org/%E4%B8%8B%E8%BD%BD%E5%AF%B9%E5%BA%94%E7%9A%84nginx%E5%8C%85%EF%BC%8C%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%E7%A8%B3%E5%AE%9A%E7%89%88%E6%9C%AC">http://nginx.org/下载对应的nginx包，推荐使用稳定版本</a></p>
+</li>
+<li><p>上传nginx到linux系统</p>
+</li>
+<li><p>安装依赖环境</p>
+<ul>
+<li>安装gcc环境</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install gcc-c++</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>安装PCRE库,用于解析正则表达式</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y pcre pcre-devel</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>zlib压缩和解压缩依赖</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y zlib zlib-devel</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>SSL安全的加密的套接字协议层,用于HTTP安全传输,也就是https</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y openssl openssl-devel</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解压，需要注意，解压后得到的是源码，源码需要编译后才能安装</p>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tar -zxvf nginx-1.18.0.tar.gz # 换成自己的版本</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>编译之前，先创建nginx临时目录，如果不创建，在启动nginx的过程中会报错</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir /var/temp/nginx -p </span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>在nginx目录，输入如下命令进行配置，目的是为了创建makefile文件</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./configure \n --prefix=/usr/local/nginx \n --pid-path=/var/run/nginx/nginx.pid \n --lock-path=/var/lock/nginx.lock \n --error-log-path=/var/log/nginx/error.log \n --http-log-path=/var/log/nginx/access.log \n --with-http_gzip_static_module \n --http-client-body-temp-path=/var/temp/nginx/client \n --http-proxy-temp-path=/var/temp/nginx/proxy \n --http-fastcgi-temp-path=/var/temp/nginx/fastcgi \n --http-uwsgi-temp-path=/var/temp/nginx/uwsgi \n --http-scgi-temp-path=/var/temp/nginx/scgi</span><br></pre></td></tr></table></figure>
+
+<p><strong>注：</strong>\n 代表在命令行中换行，用于提高可读性</p>
+<p><strong>配置命令：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>命令</strong></th>
+<th><strong>解释</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>–prefix</td>
+<td>指定 nginx 安装目录</td>
+</tr>
+<tr>
+<td>–pid-path</td>
+<td>指定 nginx 的 pid</td>
+</tr>
+<tr>
+<td>–lock-path</td>
+<td>锁定安装文件，防止被恶意篡改或误操作</td>
+</tr>
+<tr>
+<td>–error-path</td>
+<td>错误日志</td>
+</tr>
+<tr>
+<td>–http-log-path</td>
+<td>http 日志</td>
+</tr>
+<tr>
+<td>-with-http_gzip_static_module</td>
+<td>启用 gzip 模块，在线实时压缩输出数据流</td>
+</tr>
+<tr>
+<td>-http-client-body-temp-path</td>
+<td>设定客户端请求的临时目录</td>
+</tr>
+<tr>
+<td>-http-proxy-temp-path</td>
+<td>设置 http 代理临时目录</td>
+</tr>
+<tr>
+<td>-http-fastcgi-temp-path</td>
+<td>设定 fastcgi 临时目录</td>
+</tr>
+<tr>
+<td>-http-uwsgi-temp-path</td>
+<td>设定 uwsgi 临时目录</td>
+</tr>
+<tr>
+<td>-http-scgi-temp-path</td>
+<td>设定 scgi 临时目录</td>
+</tr>
+</tbody></table>
+<ol start="7">
+<li>make 编译</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>安装</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<ol start="9">
+<li>进入 sbin 目录启动 Nginx</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./nginx</span><br></pre></td></tr></table></figure>
+
+<p>不管是哪种方式，启动后都可以直接访问(端口默认80)，比如本地就访问127.0.0.1，服务器直接输入ip。<strong>服务器记得开启80端口或防火墙。</strong></p>
+<h2 id="遇到的问题问题"><a href="#遇到的问题问题" class="headerlink" title="遇到的问题问题"></a>遇到的问题问题</h2><ul>
+<li>如果出现nginx: [error] open() “/var/run/nginx.pid” failed (2: No such file or directory)</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 执行这个命令就行</span></span><br><span class="line">sudo nginx -c /etc/nginx/nginx.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行完就可以执行启动或者重启了</span></span><br><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<h1 id="nginx-conf核心配置文件详解"><a href="#nginx-conf核心配置文件详解" class="headerlink" title="nginx.conf核心配置文件详解"></a>nginx.conf核心配置文件详解</h1><h2 id="user"><a href="#user" class="headerlink" title="user"></a>user</h2><p>​        设置worker进程的用户，指的linux中的用户，会涉及到nginx操作目录或文件的一些权限，默认为 nobody </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">user root; </span><br></pre></td></tr></table></figure>
+
+<h2 id="worker-processes"><a href="#worker-processes" class="headerlink" title="worker_processes"></a>worker_processes</h2><p>​        worker进程工作数设置，一般来说CPU有几个，就设置几个，或者设置为N-1也行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">worker_processes 1; </span><br></pre></td></tr></table></figure>
+
+<h2 id="日志级别"><a href="#日志级别" class="headerlink" title="日志级别"></a>日志级别</h2><p>​        nginx 日志级别<code>debug | info | notice | warn | error | crit | alert | emerg</code>，错误级别从左到右越来越大</p>
+<h2 id="pid"><a href="#pid" class="headerlink" title="pid"></a>pid</h2><p>​        设置nginx进程 pid</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pid logs/nginx.pid; </span><br></pre></td></tr></table></figure>
+
+<h2 id="events"><a href="#events" class="headerlink" title="events"></a>events</h2><p>​        设置工作模式</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">events &#123; </span><br><span class="line">	# 默认使用epoll </span><br><span class="line">	use epoll; </span><br><span class="line">	# 每个worker允许连接的客户端最大连接数 </span><br><span class="line">	worker_connections 10240; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h2 id="http指令块"><a href="#http指令块" class="headerlink" title="http指令块"></a>http指令块</h2><p>​        http 是指令块，针对http网络传输的一些指令配置</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http &#123; </span><br><span class="line"></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h2 id="include"><a href="#include" class="headerlink" title="include"></a>include</h2><p>​        include 引入外部配置，提高可读性，避免单个配置文件过大</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">include mime.types; </span><br></pre></td></tr></table></figure>
+
+<h2 id="log-format"><a href="#log-format" class="headerlink" title="log_format"></a>log_format</h2><p>​        <strong>设定日志格式</strong>， main 为定义的格式名称，如此 access_log 就可以直接使用这个变量了</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210128154631809.png" alt="image-20210128154631809"></p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>说明</strong></th>
+<th><strong>示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$remote_addr</td>
+<td>客户端地址</td>
+<td>219.227.111.255</td>
+</tr>
+<tr>
+<td>$remote_user</td>
+<td>客户端用户名称</td>
+<td>—</td>
+</tr>
+<tr>
+<td>$time_local</td>
+<td>访问时间和时区</td>
+<td>18/Jul/2020:17:00:01 +0800</td>
+</tr>
+<tr>
+<td>$request</td>
+<td>请求的URI和HTTP协议</td>
+<td>“GET /article-10000.html HTTP/1.1”</td>
+</tr>
+<tr>
+<td>$http_host</td>
+<td>请求地址，即浏览器中你输入的地址（IP或域名）</td>
+<td><a href="http://www.ha97.com/">www.ha97.com</a> 198.98.120.87</td>
+</tr>
+<tr>
+<td>$status</td>
+<td>HTTP请求状态</td>
+<td>200</td>
+</tr>
+<tr>
+<td>$upstream_status</td>
+<td>upstream状态</td>
+<td>200</td>
+</tr>
+<tr>
+<td>$body_bytes_sent</td>
+<td>发送给客户端文件内容大小</td>
+<td>1547</td>
+</tr>
+<tr>
+<td>$http_referer</td>
+<td>url跳转来源</td>
+<td><a href="http://www.ha97.com/tag/https">https</a>://www.<a href="http://www.ha97.com/category/google">google</a>.com/</td>
+</tr>
+<tr>
+<td>$http_user_agent</td>
+<td>用户终端浏览器等信息</td>
+<td>“Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; SV1; GTB7.0; .NET4.0C;</td>
+</tr>
+<tr>
+<td>$ssl_protocol</td>
+<td>SSL协议版本</td>
+<td>TLSv1</td>
+</tr>
+<tr>
+<td>$ssl_cipher</td>
+<td>交换数据中的算法</td>
+<td>RC4-SHA</td>
+</tr>
+<tr>
+<td>$upstream_addr</td>
+<td>后台upstream的地址，即真正提供服务的主机地址</td>
+<td>10.36.10.80:80</td>
+</tr>
+<tr>
+<td>$request_time</td>
+<td>整个请求的总时间</td>
+<td>0.165</td>
+</tr>
+<tr>
+<td>$upstream_response_time</td>
+<td>请求过程中，upstream响应时间</td>
+<td>0.002</td>
+</tr>
+</tbody></table>
+<h2 id="sendfile和tcp-nopush"><a href="#sendfile和tcp-nopush" class="headerlink" title="sendfile和tcp_nopush"></a>sendfile和tcp_nopush</h2><p>​        <strong>sendfile使用高效文件传输，提升传输性能 。启用后</strong>才能使用 <strong>tcp_nopush</strong> ，是指<strong>当数据表累积一定大小后才发送，提高了效率。</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sendfile on; </span><br><span class="line">tcp_nopush on;</span><br></pre></td></tr></table></figure>
+
+<h2 id="keepalive-timeout"><a href="#keepalive-timeout" class="headerlink" title="keepalive_timeout"></a>keepalive_timeout</h2><p>​        <strong>keepalive_timeout</strong> 设置客户端与服务端请求的超时时间，保证客户端多次请求的时候不会重复建立新的连接，节约资源损耗。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> keepalive_timeout 0; </span></span><br><span class="line">keepalive_timeout 65;</span><br></pre></td></tr></table></figure>
+
+<h2 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h2><p>​        gzip 启用压缩，<code>html/js/css</code>压缩后传输会 更快</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">gzip on;</span><br></pre></td></tr></table></figure>
+
+<h2 id="upstream"><a href="#upstream" class="headerlink" title="upstream"></a>upstream</h2><h3 id="max-conns"><a href="#max-conns" class="headerlink" title="max_conns"></a><strong>max_conns</strong></h3><p><strong>限制每台server的连接数，用于保护避免过载，可起到限流作用。</strong></p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"># worker进程设置1个，便于测试观察成功的连接数 </span><br><span class="line">worker_processes 1; </span><br><span class="line">upstream tomcats &#123; </span><br><span class="line">	server 192.168.1.200:8080 max_conns=2; </span><br><span class="line">	server 192.168.1.201:8080 max_conns=2; </span><br><span class="line">	server 192.168.1.202:8080 max_conns=2; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="slow-start-付费功能"><a href="#slow-start-付费功能" class="headerlink" title="slow_start(付费功能)"></a><strong>slow_start(付费功能)</strong></h3><p>让服务缓慢启动增加权重</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">upstream tomcats &#123; </span><br><span class="line">	server 192.168.1.200:8080 weight=6 slow_start=60s; </span><br><span class="line">	server 192.168.1.201:8080 weight=2; </span><br><span class="line">	server 192.168.1.202:8080 weight=2; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注：</strong></p>
+<p>该参数不能使用在 hash 和 random load balancing 中。</p>
+<p>如果在 upstream 中只有一台 server，则该参数失效。</p>
+<h3 id="down"><a href="#down" class="headerlink" title="down"></a><strong>down</strong></h3><p><strong>down 用于标记服务节点不可用</strong></p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">upstream tomcats &#123; </span><br><span class="line">	server 192.168.1.200:8080 down; </span><br><span class="line">	server 192.168.1.201:8080 weight=1; </span><br><span class="line">	server 192.168.1.202:8080 weight=1; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="backup"><a href="#backup" class="headerlink" title="backup"></a><strong>backup</strong></h3><p>backup 表示当前服务器节点是备用机，只有在其他的服务器都宕机以后，自己才会加入到集群中，被用户访问到：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">upstream tomcats &#123; </span><br><span class="line">  server 192.168.1.200:8080 backup; </span><br><span class="line">  server 192.168.1.201:8080 weight=1; </span><br><span class="line">  server 192.168.1.202:8080 weight=1; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p><strong>注：</strong> </p>
+<p>backup 参数不能使用在 hash 和 random load balancing 中。</p>
+<ul>
+<li><strong>max_fails和fail_timeout</strong></li>
+</ul>
+<p><strong>max_fails：表示失败几次，则标记server已宕机，剔出上游服务。</strong></p>
+<p><strong>fail_timeout：表示失败的重试时间。</strong></p>
+<p>如进行如下设置：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">max_fails=<span class="number">2</span> fail_timeout=<span class="number">15</span>s</span><br></pre></td></tr></table></figure>
+
+<p>则代表在15秒内请求某一server失败达到2次后，则认为该server已经挂了或者宕机了，随后再过15秒，这15秒内不会有新的请求到达刚刚挂掉的节点上，而是会请求到正常运作的server上，15秒后会再有新请求尝试连接挂掉的server，如果还是失败，重复上一过程，直到恢复。</p>
+<h3 id="keepalive"><a href="#keepalive" class="headerlink" title="keepalive"></a>keepalive</h3><p><strong>keepalive ： 设置长连接处理的数量</strong></p>
+<p><strong>proxy_http_version ：设置长连接http版本为1.1</strong></p>
+<p><strong>proxy_set_header ：清除connection header 信息</strong></p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">upstream tomcats &#123; </span><br><span class="line">  server 192.168.1.200:8080;</span><br><span class="line">  keepalive 32; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">  listen 80; </span><br><span class="line">  server_name www.tomcats.com;</span><br><span class="line">  </span><br><span class="line">  location / &#123; </span><br><span class="line">    proxy_pass http://tomcats; </span><br><span class="line">    proxy_http_version 1.1; </span><br><span class="line">    proxy_set_header Connection &quot;&quot;; </span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><ul>
+<li><strong>weight</strong></li>
+</ul>
+<p>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。</p>
+<ul>
+<li><strong>ip_hash</strong></li>
+</ul>
+<p><code>ip_hash</code>可以<strong>保证用户在ip没有更改的情况下访问固定的服务器</strong>：hash(ip) % node_counts(服务器节点数量) = index</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">upstream tomcats &#123;</span><br><span class="line">  ip_hash;</span><br><span class="line">	server 192.168.1.200:8080; </span><br><span class="line">	server 192.168.1.201:8080 down; </span><br><span class="line">	server 192.168.1.202:8080; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注：</strong> </p>
+<ol>
+<li>在nginx版本1.3.1之前，不能在ip_hash中使用权重（weight）。</li>
+<li>ip_hash不能与backup同时使用。</li>
+<li>此策略适合有状态服务，比如session。</li>
+<li>当有服务器需要剔除，必须手动down掉。</li>
+</ol>
+<ul>
+<li><strong>url_hash（第三方）</strong></li>
+</ul>
+<p>​        按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，要配合缓存命中来使用。同一个资源多次请求，可能会到达不同的服务器上，导致不必要的多次下载，缓存命中率不高，以及一些资源时间的浪费。而使用url_hash，可以使得同一个url（也就是同一个资源请求）会到达同一台服务器，一旦缓存住了资源，再此收到请求，就可以从缓存中读取。</p>
+<ul>
+<li><strong>least_conn</strong></li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">upstream tomcats &#123; </span><br><span class="line">  # url_hash;</span><br><span class="line">  hash $request_uri;</span><br><span class="line">  # 请求过来之后映射到请求量最少的服务器,此适合请求处理时间长短不一造成服务器过载的情况。</span><br><span class="line">  # least_conn</span><br><span class="line">	server 192.168.1.200:8080; </span><br><span class="line">	server 192.168.1.201:8080; </span><br><span class="line">	server 192.168.1.202:8080; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">  listen 80; </span><br><span class="line">  server_name www.tomcats.com;</span><br><span class="line">  </span><br><span class="line">  location / &#123; </span><br><span class="line">    proxy_pass http://tomcats; </span><br><span class="line">    proxy_http_version 1.1; </span><br><span class="line">    proxy_set_header Connection &quot;&quot;; </span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>todo 一致性hash模块</strong></li>
+</ul>
+<h2 id="server"><a href="#server" class="headerlink" title="server"></a>server</h2><p><strong>server</strong>可以在其对应的<strong>http</strong>指令块中设置多个虚拟主机</p>
+<ul>
+<li>listen：监听端口</li>
+<li>server_ name：  可以填写localhost、ip、 域名</li>
+<li>location： 请求路由映射，匹配拦截</li>
+<li>root： 请求位置</li>
+<li>index： 首页设置</li>
+<li>alias： 路径别名</li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 80;</span><br><span class="line">  server_name localhost;</span><br><span class="line">  location / &#123;</span><br><span class="line">    root html;</span><br><span class="line">    index index.html index.htm;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="root和alias的区别"><a href="#root和alias的区别" class="headerlink" title="root和alias的区别"></a>root和alias的区别</h3><ul>
+<li><strong>root的真实的路径是roo值+location值，alias会去掉location的值，直接访问alias的路径对应的文件</strong></li>
+<li>alias 只能作用在location中，而root可以存在server、http和location中。</li>
+<li><strong>alias 后面必须要用 “/” 结束</strong>，否则会找不到文件，而 root 则对 ”/” 可有可无。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location &#x2F;static&#x2F; &#123;</span><br><span class="line">  root &#x2F;file&#x2F;img;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用户请求： <code>http://ip:port/static/test.gif </code>这个地址时，</p>
+<p>实际访问：<code> /file/img/static/test.gif</code></p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location /static/ &#123;</span><br><span class="line">  alias /file/img;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用户请求： <code>http://ip:port/static/test.gif</code></p>
+<p>实际访问：<code> /file/img/test.gif</code></p>
+<h3 id="location的匹配规则"><a href="#location的匹配规则" class="headerlink" title="location的匹配规则"></a>location的匹配规则</h3><table>
+<thead>
+<tr>
+<th>标识符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>=</td>
+<td><strong>精确匹配：</strong>用于标准uri前，要求请求字符串和uri严格匹配。如果匹配成功就停止匹配，立即执行该location里面的请求。</td>
+</tr>
+<tr>
+<td>~</td>
+<td><strong>正则匹配：</strong>用于正则uri前，表示uri里面包含正则，并且区分大小写。</td>
+</tr>
+<tr>
+<td>~*</td>
+<td><strong>正则匹配：</strong>用于正则uri前，表示uri里面包含正则，不区分大小写。</td>
+</tr>
+<tr>
+<td>^~</td>
+<td><strong>非正则匹配；</strong>用于标准uri前，nginx服务器匹配到前缀最多的uri后就结束，该模式匹配成功后，不会使用正则匹配。</td>
+</tr>
+<tr>
+<td>空格</td>
+<td><strong>普通匹配（最长字符匹配）；</strong>与location顺序无关，是按照匹配的长短来取匹配结果。若完全匹配，就停止匹配。</td>
+</tr>
+</tbody></table>
+<ul>
+<li>空格 ：默认匹配，普通匹配</li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">	root /home;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>= ：精确匹配</li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location = /file/img/face1.png &#123; </span><br><span class="line">	root /home;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>~* ：匹配正则表达式，<strong>不区分大小写</strong></li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">#符合图片的显示 </span><br><span class="line">location ~ \.(GIF|jpg|png|jpeg) &#123; </span><br><span class="line">	root /home; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>~ ：匹配正则表达式，<strong>区分大小写</strong></li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">#GIF必须大写才能匹配到 </span><br><span class="line">location ~ \.(GIF|jpg|png|jpeg) &#123; </span><br><span class="line">	root /home; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>^~ ：以某个字符路径开头</li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location ^~ /static/img &#123; </span><br><span class="line">	root /home; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="跨域配置"><a href="#跨域配置" class="headerlink" title="跨域配置"></a>跨域配置</h1><p>​        可以在server或者location模块加上如下配置（方式不唯一）</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"># 方式一：在server模块添加</span><br><span class="line">server&#123;</span><br><span class="line">  ……</span><br><span class="line">  #允许跨域请求的域，*代表所有 </span><br><span class="line">  add_header &#x27;Access-Control-Allow-Origin&#x27; *; </span><br><span class="line">  #允许带上cookie请求 </span><br><span class="line">  add_header &#x27;Access-Control-Allow-Credentials&#x27; &#x27;true&#x27;; </span><br><span class="line">  #允许请求的方法，比如 GET/POST/PUT/DELETE </span><br><span class="line">  add_header &#x27;Access-Control-Allow-Methods&#x27; *; </span><br><span class="line">  #允许请求的header add_header </span><br><span class="line">  &#x27;Access-Control-Allow-Headers&#x27; *;</span><br><span class="line">  ……</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 方式二：在location模块添加</span><br><span class="line">location /&#123;</span><br><span class="line">  ……</span><br><span class="line">  #允许跨域请求的域，*代表所有 </span><br><span class="line">  add_header &#x27;Access-Control-Allow-Origin&#x27; *; </span><br><span class="line">  #允许带上cookie请求 </span><br><span class="line">  add_header &#x27;Access-Control-Allow-Credentials&#x27; &#x27;true&#x27;; </span><br><span class="line">  #允许请求的方法，比如 GET/POST/PUT/DELETE </span><br><span class="line">  add_header &#x27;Access-Control-Allow-Methods&#x27; *; </span><br><span class="line">  #允许请求的header add_header </span><br><span class="line">  &#x27;Access-Control-Allow-Headers&#x27; *;</span><br><span class="line">  ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="防盗链配置"><a href="#防盗链配置" class="headerlink" title="防盗链配置"></a>防盗链配置</h1><ul>
+<li>利用Referer头来判断是否是合法请求</li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location ~* \.(gif|jpg|png|swf|flv)$ &#123; </span><br><span class="line">  valid_referers none blocked www.xxx.com xxx.com ; </span><br><span class="line">  if ($invalid_referer) &#123; </span><br><span class="line">    #return 403;  #直接提示拒绝访问</span><br><span class="line">    #return 404;  #直接提示找不到资源</span><br><span class="line">    rewrite ^/ http://www.xxx.com/xxx.jpg;  #返回特定的图片</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br><span class="line">#none意为不存在的Referer头。</span><br><span class="line">#blocked意为根据防火墙伪装Referer头，如：“Referer: XXXXXXX”。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>利用ngx_http_accesskey_module模块，有兴趣可以自己去了解一下</li>
+</ul>
+<h1 id="TODO-OSI网络模型"><a href="#TODO-OSI网络模型" class="headerlink" title="TODO OSI网络模型"></a>TODO OSI网络模型</h1><h1 id="HTTPS证书配置"><a href="#HTTPS证书配置" class="headerlink" title="HTTPS证书配置"></a>HTTPS证书配置</h1><ul>
+<li>安装ssl模块**(yum安装的不用另外安装)**</li>
+</ul>
+<p>如果是手动安装的，可能没有这个模块，参考下面的就行：</p>
+<p>先进入安装目录，然后执行下面的语句</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./configure \ </span><br><span class="line">--prefix=/usr/local/nginx \ </span><br><span class="line">--pid-path=/var/run/nginx/nginx.pid \ </span><br><span class="line">--lock-path=/var/lock/nginx.lock \ </span><br><span class="line">--error-log-path=/var/log/nginx/error.log \ </span><br><span class="line">--http-log-path=/var/log/nginx/access.log \ </span><br><span class="line">--with-http_gzip_static_module \ </span><br><span class="line">--http-client-body-temp-path=/var/temp/nginx/client \ </span><br><span class="line">--http-proxy-temp-path=/var/temp/nginx/proxy \ </span><br><span class="line">--http-fastcgi-temp-path=/var/temp/nginx/fastcgi \ </span><br><span class="line">--http-uwsgi-temp-path=/var/temp/nginx/uwsgi \ </span><br><span class="line">--http-scgi-temp-path=/var/temp/nginx/scgi \ </span><br><span class="line">--with-http_ssl_module</span><br></pre></td></tr></table></figure>
+
+<p>编译和安装</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make </span><br><span class="line"><span class="meta">#</span><span class="bash"> 然后</span></span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>配置HTTPS</strong></li>
+</ul>
+<p>把ssl证书 *.crt 和 私钥 *.key 拷贝到自己nginx的conf目录中，例如：/usr/local/nginx/conf，然后新增 server 监听 443 端口：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">server &#123; </span><br><span class="line">    listen 443; </span><br><span class="line">    server_name www.imoocdsp.com; </span><br><span class="line">    # 开启ssl </span><br><span class="line">    ssl on; </span><br><span class="line">    # 配置ssl证书 </span><br><span class="line">    ssl_certificate xxxxx.crt; </span><br><span class="line">    # 配置证书秘钥 </span><br><span class="line">    ssl_certificate_key xxxx.key; </span><br><span class="line">    # ssl会话cache </span><br><span class="line">    ssl_session_cache shared:SSL:1m; </span><br><span class="line">    # ssl会话超时时间 </span><br><span class="line">    ssl_session_timeout 5m; </span><br><span class="line">    # 配置加密套件，写法遵循 openssl 标准 </span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; </span><br><span class="line">    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE; </span><br><span class="line">    ssl_prefer_server_ciphers on; </span><br><span class="line">    location / &#123; </span><br><span class="line">    		proxy_pass http://tomcats/;</span><br><span class="line">    		index index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;    </span><br></pre></td></tr></table></figure>
+
+<p><strong>注：</strong>xxxxx.crt和xxxx.key换成自己的</p>
+<ul>
+<li>安装完以后 重启一下nginx即可</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<h1 id="nginx缓存"><a href="#nginx缓存" class="headerlink" title="nginx缓存"></a>nginx缓存</h1><h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><p>​        nginx缓存的设置可以提高网站性能，对于某些网站的图片，一旦发布，改动的可能是非常小的，为了减小对服务器请求的压力，提高用户浏览速度，我们可以通过设置nginx中的expires，让用户访问一次后，将图片缓存在用户的浏览器中，且时间比较长的缓存。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210205161023363.png" alt="image-20210205161023363"></p>
+<p><strong>Cache-control：</strong>用于控制HTTP缓存（在HTTP/1.0中可能部分没实现，仅仅实现了 Pragma: no-cache）<br><strong>Expires：</strong>表示到期时间，允许客户端在这个时间之前不去检查（发请求），等同max-age的效果。但是<strong>如果同时存在，则被Cache-Control的max-age覆盖。</strong></p>
+<p>​        nginx可以在location或者if中使用，例如：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"># 语法：expires [time|epoch|max|off]，默认值：off</span><br><span class="line">location /images&#123;</span><br><span class="line">	....</span><br><span class="line">	# expries 10s; 持续10秒</span><br><span class="line">	# expries 10h; 持续10小时</span><br><span class="line">	# expries 10d; 持续10天</span><br><span class="line">  # expries @12h30m;  当前时间超过12:30就在第二天12:30过期，否则就是今天12:30过期</span><br><span class="line">	# expries off; </span><br><span class="line">  # expries -1; 永不过期</span><br><span class="line">  # expries epoch; 过期时间Thu, 01 Jan 1970 00:00:01 GMT</span><br><span class="line">	expries max; # 过期时间是 Thu, 31 Dec 2037 23:55:55 GMT，Cache-Control是十年</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        当nginx设置了expires后，例如设置为：expires 10h; 那么，所在的location或if的内容，用户在10小时内请求的时候，都只会访问浏览器中的缓存，而不会去请求nginx。</p>
+<p><strong>注：这种缓存方式只能在用户不对浏览器强制刷新的情况下生效，如果用户通过url来进行访问，是可以访问到缓存的。</strong></p>
+<h2 id="反向代理缓存"><a href="#反向代理缓存" class="headerlink" title="反向代理缓存"></a>反向代理缓存</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line"># proxy_cache_path 设置缓存目录 </span><br><span class="line"># keys_zone 设置共享内存以及占用空间大小 </span><br><span class="line"># max_size 设置缓存大小 </span><br><span class="line"># inactive 超过此时间则被清理 </span><br><span class="line"># use_temp_path 临时目录，使用后会影响nginx性能 </span><br><span class="line"></span><br><span class="line">proxy_cache_path /usr/local/nginx/upstream_cache keys_zone=mycache:5m max_size=1g inactive=1m use_temp_path= </span><br><span class="line"></span><br><span class="line">location / &#123; </span><br><span class="line">		proxy_pass http://test; </span><br><span class="line">		# 启用缓存，和keys_zone一致 </span><br><span class="line">		proxy_cache mycache; </span><br><span class="line">		# 针对200和304状态码缓存时间为8小时 </span><br><span class="line">		proxy_cache_valid 200 304 8h; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="TODO-keepalived"><a href="#TODO-keepalived" class="headerlink" title="TODO keepalived"></a>TODO keepalived</h1>]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
       </tags>
   </entry>
   <entry>
