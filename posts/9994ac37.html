@@ -1,0 +1,369 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ElasticSearch Mapping | D丶Cheng的博客</title><meta name="description" content="Mapping简介​        mapping 是用来定义文档及其字段的存储方式、索引方式的手段，就类似于关系型数据库中的表结构定义。它可以分为两类： 动态映射​        动态映射创建出来的映射。es根据存入的文档，自动分析出来文档中字段的类型以及存储方式，这种就是动态映射。默认情况下，文档中如果新增了字段，mappings 中也会自动新增进来。但是有的时候，如果希望新增字段时，能够抛出"><meta name="keywords" content="ElasticSearch"><meta name="author" content="D丶Cheng"><meta name="copyright" content="D丶Cheng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chave-z.github.io/posts/9994ac37.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="ElasticSearch Mapping"><meta property="og:url" content="https://chave-z.github.io/posts/9994ac37.html"><meta property="og:site_name" content="D丶Cheng的博客"><meta property="og:description" content="Mapping简介​        mapping 是用来定义文档及其字段的存储方式、索引方式的手段，就类似于关系型数据库中的表结构定义。它可以分为两类： 动态映射​        动态映射创建出来的映射。es根据存入的文档，自动分析出来文档中字段的类型以及存储方式，这种就是动态映射。默认情况下，文档中如果新增了字段，mappings 中也会自动新增进来。但是有的时候，如果希望新增字段时，能够抛出"><meta property="og:image" content="https://chave-z.github.io/null"><meta property="article:published_time" content="2020-12-02T04:00:00.000Z"><meta property="article:modified_time" content="2021-02-23T09:16:55.812Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.1.1',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '天',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: {"limitCount":50,"languages":{"author":"作者: D丶Cheng","link":"链接: ","source":"来源: D丶Cheng的博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-02-23 17:16:55'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.1.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/null" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">46</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">11</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">11</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mapping%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Mapping简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%98%A0%E5%B0%84"><span class="toc-number">1.1.</span> <span class="toc-text">动态映射</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%98%A0%E5%B0%84"><span class="toc-number">1.2.</span> <span class="toc-text">静态映射</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E5%88%A4%E6%96%AD"><span class="toc-number">1.3.</span> <span class="toc-text">类型判断</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%98%A0%E5%B0%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">映射类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.</span> <span class="toc-text">常见类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.1.</span> <span class="toc-text">字符类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#string"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">string</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#text%EF%BC%9A"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">text：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#keyword"><span class="toc-number">2.1.1.3.</span> <span class="toc-text">keyword</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.2.</span> <span class="toc-text">数字类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.3.</span> <span class="toc-text">日期类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E7%B1%BB%E5%9E%8B%EF%BC%88boolean%EF%BC%89"><span class="toc-number">2.1.4.</span> <span class="toc-text">布尔类型（boolean）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%B1%BB%E5%9E%8B%EF%BC%88binary%EF%BC%89"><span class="toc-number">2.1.5.</span> <span class="toc-text">二进制类型（binary）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.6.</span> <span class="toc-text">范围类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">复杂类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.2.1.</span> <span class="toc-text">数组类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.2.2.</span> <span class="toc-text">对象类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%A5%97%E7%B1%BB%E5%9E%8B%EF%BC%88nested%EF%BC%89"><span class="toc-number">2.2.3.</span> <span class="toc-text">嵌套类型（nested）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%B0%E7%90%86%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.3.</span> <span class="toc-text">地理类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#geo-point"><span class="toc-number">2.3.1.</span> <span class="toc-text">geo_point</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#geo-shape"><span class="toc-number">2.3.2.</span> <span class="toc-text">geo_shape</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.3.3.</span> <span class="toc-text">使用场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.4.</span> <span class="toc-text">特殊类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP"><span class="toc-number">2.4.1.</span> <span class="toc-text">IP</span></a></li></ol></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">D丶Cheng的博客</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">ElasticSearch Mapping</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-02T04:00:00.000Z" title="发表于 2020-12-02 12:00:00">2020-12-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-02-23T09:16:55.812Z" title="更新于 2021-02-23 17:16:55">2021-02-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/ElasticSearch/">ElasticSearch</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="Mapping简介"><a href="#Mapping简介" class="headerlink" title="Mapping简介"></a>Mapping简介</h1><p>​        mapping 是用来定义文档及其字段的存储方式、索引方式的手段，就类似于关系型数据库中的表结构定义。它可以分为两类：</p>
+<h2 id="动态映射"><a href="#动态映射" class="headerlink" title="动态映射"></a><strong>动态映射</strong></h2><p>​        动态映射创建出来的映射。es根据存入的文档，自动分析出来文档中字段的类型以及存储方式，这种就是动态映射。默认情况下，文档中如果新增了字段，mappings 中也会自动新增进来。但是有的时候，如果希望新增字段时，能够抛出异常来提醒开发者，这个可以通过 mappings 中 dynamic 属性来配置。</p>
+<p>dynamic 属性有三种取值：</p>
+<ul>
+<li>true，默认即此。自动添加新字段。</li>
+<li>false，忽略新字段。</li>
+<li>strict，严格模式，发现新字段会抛出异常。</li>
+</ul>
+<p>在新建索引时使用即可，操作如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PUT &#123;&#123;domain&#125;&#125;/index_test</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;dynamic&quot;</span>:<span class="string">&quot;strict&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;title&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">&quot;num&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;long&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时如果你在index_test索引下的文档中添加除了title和num以外的数据就会报错。</p>
+<h2 id="静态映射"><a href="#静态映射" class="headerlink" title="静态映射"></a>静态映射</h2><p>​        静态映射就是我们自己设置的映射，例如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">PUT &#123;&#123;domain&#125;&#125;/index_test</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;settings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;number_of_shards&quot;</span> : <span class="string">&quot;2&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;number_of_replicas&quot;</span> : <span class="string">&quot;0&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;title&quot;</span> : &#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span>, </span><br><span class="line">        <span class="attr">&quot;search_analyzer&quot;</span>: <span class="string">&quot;ik_smart&quot;</span>, </span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;keyword&quot;</span> : &#123;<span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span>, <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">&quot;desc&quot;</span> : &#123;<span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>, <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span>&#125;,</span><br><span class="line">      <span class="attr">&quot;num&quot;</span> : &#123;<span class="attr">&quot;type&quot;</span>: <span class="string">&quot;integer&quot;</span>&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="类型判断"><a href="#类型判断" class="headerlink" title="类型判断"></a>类型判断</h2><table>
+<thead>
+<tr>
+<th>JSON中的数据</th>
+<th>自动推断出来的数据类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>null</td>
+<td>没有字段被添加</td>
+</tr>
+<tr>
+<td>true/false</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>浮点数</td>
+<td>float</td>
+</tr>
+<tr>
+<td>整型数字</td>
+<td>long</td>
+</tr>
+<tr>
+<td>JSON对象</td>
+<td>object</td>
+</tr>
+<tr>
+<td>数组</td>
+<td>数组中的第一个非空值来决定</td>
+</tr>
+<tr>
+<td>string</td>
+<td>text/keyword/date/double/long都有可能</td>
+</tr>
+</tbody></table>
+<h1 id="映射类型"><a href="#映射类型" class="headerlink" title="映射类型"></a>映射类型</h1><p>​        es中又丰富的数据类型，我们可以根据自己的需要选择合适的类型。类型大概可以分为如下几个大类。</p>
+<h2 id="常见类型"><a href="#常见类型" class="headerlink" title="常见类型"></a>常见类型</h2><h3 id="字符类型"><a href="#字符类型" class="headerlink" title="字符类型"></a>字符类型</h3><h4 id="string"><a href="#string" class="headerlink" title="string"></a><del>string</del></h4><p>在 es5 已经没有了。</p>
+<h4 id="text："><a href="#text：" class="headerlink" title="text："></a>text：</h4><p>​        这种字段在被索引存储前<strong>先进行分词</strong>，存储的是分词后的结果，而不是完整的字段。<code>text</code>字段不适合做排序和聚合。常见的参数如下：</p>
+<ol>
+<li><p>analyzer：用来分词，包含<strong>索引存储阶段</strong>和<strong>搜索阶段</strong>（其中查询阶段可以被<strong>search_analyzer</strong>参数覆盖），该参数默认设置为index的analyzer设置或者standard analyzer</p>
+</li>
+<li><p>index：是否可以被搜索到。默认是<code>true</code></p>
+</li>
+<li><p>fields：Multi-fields允许同一个字符串值同时被不同的方式索引，例如用不同的analyzer使一个field用来排序和聚类，另一个同样的string用来分析和全文检索。</p>
+</li>
+<li><p>search_analyzer：这个字段用来指定<strong>搜索阶段</strong>时使用的分词器，默认使用<code>analyzer</code>的设置</p>
+</li>
+<li><p>search_quote_analyzer：搜索遇到短语时使用的分词器，默认使用<code>search_analyzer</code>的设置</p>
+</li>
+</ol>
+<h4 id="keyword"><a href="#keyword" class="headerlink" title="keyword"></a>keyword</h4><p>​        这种字段用于索引结构化内容（例如电子邮件地址，电话）的字段，这些字段被拆分后不具有意义，所以在es中应<strong>索引完整的字段</strong>，而不是分词后的结果。通常用于过滤、排序和聚合。<code>keyword</code>只能按照字段精确搜索，例如根据文章id查询文章详情。</p>
+<h3 id="数字类型"><a href="#数字类型" class="headerlink" title="数字类型"></a>数字类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>取值范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>long</td>
+<td>带符号的64位整数，最小值-263，最大值263-1</td>
+</tr>
+<tr>
+<td>integer</td>
+<td>带符号的32位整数，最小值-231，最大值231-1</td>
+</tr>
+<tr>
+<td>short</td>
+<td>带符号的16位整数，最小值-32768，最大值32767</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>带符号的8位整数，最小值-128，最小值127</td>
+</tr>
+<tr>
+<td>double</td>
+<td>双精度64位IEEE754浮点数</td>
+</tr>
+<tr>
+<td>float</td>
+<td>单精度32位IEEE754浮点数</td>
+</tr>
+<tr>
+<td>half_float</td>
+<td>半精度16位IEEE754浮点数</td>
+</tr>
+<tr>
+<td>scaled_float</td>
+<td>带有缩放因子的缩放类型浮点数</td>
+</tr>
+</tbody></table>
+<p><strong>注：</strong>浮点数，优先考虑使用 scaled_float，但是要注意es索引时，原始值会乘以该缩放因子并四舍五入得到新值，ES内部储存的是这个新值，但返回结果仍是原始值。例如：scale_factor为10的scaled_float字段将在内部存储1.54为15。</p>
+<h3 id="日期类型"><a href="#日期类型" class="headerlink" title="日期类型"></a>日期类型</h3><p>​        日期类型支持排序，且可以通过<code>format</code>字段对时间格式进行格式化。并且这个能解析的类型比较多，例如：</p>
+<ul>
+<li>一段格式化的字符串，例如<code>&quot;2015-01-01&quot;</code>、<code>&quot;2015/01/01 12:10:30&quot;</code>或者<code>2020-11-11T11:11:11Z</code>等</li>
+<li>一段<code>long</code>类型的数字，指距某个时间的毫秒数，例如<code>1420070400001</code></li>
+<li>一段<code>integer</code>类型的数字，指距某个时间的秒数</li>
+</ul>
+<h3 id="布尔类型（boolean）"><a href="#布尔类型（boolean）" class="headerlink" title="布尔类型（boolean）"></a>布尔类型（boolean）</h3><p> “true”、“false”、true、false 都可以。</p>
+<h3 id="二进制类型（binary）"><a href="#二进制类型（binary）" class="headerlink" title="二进制类型（binary）"></a>二进制类型（binary）</h3><p>二进制接受的是 base64 编码的字符串，默认不存储，也不可搜索。</p>
+<h3 id="范围类型"><a href="#范围类型" class="headerlink" title="范围类型"></a>范围类型</h3><table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">integer_range</td>
+<td>-2<sup>31</sup> 到 -2<sup>31</sup>-1.</td>
+</tr>
+<tr>
+<td align="left">float_range</td>
+<td>32位单精度浮点数</td>
+</tr>
+<tr>
+<td align="left">long_range</td>
+<td>-2<sup>63</sup> 到 -2<sup>63</sup>-1</td>
+</tr>
+<tr>
+<td align="left">double_range</td>
+<td>64位双精度浮点数</td>
+</tr>
+<tr>
+<td align="left">date_range</td>
+<td>unsigned 64-bit integer milliseconds</td>
+</tr>
+<tr>
+<td align="left">ip_range</td>
+<td>ipv4和ipv6或者两者的混合</td>
+</tr>
+</tbody></table>
+<p>定义的时候，指定范围类型即可：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">PUT range_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;settings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;number_of_shards&quot;</span>: <span class="number">2</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;age_range&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;integer_range&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">&quot;time_frame&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;date_range&quot;</span>, </span><br><span class="line">        <span class="attr">&quot;format&quot;</span>: <span class="string">&quot;yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT range_index/_doc/1?refresh</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;age_range&quot;</span> : &#123; </span><br><span class="line">    <span class="attr">&quot;gte&quot;</span> : <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;lte&quot;</span> : <span class="number">20</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;time_frame&quot;</span> : &#123; </span><br><span class="line">    <span class="attr">&quot;gte&quot;</span> : <span class="string">&quot;2015-10-31 12:00:00&quot;</span>, </span><br><span class="line">    <span class="attr">&quot;lte&quot;</span> : <span class="string">&quot;2015-11-01&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>指定范围的时，可以使用 gt、gte、lt、lte。</p>
+<h2 id="复杂类型"><a href="#复杂类型" class="headerlink" title="复杂类型"></a>复杂类型</h2><h3 id="数组类型"><a href="#数组类型" class="headerlink" title="数组类型"></a>数组类型</h3><p>​        es中没有专门的数组类型。默认情况下，任何字段都可以有一个或者多个值。需要注意的是，数组中的元素必须是同一种类型。添加数组是，数组中的第一个元素决定了整个数组的类型。</p>
+<h3 id="对象类型"><a href="#对象类型" class="headerlink" title="对象类型"></a>对象类型</h3><p>由于 JSON 本身具有层级关系，所以文档包含内部对象。内部对象中，还可以再包含内部对象。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PUT &#123;&#123;domain&#125;&#125;/index_test/_doc/2</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;date&quot;</span>:<span class="string">&quot;2020-12-02T14:11:11Z&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;info&quot;</span>:&#123;</span><br><span class="line">    <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;TOM&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;age&quot;</span>:<span class="number">12</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="嵌套类型（nested）"><a href="#嵌套类型（nested）" class="headerlink" title="嵌套类型（nested）"></a>嵌套类型（nested）</h3><p>​        nested 是 object 中的一个特例，由于 Lucene 没有内部对象的概念，所以 es 会将对象层次扁平化，将一个对象转为字段名和值构成的简单列表，例如有这么一个object文档：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;group&quot; : &quot;student&quot;,</span><br><span class="line">  &quot;user&quot; : [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;first&quot; : &quot;san&quot;,</span><br><span class="line">      &quot;last&quot; :  &quot;zhang&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;first&quot; : &quot;wu&quot;,</span><br><span class="line">      &quot;last&quot; :  &quot;wang&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>即上面的文档，最终存储形式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;group&quot;:&quot;student&quot;</span><br><span class="line">&quot;user.first&quot;:[&quot;san&quot;,&quot;wu&quot;],</span><br><span class="line">&quot;user.last&quot;:[&quot;zhang&quot;,&quot;wang&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        扁平化之后，姓名之间的关系没了。这样会导致能搜索这两个人姓名的组合，例如wang san。怎么解决呢？答案就是 nested 类型，nested 对象类型可以保持数组中每个对象的独立性。nested 类型将数组中的每一组对象作为独立隐藏文档来索引，这样每一个嵌套对象都可以独立被索引。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &#123;</span><br><span class="line">  	&quot;user.first&quot;:&quot;san&quot;,</span><br><span class="line">  	&quot;user.last&quot;:&quot;zhang&quot;</span><br><span class="line">  &#125;,&#123;</span><br><span class="line">  	&quot;user.first&quot;:&quot;wu&quot;,</span><br><span class="line">  	&quot;user.last&quot;:&quot;wang&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="地理类型"><a href="#地理类型" class="headerlink" title="地理类型"></a>地理类型</h2><h3 id="geo-point"><a href="#geo-point" class="headerlink" title="geo_point"></a>geo_point</h3><p>geo_point 就是一个坐标点，定义方式如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PUT &#123;&#123;domain&#125;&#125;/position</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;location&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;geo_point&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建时指定字段类型，先经度后纬度，存储的时候，支持四种方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">PUT &#123;&#123;domain&#125;&#125;&#x2F;position&#x2F;_doc&#x2F;1</span><br><span class="line"># 结构一</span><br><span class="line">&#123;</span><br><span class="line">  &quot;location&quot;:&#123;</span><br><span class="line">    &quot;lat&quot;: 34.27,</span><br><span class="line">    &quot;lon&quot;: 108.94</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 结构二</span><br><span class="line">&#123;</span><br><span class="line">  &quot;location&quot;:&quot;34.27,108.94&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 结构三 geo_hash</span><br><span class="line">&#123;</span><br><span class="line">  &quot;location&quot;:&quot;uzbrgzfxuzup&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 结构四</span><br><span class="line">&#123;</span><br><span class="line">  &quot;location&quot;:[108.94,34.27]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="geo-shape"><a href="#geo-shape" class="headerlink" title="geo_shape"></a>geo_shape</h3><table>
+<thead>
+<tr>
+<th>GeoJSON</th>
+<th>ElasticSearch</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Point</td>
+<td>point</td>
+<td>由经纬度描述的点</td>
+</tr>
+<tr>
+<td>LineString</td>
+<td>linestring</td>
+<td>任意的线条，由两个以上的点组成</td>
+</tr>
+<tr>
+<td>Polygon</td>
+<td>polygon</td>
+<td>封闭多边形</td>
+</tr>
+<tr>
+<td>MultiPoint</td>
+<td>multipoint</td>
+<td>一组不连续的点</td>
+</tr>
+<tr>
+<td>Multil_ineString</td>
+<td>mulilinestring</td>
+<td>多条不关联的线</td>
+</tr>
+<tr>
+<td>MultiPolygon</td>
+<td>multipolygon</td>
+<td>多个多边形</td>
+</tr>
+<tr>
+<td>GeometryCollection</td>
+<td>geometrycollection</td>
+<td>几何对象的集合</td>
+</tr>
+<tr>
+<td></td>
+<td>circle</td>
+<td>圆形</td>
+</tr>
+<tr>
+<td></td>
+<td>envelope</td>
+<td>通过左，上角和右下角两个点确定的矩形</td>
+</tr>
+</tbody></table>
+<p>这个使用和很简单，把上面geo_point添加映射方式中的type改为geo_shape即可。添加的例子如下：</p>
+<p>添加文档时需要指定具体的类型：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">PUT position/_doc/1</span><br><span class="line"># point类型</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;location&quot;</span>:&#123;</span><br><span class="line">    <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;point&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;coordinates&quot;</span>: [<span class="number">108.94</span>,<span class="number">34.27</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"># linestring类型</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;location&quot;</span>:&#123;</span><br><span class="line">    <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;linestring&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;coordinates&quot;</span>: [[<span class="number">108.94</span>,<span class="number">34.27</span>],[<span class="number">100</span>,<span class="number">33</span>]]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>查找某一个范围内的地理位置</li>
+<li>通过地理位置或者相对中心点的距离来聚合文档</li>
+<li>通过距离对文档进行排序</li>
+</ul>
+<h2 id="特殊类型"><a href="#特殊类型" class="headerlink" title="特殊类型"></a>特殊类型</h2><h3 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h3><p>存储 IP 地址，类型是 ip：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PUT ip_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;ip&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;ip&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加文档：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PUT ip_index/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;ip&quot;</span>:<span class="string">&quot;192.168.91.1&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>搜索文档：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET ip_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;queip_indexry&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;term&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;ip&quot;</span>: <span class="string">&quot;192.168.0.0/16&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">D丶Cheng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://chave-z.github.io/posts/9994ac37.html">https://chave-z.github.io/posts/9994ac37.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://chave-z.github.io" target="_blank">D丶Cheng的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ElasticSearch/">ElasticSearch</a></div><div class="post_share"><div class="social-share" data-image="/null" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/b296eb6f.html"><img class="prev-cover" src="/null" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">设计模式目录</div></div></a></div><div class="next-post pull-right"><a href="/posts/a0be6b60.html"><img class="next-cover" src="/null" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ElasticSearch分词及中文分词器</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/a0be6b60.html" title="ElasticSearch分词及中文分词器"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-01</div><div class="title">ElasticSearch分词及中文分词器</div></div></a></div><div><a href="/posts/a9e5c1e9.html" title="ElasticSearch开篇"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-01</div><div class="title">ElasticSearch开篇</div></div></a></div><div><a href="/posts/5fe89e0e.html" title="ElasticSearch目录"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-01</div><div class="title">ElasticSearch目录</div></div></a></div><div><a href="/posts/c378945.html" title="ElasticSearch相关api介绍"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-01</div><div class="title">ElasticSearch相关api介绍</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By D丶Cheng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/search/local-search.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/js/third-party/canvas-nest.js"></script></div></body></html>
