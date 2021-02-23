@@ -1,6 +1,323 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>ElasticSearch开篇</title>
+    <url>/posts/a9e5c1e9.html</url>
+    <content><![CDATA[<h1 id="Lucene、ElasticSearch和solr"><a href="#Lucene、ElasticSearch和solr" class="headerlink" title="Lucene、ElasticSearch和solr"></a>Lucene、ElasticSearch和solr</h1><h2 id="Lucene"><a href="#Lucene" class="headerlink" title="Lucene"></a>Lucene</h2><p>​        Lucene 是一个开源、免费、高性能、纯 Java 编写的全文检索引擎，可以算作是开源领域最好的全文检索工具包。</p>
+<p>​        在实际开发中，Lucene 几乎适用于任何需要全文检索的场景，所以 Lucene 先后发展出好多语言版本，例如 C++、C#、Python 等。</p>
+<p>​        早在 2005 年，Lucene 就升级为 Apache 顶级开源项目。它的作者是 Doug Cutting，有的人可能没听过这这个人，不过你肯定听过他的另一个大名鼎鼎的作品 Hadoop。</p>
+<p>​        不过需要注意的是，<strong>Lucene 只是一个工具包，并非一个完整的搜索引擎</strong>，开发者可以基于 Lucene 来开发完整的搜索引擎。比较著名的有 Solr、ElasticSearch，不过在分布式和大数据环境下，ElasticSearch 更胜一筹。</p>
+<p>Lucene 主要有如下特点：</p>
+<ul>
+<li>简单</li>
+<li>跨语言</li>
+<li>强大的搜索引擎</li>
+<li>索引速度快</li>
+<li>索引文件兼容不同平台</li>
+</ul>
+<h2 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h2><p>​        ElasticSearch 是一个分布式、可扩展、近实时性的高性能搜索与数据分析引擎。ElasticSearch 基于 Java 编写，通过进一步封装 Lucene，将搜索的复杂性屏蔽起来，开发者只需要一套简单的 RESTful API 就可以操作全文检索。</p>
+<p>​        ElasticSearch 在分布式环境下表现优异，这也是它比较受欢迎的原因之一。它支持 PB 级别的结构化或非结构化海量数据处理</p>
+<p>整体上来说，ElasticSearch 有三大功能：</p>
+<ul>
+<li>数据搜集</li>
+<li>数据分析</li>
+<li>数据存储</li>
+</ul>
+<p><strong>ElasticSearch 的主要特点：</strong></p>
+<ol>
+<li>分布式文件存储。</li>
+<li>实时分析的分布式搜索引擎。</li>
+<li>高可拓展性。</li>
+<li>可插拔的插件支持。</li>
+</ol>
+<h1 id="ElasticSearch安装"><a href="#ElasticSearch安装" class="headerlink" title="ElasticSearch安装"></a>ElasticSearch安装</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>​        首先到<a href="https://www.elastic.co/cn/downloads/elasticsearch">elastic.co</a>或者<a href="https://elasticsearch.cn/download/">elasticsearch.cn</a>下载自己系统版本的Elasticsearch，这里用的是7.4.2。可以根据自己的需要下载不同的版本。直接解压放到电脑中间就行。压缩包中的目录结构如下：</p>
+<ul>
+<li>bin：可执行文件在里面，运行es的命令就在这个里面，包含了一些脚本文件等</li>
+<li>config 配置文件目录</li>
+<li>jdk： java环境</li>
+<li>lib：依赖的jar, 类库</li>
+<li>logs：日志文件</li>
+<li>modules：es相关的模块</li>
+<li>plugins：可以自己开发的插件</li>
+<li>data：这个目录没有，自己新建一下, 这个作为索引目录</li>
+</ul>
+<h2 id="修改elasticsearch-yml文件"><a href="#修改elasticsearch-yml文件" class="headerlink" title="修改elasticsearch.yml文件"></a>修改elasticsearch.yml文件</h2><ul>
+<li>修改集群名称和节点名称</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222154417314.png" alt="image-20210222154417314"></p>
+<ul>
+<li>修改集群节点</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222154604361.png" alt="image-20210222154604361"></p>
+<ul>
+<li><strong>修改data和log的保存地址</strong></li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222150846587.png" alt="image-20210222150846587"></p>
+<ul>
+<li><strong>修改es的网络ip</strong></li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222151050200.png" alt="image-20210222151050200"></p>
+<h2 id="修改JVM参数"><a href="#修改JVM参数" class="headerlink" title="修改JVM参数"></a><strong>修改JVM参数</strong></h2><p>​        Elasticsearsh默认的Xms和Xmx都是1G，如果虚拟机或者电脑内存不够大，可以修改这个参数，保证Elasticsearch能正常使用。还是进入config文件夹，找到JVM.properties文件，打开并修改到自己想要的大小。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222151500543.png" alt="image-20210222151500543"></p>
+<h2 id="添加用户（Mac用户忽略）"><a href="#添加用户（Mac用户忽略）" class="headerlink" title="添加用户（Mac用户忽略）"></a>添加用户（Mac用户忽略）</h2><p>​        es不允许root用户操作它，所以我们要新建一个用户，具体操作如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">useradd esuser</span><br><span class="line">chown -R esuser:esuser /usr/local/elasticsearch-7.4.2</span><br><span class="line">su esuser</span><br><span class="line">whoami # 显示自身用户名称</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>​        直接进入Elasticsearch的bin目录，执行<code>./elasticsearch</code>即可，如果要后台启动则执行<code>./elasticsearch -d</code>，启动成功以后，访问<a href="http://localhost:9200/%E7%9C%8B%E5%88%B0%E7%B1%BB%E4%BC%BC%E5%A6%82%E4%B8%8B%E4%BF%A1%E6%81%AF%E7%9A%84%EF%BC%8C%E5%B0%B1%E8%AF%B4%E6%98%8E%E6%88%90%E5%8A%9F%E4%BA%86%E3%80%82">http://localhost:9200/看到类似如下信息的，就说明成功了。</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222155212549.png" alt="image-20210222155212549"></p>
+<h2 id="停止"><a href="#停止" class="headerlink" title="停止"></a><strong>停止</strong></h2><p>​    如果是前台启动，那么执行Ctrl+C即可，如果是后台启动，可以执行如下操作：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[esuser@xxx bin]$ jps</span><br><span class="line">45413 RemoteMavenServer36</span><br><span class="line">20470 Launcher</span><br><span class="line">86937 Elasticsearch</span><br><span class="line">89372 Jps</span><br><span class="line">[esuser@xxx bin]$ kill 86937</span><br><span class="line">[esuser@xxx bin]$ jps</span><br><span class="line">89557 Jps</span><br><span class="line">45413 RemoteMavenServer36</span><br><span class="line">20470 Launcher</span><br></pre></td></tr></table></figure>
+
+<h1 id="HEAD-插件安装"><a href="#HEAD-插件安装" class="headerlink" title="HEAD 插件安装"></a>HEAD 插件安装</h1><p>​        为了方便的看到Elasticsearch上的信息，我们可以安装Elasticsearch-head插件。安装方法如下：</p>
+<h2 id="方式一："><a href="#方式一：" class="headerlink" title="方式一："></a>方式一：</h2><p>​        直接在谷歌插件商店搜索浏览器插件安装Elasticsearch-head，点击安装即可。</p>
+<h2 id="方式二-需要git和nodejs-："><a href="#方式二-需要git和nodejs-：" class="headerlink" title="方式二(需要git和nodejs)："></a>方式二(需要git和nodejs)：</h2><p>​        访问<a href="https://github.com/mobz/elasticsearch-head">elasticsearch-head</a>下载安装，操作如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone git:&#x2F;&#x2F;github.com&#x2F;mobz&#x2F;elasticsearch-head.git</span><br><span class="line">cd elasticsearch-head</span><br><span class="line">npm install</span><br><span class="line">npm run start</span><br></pre></td></tr></table></figure>
+
+<p>​        启动成功以后，访问<a href="http://localhost:9100/%E5%8D%B3%E5%8F%AF%EF%BC%8C%E4%BD%86%E6%98%AF%E8%A6%81%E6%B3%A8%E6%84%8F%EF%BC%8C%E6%AD%A4%E6%97%B6%E7%9C%8B%E4%B8%8D%E5%88%B0%E9%9B%86%E7%BE%A4%E6%95%B0%E6%8D%AE%E3%80%82%E5%8E%9F%E5%9B%A0%E5%9C%A8%E4%BA%8E%E8%BF%99%E9%87%8C%E9%80%9A%E8%BF%87%E8%B7%A8%E5%9F%9F%E7%9A%84%E6%96%B9%E5%BC%8F%E8%AF%B7%E6%B1%82%E9%9B%86%E7%BE%A4%E6%95%B0%E6%8D%AE%E7%9A%84%EF%BC%8C%E9%BB%98%E8%AE%A4%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E9%9B%86%E7%BE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E8%B7%A8%E5%9F%9F%EF%BC%8C%E6%89%80%E4%BB%A5%E8%BF%99%E9%87%8C%E5%B0%B1%E7%9C%8B%E4%B8%8D%E5%88%B0%E9%9B%86%E7%BE%A4%E6%95%B0%E6%8D%AE%E3%80%82%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E5%A6%82%E4%B8%8B%EF%BC%8C%E4%BF%AE%E6%94%B9">http://localhost:9100/即可，但是要注意，此时看不到集群数据。原因在于这里通过跨域的方式请求集群数据的，默认情况下，集群不支持跨域，所以这里就看不到集群数据。解决办法如下，修改</a> es 的 config/elasticsearch.yml 配置文件，添加如下内容，使之支持跨域：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">http.cors.enabled: true</span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure>
+
+<p>​        配置完成后，重启 es，此时 head 上就有数据了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222160730730.png" alt="image-20210222160730730"></p>
+<h1 id="kibana安装"><a href="#kibana安装" class="headerlink" title="kibana安装"></a>kibana安装</h1><p>​        Kibana 是一个 Elastic 公司推出的一个针对 es 的分析以及数据可视化平台，可以搜索、查看存放在 es 中的数据。</p>
+<p>安装步骤如下：</p>
+<ol>
+<li>下载 Kibana：<a href="https://www.elastic.co/cn/downloads/kibana">https://www.elastic.co/cn/downloads/kibana</a></li>
+<li>解压</li>
+<li>配置 es 的地址信息（可选，如果es是默认地址以及端口，可以不用配置，具体的配置文件是 config/kibana.yml）</li>
+<li>执行 ./bin/kibana 文件启动</li>
+<li>localhost:5601访问即可</li>
+</ol>
+<h1 id="Elasticsearch分布式安装"><a href="#Elasticsearch分布式安装" class="headerlink" title="Elasticsearch分布式安装"></a>Elasticsearch分布式安装</h1><p>此为本地模拟，作出如下假设：</p>
+<ul>
+<li>一主二从</li>
+<li>master 的端口是 9200，slave 端口分别是 9201 和 9202</li>
+</ul>
+<p>首先修改 master 的 config/elasticsearch.yml 配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node.master: true</span><br><span class="line">network.host: 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<p>配置完成后，重启 master。</p>
+<p>将 es 的压缩包解压两份，分别命名为 slave01 和 slave02，代表两个从机。</p>
+<p>分别对其进行配置。</p>
+<p><strong>slave01/config/elasticsearch.yml</strong>：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"># 集群名称必须保持一致</span><br><span class="line">cluster.name: my-elasticsearch</span><br><span class="line">node.name: slave01</span><br><span class="line">network.host: 127.0.0.1</span><br><span class="line">http.port: 9201</span><br><span class="line">discovery.zen.ping.unicast.hosts: [&quot;127.0.0.1&quot;]</span><br></pre></td></tr></table></figure>
+
+<p><strong>slave02/config/elasticsearch.yml</strong>：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"># 集群名称必须保持一致</span><br><span class="line">cluster.name: my-elasticsearch</span><br><span class="line">node.name: slave02</span><br><span class="line">network.host: 127.0.0.1</span><br><span class="line">http.port: 9202</span><br><span class="line">discovery.zen.ping.unicast.hosts: [&quot;127.0.0.1&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>然后分别启动 slave01 和 slave02。启动后，可以在 head 插件上查看集群信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222161119543.png" alt="image-20210222161119543"></p>
+<h2 id="ElasticSearch-核心概念"><a href="#ElasticSearch-核心概念" class="headerlink" title="ElasticSearch 核心概念"></a>ElasticSearch 核心概念</h2><h2 id="集群（Cluster）"><a href="#集群（Cluster）" class="headerlink" title="集群（Cluster）"></a>集群（Cluster）</h2><p>​        一个或者多个安装了 es 节点的服务器组织在一起，就是集群，这些节点共同持有数据，共同提供搜索服务。一个集群有一个名字，这个名字是集群的唯一标识，该名字为 cluster name，默认的集群名称是elasticsearch，<strong>具有相同名称的节点才会组成一个集群</strong>。</p>
+<p>可以在 config/elasticsearch.yml 文件中配置集群名称：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">cluster.name: javaboy-es</span><br></pre></td></tr></table></figure>
+
+<p>在集群中，节点的状态有三种：<strong>绿色、黄色、红色</strong>：</p>
+<ul>
+<li><strong>绿色</strong>：节点运行状态为健康状态。所有的主分片、副本分片都可以正常工作。</li>
+<li><strong>黄色</strong>：表示节点的运行状态为警告状态，<strong>所有的主分片目前都可以直接运行，但是至少有一个副本分片是不能正常工作的。</strong></li>
+<li><strong>红色</strong>：表示集群无法正常工作。</li>
+</ul>
+<h2 id="节点（Node）"><a href="#节点（Node）" class="headerlink" title="节点（Node）"></a>节点（Node）</h2><p>​        集群中的一个服务器就是一个节点，节点中会存储数据，同时参与集群的索引以及搜索功能。一个节点想要加入一个集群，只需要配置一下集群名称即可。默认情况下，如果我们启动了多个节点，多个节点还能够互相发现彼此，那么它们会自动组成一个集群，这是 es 默认提供的，但是这种方式并不可靠，有可能会发生脑裂现象。所以在实际使用中，建议一定手动配置一下集群信息。</p>
+<h2 id="索引（Index）"><a href="#索引（Index）" class="headerlink" title="索引（Index）"></a>索引（Index）</h2><p>索引可以从两方面来理解：</p>
+<p><strong>名词解释</strong>：具有相似特征文档的集合。</p>
+<p><strong>动词解释：</strong>索引数据以及对数据进行索引操作。</p>
+<h2 id="类型（Type）"><a href="#类型（Type）" class="headerlink" title="类型（Type）"></a>类型（Type）</h2><p>​        类型是索引上的逻辑分类或者分区。在 es6 之前，一个索引中可以有多个类型，从 es7 开始，一个索引中，只能有一个类型。在 es6.x 中，依然保持了兼容，依然支持单 index 多个 type 结构，但是已经不建议这么使用。</p>
+<h2 id="文档（Document）"><a href="#文档（Document）" class="headerlink" title="文档（Document）"></a>文档（Document）</h2><p>​        一个可以被索引的数据单元。例如一个用户的文档、一个产品的文档等等。文档都是 JSON 格式的。</p>
+<h2 id="分片（Shards）"><a href="#分片（Shards）" class="headerlink" title="分片（Shards）"></a>分片（Shards）</h2><p>​        索引都是存储在节点上的，但是受限于节点的空间大小以及数据处理能力，单个节点的处理效果可能不理想，此时我们可以对索引进行分片。当我们创建一个索引的时候，就需要指定分片的数量。每个分片本身也是一个功能完善并且独立的索引。</p>
+<p>默认情况下，一个索引会自动创建 1 个分片，并且为每一个分片创建一个副本。</p>
+<h2 id="副本（Replicas）"><a href="#副本（Replicas）" class="headerlink" title="副本（Replicas）"></a>副本（Replicas）</h2><p>​        副本也就是备份，是对主分片的一个备份。</p>
+<h2 id="Settings"><a href="#Settings" class="headerlink" title="Settings"></a>Settings</h2><p>​        集群中对索引的定义信息，例如索引的分片数、副本数等等。</p>
+<h2 id="Mapping"><a href="#Mapping" class="headerlink" title="Mapping"></a>Mapping</h2><p>​        Mapping 保存了定义索引字段的存储类型、分词方式、是否存储等信息。</p>
+<h2 id="Analyzer"><a href="#Analyzer" class="headerlink" title="Analyzer"></a>Analyzer</h2><p>​        字段分词方式的定义。</p>
+<h1 id="ElasticSearch-Vs-关系型数据库"><a href="#ElasticSearch-Vs-关系型数据库" class="headerlink" title="ElasticSearch Vs 关系型数据库"></a>ElasticSearch Vs 关系型数据库</h1><table>
+<thead>
+<tr>
+<th align="left">关系型数据库</th>
+<th align="left">ElasticSearch</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">数据库</td>
+<td align="left">索引</td>
+</tr>
+<tr>
+<td align="left">表</td>
+<td align="left">类型</td>
+</tr>
+<tr>
+<td align="left">行</td>
+<td align="left">文档</td>
+</tr>
+<tr>
+<td align="left">列</td>
+<td align="left">字段</td>
+</tr>
+<tr>
+<td align="left">表结构</td>
+<td align="left">映射（Mapping）</td>
+</tr>
+<tr>
+<td align="left">SQL</td>
+<td align="left">DSL(Domain Specific Language)</td>
+</tr>
+<tr>
+<td align="left">delect * from xxx</td>
+<td align="left">GET http://</td>
+</tr>
+<tr>
+<td align="left">update xxx set xx=xxx</td>
+<td align="left">PUT http://</td>
+</tr>
+<tr>
+<td align="left">delete xxx</td>
+<td align="left">DELETE http://</td>
+</tr>
+<tr>
+<td align="left">索引</td>
+<td align="left">全文索引</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>ElasticSearch</category>
+      </categories>
+      <tags>
+        <tag>ElasticSearch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ElasticSearch目录</title>
+    <url>/posts/5fe89e0e.html</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>ElasticSearch</category>
+      </categories>
+      <tags>
+        <tag>ElasticSearch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ElasticSearch相关api介绍</title>
+    <url>/posts/c378945.html</url>
+    <content><![CDATA[<p><strong>注：</strong>本文中的均为Elasticsearch的地址，例如本地环境为<a href="http://localhost:9200/">http://localhost:9200</a></p>
+<h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><h2 id="查看集群健康度"><a href="#查看集群健康度" class="headerlink" title="查看集群健康度"></a>查看集群健康度</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET &#123;&#123;domain&#125;&#125;&#x2F;_cluster&#x2F;health </span><br></pre></td></tr></table></figure>
+
+<h2 id="查看集群状态"><a href="#查看集群状态" class="headerlink" title="查看集群状态"></a>查看集群状态</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&#123;domain&#125;&#125;&#x2F;_cluster&#x2F;state</span><br></pre></td></tr></table></figure>
+
+<h1 id="索引-Index"><a href="#索引-Index" class="headerlink" title="索引 Index"></a>索引 Index</h1><p>​        ES会索引所有字段，经过处理后写入一个倒排索引。查找数据的时候，直接查找该索引。所以，ES数据管理的顶层单位就叫做 Index（索引）。它是单个数据库的同义词。每个 Index （即数据库）的名字必须是小写。</p>
+<h2 id="查看所有索引"><a href="#查看所有索引" class="headerlink" title="查看所有索引"></a>查看所有索引</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET _cat&#x2F;indices?v</span><br><span class="line"></span><br><span class="line">health status index      uuid                   pri rep docs.count docs.deleted store.size pri.store.size</span><br><span class="line">yellow open   index_test OQnPg2LhRbyZ5b5FcFO4lw   3   1          0            0       849b           849b</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h2><p>​        如果要创建一个index_test的索引可以有如下两种方式，但是要注意索引不能重复并且索引名称不能有大写字母，不然会报错。</p>
+<ul>
+<li>直接创建</li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">PUT &#123;&#123;domain&#125;&#125;/index_test</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建的时候带上分片数和副本数</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT &#123;&#123;domain&#125;&#125;/index_test</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;settings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;number_of_shards&quot;</span> : <span class="string">&quot;3&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;number_of_replicas&quot;</span> : <span class="string">&quot;0&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="更新索引"><a href="#更新索引" class="headerlink" title="更新索引"></a>更新索引</h2><p>​        索引创建好之后，可以修改其属性，修改索引的副本数：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT &#123;&#123;domain&#125;&#125;/index_test/_settings</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;number_of_replicas&quot;</span>: <span class="number">2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询索引的基本信息"><a href="#查询索引的基本信息" class="headerlink" title="查询索引的基本信息"></a>查询索引的基本信息</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET &#123;&#123;domain&#125;&#125;&#x2F;index_test&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取索引信息"><a href="#获取索引信息" class="headerlink" title="获取索引信息"></a>获取索引信息</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">GET &#123;&#123;domain&#125;&#125;/test1/_settings 		# 获取单个索引信息</span><br><span class="line">GET &#123;&#123;domain&#125;&#125;/test1,test2/_settings		# 获取多个索引信息</span><br><span class="line">GET &#123;&#123;domain&#125;&#125;/_all/_settings				# 获取所有索引信息</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除索引"><a href="#删除索引" class="headerlink" title="删除索引"></a>删除索引</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DELETE &#123;&#123;domain&#125;&#125;&#x2F;index_test&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h2 id="打开关闭索引"><a href="#打开关闭索引" class="headerlink" title="打开关闭索引"></a>打开关闭索引</h2><ul>
+<li>关闭索引：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">POST &#123;&#123;domain&#125;&#125;&#x2F;index_test&#x2F;_close</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>打开索引：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">POST &#123;&#123;domain&#125;&#125;&#x2F;index_test&#x2F;_open</span><br></pre></td></tr></table></figure>
+
+<h3 id="复制索引"><a href="#复制索引" class="headerlink" title="复制索引"></a>复制索引</h3><p>​        索引复制，只会复制数据，不会复制索引配置，复制的时候，可以添加查询条件。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">POST &#123;&#123;domain&#125;&#125;/_reindex</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;<span class="attr">&quot;index&quot;</span>:<span class="string">&quot;index_test&quot;</span>&#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;<span class="attr">&quot;index&quot;</span>:<span class="string">&quot;index_test_new&quot;</span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="索引别名"><a href="#索引别名" class="headerlink" title="索引别名"></a>索引别名</h2><h3 id="添加修改别名"><a href="#添加修改别名" class="headerlink" title="添加修改别名"></a>添加修改别名</h3><p>​        可以为索引创建别名，如果这个别名是唯一的，该别名可以代替索引名称，<strong>将 add 改为 remove 就表示移除别名</strong>。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">POST &#123;&#123;domain&#125;&#125;/_aliases</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;actions&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">&quot;add&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;index_test&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;alias&quot;</span>: <span class="string">&quot;index_test_alias&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看索引别名"><a href="#查看索引别名" class="headerlink" title="查看索引别名"></a>查看索引别名</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET &#123;&#123;domain&#125;&#125;&#x2F;index_test&#x2F;_alias</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看别名对应的索引"><a href="#查看别名对应的索引" class="headerlink" title="查看别名对应的索引"></a>查看别名对应的索引</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">GET /index_test_alias/_alias   # index_test_alias 表示一个别名</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看集群上所有可用别名"><a href="#查看集群上所有可用别名" class="headerlink" title="查看集群上所有可用别名"></a>查看集群上所有可用别名</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET &#123;&#123;domain&#125;&#125;&#x2F;_alias</span><br></pre></td></tr></table></figure>
+
+<h1 id="文档-Document"><a href="#文档-Document" class="headerlink" title="文档 Document"></a>文档 Document</h1><h2 id="创建文档"><a href="#创建文档" class="headerlink" title="创建文档"></a>创建文档</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">POST &#123;&#123;domain&#125;&#125;/index_test/_doc  		# es自动生成id</span><br><span class="line">POST &#123;&#123;domain&#125;&#125;/index_test/_doc/1 	# 指定生成的id，返回结果的_id就为我们指定的数字1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;title&quot;:&quot;操作系统&quot;</span><br><span class="line">  ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        创建成功以后会得到下面的数据，<code>_id</code>为该记录id，如果没指定的话 es 会帮我生成这种随机id，<code>result</code>为我们执行的操作，<code>_index</code>为所属索引</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;_index&quot;</span>: <span class="string">&quot;index_test&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;_type&quot;</span>: <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;_id&quot;</span>: <span class="string">&quot;PRf3zHcB3ahjxE10X5G-&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;_version&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;result&quot;</span>: <span class="string">&quot;created&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;_shards&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;total&quot;</span>: <span class="number">3</span>,</span><br><span class="line">        <span class="attr">&quot;successful&quot;</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">&quot;failed&quot;</span>: <span class="number">0</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;_seq_no&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;_primary_term&quot;</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注1：</strong>如果创建时报 [FORBIDDEN/12/index read-only / allow delete (api)];这个错可以尝试使用更新索引内容的方法，修改索引<code>read_only_allow_delete</code>属性为false.</p>
+<p><strong>注2：</strong>Document 可以分组，比如<code>index_test</code>这个 Index 里面，可以按类型分组（比如分为动物或者植物等），这种分组就叫做 Type，它是虚拟的逻辑分组，用来过滤 Document。</p>
+<p>在 es7.x 之后取消了 <code>type</code>，均使用<code>_doc</code>同一文档类型。向指定的 <code>/Index/Type</code> 发送 PUT 请求，就可以在 Index 里面新增一条记录。比如，向<code>/idx1/_doc</code>发送请求，就可以新增一条人员记录</p>
+<h2 id="更新文档"><a href="#更新文档" class="headerlink" title="更新文档"></a>更新文档</h2><ul>
+<li>局部替换（存在就修改，不存在就追加）</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;&#123;domain&#125;&#125;/index_test/_doc/2/_update  # 修改index_test下_id为2的文档的name为小明</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;doc&quot;</span>:&#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;小明&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>全量替换（直接全部覆盖文档内容）</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT &#123;&#123;domain&#125;&#125;/index_test/_doc/_id   # 根据_id更新文档，_id不存在则创建一个</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;title&quot;</span>:<span class="string">&quot;操作系统2&quot;</span></span><br><span class="line">  ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        每次更新以后，记录的 Id 没变，但是版本<code>_version</code>会＋1，操作类型（result）从<code>created</code>变成<code>updated</code>。</p>
+<h2 id="查询文档"><a href="#查询文档" class="headerlink" title="查询文档"></a>查询文档</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">GET &#123;&#123;domain&#125;&#125;/index_test/_doc/PRf3zHcB # 查询_id为PRf3zHcB的数据</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查询_id为PRf3zHcB的数据,且_source中只返回name和title</span></span><br><span class="line">GET &#123;&#123;domain&#125;&#125;/index_test/_doc/PRf3zHcB?_source=name,title</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">GET &#123;&#123;domain&#125;&#125;/index_test/_search  			# 查询index_test下的所有数据</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查询index_test下的所有数据,且_source中只返回name和title</span></span><br><span class="line">GET &#123;&#123;domain&#125;&#125;/index_test/_search?_source=name,title			</span><br></pre></td></tr></table></figure>
+
+<p>​        返回结果的 <code>took</code>字段表示该操作的耗时（单位为毫秒），<code>timed_out</code>字段表示是否超时，<code>hits</code>字段表示命中的记录，里面子字段的含义如下。</p>
+<ul>
+<li><code>total</code>：返回记录数，本例是2条。</li>
+<li><code>max_score</code>：最高的匹配程度。</li>
+<li><code>hits</code>：返回的记录组成的数组。</li>
+</ul>
+<p>返回的记录中，每条记录都有一个<code>_score</code>字段，表示匹配的程序，默认是按照这个字段降序排列。</p>
+<h2 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h2><ul>
+<li>根据_id删除</li>
+</ul>
+<p>删除一个 id 为 PRf3zHcB3ahjxE10X5G- 的文档。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">DELETE &#123;&#123;domain&#125;&#125;/index_test/_doc/PRf3zHcB3ahjxE10X5G-</span><br></pre></td></tr></table></figure>
+
+<p>如果在添加文档时指定了路由，则删除文档时也需要指定路由，否则删除失败。</p>
+<ul>
+<li>查询删除</li>
+</ul>
+<p>查询删除是 POST 请求，例如删除 title 中包含三国演义的文档：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">POST index_test/_delete_by_query</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>:&#123;</span><br><span class="line">    <span class="attr">&quot;match&quot;</span>:&#123;</span><br><span class="line">      <span class="attr">&quot;title&quot;</span>:<span class="string">&quot;三国演义&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除某一个索引下的所有文档：</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">POST index_test/_delete_by_query</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>:&#123;</span><br><span class="line">    <span class="attr">&quot;match_all&quot;</span>:&#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断文档是否存在"><a href="#判断文档是否存在" class="headerlink" title="判断文档是否存在"></a>判断文档是否存在</h2><p>​        下面的请求就是判断_id为1的文档是否存在的操作，存在http status会返回200，否则会返回404</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">HEAD &#123;&#123;domain&#125;&#125;/index_test/_doc/1</span><br></pre></td></tr></table></figure>
+
+<h1 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h1><h2 id="es6-7之前"><a href="#es6-7之前" class="headerlink" title="es6.7之前"></a><strong>es6.7之前</strong></h2><p>​        在es6.7之前，使用 version+version_type 来进行乐观并发控制。根据前面的介绍，文档每被修改一个，version 就会自增一次，es 通过 version 字段来确保所有的操作都有序进行。version 分为内部版本控制和外部版本控制。</p>
+<h3 id="内部版本"><a href="#内部版本" class="headerlink" title="内部版本"></a>内部版本</h3><p>​        es 自己维护的就是内部版本，当创建一个文档时，es 会给文档的版本赋值为 1，每当用户修改一次文档，版本号会＋1。如果使用内部版本，es 要求version 参数的值必须和 es 文档中 version 的值相当，才能操作成功。</p>
+<h3 id="外部版本"><a href="#外部版本" class="headerlink" title="外部版本"></a>外部版本</h3><p>​        在添加文档时，就指定版本号就是外部版本：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT index_test&#x2F;_doc&#x2F;1?version&#x3D;2&amp;version_type&#x3D;external</span><br><span class="line">&#123;</span><br><span class="line">  &quot;title&quot;:&quot;JAVA&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以后更新的时候，版本要大于已有的版本号。</p>
+<ul>
+<li>vertion_type=external 或者 vertion_type=external_gt 表示以后更新的时候，版本要大于已有的版本号。</li>
+<li>vertion_type=external_gte 表示以后更新的时候，版本要大于等于已有的版本号。</li>
+</ul>
+<h3 id="最新方案（Es6-7-之后）"><a href="#最新方案（Es6-7-之后）" class="headerlink" title="最新方案（Es6.7 之后）"></a>最新方案（Es6.7 之后）</h3><p>​        现在使用 <code>if_seq_no</code> 和 <code>if_primary_term</code> 两个参数来做并发控制。<code>seq_no</code> 不属于某一个文档，它是属于整个索引的（version 则是属于某一个文档的，每个文档的 version 互不影响）。现在更新文档时，使用<code>seq_no</code> 来做并发。由于 <code>seq_no</code> 是属于整个 index 的，所以任何文档的修改或者新增，<code>seq_no</code> 都会自增。现在就可以通过 <code>seq_no</code> 和 <code>primary_term</code> 来做乐观并发控制。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT index_test&#x2F;_doc&#x2F;2?if_seq_no&#x3D;5&amp;if_primary_term&#x3D;1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;title&quot;:&quot;JAVA&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>ElasticSearch</category>
+      </categories>
+      <tags>
+        <tag>ElasticSearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MySQL基础</title>
     <url>/posts/86e336c0.html</url>
     <content><![CDATA[<h1 id="sql执行流程"><a href="#sql执行流程" class="headerlink" title="sql执行流程"></a>sql执行流程</h1><blockquote>
@@ -476,190 +793,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Redis常用命令及数据结构相关操作</title>
-    <url>/posts/ed3b1c3a.html</url>
-    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><blockquote>
-<p>命令参考：<a href="https://www.runoob.com/redis/redis-commands.html">菜鸟教程-Redis</a></p>
-</blockquote>
-<h2 id="redis命令"><a href="#redis命令" class="headerlink" title="redis命令"></a>redis命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">select index		# 切换数据库，总共默认有16个</span><br><span class="line">flushdb		# 删除当前db下的所有数据</span><br><span class="line">flushall		# 删除所有db下的所有数据</span><br><span class="line">shutdown		# 关闭redis</span><br></pre></td></tr></table></figure>
-
-<h2 id="key操作公用命令"><a href="#key操作公用命令" class="headerlink" title="key操作公用命令"></a>key操作公用命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">del key  # 删除key</span><br><span class="line">dump key # 序列化给定key，返回被序列化的值</span><br><span class="line">exists key # 检查key是否存在</span><br><span class="line">expire key second # 为key设定过期时间,以秒计算,可以不写second，默认为秒</span><br><span class="line">ttl key # 返回key剩余时间,-1为永久,-2为失效</span><br><span class="line">persist key # 移除key的过期时间，key将持久保存</span><br><span class="line">keys pattern # 查询所有符号给定模式的key eg：keys *</span><br><span class="line">randomkey # 随机返回一个key</span><br><span class="line">rename key newkey # 修改key的名称</span><br><span class="line">move key db # 移动key至指定数据库中 eg:move a 1</span><br><span class="line">type key # 返回key所储存的值的类型</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>expire key second的<strong>使用场景</strong>：<br>1、限时的优惠活动<br>2、网站数据缓存<br>3、手机验证码<br>4、限制网站访客频率</p>
-</blockquote>
-<h2 id="key的命名建议"><a href="#key的命名建议" class="headerlink" title="key的命名建议"></a>key的命名建议</h2><blockquote>
-<ol>
-<li>key不要太长，尽量不要超过1024字节。不仅消耗内存，也会降低查找的效率</li>
-<li>key不要太短，太短可读性会降低</li>
-<li>在一个项目中，key最好使用统一的命名模式，如user:123:password</li>
-<li>key区分大小写</li>
-</ol>
-</blockquote>
-<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><p>​        string类型是二进制安全的，redis的string可以包含任何数据，如图像、序列化对象。一个键最多能存储512MB。<code>二进制安全是指，在传输数据的时候，能保证二进制数据的信息安全，也就是不会被篡改、破译；如果被攻击，能够及时检测出来 </code></p>
-<h3 id="常用命令-1"><a href="#常用命令-1" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
-<hr>
-<p><strong>get key</strong>：获取key的值</p>
-<p><strong>del key</strong>：删除指定key</p>
-<p><strong>set key value</strong>：设置key，<strong>已存在的会覆盖</strong></p>
-<p><strong>setnx key value</strong>：当key不存在时设置key的值，已存在不会覆盖。（set if not exists）,分布式锁的问题</p>
-<p><strong>strlen key</strong>：返回key所存储的字符串的长度</p>
-<p><strong>setex</strong>：创建一个key，并且设置他的过期时间</p>
-<p><strong>getset key value</strong>：返回key的旧值,并设定key的值。当key不存在，返回nil</p>
-<p><strong>append key value</strong>：字符串拼接，追加至末尾，如果不存在，为其赋值</p>
-<p><strong>字符串操作</strong></p>
-<hr>
-<p><strong>getrange key start end</strong>：获取key中字符串的子字符串，从start开始，end结束</p>
-<p><strong>setrange key start newValue</strong>：设置<strong>startl开始及其往后的值</strong></p>
-<p><strong>批量操作</strong></p>
-<hr>
-<p>**mget key1 [key2 …]**：获取多个key</p>
-<p>**mset key1 value1 [key2 value2…]**：连续设置值</p>
-<p><strong>msetnx</strong> ：连续设置，如果给定key中有一个已存在，则都不设置</p>
-<p><strong>自增自减</strong></p>
-<hr>
-<p><strong>incr key_name</strong> ：INCR命令key中存储的值+1,如果不存在key，则key中的值话先被初始化为0再加1</p>
-<p><strong>incrby key_name</strong>：key中的值增加1</p>
-<p><strong>decr key_name</strong>：key中的值减去1</p>
-<p><strong>incrby key_name num</strong>：key中的值增加指定num值</p>
-<p><strong>decrby key_name num</strong>：  key中的值减少指定num值</p>
-<h3 id="String应用场景："><a href="#String应用场景：" class="headerlink" title="String应用场景："></a><strong>String应用场景</strong>：</h3><p>1、String通常用于保存单个字符串或JSON字符串数据<br>2、因为String是二进制安全的，所以可以把保密要求高的图片文件内容作为字符串来存储<br>3、计数器：常规Key-Value缓存应用，如微博数、粉丝数。INCR本身就具有原子性特性，所以不会有线程安全问题</p>
-<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><p>​        Redis hash是一个string类型的field和value的映射表，<strong>hash特别适用于存储对象（不能有嵌套对象）</strong>。每个hash可以存储<strong>2<sup>32</sup>-1</strong>(40亿左右)键值对。可以看成key和value的map容器。相比于Json，hash占用很少的内存空间。</p>
-<h3 id="常用命令-2"><a href="#常用命令-2" class="headerlink" title="常用命令"></a><strong><em>常用命令</em></strong></h3><p><strong>基础操作</strong></p>
-<hr>
-<p><strong>hset key field value</strong>：为指定的key设定field和value</p>
-<p>–&gt; hset user name tom  # 为user对象设置一个name属性，值为tom</p>
-<p><strong>hget key field</strong>：获取指定key属性值</p>
-<p>–&gt;hget user name  # 获取user对象name属性的值</p>
-<p><strong>hsetnx  key field value</strong>：当不存在这个key才创建该field</p>
-<p><strong>hgetall key</strong>：返回hash表中所有字段和值</p>
-<p><strong>hkeys key</strong>：获取hash表所有字段<br><strong>hvals key</strong>：获取hash表所有值<br><strong>hlen key</strong>：获取hash表中的字段数量<br><strong>hdel key field [field1]**：删除一个或多个hash表的字段<br>**hexists</strong>：在key里面是否存在指定的field，不存在返回0</p>
-<p><strong>自增(hash这个好像没有自减操作)</strong></p>
-<hr>
-<p><strong>hincrby key field num</strong>：增加某个field指定num值</p>
-<p>–&gt;hincrby user age 2</p>
-<p><strong>hincrbyflost key field num</strong>：增加某个field指定num值（浮点数）</p>
-<p>–&gt;hincrbyfloat user age 2.2</p>
-<p><strong>批量操作</strong></p>
-<hr>
-<p>**hmset key field value[field1,value1]**：设置对象中多个键值对</p>
-<p>–&gt; hmset user age 12 gender 1</p>
-<p>**hmget key field[field1]**：获取对象中多个键值对</p>
-<p>–&gt; hmget user age gender</p>
-<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a><strong><em>应用场景</em></strong></h3><p>Hash的应用场景，通常用来存储一个用户信息的对象数据。</p>
-<ol>
-<li><p>相比于存储对象的string类型的json串，json串修改单个属性需要将整个值取出来。而hash不需要。</p>
-</li>
-<li><p>相比于多个key-value存储对象，hash节省了很多内存空间</p>
-</li>
-<li><p>如果hash的属性值被删除完，那么hash的key也会被redis删除</p>
-</li>
-</ol>
-<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>类似于Java中的LinkedList。</p>
-<h3 id="常用命令-3"><a href="#常用命令-3" class="headerlink" title="常用命令"></a><strong><em>常用命令</em></strong></h3><p><strong>基本操作</strong></p>
-<hr>
-<p><strong>lrange key start end</strong>：列表中指定区间内的元素，以 -1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素，以此类推</p>
-<p><strong>llen key</strong>：获取列表长度</p>
-<p><strong>lindex key index</strong>：获取指定索引的元素，从零开始，-1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素</p>
-<p><strong>lrem</strong>：删除指定个数的同一元素</p>
-<p>–&gt;lrem list 2 3  （删掉了集合中的两个三）</p>
-<p><strong>ltrim key start end</strong> ：对列表进行修改，让列表只保留指定区间的元素，不在指定区间的元素就会被删除（<strong>左闭右开</strong>），从零开始，-1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素</p>
-<p>–&gt;如果list中元素为1 2 3 4 5，则ltrim list 2 3 后list剩余元素为3 4</p>
-<p><strong>lset key index value</strong>：指定索引位置的值（<strong>位置有值会替换</strong>）</p>
-<p><strong>linsert key before|after world value</strong>：在列表元素前或则后插入元素，当指定元素不存在于列表中时，不执行任何操作</p>
-<p><strong>出栈入栈</strong></p>
-<hr>
-<p><strong>lpush key value1 [value2…]**：从左侧插入，右边的先出，</strong>相当于一个栈**</p>
-<p>–&gt; lpush list 1 2 3  注：使用lrange list 0 -1 输出为3 2 1</p>
-<p><strong>rpush key value1 [value2…]</strong>: 从右侧插入，左边的先出</p>
-<p>–&gt; rpush list 1 2 3  注：使用lrange list 0 -1 输出为1 2 3</p>
-<p><strong>lpushx key value</strong>：从左侧插入值，如果list不存在，则不操作</p>
-<p><strong>rpushx key value</strong>：从右侧插入值，如果list不存在，则不操作</p>
-<p><strong>lpop key</strong>：从最左侧移除一个元素</p>
-<p><strong>rpop key</strong>：从最右侧移除一个元素</p>
-<p><strong>blpop key [key1] timeout</strong>：移除并获取列表第一个元素，如果列表没有元素会阻塞列表到等待超时或发现可弹出元素为止</p>
-<p><strong>brpop key [key1] timeout</strong>：移除并获取列表最后一个元素，如果列表没有元素会阻塞列表到等待超时或发现可弹出元素为止</p>
-<h3 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a><strong><em>应用场景</em></strong></h3><ol>
-<li><p>对数据大的集合数据删减</p>
-<p>&nbsp;&nbsp; 列表显示、关注列表、粉丝列表、留言评价…分页、热点新闻等</p>
-</li>
-<li><p>任务队列</p>
-<p>&nbsp;&nbsp; list通常用来实现一个消息队列，而且可以确保先后顺序，不必像MySQL那样通过order by来排序</p>
-</li>
-</ol>
-<h3 id="性能总结"><a href="#性能总结" class="headerlink" title="性能总结"></a><strong>性能总结</strong></h3><p>它是一个字符串链表，left、right都可以插入添加；<br>如果键不存在，创建新的链表；<br>如果键已存在，新增内容；<br>如果值全移除，对应的键也就消失了。<br>链表的操作无论是头和尾效率都极高，但假如是对中间元素进行操作，效率就很惨淡了。</p>
-<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>唯一、无序</p>
-<h3 id="常用命令-4"><a href="#常用命令-4" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
-<hr>
-<p>**sadd key value1[value2]**：向集合添加成员</p>
-<p><strong>scard key</strong>：返回集合成员个数</p>
-<p><strong>smembers key</strong>：返回集合中所有成员</p>
-<p>**srandmember key [count]**：返回集合中一个或多个随机数</p>
-<p>**srem key member1 [member2]**：移除集合中一个或多个成员</p>
-<p><strong>spop key</strong>：移除并返回集合中的一个随机元素</p>
-<p><strong>smove source destination member</strong>：将member元素从source集合移动到destination集合</p>
-<p>**srandmember key [count]**：随机返回集合中一个或多个值</p>
-<p><strong>集合相关操作</strong></p>
-<hr>
-<p>**sdiff key1 [key2]**：返回给定的第一个集合和其他集合的差集(即在key1中的值而在其他key中找不到)</p>
-<p><strong>sismember key member</strong>：判断memeber元素是否是集合key成员的成员</p>
-<p>**sdiffstore destination key1[key2]**：返回给定的第一个集合与其他的集合的差集并存储在destination中</p>
-<p>–&gt; 例如set1：1 2 3   set2：3 4 5 6   则sdiffstore set3 set1 set2之后，用 smembers set3 获取的结果为1 2</p>
-<p>**sunionstore destination key1 [key2]**：所有给定集合的并集存储在 destination 集合中</p>
-<p>**sinter key1 [key2]**：返回所有集合的交集</p>
-<p>**sunion key1 [key2]**：返回所有集合的并集</p>
-<h3 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a><em>应用场景</em></h3><p>对两个集合间的数据[计算]进行交集、并集、差集运算<br>1、以非常方便的实现如共同关注、共同喜好、二度好友等功能。对上面的所有集合操作，你还可以使用不同的命令选择将结果返回给客户端还是存储到一个新的集合中。<br>2、利用唯一性，可以统计访问网站的所有独立 IP</p>
-<h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><p>有序且不重复。每个元素都会关联一个double类型的分数，Redis通过分数进行从小到大的排序。分数可以重复</p>
-<h3 id="常用命令-5"><a href="#常用命令-5" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
-<hr>
-<p>**zadd key score1 memeber1 [score2 memeber2]**：向集合添加成员及对应分数</p>
-<p>–&gt; zadd zset1 1 “a” 2 “b” 3 “c” 2 “d”</p>
-<p><strong>zcard key</strong>：获取集合中的元素数量</p>
-<p><strong>zcount key min max</strong>：计算在有序集合中指定区间分数的成员数</p>
-<p><strong>zrange key start stop</strong>： 指定输出索引范围内的成员</p>
-<p><strong>zrangebyscore key min max</strong>： 指定输出score区间内的成员</p>
-<p><strong>zrank key member</strong>：返回有序集合指定成员的索引</p>
-<p><strong>zrevrange key start stop</strong>：返回有序集中指定区间内的成员，通过索引，分数从高到底</p>
-<p>**zrem key member [member …]**： 移除有序集合中的一个或多个成员</p>
-<p><strong>zremrangebyrank key start stop</strong>： 移除有序集合中给定的索引区间的所有成员(第一名是0)(低到高排序）</p>
-<p><strong>zremrangebyscore  key min max</strong>： 移除有序集合中给定的分数区间的所有成员</p>
-<h3 id="应用场景-3"><a href="#应用场景-3" class="headerlink" title="应用场景"></a>应用场景</h3><p>常用于排行榜：</p>
-<ol>
-<li><p>如推特可以以发表时间作为score来存储</p>
-</li>
-<li><p>存储成绩</p>
-</li>
-<li><p>用zset来做带权重的队列，让重要的任务先执行</p>
-</li>
-</ol>
-<h2 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;添加指定元素到 HyperLogLog 中。</span><br><span class="line">PFADD key element [element ...] </span><br><span class="line">&#x2F;&#x2F;返回给定 HyperLogLog 的基数估算值。</span><br><span class="line">PFCOUNT key [key ...] </span><br><span class="line">&#x2F;&#x2F;将多个 HyperLogLog 合并为一个 HyperLogLog</span><br><span class="line">PFMERGE destkey sourcekey [sourcekey ...] </span><br></pre></td></tr></table></figure>
-
-<p>神奇的HyperLoglog解决统计问题 - <a href="https://www.wmyskxz.com/2020/03/02/reids-4-shen-qi-de-hyperloglog-jie-jue-tong-ji-wen-ti/">https://www.wmyskxz.com/2020/03/02/reids-4-shen-qi-de-hyperloglog-jie-jue-tong-ji-wen-ti/</a></p>
-<h2 id="GEO"><a href="#GEO" class="headerlink" title="GEO"></a>GEO</h2><p>建议查看：<a href="https://www.wmyskxz.com/2020/03/12/redis-6-geohash-cha-zhao-fu-jin-de-ren/">GeoHash查找附近的人</a></p>
-<h2 id="压缩列表了解吗？"><a href="#压缩列表了解吗？" class="headerlink" title="压缩列表了解吗？"></a>压缩列表了解吗？</h2><p>这是 Redis <strong>为了节约内存</strong> 而使用的一种数据结构，<strong>zset</strong> 和 <strong>hash</strong> 容器对象会在元素个数较少的时候，采用压缩列表（ziplist）进行存储。压缩列表是 <strong>一块连续的内存空间</strong>，元素之间紧挨着存储，没有任何冗余空隙。</p>
-<blockquote>
-<p>因为之前自己也没有学习过，所以找了一篇比较好比较容易理解的文章：</p>
-<ul>
-<li>图解Redis之数据结构篇——压缩列表 - <a href="https://mp.weixin.qq.com/s/nba0FUEAVRs0vi24KUoyQg">https://mp.weixin.qq.com/s/nba0FUEAVRs0vi24KUoyQg</a></li>
-<li>这一篇稍微底层稍微硬核一点：<a href="http://www.web-lovers.com/redis-source-ziplist.html">http://www.web-lovers.com/redis-source-ziplist.html</a></li>
-</ul>
-</blockquote>
-<h2 id="快速列表-quicklist-了解吗？"><a href="#快速列表-quicklist-了解吗？" class="headerlink" title="快速列表 quicklist 了解吗？"></a>快速列表 quicklist 了解吗？</h2><p>Redis 早期版本存储 list 列表数据结构使用的是压缩列表 ziplist 和普通的双向链表 linkedlist，也就是说当元素少时使用 ziplist，当元素多时用 linkedlist。但考虑到链表的附加空间相对较高，<code>prev</code> 和 <code>next</code> 指针就要占去 <code>16</code> 个字节（64 位操作系统占用 <code>8</code> 个字节），另外每个节点的内存都是单独分配，会家具内存的碎片化，影响内存管理效率。</p>
-<p>后来 Redis 新版本（3.2）对列表数据结构进行了改造，使用 <code>quicklist</code> 代替了 <code>ziplist</code> 和 <code>linkedlist</code>。</p>
-<blockquote>
-<ul>
-<li>Redis列表list 底层原理 - <a href="https://zhuanlan.zhihu.com/p/102422311">https://zhuanlan.zhihu.com/p/102422311</a></li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis持久化</title>
     <url>/posts/119ed1dc.html</url>
     <content><![CDATA[<h1 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h1><h3 id="RDB（Redis-DataBase）"><a href="#RDB（Redis-DataBase）" class="headerlink" title="RDB（Redis DataBase）"></a>RDB（Redis DataBase）</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在指定的时间间隔内生成内存中整个数据集的持久化快照。快照文件默认被存储在当前文件夹中，名称为<code>dump.rdb</code>，可以通过dir和dbfilename参数来修改默认值。</p>
@@ -976,37 +1109,6 @@
       </tags>
   </entry>
   <entry>
-    <title>05 SpringMVC</title>
-    <url>/posts/319a95ab.html</url>
-    <content><![CDATA[<h3 id="什么是SpringMVC"><a href="#什么是SpringMVC" class="headerlink" title="什么是SpringMVC?"></a>什么是<strong>SpringMVC?</strong></h3><p>⽤在基于<strong>MVC</strong>的表现层开发，类似于<strong>struts2</strong>框架</p>
-<h3 id="为什么要使⽤SpringMVC？"><a href="#为什么要使⽤SpringMVC？" class="headerlink" title="为什么要使⽤SpringMVC？"></a>为什么要使⽤<strong>SpringMVC</strong>？</h3><p>下⾯我们来看⼀下Struts2不⾜之处：</p>
-<ul>
-<li><p>有漏洞【详细可以去搜索】</p>
-</li>
-<li><p>运⾏速度较慢【⽐SpringMVC要慢】</p>
-</li>
-<li><p>配置的内容较多【需要使⽤Struts.xml⽂件】</p>
-</li>
-</ul>
-<h3 id="SpringMVC⼯作流程"><a href="#SpringMVC⼯作流程" class="headerlink" title="SpringMVC⼯作流程"></a><strong>SpringMVC</strong>⼯作流程</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/1121080-20190509202147059-745656946-20201110113822800.jpg" alt="img"></p>
-<ul>
-<li>用户向服务端发送一次请求，这个请求会先到前端控制器**DispatcherServlet(也叫中央控制器)**。</li>
-<li><strong>DispatcherServlet</strong>接收到请求后会调用<strong>HandlerMapping</strong>处理器映射器。由此得知，该请求该由哪<strong>Controller来处理（并未调用Controller，只是得知）</strong></li>
-<li><strong>DispatcherServlet</strong>调用<strong>HandlerAdapter</strong>处理器适配器，告诉处理器适配器应该要去<strong>执行哪个Controller</strong></li>
-<li><strong>HandlerAdapter</strong>处理器适配器去执行<strong>Controller</strong>并得到<strong>ModelAndView</strong>(数据和视图)，并层层返回给<strong>DispatcherServlet</strong></li>
-<li><strong>DispatcherServlet将ModelAndView交给ViewReslover视图解析器解析</strong>，然后返回真正的视图。</li>
-<li><strong>DispatcherServlet</strong>将模型数据填充到视图中</li>
-<li><strong>DispatcherServlet</strong>将结果响应给用户</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>04.Spring 事物</title>
     <url>/posts/c31fb5e7.html</url>
     <content><![CDATA[<h3 id="Spring-事务Spring-管理事务的⽅式有⼏种？"><a href="#Spring-事务Spring-管理事务的⽅式有⼏种？" class="headerlink" title="Spring 事务Spring 管理事务的⽅式有⼏种？"></a>Spring 事务Spring 管理事务的⽅式有⼏种？</h3><ol>
@@ -1061,6 +1163,221 @@
       </tags>
   </entry>
   <entry>
+    <title>05 SpringMVC</title>
+    <url>/posts/319a95ab.html</url>
+    <content><![CDATA[<h3 id="什么是SpringMVC"><a href="#什么是SpringMVC" class="headerlink" title="什么是SpringMVC?"></a>什么是<strong>SpringMVC?</strong></h3><p>⽤在基于<strong>MVC</strong>的表现层开发，类似于<strong>struts2</strong>框架</p>
+<h3 id="为什么要使⽤SpringMVC？"><a href="#为什么要使⽤SpringMVC？" class="headerlink" title="为什么要使⽤SpringMVC？"></a>为什么要使⽤<strong>SpringMVC</strong>？</h3><p>下⾯我们来看⼀下Struts2不⾜之处：</p>
+<ul>
+<li><p>有漏洞【详细可以去搜索】</p>
+</li>
+<li><p>运⾏速度较慢【⽐SpringMVC要慢】</p>
+</li>
+<li><p>配置的内容较多【需要使⽤Struts.xml⽂件】</p>
+</li>
+</ul>
+<h3 id="SpringMVC⼯作流程"><a href="#SpringMVC⼯作流程" class="headerlink" title="SpringMVC⼯作流程"></a><strong>SpringMVC</strong>⼯作流程</h3><p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/1121080-20190509202147059-745656946-20201110113822800.jpg" alt="img"></p>
+<ul>
+<li>用户向服务端发送一次请求，这个请求会先到前端控制器**DispatcherServlet(也叫中央控制器)**。</li>
+<li><strong>DispatcherServlet</strong>接收到请求后会调用<strong>HandlerMapping</strong>处理器映射器。由此得知，该请求该由哪<strong>Controller来处理（并未调用Controller，只是得知）</strong></li>
+<li><strong>DispatcherServlet</strong>调用<strong>HandlerAdapter</strong>处理器适配器，告诉处理器适配器应该要去<strong>执行哪个Controller</strong></li>
+<li><strong>HandlerAdapter</strong>处理器适配器去执行<strong>Controller</strong>并得到<strong>ModelAndView</strong>(数据和视图)，并层层返回给<strong>DispatcherServlet</strong></li>
+<li><strong>DispatcherServlet将ModelAndView交给ViewReslover视图解析器解析</strong>，然后返回真正的视图。</li>
+<li><strong>DispatcherServlet</strong>将模型数据填充到视图中</li>
+<li><strong>DispatcherServlet</strong>将结果响应给用户</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis常用命令及数据结构相关操作</title>
+    <url>/posts/ed3b1c3a.html</url>
+    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><blockquote>
+<p>命令参考：<a href="https://www.runoob.com/redis/redis-commands.html">菜鸟教程-Redis</a></p>
+</blockquote>
+<h2 id="redis命令"><a href="#redis命令" class="headerlink" title="redis命令"></a>redis命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">select index		# 切换数据库，总共默认有16个</span><br><span class="line">flushdb		# 删除当前db下的所有数据</span><br><span class="line">flushall		# 删除所有db下的所有数据</span><br><span class="line">shutdown		# 关闭redis</span><br></pre></td></tr></table></figure>
+
+<h2 id="key操作公用命令"><a href="#key操作公用命令" class="headerlink" title="key操作公用命令"></a>key操作公用命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">del key  # 删除key</span><br><span class="line">dump key # 序列化给定key，返回被序列化的值</span><br><span class="line">exists key # 检查key是否存在</span><br><span class="line">expire key second # 为key设定过期时间,以秒计算,可以不写second，默认为秒</span><br><span class="line">ttl key # 返回key剩余时间,-1为永久,-2为失效</span><br><span class="line">persist key # 移除key的过期时间，key将持久保存</span><br><span class="line">keys pattern # 查询所有符号给定模式的key eg：keys *</span><br><span class="line">randomkey # 随机返回一个key</span><br><span class="line">rename key newkey # 修改key的名称</span><br><span class="line">move key db # 移动key至指定数据库中 eg:move a 1</span><br><span class="line">type key # 返回key所储存的值的类型</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>expire key second的<strong>使用场景</strong>：<br>1、限时的优惠活动<br>2、网站数据缓存<br>3、手机验证码<br>4、限制网站访客频率</p>
+</blockquote>
+<h2 id="key的命名建议"><a href="#key的命名建议" class="headerlink" title="key的命名建议"></a>key的命名建议</h2><blockquote>
+<ol>
+<li>key不要太长，尽量不要超过1024字节。不仅消耗内存，也会降低查找的效率</li>
+<li>key不要太短，太短可读性会降低</li>
+<li>在一个项目中，key最好使用统一的命名模式，如user:123:password</li>
+<li>key区分大小写</li>
+</ol>
+</blockquote>
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><p>​        string类型是二进制安全的，redis的string可以包含任何数据，如图像、序列化对象。一个键最多能存储512MB。<code>二进制安全是指，在传输数据的时候，能保证二进制数据的信息安全，也就是不会被篡改、破译；如果被攻击，能够及时检测出来 </code></p>
+<h3 id="常用命令-1"><a href="#常用命令-1" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
+<hr>
+<p><strong>get key</strong>：获取key的值</p>
+<p><strong>del key</strong>：删除指定key</p>
+<p><strong>set key value</strong>：设置key，<strong>已存在的会覆盖</strong></p>
+<p><strong>setnx key value</strong>：当key不存在时设置key的值，已存在不会覆盖。（set if not exists）,分布式锁的问题</p>
+<p><strong>strlen key</strong>：返回key所存储的字符串的长度</p>
+<p><strong>setex</strong>：创建一个key，并且设置他的过期时间</p>
+<p><strong>getset key value</strong>：返回key的旧值,并设定key的值。当key不存在，返回nil</p>
+<p><strong>append key value</strong>：字符串拼接，追加至末尾，如果不存在，为其赋值</p>
+<p><strong>字符串操作</strong></p>
+<hr>
+<p><strong>getrange key start end</strong>：获取key中字符串的子字符串，从start开始，end结束</p>
+<p><strong>setrange key start newValue</strong>：设置<strong>startl开始及其往后的值</strong></p>
+<p><strong>批量操作</strong></p>
+<hr>
+<p>**mget key1 [key2 …]**：获取多个key</p>
+<p>**mset key1 value1 [key2 value2…]**：连续设置值</p>
+<p><strong>msetnx</strong> ：连续设置，如果给定key中有一个已存在，则都不设置</p>
+<p><strong>自增自减</strong></p>
+<hr>
+<p><strong>incr key_name</strong> ：INCR命令key中存储的值+1,如果不存在key，则key中的值话先被初始化为0再加1</p>
+<p><strong>incrby key_name</strong>：key中的值增加1</p>
+<p><strong>decr key_name</strong>：key中的值减去1</p>
+<p><strong>incrby key_name num</strong>：key中的值增加指定num值</p>
+<p><strong>decrby key_name num</strong>：  key中的值减少指定num值</p>
+<h3 id="String应用场景："><a href="#String应用场景：" class="headerlink" title="String应用场景："></a><strong>String应用场景</strong>：</h3><p>1、String通常用于保存单个字符串或JSON字符串数据<br>2、因为String是二进制安全的，所以可以把保密要求高的图片文件内容作为字符串来存储<br>3、计数器：常规Key-Value缓存应用，如微博数、粉丝数。INCR本身就具有原子性特性，所以不会有线程安全问题</p>
+<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><p>​        Redis hash是一个string类型的field和value的映射表，<strong>hash特别适用于存储对象（不能有嵌套对象）</strong>。每个hash可以存储<strong>2<sup>32</sup>-1</strong>(40亿左右)键值对。可以看成key和value的map容器。相比于Json，hash占用很少的内存空间。</p>
+<h3 id="常用命令-2"><a href="#常用命令-2" class="headerlink" title="常用命令"></a><strong><em>常用命令</em></strong></h3><p><strong>基础操作</strong></p>
+<hr>
+<p><strong>hset key field value</strong>：为指定的key设定field和value</p>
+<p>–&gt; hset user name tom  # 为user对象设置一个name属性，值为tom</p>
+<p><strong>hget key field</strong>：获取指定key属性值</p>
+<p>–&gt;hget user name  # 获取user对象name属性的值</p>
+<p><strong>hsetnx  key field value</strong>：当不存在这个key才创建该field</p>
+<p><strong>hgetall key</strong>：返回hash表中所有字段和值</p>
+<p><strong>hkeys key</strong>：获取hash表所有字段<br><strong>hvals key</strong>：获取hash表所有值<br><strong>hlen key</strong>：获取hash表中的字段数量<br><strong>hdel key field [field1]**：删除一个或多个hash表的字段<br>**hexists</strong>：在key里面是否存在指定的field，不存在返回0</p>
+<p><strong>自增(hash这个好像没有自减操作)</strong></p>
+<hr>
+<p><strong>hincrby key field num</strong>：增加某个field指定num值</p>
+<p>–&gt;hincrby user age 2</p>
+<p><strong>hincrbyflost key field num</strong>：增加某个field指定num值（浮点数）</p>
+<p>–&gt;hincrbyfloat user age 2.2</p>
+<p><strong>批量操作</strong></p>
+<hr>
+<p>**hmset key field value[field1,value1]**：设置对象中多个键值对</p>
+<p>–&gt; hmset user age 12 gender 1</p>
+<p>**hmget key field[field1]**：获取对象中多个键值对</p>
+<p>–&gt; hmget user age gender</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a><strong><em>应用场景</em></strong></h3><p>Hash的应用场景，通常用来存储一个用户信息的对象数据。</p>
+<ol>
+<li><p>相比于存储对象的string类型的json串，json串修改单个属性需要将整个值取出来。而hash不需要。</p>
+</li>
+<li><p>相比于多个key-value存储对象，hash节省了很多内存空间</p>
+</li>
+<li><p>如果hash的属性值被删除完，那么hash的key也会被redis删除</p>
+</li>
+</ol>
+<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>类似于Java中的LinkedList。</p>
+<h3 id="常用命令-3"><a href="#常用命令-3" class="headerlink" title="常用命令"></a><strong><em>常用命令</em></strong></h3><p><strong>基本操作</strong></p>
+<hr>
+<p><strong>lrange key start end</strong>：列表中指定区间内的元素，以 -1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素，以此类推</p>
+<p><strong>llen key</strong>：获取列表长度</p>
+<p><strong>lindex key index</strong>：获取指定索引的元素，从零开始，-1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素</p>
+<p><strong>lrem</strong>：删除指定个数的同一元素</p>
+<p>–&gt;lrem list 2 3  （删掉了集合中的两个三）</p>
+<p><strong>ltrim key start end</strong> ：对列表进行修改，让列表只保留指定区间的元素，不在指定区间的元素就会被删除（<strong>左闭右开</strong>），从零开始，-1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素</p>
+<p>–&gt;如果list中元素为1 2 3 4 5，则ltrim list 2 3 后list剩余元素为3 4</p>
+<p><strong>lset key index value</strong>：指定索引位置的值（<strong>位置有值会替换</strong>）</p>
+<p><strong>linsert key before|after world value</strong>：在列表元素前或则后插入元素，当指定元素不存在于列表中时，不执行任何操作</p>
+<p><strong>出栈入栈</strong></p>
+<hr>
+<p><strong>lpush key value1 [value2…]**：从左侧插入，右边的先出，</strong>相当于一个栈**</p>
+<p>–&gt; lpush list 1 2 3  注：使用lrange list 0 -1 输出为3 2 1</p>
+<p><strong>rpush key value1 [value2…]</strong>: 从右侧插入，左边的先出</p>
+<p>–&gt; rpush list 1 2 3  注：使用lrange list 0 -1 输出为1 2 3</p>
+<p><strong>lpushx key value</strong>：从左侧插入值，如果list不存在，则不操作</p>
+<p><strong>rpushx key value</strong>：从右侧插入值，如果list不存在，则不操作</p>
+<p><strong>lpop key</strong>：从最左侧移除一个元素</p>
+<p><strong>rpop key</strong>：从最右侧移除一个元素</p>
+<p><strong>blpop key [key1] timeout</strong>：移除并获取列表第一个元素，如果列表没有元素会阻塞列表到等待超时或发现可弹出元素为止</p>
+<p><strong>brpop key [key1] timeout</strong>：移除并获取列表最后一个元素，如果列表没有元素会阻塞列表到等待超时或发现可弹出元素为止</p>
+<h3 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a><strong><em>应用场景</em></strong></h3><ol>
+<li><p>对数据大的集合数据删减</p>
+<p>&nbsp;&nbsp; 列表显示、关注列表、粉丝列表、留言评价…分页、热点新闻等</p>
+</li>
+<li><p>任务队列</p>
+<p>&nbsp;&nbsp; list通常用来实现一个消息队列，而且可以确保先后顺序，不必像MySQL那样通过order by来排序</p>
+</li>
+</ol>
+<h3 id="性能总结"><a href="#性能总结" class="headerlink" title="性能总结"></a><strong>性能总结</strong></h3><p>它是一个字符串链表，left、right都可以插入添加；<br>如果键不存在，创建新的链表；<br>如果键已存在，新增内容；<br>如果值全移除，对应的键也就消失了。<br>链表的操作无论是头和尾效率都极高，但假如是对中间元素进行操作，效率就很惨淡了。</p>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>唯一、无序</p>
+<h3 id="常用命令-4"><a href="#常用命令-4" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
+<hr>
+<p>**sadd key value1[value2]**：向集合添加成员</p>
+<p><strong>scard key</strong>：返回集合成员个数</p>
+<p><strong>smembers key</strong>：返回集合中所有成员</p>
+<p>**srandmember key [count]**：返回集合中一个或多个随机数</p>
+<p>**srem key member1 [member2]**：移除集合中一个或多个成员</p>
+<p><strong>spop key</strong>：移除并返回集合中的一个随机元素</p>
+<p><strong>smove source destination member</strong>：将member元素从source集合移动到destination集合</p>
+<p>**srandmember key [count]**：随机返回集合中一个或多个值</p>
+<p><strong>集合相关操作</strong></p>
+<hr>
+<p>**sdiff key1 [key2]**：返回给定的第一个集合和其他集合的差集(即在key1中的值而在其他key中找不到)</p>
+<p><strong>sismember key member</strong>：判断memeber元素是否是集合key成员的成员</p>
+<p>**sdiffstore destination key1[key2]**：返回给定的第一个集合与其他的集合的差集并存储在destination中</p>
+<p>–&gt; 例如set1：1 2 3   set2：3 4 5 6   则sdiffstore set3 set1 set2之后，用 smembers set3 获取的结果为1 2</p>
+<p>**sunionstore destination key1 [key2]**：所有给定集合的并集存储在 destination 集合中</p>
+<p>**sinter key1 [key2]**：返回所有集合的交集</p>
+<p>**sunion key1 [key2]**：返回所有集合的并集</p>
+<h3 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a><em>应用场景</em></h3><p>对两个集合间的数据[计算]进行交集、并集、差集运算<br>1、以非常方便的实现如共同关注、共同喜好、二度好友等功能。对上面的所有集合操作，你还可以使用不同的命令选择将结果返回给客户端还是存储到一个新的集合中。<br>2、利用唯一性，可以统计访问网站的所有独立 IP</p>
+<h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><p>有序且不重复。每个元素都会关联一个double类型的分数，Redis通过分数进行从小到大的排序。分数可以重复</p>
+<h3 id="常用命令-5"><a href="#常用命令-5" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
+<hr>
+<p>**zadd key score1 memeber1 [score2 memeber2]**：向集合添加成员及对应分数</p>
+<p>–&gt; zadd zset1 1 “a” 2 “b” 3 “c” 2 “d”</p>
+<p><strong>zcard key</strong>：获取集合中的元素数量</p>
+<p><strong>zcount key min max</strong>：计算在有序集合中指定区间分数的成员数</p>
+<p><strong>zrange key start stop</strong>： 指定输出索引范围内的成员</p>
+<p><strong>zrangebyscore key min max</strong>： 指定输出score区间内的成员</p>
+<p><strong>zrank key member</strong>：返回有序集合指定成员的索引</p>
+<p><strong>zrevrange key start stop</strong>：返回有序集中指定区间内的成员，通过索引，分数从高到底</p>
+<p>**zrem key member [member …]**： 移除有序集合中的一个或多个成员</p>
+<p><strong>zremrangebyrank key start stop</strong>： 移除有序集合中给定的索引区间的所有成员(第一名是0)(低到高排序）</p>
+<p><strong>zremrangebyscore  key min max</strong>： 移除有序集合中给定的分数区间的所有成员</p>
+<h3 id="应用场景-3"><a href="#应用场景-3" class="headerlink" title="应用场景"></a>应用场景</h3><p>常用于排行榜：</p>
+<ol>
+<li><p>如推特可以以发表时间作为score来存储</p>
+</li>
+<li><p>存储成绩</p>
+</li>
+<li><p>用zset来做带权重的队列，让重要的任务先执行</p>
+</li>
+</ol>
+<h2 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;添加指定元素到 HyperLogLog 中。</span><br><span class="line">PFADD key element [element ...] </span><br><span class="line">&#x2F;&#x2F;返回给定 HyperLogLog 的基数估算值。</span><br><span class="line">PFCOUNT key [key ...] </span><br><span class="line">&#x2F;&#x2F;将多个 HyperLogLog 合并为一个 HyperLogLog</span><br><span class="line">PFMERGE destkey sourcekey [sourcekey ...] </span><br></pre></td></tr></table></figure>
+
+<p>神奇的HyperLoglog解决统计问题 - <a href="https://www.wmyskxz.com/2020/03/02/reids-4-shen-qi-de-hyperloglog-jie-jue-tong-ji-wen-ti/">https://www.wmyskxz.com/2020/03/02/reids-4-shen-qi-de-hyperloglog-jie-jue-tong-ji-wen-ti/</a></p>
+<h2 id="GEO"><a href="#GEO" class="headerlink" title="GEO"></a>GEO</h2><p>建议查看：<a href="https://www.wmyskxz.com/2020/03/12/redis-6-geohash-cha-zhao-fu-jin-de-ren/">GeoHash查找附近的人</a></p>
+<h2 id="压缩列表了解吗？"><a href="#压缩列表了解吗？" class="headerlink" title="压缩列表了解吗？"></a>压缩列表了解吗？</h2><p>这是 Redis <strong>为了节约内存</strong> 而使用的一种数据结构，<strong>zset</strong> 和 <strong>hash</strong> 容器对象会在元素个数较少的时候，采用压缩列表（ziplist）进行存储。压缩列表是 <strong>一块连续的内存空间</strong>，元素之间紧挨着存储，没有任何冗余空隙。</p>
+<blockquote>
+<p>因为之前自己也没有学习过，所以找了一篇比较好比较容易理解的文章：</p>
+<ul>
+<li>图解Redis之数据结构篇——压缩列表 - <a href="https://mp.weixin.qq.com/s/nba0FUEAVRs0vi24KUoyQg">https://mp.weixin.qq.com/s/nba0FUEAVRs0vi24KUoyQg</a></li>
+<li>这一篇稍微底层稍微硬核一点：<a href="http://www.web-lovers.com/redis-source-ziplist.html">http://www.web-lovers.com/redis-source-ziplist.html</a></li>
+</ul>
+</blockquote>
+<h2 id="快速列表-quicklist-了解吗？"><a href="#快速列表-quicklist-了解吗？" class="headerlink" title="快速列表 quicklist 了解吗？"></a>快速列表 quicklist 了解吗？</h2><p>Redis 早期版本存储 list 列表数据结构使用的是压缩列表 ziplist 和普通的双向链表 linkedlist，也就是说当元素少时使用 ziplist，当元素多时用 linkedlist。但考虑到链表的附加空间相对较高，<code>prev</code> 和 <code>next</code> 指针就要占去 <code>16</code> 个字节（64 位操作系统占用 <code>8</code> 个字节），另外每个节点的内存都是单独分配，会家具内存的碎片化，影响内存管理效率。</p>
+<p>后来 Redis 新版本（3.2）对列表数据结构进行了改造，使用 <code>quicklist</code> 代替了 <code>ziplist</code> 和 <code>linkedlist</code>。</p>
+<blockquote>
+<ul>
+<li>Redis列表list 底层原理 - <a href="https://zhuanlan.zhihu.com/p/102422311">https://zhuanlan.zhihu.com/p/102422311</a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spring Cloud整合服务注册中心</title>
     <url>/posts/dcff784e.html</url>
     <content><![CDATA[<p><strong>注：这一部分就是演示一下整合Eureka、Zookpper、以及consul相关的操作，如果只想要学习Nacos，请移步到后面的文章。</strong></p>
@@ -1112,6 +1429,65 @@
       </categories>
       <tags>
         <tag>Spring Cloud</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ElasticSearch分词及中文分词器</title>
+    <url>/posts/a0be6b60.html</url>
+    <content><![CDATA[<h1 id="Elasticsearch默认分词"><a href="#Elasticsearch默认分词" class="headerlink" title="Elasticsearch默认分词"></a>Elasticsearch默认分词</h1><h2 id="什么是分词"><a href="#什么是分词" class="headerlink" title="什么是分词?"></a><strong>什么是分词?</strong></h2><p>​        分词就是把文本转换为一个个的单词，分词称之为analysis。 es默认只对英文语句做分词，中文不支持，每个中文字都会被拆分为独立的个体。</p>
+<p>​        分词api为</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">POST /_analyze</span><br><span class="line">&#123;</span><br><span class="line">  	<span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;standard&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;text&quot;</span>: <span class="string">&quot;text文本&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">POST /my_doc/_analyze</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;standard&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;field&quot;</span>: <span class="string">&quot;name&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;text&quot;</span>: <span class="string">&quot;text文本&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="es内置分词器"><a href="#es内置分词器" class="headerlink" title="es内置分词器"></a>es内置分词器</h2><ul>
+<li><strong>standard</strong>：默认分词，区分中英文。英文按照空格切分同时大小转小写，中文按照单个词分词。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222170851901.png" alt="image-20210222170851901"></p>
+<ul>
+<li><strong>simple</strong>：先按空格分词，大写转为小写，不是英文不再分词，数字会被剔除。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222171108770.png" alt="image-20210222171108770"></p>
+<ul>
+<li><strong>whitespace</strong>：按空格分词，英文不区分大小写，中文不再分词。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222170739694.png" alt="image-20210222170739694"></p>
+<ul>
+<li><strong>stop</strong>：去除无意义单词，比如the/a/ an/ is …</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222170646715.png" alt="image-20210222170646715"></p>
+<ul>
+<li><strong>keyword</strong>：不做分词。把整个文本作为一个单独的关键词。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222171220096.png" alt="image-20210222171220096"></p>
+<h1 id="中文分词"><a href="#中文分词" class="headerlink" title="中文分词"></a>中文分词</h1><p>​        在ES中，使用较多的中文分词器是 elasticsearch-analysis-ik，这个是 es 的一个第三方插件，代码托管在 GitHub 上：<a href="https://github.com/medcl/elasticsearch-analysis-ik%EF%BC%8C%E6%8F%92%E4%BB%B6%E5%AE%89%E8%A3%85%E6%9C%89%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%9A">https://github.com/medcl/elasticsearch-analysis-ik，插件安装有两种方式：</a></p>
+<h2 id="第一种安装方式："><a href="#第一种安装方式：" class="headerlink" title="第一种安装方式："></a><strong>第一种安装方式：</strong></h2><ol>
+<li>首先打开分词器官网：<a href="https://github.com/medcl/elasticsearch-analysis-ik%E3%80%82">https://github.com/medcl/elasticsearch-analysis-ik。</a></li>
+<li>在 <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases">https://github.com/medcl/elasticsearch-analysis-ik/releases</a> 页面找到elasticsearch对应的正式版，下载下来。</li>
+<li>将下载文件解压。</li>
+<li>在 es/plugins 目录下，新建analysis-ik目录，并将解压后的所有文件拷贝到analysis-ik目录下。</li>
+<li>重启 es 服务。</li>
+</ol>
+<h2 id="第二种安装方式："><a href="#第二种安装方式：" class="headerlink" title="第二种安装方式："></a><strong>第二种安装方式：</strong></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.4.2/elasticsearch-analysis-ik-7.4.2.zip</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后重启es即可。</p>
+<p><strong>注：第一种安装方式，配置文件在es根目录/plugins/analysis-ik/config/下，而第二种方式安装，配置文件在es根目录/config/analysis-ik/下</strong></p>
+<h2 id="分词类型介绍"><a href="#分词类型介绍" class="headerlink" title="分词类型介绍"></a>分词类型介绍</h2><p>​        ik分词有两种模式，分别为，<code>ik_max_word</code>和<code>ik_smart</code>，区别如下：</p>
+<p><strong>ik_max_word</strong>：会将文本做最细粒度的拆分，例如「中华人民共和国国歌」会被拆分为「中华人民共和国、中华人民、中华、华人、人民共和国、人民、人、民、共和国、共和、和、国国、国歌」，会穷尽各种可能的组合</p>
+<p><strong>ik_smart</strong>：会将文本做最粗粒度的拆分，例如「中华人民共和国国歌」会被拆分为「中华人民共和国、国歌」</p>
+<h2 id="自定义拓展词库"><a href="#自定义拓展词库" class="headerlink" title="自定义拓展词库"></a>自定义拓展词库</h2><p>​        ik分词有时候不会认识一些网络词或者自定义词，例如马小跳猴赛雷会被分为马小跳、小跳、猴、赛、雷，要支持这些词就需要自定义拓展词库了，首先在<code>es根目录/plugins/analysis-ik/config/</code>（在第一种安装方式）或者<code>es根目录/config/analysis-ik/</code>（第二种方式安装方式）目录下，新建 custom.dic 文件（文件名可以任意），在该文件中可以配置自定义的词库，如果有多个词，换行即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210222173339490.png" alt="image-20210222173339490"></p>
+<p>然后修改对应安装方式的IKAnalyzer.cfg.xml中配置扩展词典的位置：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210223094033410.png" alt="image-20210223094033410"></p>
+<p>此时测试马小跳猴赛雷就会由原来的马小跳、小跳、猴、赛、雷变为马小跳、猴赛雷</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210223094135307.png" alt="image-20210223094135307"></p>
+<h2 id="远程词库"><a href="#远程词库" class="headerlink" title="远程词库"></a>远程词库</h2><p>​        也可以配置远程词库，远程词库支持热更新（设置完重启一次，之后不用重启 es 就可以生效），热更新只需要提供一个接口，接口返回扩展词即可，我们只需要在对应的IKAnalyzer.cfg.xml 文件中配置远程扩展词接口**(remote_ext_dicts属性)**即可：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">&quot;remote_ext_dict&quot;</span>&gt;</span>http://abc.com/custom.dic<span class="tag">&lt;/<span class="name">entry</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>ElasticSearch</category>
+      </categories>
+      <tags>
+        <tag>ElasticSearch</tag>
       </tags>
   </entry>
   <entry>
@@ -2421,194 +2797,6 @@
       </tags>
   </entry>
   <entry>
-    <title>MySQL索引</title>
-    <url>/posts/c468c6f9.html</url>
-    <content><![CDATA[<blockquote>
-<p>MySQL索引使用的数据结构主要有<strong>BTree</strong>索引和哈希索引 。对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快;其余大部分场景，建议选择BTree索引。</p>
-</blockquote>
-<h1 id="MySQL索引介绍"><a href="#MySQL索引介绍" class="headerlink" title="MySQL索引介绍"></a>MySQL索引介绍</h1><h2 id="底层结构"><a href="#底层结构" class="headerlink" title="底层结构"></a>底层结构</h2><h3 id="MySQL有哪些索引结构？"><a href="#MySQL有哪些索引结构？" class="headerlink" title="MySQL有哪些索引结构？"></a>MySQL有哪些索引结构？</h3><p>​    hash、BTree</p>
-<h3 id="为什么哈希表、二叉树、红黑树、B树、B-树都可以优化查询，为何Mysql独独喜欢B-树？"><a href="#为什么哈希表、二叉树、红黑树、B树、B-树都可以优化查询，为何Mysql独独喜欢B-树？" class="headerlink" title="为什么哈希表、二叉树、红黑树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？"></a>为什么哈希表、二叉树、红黑树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？</h3><ul>
-<li><p><strong>为什么不选哈希表呢？</strong></p>
-<ul>
-<li>哈希索引没办法利用索引完成排序。</li>
-<li>不能进行多字段查询。</li>
-<li>在有大量重复键值的情况下，哈希索引的效率也是极低的（出现哈希碰撞问题）。</li>
-<li>hash因为散列计算之后是乱序的，所以不支持范围查询。</li>
-</ul>
-</li>
-<li><p><strong>为什么不用二叉树</strong></p>
-<p>二叉树在的结构导致他在对<strong>递增</strong>数据索引时让树的高度变得很长，就类似于链表，所以不适合。</p>
-</li>
-<li><p><strong>为什么不用平衡二叉树或者红黑树</strong></p>
-<p>平衡二叉树或红黑树与普通二叉树不同的是当一棵树的左右子树高度差 &gt; 1 时，它会进行<strong>自旋</strong>操作，保持树的平衡。它支持<strong>精确查找和范围查找（回旋查找）</strong>，但是主要原因还是因为<strong>树的深度依旧很大（不可控）</strong>，查找时IO操作可能会很多，所以不考虑。</p>
-</li>
-<li><p><strong>为什么不用B树</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L09vb29fbXVtdXhp,size_16,color_FFFFFF,t_70-20201113140903381.png" alt="在这里插入图片描述"></p>
-<p>虽然有优化，即一个节点上能存储更多的数据，但是B数的每个节点上还附带了数据信息，而一个大节点所占用的空间是一定的，所以当数据信息比较大时，树的高度依旧不是很可控，相对B+树来说，<strong>IO操作依旧比B+多，而且范围查找也需要回旋查找，查询效率不是最优。</strong></p>
-</li>
-<li><p><strong>为什么用B+树</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L09vb29fbXVtdXhp,size_16,color_FFFFFF,t_70-20201113103933243.png" alt="在这里插入图片描述"></p>
-<p>1、 <strong>B+树的磁盘读写代价更低</strong>：B+树的内部节点并没有指向关键字具体信息的指针，因此其内部节点相对B树更小，如果把所有同一内部节点的关键字存放在同一盘块中，那么盘块所能容纳的关键字数量也越多，一次性读入内存的需要查找的关键字也就越多，相对IO读写次数就降低了。</p>
-<p>2、<strong>B+树的查询效率更加稳定</strong>：由于<strong>非终结点并不存储数据信息</strong>，而<strong>只是叶子结点中关键字的索引</strong>。所以<strong>任何关键字的查找必须走一条从根结点到叶子结点的路</strong>。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当。</p>
-<p>3、<strong>B+树更便于遍历</strong>：由于B+树的数据都存储在叶子结点中，分支结点均为索引，方便扫库，只需要扫一遍叶子结点即可，但是B树因为其分支结点同样存储着数据，我们要找到具体的数据，需要进行一次中序遍历按序来扫，所以B+树更加适合在区间查询的情况，所以通常B+树用于数据库索引。</p>
-<p>4、<strong>B+树更适合基于范围的查询</strong>：B树在提高了IO性能的同时并没有解决元素遍历效率低下的问题，正是为了解决这个问题，B+树应运而生。B+树只需要去遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作或者说效率太低。</p>
-</li>
-</ul>
-<h3 id="B-树中一个节点到底多大合适？"><a href="#B-树中一个节点到底多大合适？" class="headerlink" title="B+树中一个节点到底多大合适？"></a>B+树中一个节点到底多大合适？</h3><blockquote>
-<p><strong>B+树中一个节点为一页或页的倍数最为合适</strong></p>
-</blockquote>
-<p>因为如果一个节点的大小小于1页，那么读取这个节点的时候其实也会读出1页，造成资源的浪费。如果一个节点的大小大于1页，比如1.2页，那么读取这个节点的时候会读出2页，也会造成资源的浪费。所以为了不造成浪费，所以最后把一个节点的大小控制在1页、2页、3页、4页等倍数页大小最为合适。</p>
-<h2 id="如何创建索引"><a href="#如何创建索引" class="headerlink" title="如何创建索引"></a>如何创建索引</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- 方式1 CREATE INDEX 索引名称 on 表名(字段名,字段名,.....);</span><br><span class="line">CREATE INDEX idx_name_phone on user_innodb(name,phone);</span><br><span class="line">-- 方式2 alter table 表名 add index 索引名称(字段名,字段名,.....)</span><br><span class="line">alter table user_innodb add index index_name(name,phone)</span><br></pre></td></tr></table></figure>
-
-<h2 id="什么是回表，如何避免？"><a href="#什么是回表，如何避免？" class="headerlink" title="什么是回表，如何避免？"></a>什么是回表，如何避免？</h2><blockquote>
-<p>说到回表，那就有必要先了解一下聚簇索引和非聚簇索引了</p>
-</blockquote>
-<h3 id="聚簇索引和非聚簇索引"><a href="#聚簇索引和非聚簇索引" class="headerlink" title="聚簇索引和非聚簇索引"></a>聚簇索引和非聚簇索引</h3><ul>
-<li><p><strong>聚簇索引</strong></p>
-<p>　　<strong>聚簇索引就是按照每张表的主键构造一棵B+树，同时叶子节点中存放的就是整张表的行记录数据</strong>，也将聚集索引的叶子节点称为数据页。这个特性决定了索引组织表中数据也是索引的一部分，<strong>每张表只能拥有一个聚簇索引。</strong></p>
-<p>  　　Innodb通过主键聚集数据，如果没有定义主键，innodb会选择非空的唯一索引代替。如果没有这样的索引，innodb会隐式的定义一个主键来作为聚簇索引。</p>
-<p><strong>聚簇索引的优缺点</strong></p>
-<p>　　<strong>优点：</strong></p>
-<p>　　　　1.<strong>数据访问更快</strong>，因为聚簇索引将索引和数据保存在同一个B+树中，因此从聚簇索引中获取数据比非聚簇索引更快</p>
-<p>　　　　2.聚簇索引对于主键的排序查找和范围查找速度非常快<br>　　<strong>缺点：</strong></p>
-<p>　　　　1.插入速度严重依赖于插入顺序，按照主键的<strong>顺序插入</strong>是最快的方式，否则将会出现页分裂，严重影响性能。因此，对于InnoDB表，我们一般都会定义一个<strong>自增的ID列为主键</strong><br>　　　　2.<strong>更新主键的代价很高</strong>，因为将会导致被更新的行移动。因此，对于InnoDB表，我们一般定义主键为不可更新。<br>　　　　3.二级索引访问需要两次索引查找，第一次找到主键值，第二次根据主键值找到行数据。</p>
-</li>
-<li><p><strong>非聚簇索引</strong></p>
-<p>MySQL innodb的主键索引是簇集索引，也就是索引的叶子节点存的是整个单条记录的所有字段值，所以通俗点讲，<strong>不是主键索引的就是非簇集索引，非簇集索引的叶子节点存的是主键字段的值。</strong></p>
-</li>
-</ul>
-<h3 id="什么是回表？"><a href="#什么是回表？" class="headerlink" title="什么是回表？"></a>什么是回表？</h3><blockquote>
-<p>回表大概就是我们有个主键为Id的索引，和一个普通a字段的索引。执行的流程是先查询到a索引上的数据，然后找到他的id，最后利用id去主键索引，找到id对应的值。所以回到主键索引树搜索的过程，就是<strong>回表</strong>。</p>
-</blockquote>
-<p>例如：表t_test有id,a,b三个字段，其中id是主键，a上建了索引，然后编写sql语句</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * FROM t_test WHERE id&#x3D;1</span><br></pre></td></tr></table></figure>
-
-<p>这样不会产生回表，因为所有的数据在a的索引树中均能找到</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * FROM t_test WHERE a&#x3D;&#39;aaa&#39;</span><br></pre></td></tr></table></figure>
-
-<p>这样就会产生回表，因为where条件是a字段，那么会去a的索引树里查找数据，但a的索引里面只有id，a两个字段的值，没有b，那么这个查询为了取到b字段，就要取出主键id的值，然后去id的索引树去找b字段的数据。查了两个索引树，这就叫回表。</p>
-<ul>
-<li><p>如何避免回表？</p>
-<ul>
-<li><p>用主键搜索</p>
-</li>
-<li><p>只查询被联合索引覆盖的字段</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="最左前缀"><a href="#最左前缀" class="headerlink" title="最左前缀"></a>最左前缀</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ul>
-<li>索引可以简单如一个列 (a)，也可以复杂如多个列 (a,b,c,d)，即联合索引。</li>
-<li>如果是联合索引，那么key也由多个列组成，同时，索引只能用于查找key是否<strong>存在（相等）</strong>，遇到范围查询 (&gt;、&lt;、between、like左匹配)等就<strong>不能进一步匹配</strong>了，后续退化为线性查找。</li>
-<li>因此，<strong>列的排列顺序决定了可命中索引的列数</strong>。</li>
-</ul>
-<p><strong>例子：</strong></p>
-<ul>
-<li>如有索引 (a,b,c,d)，查询条件 a=1 and b=2 and c&gt;3 and d=4，则会在每个节点依次命中a、b、c，无法命中d。(c已经是范围查询了，d肯定是排不了序了)</li>
-</ul>
-<h3 id="为什么不符合最左前缀的索引会失效？"><a href="#为什么不符合最左前缀的索引会失效？" class="headerlink" title="为什么不符合最左前缀的索引会失效？"></a>为什么不符合最左前缀的索引会失效？</h3><p>首先我们看看联合索引的结构</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113114147955.png" alt="image-20201113114147955"></p>
-<p>上图我们建立了(a, b)联合索引在 B+Tree 中是复合的数据结构，它是按照从左到右的顺序来建立搜索树的 （a 在左边，b 在右边）。 从这张图可以看出来，<strong>a 是有序的，b 是无序的。且当 a 相等的时候，b才是有序的。</strong> </p>
-<p>这个时候我们使用 where a ‘123’ and b = ‘456’去查询数据的时候，B+Tree 会优先比较 a 来确定下一步应该搜索的方向，往左还是往右。如果 a 相同的时候再比较 b。但是如果查询条件没有 a，就不知道第一步应该查哪个点，因为建立搜索树的时候 a 是第一个比较因子，所以用不到索引。</p>
-<h2 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h2><p>当字段值比较长的时候，建立索引会消耗很多的空间，搜索起来也会很慢。我们可以通过截取字段的前面一部分内容建立索引，这个就叫前缀索引。 </p>
-<p>创建一张商户表，因为地址字段比较长，在地址字段上建立前缀索引： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create table shop(address varchar(120) not null); </span><br><span class="line">alter table shop add key (address(12)); </span><br></pre></td></tr></table></figure>
-
-<p>问题是，截取多少呢？截取得多了，达不到节省索引存储空间的目的，截取得少了，重复内容太多，字段的散列度（选择性）会降低。怎么计算不同的长度的选择性呢？ </p>
-<p>先看一下字段在全部数据中的选择度： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select count(distinct address) &#x2F; count(*) from shop; </span><br></pre></td></tr></table></figure>
-
-<p>通过不同长度去计算，与全表的选择性对比： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 10 ))&#x2F; count(*) AS sub10,</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 11 ))&#x2F; count(*) AS sub11,</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 12 ))&#x2F; count(*) AS sub12,</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 13 ))&#x2F; count(*) AS sub13 </span><br><span class="line">FROM</span><br><span class="line">	shop;</span><br></pre></td></tr></table></figure>
-
-<h2 id="索引添加下推（ICP）"><a href="#索引添加下推（ICP）" class="headerlink" title="索引添加下推（ICP）"></a>索引添加下推（ICP）</h2><p>再来看这么一张表，在 last_name 和 first_name 上面创建联合索引。 </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DROP TABLE  IF EXISTS employees;</span><br><span class="line"></span><br><span class="line">CREATE TABLE &#96;employees&#96; (</span><br><span class="line">	&#96;emp_no&#96; int(11) NOT NULL,</span><br><span class="line">	&#96;birth_date&#96; date NULL,</span><br><span class="line">	&#96;first_name&#96; varchar(14) NOT NULL,</span><br><span class="line">	&#96;last_name&#96; varchar(16) NOT NULL,</span><br><span class="line">	&#96;gender&#96; enum(&#39;M&#39;, &#39;F&#39;) NOT NULL,</span><br><span class="line">	&#96;hire_date&#96; date NULL,</span><br><span class="line">	PRIMARY KEY (&#96;emp_no&#96;)</span><br><span class="line">) ENGINE &#x3D; InnoDB CHARSET &#x3D; latin1;</span><br><span class="line"></span><br><span class="line">ALTER TABLE employees ADD INDEX idx_lastname_firstname (last_name, first_name);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;) VALUES (1, NULL, &#39;698&#39;, &#39;liu&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (2, NULL, &#39;d99&#39;, &#39;zheng&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (3, NULL, &#39;e08&#39;, &#39;huang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (4, NULL, &#39;59d&#39;, &#39;lu&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (5, NULL, &#39;0dc&#39;, &#39;yu&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (6, NULL, &#39;989&#39;, &#39;wang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (7, NULL, &#39;e38&#39;, &#39;wang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (8, NULL, &#39;0zi&#39;, &#39;wang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (9, NULL, &#39;dc9&#39;, &#39;xie&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (10, NULL, &#39;5ba&#39;, &#39;zhou&#39;, &#39;F&#39;, NULL);</span><br></pre></td></tr></table></figure>
-
-<p><strong>关闭 ICP：(测试用)</strong> </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set optimizer_switch&#x3D;&#39;index_condition_pushdown&#x3D;off&#39;; </span><br></pre></td></tr></table></figure>
-
-<p><strong>查看参数：</strong> </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show variables like &#39;optimizer_switch&#39;; </span><br></pre></td></tr></table></figure>
-
-<p>现在我们要查询所有姓 wang，并且名字最后一个字是 zi 的员工，比如王胖子，王瘦子。查询的 SQL： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from employees where last_name&#x3D;&#39;wang&#39; and first_name LIKE &#39;%zi&#39; ; </span><br></pre></td></tr></table></figure>
-
-<p>这条 SQL 有两种执行方式： </p>
-<p>1、根据联合索引查出所有姓 wang 的二级索引数据，然后回表，到主键索引上查询 全部符合条件的数据（3 条数据）。然后返回给 Server 层，在 Server 层过滤出名字以 zi 结尾的员工。 </p>
-<p>2、根据联合索引查出所有姓 wang 的二级索引数据（3 个索引），然后从二级索引中筛选出 first_name 以 zi 结尾的索引（1 个索引），然后再回表，到主键索引上查询全部符合条件的数据（1 条数据），返回给 Server 层。 </p>
-<p><strong>很明显，第二种方式到主键索引上查询的数据更少。</strong> </p>
-<p>注意，<strong>索引的比较是在存储引擎进行的，数据记录的比较，是在 Server 层进行的。</strong>而当 first_name 的条件不能用于索引过滤时，Server 层不会把 first_name 的条件传递 给存储引擎，所以读取了两条没有必要的记录。 这时候，如果满足 last_name=’wang’的记录有 100000 条，就会有 99999 条没有必要读取的记录。 </p>
-<p><strong>测试：</strong></p>
-<p><strong>执行分析SQL：</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">explain select * from employees where last_name&#x3D;&#39;wang&#39; and first_name LIKE &#39;%zi&#39; ;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113150329640.png" alt="image-20201113150329640"></p>
-<p>Using Where 代表从存储引擎取回的数据不全部满足条件，需要在 Server 层过滤。 </p>
-<p>先用 last_name 条件进行索引范围扫描，读取数据表记录，然后进行比较，检查是否符合 first_name LIKE ‘%zi’ 的条件。此时 3 条中只有 1 条符合条件。 </p>
-<p><strong>开启 ICP：</strong> </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set optimizer_switch&#x3D;&#39;index_condition_pushdown&#x3D;on&#39;; </span><br></pre></td></tr></table></figure>
-
-<p><strong>再次执行上面的SQL分析</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113150541648.png" alt="image-20201113150541648"></p>
-<p>把<code>first_name LIKE &#39;%zi&#39;</code>下推给存储引擎后，只会从数据表读取所需的 1 条记录。 </p>
-<p><strong>注：</strong>索引条件下推（Index Condition Pushdown）是5.6 以后完善的功能。只适用于<strong>二级索引</strong>。ICP 的目标是减少访问表的完整行的读数量从而减少 I/O 操作。 </p>
-<h2 id="MySQL-数据存储文件及索引数据结构"><a href="#MySQL-数据存储文件及索引数据结构" class="headerlink" title="MySQL 数据存储文件及索引数据结构"></a>MySQL 数据存储文件及索引数据结构</h2><blockquote>
-<p>每个数据库有一个目录，我们新建了一个叫做 db_test 的数据库，那么这里就有一个db_test 的文件夹。 </p>
-<p>这个数据库里面我们又建了 5 张表：archive、innodb、memory、myisam、csv。 我们进入 db_test 的目录，就能发现里面有一些跟我们创建的表名对应的文件。 区别如下：</p>
-<p>每张 InnoDB 的表有两个文件（.frm 和.ibd），MyISAM 的表 有三个文件（.frm、.MYD、.MYI）。</p>
-</blockquote>
-<p>有一个是相同的文件：.frm。 .frm 是 MySQL 里面表结构定义的文件，不管你建表的时候选用任何一个存储引擎都会生成。</p>
-<h3 id="MyISAM（非聚集）"><a href="#MyISAM（非聚集）" class="headerlink" title="MyISAM（非聚集）"></a>MyISAM（非聚集）</h3><p><strong>注：MyISAM索引文件和数据文件是分离的（非聚集）</strong></p>
-<p>在 MyISAM 里面，<strong>除了.frm文件</strong>另外有两个文件： </p>
-<ul>
-<li><p><strong>.MYD 文件：D代表 Data，是 MyISAM 的数据文件，存放数据记录</strong>，比如 archive 表的所有的表数据。 </p>
-</li>
-<li><p><strong>.MYI 文件： I代表 Index，是 MyISAM 的索引文件，存放索引</strong>，比如我们在 id 字段上面创建了一个主键索引，那么主键索引就是在这个索引文件里面。 </p>
-</li>
-</ul>
-<p>也就是说，在 <strong>MyISAM 里面，索引和数据是两个独立的文件</strong>。 那我们怎么根据索引找到数据呢？ MyISAM 的 B+Tree 里面，<strong>叶子节点存储的是数据文件对应的磁盘地址</strong>。所以从<strong>索引文件.MYI 中找到键值后，会到数据文件.MYD 中获取相应的数据记录</strong>。</p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140159755.png" alt="image-20201113140159755" style="zoom:50%;" />
-
-<p>这是主键索引，在 MyISAM 里面，辅助索引也在这个.MYI 文件里面。 辅助索引跟主键索引存储和检索数据的方式是没有任何区别的，一样是在索引文件 里面找到磁盘地址，然后到数据文件里面获取数据。 </p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140344683.png" alt="image-20201113140344683" style="zoom:50%;" />
-
-<h3 id="InnoDB-（聚集）"><a href="#InnoDB-（聚集）" class="headerlink" title="InnoDB （聚集）"></a>InnoDB （聚集）</h3><p>InnoDB <strong>除了.frm文件外</strong>只有一个文件（.ibd 文件），这个<strong>文件本身就按按照B+树组织的一个索引结构的文件</strong>，那索引放在哪里呢？ 在 InnoDB 里面，它是以主键为索引来组织数据的存储的，所以索引文件和数据文 件是同一个文件，都在.ibd 文件里面。 在 InnoDB 的<strong>主键索引的叶子节点上，包含了索引对应的完整数据记录</strong>。</p>
-<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140538497.png" alt="image-20201113140538497" style="zoom:50%;" />
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="为什么InnoDB表必须有主键，开且推存使用整型的目增主键"><a href="#为什么InnoDB表必须有主键，开且推存使用整型的目增主键" class="headerlink" title="为什么InnoDB表必须有主键，开且推存使用整型的目增主键?"></a>为什么InnoDB表必须有主键，开且推存使用整型的目增主键?</h4><h4 id="为什么非主键索引结构叶子节点存储的是主键值-一致性和节省存储空间"><a href="#为什么非主键索引结构叶子节点存储的是主键值-一致性和节省存储空间" class="headerlink" title="为什么非主键索引结构叶子节点存储的是主键值? (一致性和节省存储空间)"></a>为什么非主键索引结构叶子节点存储的是主键值? (一致性和节省存储空间)</h4><h4 id="索引建立注意事项"><a href="#索引建立注意事项" class="headerlink" title="索引建立注意事项"></a>索引建立注意事项</h4><ul>
-<li><p>索引的个数不要过多–浪费空间，更新变慢</p>
-</li>
-<li><p>区分度低的字段，例如性别，不要建索引。 –离散度太低，导致扫描行数过多。 </p>
-</li>
-<li><p>频繁更新的值，不要作为主键或者索引。–页分裂 </p>
-</li>
-<li><p>避免冗余、重复索引</p>
-</li>
-<li><p>联合索引，最左前缀</p>
-</li>
-<li><p>多表join的关联列</p>
-</li>
-<li><p>区分度最高的放在联合索引的最左侧（区分度=列中不同值的数量/列的总行数）</p>
-</li>
-<li><p>尽量把字段长度小的列放在联合索引的最左侧（因为字段长度越小，一页能存储的数据量越大，IO 性能也就越好）</p>
-</li>
-<li><p>使用最频繁的列放到联合索引的左侧（这样可以比较少的建立一些索引）</p>
-</li>
-<li><p>避免数据类型的隐式转换</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select name,phone from customer where id &#x3D; &#39;111&#39;; # 隐式转换会导致索引失效</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>禁止对列进行函数转换和计算</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>MySQL</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Explain关键字及索引使用分析</title>
     <url>/posts/a7e850f.html</url>
     <content><![CDATA[<blockquote>
@@ -2941,6 +3129,194 @@
       </tags>
   </entry>
   <entry>
+    <title>MySQL索引</title>
+    <url>/posts/c468c6f9.html</url>
+    <content><![CDATA[<blockquote>
+<p>MySQL索引使用的数据结构主要有<strong>BTree</strong>索引和哈希索引 。对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快;其余大部分场景，建议选择BTree索引。</p>
+</blockquote>
+<h1 id="MySQL索引介绍"><a href="#MySQL索引介绍" class="headerlink" title="MySQL索引介绍"></a>MySQL索引介绍</h1><h2 id="底层结构"><a href="#底层结构" class="headerlink" title="底层结构"></a>底层结构</h2><h3 id="MySQL有哪些索引结构？"><a href="#MySQL有哪些索引结构？" class="headerlink" title="MySQL有哪些索引结构？"></a>MySQL有哪些索引结构？</h3><p>​    hash、BTree</p>
+<h3 id="为什么哈希表、二叉树、红黑树、B树、B-树都可以优化查询，为何Mysql独独喜欢B-树？"><a href="#为什么哈希表、二叉树、红黑树、B树、B-树都可以优化查询，为何Mysql独独喜欢B-树？" class="headerlink" title="为什么哈希表、二叉树、红黑树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？"></a>为什么哈希表、二叉树、红黑树、B树、B+树都可以优化查询，为何Mysql独独喜欢B+树？</h3><ul>
+<li><p><strong>为什么不选哈希表呢？</strong></p>
+<ul>
+<li>哈希索引没办法利用索引完成排序。</li>
+<li>不能进行多字段查询。</li>
+<li>在有大量重复键值的情况下，哈希索引的效率也是极低的（出现哈希碰撞问题）。</li>
+<li>hash因为散列计算之后是乱序的，所以不支持范围查询。</li>
+</ul>
+</li>
+<li><p><strong>为什么不用二叉树</strong></p>
+<p>二叉树在的结构导致他在对<strong>递增</strong>数据索引时让树的高度变得很长，就类似于链表，所以不适合。</p>
+</li>
+<li><p><strong>为什么不用平衡二叉树或者红黑树</strong></p>
+<p>平衡二叉树或红黑树与普通二叉树不同的是当一棵树的左右子树高度差 &gt; 1 时，它会进行<strong>自旋</strong>操作，保持树的平衡。它支持<strong>精确查找和范围查找（回旋查找）</strong>，但是主要原因还是因为<strong>树的深度依旧很大（不可控）</strong>，查找时IO操作可能会很多，所以不考虑。</p>
+</li>
+<li><p><strong>为什么不用B树</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L09vb29fbXVtdXhp,size_16,color_FFFFFF,t_70-20201113140903381.png" alt="在这里插入图片描述"></p>
+<p>虽然有优化，即一个节点上能存储更多的数据，但是B数的每个节点上还附带了数据信息，而一个大节点所占用的空间是一定的，所以当数据信息比较大时，树的高度依旧不是很可控，相对B+树来说，<strong>IO操作依旧比B+多，而且范围查找也需要回旋查找，查询效率不是最优。</strong></p>
+</li>
+<li><p><strong>为什么用B+树</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L09vb29fbXVtdXhp,size_16,color_FFFFFF,t_70-20201113103933243.png" alt="在这里插入图片描述"></p>
+<p>1、 <strong>B+树的磁盘读写代价更低</strong>：B+树的内部节点并没有指向关键字具体信息的指针，因此其内部节点相对B树更小，如果把所有同一内部节点的关键字存放在同一盘块中，那么盘块所能容纳的关键字数量也越多，一次性读入内存的需要查找的关键字也就越多，相对IO读写次数就降低了。</p>
+<p>2、<strong>B+树的查询效率更加稳定</strong>：由于<strong>非终结点并不存储数据信息</strong>，而<strong>只是叶子结点中关键字的索引</strong>。所以<strong>任何关键字的查找必须走一条从根结点到叶子结点的路</strong>。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当。</p>
+<p>3、<strong>B+树更便于遍历</strong>：由于B+树的数据都存储在叶子结点中，分支结点均为索引，方便扫库，只需要扫一遍叶子结点即可，但是B树因为其分支结点同样存储着数据，我们要找到具体的数据，需要进行一次中序遍历按序来扫，所以B+树更加适合在区间查询的情况，所以通常B+树用于数据库索引。</p>
+<p>4、<strong>B+树更适合基于范围的查询</strong>：B树在提高了IO性能的同时并没有解决元素遍历效率低下的问题，正是为了解决这个问题，B+树应运而生。B+树只需要去遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作或者说效率太低。</p>
+</li>
+</ul>
+<h3 id="B-树中一个节点到底多大合适？"><a href="#B-树中一个节点到底多大合适？" class="headerlink" title="B+树中一个节点到底多大合适？"></a>B+树中一个节点到底多大合适？</h3><blockquote>
+<p><strong>B+树中一个节点为一页或页的倍数最为合适</strong></p>
+</blockquote>
+<p>因为如果一个节点的大小小于1页，那么读取这个节点的时候其实也会读出1页，造成资源的浪费。如果一个节点的大小大于1页，比如1.2页，那么读取这个节点的时候会读出2页，也会造成资源的浪费。所以为了不造成浪费，所以最后把一个节点的大小控制在1页、2页、3页、4页等倍数页大小最为合适。</p>
+<h2 id="如何创建索引"><a href="#如何创建索引" class="headerlink" title="如何创建索引"></a>如何创建索引</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- 方式1 CREATE INDEX 索引名称 on 表名(字段名,字段名,.....);</span><br><span class="line">CREATE INDEX idx_name_phone on user_innodb(name,phone);</span><br><span class="line">-- 方式2 alter table 表名 add index 索引名称(字段名,字段名,.....)</span><br><span class="line">alter table user_innodb add index index_name(name,phone)</span><br></pre></td></tr></table></figure>
+
+<h2 id="什么是回表，如何避免？"><a href="#什么是回表，如何避免？" class="headerlink" title="什么是回表，如何避免？"></a>什么是回表，如何避免？</h2><blockquote>
+<p>说到回表，那就有必要先了解一下聚簇索引和非聚簇索引了</p>
+</blockquote>
+<h3 id="聚簇索引和非聚簇索引"><a href="#聚簇索引和非聚簇索引" class="headerlink" title="聚簇索引和非聚簇索引"></a>聚簇索引和非聚簇索引</h3><ul>
+<li><p><strong>聚簇索引</strong></p>
+<p>　　<strong>聚簇索引就是按照每张表的主键构造一棵B+树，同时叶子节点中存放的就是整张表的行记录数据</strong>，也将聚集索引的叶子节点称为数据页。这个特性决定了索引组织表中数据也是索引的一部分，<strong>每张表只能拥有一个聚簇索引。</strong></p>
+<p>  　　Innodb通过主键聚集数据，如果没有定义主键，innodb会选择非空的唯一索引代替。如果没有这样的索引，innodb会隐式的定义一个主键来作为聚簇索引。</p>
+<p><strong>聚簇索引的优缺点</strong></p>
+<p>　　<strong>优点：</strong></p>
+<p>　　　　1.<strong>数据访问更快</strong>，因为聚簇索引将索引和数据保存在同一个B+树中，因此从聚簇索引中获取数据比非聚簇索引更快</p>
+<p>　　　　2.聚簇索引对于主键的排序查找和范围查找速度非常快<br>　　<strong>缺点：</strong></p>
+<p>　　　　1.插入速度严重依赖于插入顺序，按照主键的<strong>顺序插入</strong>是最快的方式，否则将会出现页分裂，严重影响性能。因此，对于InnoDB表，我们一般都会定义一个<strong>自增的ID列为主键</strong><br>　　　　2.<strong>更新主键的代价很高</strong>，因为将会导致被更新的行移动。因此，对于InnoDB表，我们一般定义主键为不可更新。<br>　　　　3.二级索引访问需要两次索引查找，第一次找到主键值，第二次根据主键值找到行数据。</p>
+</li>
+<li><p><strong>非聚簇索引</strong></p>
+<p>MySQL innodb的主键索引是簇集索引，也就是索引的叶子节点存的是整个单条记录的所有字段值，所以通俗点讲，<strong>不是主键索引的就是非簇集索引，非簇集索引的叶子节点存的是主键字段的值。</strong></p>
+</li>
+</ul>
+<h3 id="什么是回表？"><a href="#什么是回表？" class="headerlink" title="什么是回表？"></a>什么是回表？</h3><blockquote>
+<p>回表大概就是我们有个主键为Id的索引，和一个普通a字段的索引。执行的流程是先查询到a索引上的数据，然后找到他的id，最后利用id去主键索引，找到id对应的值。所以回到主键索引树搜索的过程，就是<strong>回表</strong>。</p>
+</blockquote>
+<p>例如：表t_test有id,a,b三个字段，其中id是主键，a上建了索引，然后编写sql语句</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * FROM t_test WHERE id&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<p>这样不会产生回表，因为所有的数据在a的索引树中均能找到</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT * FROM t_test WHERE a&#x3D;&#39;aaa&#39;</span><br></pre></td></tr></table></figure>
+
+<p>这样就会产生回表，因为where条件是a字段，那么会去a的索引树里查找数据，但a的索引里面只有id，a两个字段的值，没有b，那么这个查询为了取到b字段，就要取出主键id的值，然后去id的索引树去找b字段的数据。查了两个索引树，这就叫回表。</p>
+<ul>
+<li><p>如何避免回表？</p>
+<ul>
+<li><p>用主键搜索</p>
+</li>
+<li><p>只查询被联合索引覆盖的字段</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="最左前缀"><a href="#最左前缀" class="headerlink" title="最左前缀"></a>最左前缀</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ul>
+<li>索引可以简单如一个列 (a)，也可以复杂如多个列 (a,b,c,d)，即联合索引。</li>
+<li>如果是联合索引，那么key也由多个列组成，同时，索引只能用于查找key是否<strong>存在（相等）</strong>，遇到范围查询 (&gt;、&lt;、between、like左匹配)等就<strong>不能进一步匹配</strong>了，后续退化为线性查找。</li>
+<li>因此，<strong>列的排列顺序决定了可命中索引的列数</strong>。</li>
+</ul>
+<p><strong>例子：</strong></p>
+<ul>
+<li>如有索引 (a,b,c,d)，查询条件 a=1 and b=2 and c&gt;3 and d=4，则会在每个节点依次命中a、b、c，无法命中d。(c已经是范围查询了，d肯定是排不了序了)</li>
+</ul>
+<h3 id="为什么不符合最左前缀的索引会失效？"><a href="#为什么不符合最左前缀的索引会失效？" class="headerlink" title="为什么不符合最左前缀的索引会失效？"></a>为什么不符合最左前缀的索引会失效？</h3><p>首先我们看看联合索引的结构</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113114147955.png" alt="image-20201113114147955"></p>
+<p>上图我们建立了(a, b)联合索引在 B+Tree 中是复合的数据结构，它是按照从左到右的顺序来建立搜索树的 （a 在左边，b 在右边）。 从这张图可以看出来，<strong>a 是有序的，b 是无序的。且当 a 相等的时候，b才是有序的。</strong> </p>
+<p>这个时候我们使用 where a ‘123’ and b = ‘456’去查询数据的时候，B+Tree 会优先比较 a 来确定下一步应该搜索的方向，往左还是往右。如果 a 相同的时候再比较 b。但是如果查询条件没有 a，就不知道第一步应该查哪个点，因为建立搜索树的时候 a 是第一个比较因子，所以用不到索引。</p>
+<h2 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h2><p>当字段值比较长的时候，建立索引会消耗很多的空间，搜索起来也会很慢。我们可以通过截取字段的前面一部分内容建立索引，这个就叫前缀索引。 </p>
+<p>创建一张商户表，因为地址字段比较长，在地址字段上建立前缀索引： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create table shop(address varchar(120) not null); </span><br><span class="line">alter table shop add key (address(12)); </span><br></pre></td></tr></table></figure>
+
+<p>问题是，截取多少呢？截取得多了，达不到节省索引存储空间的目的，截取得少了，重复内容太多，字段的散列度（选择性）会降低。怎么计算不同的长度的选择性呢？ </p>
+<p>先看一下字段在全部数据中的选择度： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select count(distinct address) &#x2F; count(*) from shop; </span><br></pre></td></tr></table></figure>
+
+<p>通过不同长度去计算，与全表的选择性对比： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 10 ))&#x2F; count(*) AS sub10,</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 11 ))&#x2F; count(*) AS sub11,</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 12 ))&#x2F; count(*) AS sub12,</span><br><span class="line">	count(</span><br><span class="line">	DISTINCT LEFT ( address, 13 ))&#x2F; count(*) AS sub13 </span><br><span class="line">FROM</span><br><span class="line">	shop;</span><br></pre></td></tr></table></figure>
+
+<h2 id="索引添加下推（ICP）"><a href="#索引添加下推（ICP）" class="headerlink" title="索引添加下推（ICP）"></a>索引添加下推（ICP）</h2><p>再来看这么一张表，在 last_name 和 first_name 上面创建联合索引。 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DROP TABLE  IF EXISTS employees;</span><br><span class="line"></span><br><span class="line">CREATE TABLE &#96;employees&#96; (</span><br><span class="line">	&#96;emp_no&#96; int(11) NOT NULL,</span><br><span class="line">	&#96;birth_date&#96; date NULL,</span><br><span class="line">	&#96;first_name&#96; varchar(14) NOT NULL,</span><br><span class="line">	&#96;last_name&#96; varchar(16) NOT NULL,</span><br><span class="line">	&#96;gender&#96; enum(&#39;M&#39;, &#39;F&#39;) NOT NULL,</span><br><span class="line">	&#96;hire_date&#96; date NULL,</span><br><span class="line">	PRIMARY KEY (&#96;emp_no&#96;)</span><br><span class="line">) ENGINE &#x3D; InnoDB CHARSET &#x3D; latin1;</span><br><span class="line"></span><br><span class="line">ALTER TABLE employees ADD INDEX idx_lastname_firstname (last_name, first_name);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;) VALUES (1, NULL, &#39;698&#39;, &#39;liu&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (2, NULL, &#39;d99&#39;, &#39;zheng&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (3, NULL, &#39;e08&#39;, &#39;huang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (4, NULL, &#39;59d&#39;, &#39;lu&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (5, NULL, &#39;0dc&#39;, &#39;yu&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (6, NULL, &#39;989&#39;, &#39;wang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (7, NULL, &#39;e38&#39;, &#39;wang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (8, NULL, &#39;0zi&#39;, &#39;wang&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (9, NULL, &#39;dc9&#39;, &#39;xie&#39;, &#39;F&#39;, NULL);</span><br><span class="line"></span><br><span class="line">INSERT INTO &#96;employees&#96; (&#96;emp_no&#96;, &#96;birth_date&#96;, &#96;first_name&#96;, &#96;last_name&#96;, &#96;gender&#96;, &#96;hire_date&#96;)VALUES (10, NULL, &#39;5ba&#39;, &#39;zhou&#39;, &#39;F&#39;, NULL);</span><br></pre></td></tr></table></figure>
+
+<p><strong>关闭 ICP：(测试用)</strong> </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set optimizer_switch&#x3D;&#39;index_condition_pushdown&#x3D;off&#39;; </span><br></pre></td></tr></table></figure>
+
+<p><strong>查看参数：</strong> </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show variables like &#39;optimizer_switch&#39;; </span><br></pre></td></tr></table></figure>
+
+<p>现在我们要查询所有姓 wang，并且名字最后一个字是 zi 的员工，比如王胖子，王瘦子。查询的 SQL： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from employees where last_name&#x3D;&#39;wang&#39; and first_name LIKE &#39;%zi&#39; ; </span><br></pre></td></tr></table></figure>
+
+<p>这条 SQL 有两种执行方式： </p>
+<p>1、根据联合索引查出所有姓 wang 的二级索引数据，然后回表，到主键索引上查询 全部符合条件的数据（3 条数据）。然后返回给 Server 层，在 Server 层过滤出名字以 zi 结尾的员工。 </p>
+<p>2、根据联合索引查出所有姓 wang 的二级索引数据（3 个索引），然后从二级索引中筛选出 first_name 以 zi 结尾的索引（1 个索引），然后再回表，到主键索引上查询全部符合条件的数据（1 条数据），返回给 Server 层。 </p>
+<p><strong>很明显，第二种方式到主键索引上查询的数据更少。</strong> </p>
+<p>注意，<strong>索引的比较是在存储引擎进行的，数据记录的比较，是在 Server 层进行的。</strong>而当 first_name 的条件不能用于索引过滤时，Server 层不会把 first_name 的条件传递 给存储引擎，所以读取了两条没有必要的记录。 这时候，如果满足 last_name=’wang’的记录有 100000 条，就会有 99999 条没有必要读取的记录。 </p>
+<p><strong>测试：</strong></p>
+<p><strong>执行分析SQL：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">explain select * from employees where last_name&#x3D;&#39;wang&#39; and first_name LIKE &#39;%zi&#39; ;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113150329640.png" alt="image-20201113150329640"></p>
+<p>Using Where 代表从存储引擎取回的数据不全部满足条件，需要在 Server 层过滤。 </p>
+<p>先用 last_name 条件进行索引范围扫描，读取数据表记录，然后进行比较，检查是否符合 first_name LIKE ‘%zi’ 的条件。此时 3 条中只有 1 条符合条件。 </p>
+<p><strong>开启 ICP：</strong> </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set optimizer_switch&#x3D;&#39;index_condition_pushdown&#x3D;on&#39;; </span><br></pre></td></tr></table></figure>
+
+<p><strong>再次执行上面的SQL分析</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113150541648.png" alt="image-20201113150541648"></p>
+<p>把<code>first_name LIKE &#39;%zi&#39;</code>下推给存储引擎后，只会从数据表读取所需的 1 条记录。 </p>
+<p><strong>注：</strong>索引条件下推（Index Condition Pushdown）是5.6 以后完善的功能。只适用于<strong>二级索引</strong>。ICP 的目标是减少访问表的完整行的读数量从而减少 I/O 操作。 </p>
+<h2 id="MySQL-数据存储文件及索引数据结构"><a href="#MySQL-数据存储文件及索引数据结构" class="headerlink" title="MySQL 数据存储文件及索引数据结构"></a>MySQL 数据存储文件及索引数据结构</h2><blockquote>
+<p>每个数据库有一个目录，我们新建了一个叫做 db_test 的数据库，那么这里就有一个db_test 的文件夹。 </p>
+<p>这个数据库里面我们又建了 5 张表：archive、innodb、memory、myisam、csv。 我们进入 db_test 的目录，就能发现里面有一些跟我们创建的表名对应的文件。 区别如下：</p>
+<p>每张 InnoDB 的表有两个文件（.frm 和.ibd），MyISAM 的表 有三个文件（.frm、.MYD、.MYI）。</p>
+</blockquote>
+<p>有一个是相同的文件：.frm。 .frm 是 MySQL 里面表结构定义的文件，不管你建表的时候选用任何一个存储引擎都会生成。</p>
+<h3 id="MyISAM（非聚集）"><a href="#MyISAM（非聚集）" class="headerlink" title="MyISAM（非聚集）"></a>MyISAM（非聚集）</h3><p><strong>注：MyISAM索引文件和数据文件是分离的（非聚集）</strong></p>
+<p>在 MyISAM 里面，<strong>除了.frm文件</strong>另外有两个文件： </p>
+<ul>
+<li><p><strong>.MYD 文件：D代表 Data，是 MyISAM 的数据文件，存放数据记录</strong>，比如 archive 表的所有的表数据。 </p>
+</li>
+<li><p><strong>.MYI 文件： I代表 Index，是 MyISAM 的索引文件，存放索引</strong>，比如我们在 id 字段上面创建了一个主键索引，那么主键索引就是在这个索引文件里面。 </p>
+</li>
+</ul>
+<p>也就是说，在 <strong>MyISAM 里面，索引和数据是两个独立的文件</strong>。 那我们怎么根据索引找到数据呢？ MyISAM 的 B+Tree 里面，<strong>叶子节点存储的是数据文件对应的磁盘地址</strong>。所以从<strong>索引文件.MYI 中找到键值后，会到数据文件.MYD 中获取相应的数据记录</strong>。</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140159755.png" alt="image-20201113140159755" style="zoom:50%;" />
+
+<p>这是主键索引，在 MyISAM 里面，辅助索引也在这个.MYI 文件里面。 辅助索引跟主键索引存储和检索数据的方式是没有任何区别的，一样是在索引文件 里面找到磁盘地址，然后到数据文件里面获取数据。 </p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140344683.png" alt="image-20201113140344683" style="zoom:50%;" />
+
+<h3 id="InnoDB-（聚集）"><a href="#InnoDB-（聚集）" class="headerlink" title="InnoDB （聚集）"></a>InnoDB （聚集）</h3><p>InnoDB <strong>除了.frm文件外</strong>只有一个文件（.ibd 文件），这个<strong>文件本身就按按照B+树组织的一个索引结构的文件</strong>，那索引放在哪里呢？ 在 InnoDB 里面，它是以主键为索引来组织数据的存储的，所以索引文件和数据文 件是同一个文件，都在.ibd 文件里面。 在 InnoDB 的<strong>主键索引的叶子节点上，包含了索引对应的完整数据记录</strong>。</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20201113140538497.png" alt="image-20201113140538497" style="zoom:50%;" />
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="为什么InnoDB表必须有主键，开且推存使用整型的目增主键"><a href="#为什么InnoDB表必须有主键，开且推存使用整型的目增主键" class="headerlink" title="为什么InnoDB表必须有主键，开且推存使用整型的目增主键?"></a>为什么InnoDB表必须有主键，开且推存使用整型的目增主键?</h4><h4 id="为什么非主键索引结构叶子节点存储的是主键值-一致性和节省存储空间"><a href="#为什么非主键索引结构叶子节点存储的是主键值-一致性和节省存储空间" class="headerlink" title="为什么非主键索引结构叶子节点存储的是主键值? (一致性和节省存储空间)"></a>为什么非主键索引结构叶子节点存储的是主键值? (一致性和节省存储空间)</h4><h4 id="索引建立注意事项"><a href="#索引建立注意事项" class="headerlink" title="索引建立注意事项"></a>索引建立注意事项</h4><ul>
+<li><p>索引的个数不要过多–浪费空间，更新变慢</p>
+</li>
+<li><p>区分度低的字段，例如性别，不要建索引。 –离散度太低，导致扫描行数过多。 </p>
+</li>
+<li><p>频繁更新的值，不要作为主键或者索引。–页分裂 </p>
+</li>
+<li><p>避免冗余、重复索引</p>
+</li>
+<li><p>联合索引，最左前缀</p>
+</li>
+<li><p>多表join的关联列</p>
+</li>
+<li><p>区分度最高的放在联合索引的最左侧（区分度=列中不同值的数量/列的总行数）</p>
+</li>
+<li><p>尽量把字段长度小的列放在联合索引的最左侧（因为字段长度越小，一页能存储的数据量越大，IO 性能也就越好）</p>
+</li>
+<li><p>使用最频繁的列放到联合索引的左侧（这样可以比较少的建立一些索引）</p>
+</li>
+<li><p>避免数据类型的隐式转换</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select name,phone from customer where id &#x3D; &#39;111&#39;; # 隐式转换会导致索引失效</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>禁止对列进行函数转换和计算</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SQL优化</title>
     <url>/posts/37c83307.html</url>
     <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="密码不正确，请重新输入！" data-whm="文章不能被校验, 不过您还是能看看解密后的内容！">
@@ -3070,7 +3446,8 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">redis 127.0.0.1:6379&gt; PFADD runoobkey &quot;redis&quot;</span><br><span class="line">1) (integer) 1</span><br><span class="line">redis 127.0.0.1:6379&gt; PFADD runoobkey &quot;mongodb&quot;</span><br><span class="line">1) (integer) 1</span><br><span class="line">redis 127.0.0.1:6379&gt; PFADD runoobkey &quot;mysql&quot;</span><br><span class="line">1) (integer) 1</span><br><span class="line">redis 127.0.0.1:6379&gt; PFCOUNT runoobkey</span><br><span class="line">(integer) 3</span><br></pre></td></tr></table></figure>
 
 <h1 id="Redis分布式锁"><a href="#Redis分布式锁" class="headerlink" title="Redis分布式锁"></a>Redis分布式锁</h1><p>先拿<strong>setnx</strong>来争抢锁，抢到之后，再用<strong>expire</strong>给锁加一个过期时间防止锁忘记了释放。</p>
-<h1 id="Redis事物"><a href="#Redis事物" class="headerlink" title="Redis事物"></a>Redis事物</h1><h1 id="Redis-的线程模型"><a href="#Redis-的线程模型" class="headerlink" title="Redis 的线程模型"></a>Redis 的线程模型</h1><p><strong>Redis</strong> 内部使用文件事件处理器 <code>file event handler</code>，这个文件事件处理器是单线程的，所以 <strong>Redis</strong> 才叫做单线程的模型。它采用 IO 多路复用机制同时监听多个 <strong>Socket</strong>，根据 <strong>Socket</strong> 上的事件来选择对应的事件处理器进行处理。</p>
+<h1 id="Redis事物"><a href="#Redis事物" class="headerlink" title="Redis事物"></a>Redis事物</h1><p>TODO</p>
+<h1 id="Redis-的线程模型"><a href="#Redis-的线程模型" class="headerlink" title="Redis 的线程模型"></a>Redis 的线程模型</h1><p><strong>Redis</strong> 内部使用文件事件处理器 <code>file event handler</code>，这个文件事件处理器是单线程的，所以 <strong>Redis</strong> 才叫做单线程的模型。它采用 IO 多路复用机制同时监听多个 <strong>Socket</strong>，根据 <strong>Socket</strong> 上的事件来选择对应的事件处理器进行处理。</p>
 <p>文件事件处理器的结构包含 4 个部分：</p>
 <ul>
 <li>多个 <strong>Socket</strong></li>
@@ -3079,6 +3456,15 @@
 <li>事件处理器（连接应答处理器、命令请求处理器、命令回复处理器）</li>
 </ul>
 <p>多个 <strong>Socket</strong> 可能会并发产生不同的操作，每个操作对应不同的文件事件，但是 IO 多路复用程序会监听多个 <strong>Socket</strong>，会将 <strong>Socket</strong> 产生的事件放入队列中排队，事件分派器每次从队列中取出一个事件，把该事件交给对应的事件处理器进行处理。</p>
+<h1 id="过期的数据的删除策略"><a href="#过期的数据的删除策略" class="headerlink" title="过期的数据的删除策略"></a>过期的数据的删除策略</h1><p>如果假设你设置了一批 key 只能存活 1 分钟，那么 1 分钟后，Redis 是怎么对这批 key 进行删除的呢？</p>
+<p>常用的过期数据的删除策略就两个：</p>
+<ol>
+<li>（被动）<strong>惰性删除</strong> ：只会在取出key的时候才对数据进行过期检查。这样对CPU最友好，但是可能会造成太多过期 key 没有被删除。</li>
+<li>（主动）<strong>定期删除</strong> ： 每隔一段时间抽取一批 key 执行删除过期key操作。并且，Redis 底层会通过限制删除操作执行的时长和频率来减少删除操作对CPU时间的影响。</li>
+</ol>
+<p><strong>定期删除对内存更加友好，惰性删除对CPU更加友好</strong>。两者各有千秋，所以Redis 采用的是 <strong>定期删除+惰性/懒汉式删除</strong> 。</p>
+<p>但是，仅仅通过给 key 设置过期时间还是有问题的。因为还是可能存在定期删除和惰性删除漏掉了很多过期 key 的情况。这样就导致大量过期 key 堆积在内存里，然后就Out of memory了。</p>
+<p>如何解决这个问题呢？答案就是： <strong>Redis 内存淘汰机制。</strong></p>
 <h2 id="Redis-的淘汰策略有哪些？"><a href="#Redis-的淘汰策略有哪些？" class="headerlink" title="Redis 的淘汰策略有哪些？"></a>Redis 的淘汰策略有哪些？</h2><h4 id="Redis-有六种淘汰策略"><a href="#Redis-有六种淘汰策略" class="headerlink" title="Redis 有六种淘汰策略"></a>Redis 有六种淘汰策略</h4><table>
 <thead>
 <tr>
@@ -3115,8 +3501,6 @@
 <li>volatile-lfu：从已设置过期时间的数据集(server.db[i].expires)中挑选最不经常使用的数据淘汰</li>
 <li>allkeys-lfu：当内存不足以容纳新写入数据时，在键空间中，移除最不经常使用的 key</li>
 </ul>
-<h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><p>参考：</p>
-<p><a href="https://mp.weixin.qq.com/s/aOiadiWG2nNaZowmoDQPMQ">https://mp.weixin.qq.com/s/aOiadiWG2nNaZowmoDQPMQ</a></p>
 ]]></content>
       <categories>
         <category>Redis</category>
