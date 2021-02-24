@@ -60,6 +60,145 @@
       </tags>
   </entry>
   <entry>
+    <title>ElasticSearch基础查询</title>
+    <url>/posts/8c3e686f.html</url>
+    <content><![CDATA[<p>注：本内容参考的是江南一点雨的这个公众号的，需要数据源可以直接在他的微信公众号后台回复 <strong>bookdata.json</strong> 下载脚本。</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
+<li><p>下载数据源</p>
+</li>
+<li><p>创建索引</p>
+</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT books</span><br><span class="line">&#123;</span><br><span class="line"> <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">   <span class="attr">&quot;properties&quot;</span>: &#123;</span><br><span class="line">     <span class="attr">&quot;name&quot;</span>:&#123;</span><br><span class="line">       <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">       <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span></span><br><span class="line">     &#125;,</span><br><span class="line">     <span class="attr">&quot;publish&quot;</span>:&#123;</span><br><span class="line">       <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">       <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span></span><br><span class="line">     &#125;,</span><br><span class="line">     <span class="attr">&quot;type&quot;</span>:&#123;</span><br><span class="line">       <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">       <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span></span><br><span class="line">     &#125;,</span><br><span class="line">     <span class="attr">&quot;author&quot;</span>:&#123;</span><br><span class="line">       <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;keyword&quot;</span></span><br><span class="line">     &#125;,</span><br><span class="line">     <span class="attr">&quot;info&quot;</span>:&#123;</span><br><span class="line">       <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">       <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span></span><br><span class="line">     &#125;,</span><br><span class="line">     <span class="attr">&quot;price&quot;</span>:&#123;</span><br><span class="line">       <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;double&quot;</span></span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在文件目录下执行如下脚本导入命令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -XPOST &quot;http:&#x2F;&#x2F;localhost:9200&#x2F;books&#x2F;_bulk?pretty&quot; -H &quot;content-type:application&#x2F;json&quot; --data-binary @bookdata.json</span><br></pre></td></tr></table></figure>
+
+<p>查询分为两个过程：</p>
+<ol>
+<li>当向索引中保存文档时，默认情况下，es 会保存两份内容，一份是 <code>_source</code> 中的数据，另一份则是通过分词、排序等一系列过程生成的倒排索引文件，倒排索引中保存了词项和文档之间的对应关系。</li>
+<li>搜索时，当 es 接收到用户的搜索请求之后，就会去倒排索引中查询，通过的倒排索引中维护的倒排记录表找到关键词对应的文档集合，然后对文档进行评分、排序、高亮等处理，处理完成后返回文档。</li>
+</ol>
+<h1 id="基础查询"><a href="#基础查询" class="headerlink" title="基础查询"></a>基础查询</h1><h3 id="简单查询-会返回10条记录-："><a href="#简单查询-会返回10条记录-：" class="headerlink" title="简单查询(会返回10条记录)："></a>简单查询(会返回10条记录)：</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">GET books/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match_all&quot;</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"># 或者直接GET books/_search</span><br></pre></td></tr></table></figure>
+
+<h3 id="词项查询"><a href="#词项查询" class="headerlink" title="词项查询"></a>词项查询</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET books/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;term&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;数学&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"># 或者使用terms设置多个查询条件</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;terms&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>:  [<span class="string">&quot;计算机&quot;</span>,<span class="string">&quot;数学&quot;</span>]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h3><p>默认返回前 10 条数据，es 中也可以像关系型数据库一样，给一个分页参数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;term&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &quot;数学&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;size&quot;: 10,</span><br><span class="line">  &quot;from&quot;: 10</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="过滤返回字段"><a href="#过滤返回字段" class="headerlink" title="过滤返回字段"></a>过滤返回字段</h3><p>​        如果返回的字段比较多，又不需要这么多字段，此时可以指定返回的字段，如下文中这么设置，则结果就只返回name和author了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;term&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &quot;数学&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;size&quot;: 10,</span><br><span class="line">  &quot;from&quot;: 10,</span><br><span class="line">  &quot;_source&quot;: [&quot;name&quot;,&quot;author&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="最小评分"><a href="#最小评分" class="headerlink" title="最小评分"></a>最小评分</h3><p>​        有的文档得分特别低，说明这个文档和我们查询的关键字相关度很低。我们可以设置一个最低分，只有得分超过最低分的文档才会被返回，如下查询条件中得分低于 1.75 的文档将直接被舍弃。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;term&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &quot;数学&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;min_score&quot;:1.75,</span><br><span class="line">  &quot;_source&quot;: [&quot;name&quot;,&quot;author&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="高亮"><a href="#高亮" class="headerlink" title="高亮"></a>高亮</h3><p>查询关键字高亮：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET books/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;<span class="attr">&quot;term&quot;</span>: &#123;<span class="attr">&quot;name&quot;</span>: <span class="string">&quot;数学&quot;</span>&#125;&#125;,</span><br><span class="line">  <span class="attr">&quot;highlight&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;fields&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 也可以设置高亮类型</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;term&quot;</span>:&#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;数学&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;highlight&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>:&#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>:&#123;</span><br><span class="line">                <span class="attr">&quot;pre_tags&quot;</span>:[</span><br><span class="line">                    <span class="string">&quot;&lt;strong&gt;&quot;</span></span><br><span class="line">                ],</span><br><span class="line">                <span class="attr">&quot;post_tags&quot;</span>:[</span><br><span class="line">                    <span class="string">&quot;&lt;/strong&gt;&quot;</span></span><br><span class="line">                ]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"># 当然，name 字段中搜索的，但是我们希望 info 字段中，相关的关键字也能高亮</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;数学&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;highlight&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;require_field_match&quot;</span>: <span class="string">&quot;false&quot;</span>, </span><br><span class="line">    <span class="attr">&quot;fields&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;pre_tags&quot;</span>: [<span class="string">&quot;&lt;strong&gt;&quot;</span>],</span><br><span class="line">        <span class="attr">&quot;post_tags&quot;</span>: [<span class="string">&quot;&lt;/strong&gt;&quot;</span>]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">&quot;info&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;pre_tags&quot;</span>: [<span class="string">&quot;&lt;strong&gt;&quot;</span>],</span><br><span class="line">        <span class="attr">&quot;post_tags&quot;</span>: [<span class="string">&quot;&lt;/strong&gt;&quot;</span>]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p>排序很简单，默认是按照查询文档的相关度来排序的，即（<code>_score</code> 字段）：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;term&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: &quot;java&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>等价于：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;term&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: &quot;java&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;sort&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;_score&quot;: &#123;</span><br><span class="line">        &quot;order&quot;: &quot;desc&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>match_all 查询只是返回所有文档，不评分，默认按照添加顺序返回，可以通过 <code>_doc</code> 字段对其进行排序：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;sort&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;_doc&quot;: &#123;</span><br><span class="line">        &quot;order&quot;: &quot;desc&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;size&quot;: 20</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>es同时也支持多字段排序。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;sort&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;price&quot;: &#123;</span><br><span class="line">        &quot;order&quot;: &quot;asc&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;_doc&quot;: &#123;</span><br><span class="line">        &quot;order&quot;: &quot;desc&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;size&quot;: 20</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="全文查询"><a href="#全文查询" class="headerlink" title="全文查询"></a>全文查询</h1><h3 id="match"><a href="#match" class="headerlink" title="match"></a>match</h3><p>​        match query 会对查询语句进行分词，分词后，如果查询语句中的任何一个词项被匹配，则文档就会被索引到。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &quot;美术计算机&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        这个查询首先会对 <code>美术计算机</code> 进行分词，分词之后，再去查询，只要文档中包含一个分词结果，就回返回文档。换句话说，默认词项之间是 OR 的关系，如果想要修改，也可以改为 AND。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &#123;</span><br><span class="line">        &quot;query&quot;: &quot;美术计算机&quot;,</span><br><span class="line">        &quot;operator&quot;: &quot;and&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时就回要求文档中必须同时包含 <strong>美术</strong> 和 <strong>计算机</strong> 两个词。</p>
+<h3 id="match-phrase"><a href="#match-phrase" class="headerlink" title="match_phrase"></a>match_phrase</h3><p>match_phrase query 也会对查询的关键字进行分词，但是它分词后有两个特点：</p>
+<ul>
+<li><strong>分词后的词项顺序必须和文档中词项的顺序一致</strong></li>
+<li><strong>所有的词都必须出现在文档中</strong></li>
+</ul>
+<p>示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_phrase&quot;: &#123;</span><br><span class="line">        &quot;name&quot;: &#123;</span><br><span class="line">          &quot;query&quot;: &quot;高等教育计算机&quot;,</span><br><span class="line">          &quot;slop&quot;: 100</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>query 是查询的关键字，会被分词器进行分解，分解之后去倒排索引中进行匹配。</p>
+<p>slop是指关键字之间的最小距离，但是注意不是关键之间间隔的字数。文档中的字段被分词器解析之后，解析出来的词项都包含一个 position 字段表示词项的位置，查询短语分词之后的 position 之间的间隔要满足 slop 的要求。</p>
+<h3 id="match-phrase-prefix"><a href="#match-phrase-prefix" class="headerlink" title="match_phrase_prefix"></a>match_phrase_prefix</h3><p>​        这个类似于 match_phrase，只不过这里多了一个通配符，match_phrase_prefix 支持最后一个词项的前缀匹配，但是由于<strong>这种匹配方式效率较低</strong>，因此大家作为了解即可。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_phrase_prefix&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &quot;计&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        这个查询过程，会自动进行单词匹配，会自动查找以<strong>计</strong>开始的单词，默认是 50 个，可以自己控制：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_phrase_prefix&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &#123;</span><br><span class="line">        &quot;query&quot;: &quot;计&quot;,</span><br><span class="line">        &quot;max_expansions&quot;: 3</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        match_phrase_prefix 是针对分片级别的查询，假设 max_expansions 为 1，可能返回多个文档，但是只有一个词，这是我们预期的结果。有的时候实际返回结果和我们预期结果并不一致，原因在于这个查询是分片级别的，不同的分片确实只返回了一个词，但是结果可能来自不同的分片，所以最终会看到多个词。</p>
+<h3 id="multi-match"><a href="#multi-match" class="headerlink" title="multi_match"></a>multi_match</h3><p>match 查询的升级版，可以指定多个查询域：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;multi_match&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &quot;java&quot;,</span><br><span class="line">      &quot;fields&quot;: [&quot;name&quot;,&quot;info&quot;]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种查询方式还可以指定字段的权重：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;multi_match&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &quot;阳光&quot;,</span><br><span class="line">      &quot;fields&quot;: [&quot;name^4&quot;,&quot;info&quot;]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个表示关键字出现在 name 中的权重是出现在 info 中权重的 4 倍。</p>
+<h3 id="query-string"><a href="#query-string" class="headerlink" title="query_string"></a>query_string</h3><p>query_string 是一种紧密结合 Lucene 的查询方式，在一个查询语句中可以用到 Lucene 的一些查询语法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;query_string&quot;: &#123;</span><br><span class="line">      &quot;default_field&quot;: &quot;name&quot;,</span><br><span class="line">      &quot;query&quot;: &quot;(十一五) AND (计算机)&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="simple-query-string"><a href="#simple-query-string" class="headerlink" title="simple_query_string"></a>simple_query_string</h3><p>这个是 query_string 的升级，可以直接使用 +、|、- 代替 AND、OR、NOT 等，查询结果和 query_string相同。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;simple_query_string&quot;: &#123;</span><br><span class="line">      &quot;fields&quot;: [&quot;name&quot;],</span><br><span class="line">      &quot;query&quot;: &quot;(十一五) + (计算机)&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="其他查询"><a href="#其他查询" class="headerlink" title="其他查询"></a>其他查询</h1><h3 id="range"><a href="#range" class="headerlink" title="range"></a>range</h3><p>​        范围查询，可以按照日期范围、数字范围等查询，range query 中的参数主要有四个：gt (大于)、lt (小于)、gte (大于等于)、lte (小于等于)</p>
+<p>案例：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;range&quot;: &#123;</span><br><span class="line">      &quot;price&quot;: &#123;</span><br><span class="line">        &quot;gte&quot;: 10,</span><br><span class="line">        &quot;lt&quot;: 20</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;sort&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;price&quot;: &#123;</span><br><span class="line">        &quot;order&quot;: &quot;desc&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="exists"><a href="#exists" class="headerlink" title="exists"></a>exists</h3><p>​        exists query 会返回指定字段中至少有一个非空值的文档：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;exists&quot;: &#123;</span><br><span class="line">      &quot;field&quot;: &quot;计算机&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意，空字符串也是有值。null 是空值。</strong></p>
+<h3 id="Prefix"><a href="#Prefix" class="headerlink" title="Prefix"></a>Prefix</h3><blockquote>
+<p>前缀查询，效率略低，除非必要，一般不太建议使用。</p>
+</blockquote>
+<p>给定关键词的前缀去查询：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;prefix&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: &quot;计算机&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="wildcard"><a href="#wildcard" class="headerlink" title="wildcard"></a>wildcard</h3><p>wildcard query 即通配符查询。支持单字符和多字符通配符：</p>
+<ul>
+<li>？表示一个任意字符。</li>
+<li><code>*</code> 表示零个或者多个字符。</li>
+</ul>
+<p>查询所有姓张的作者的书：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;wildcard&quot;: &#123;</span><br><span class="line">      &quot;author&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: &quot;张*&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查询所有姓张并且名字只有两个字的作者的书：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;wildcard&quot;: &#123;</span><br><span class="line">      &quot;author&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: &quot;张?&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="regexp"><a href="#regexp" class="headerlink" title="regexp"></a>regexp</h3><p>支持正则表达式查询。</p>
+<p>查询所有姓张并且名字只有两个字的作者的书：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;regexp&quot;: &#123;</span><br><span class="line">      &quot;author&quot;: &quot;张.&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="fuzzy"><a href="#fuzzy" class="headerlink" title="fuzzy"></a>fuzzy</h3><p>​        在实际搜索中，有时我们可能会打错字，从而导致搜索不到，在 match query 中，可以通过 fuzziness 属性实现模糊查询。</p>
+<p>​        fuzzy query 返回与搜索关键字相似的文档。怎么样就算相似？以LevenShtein 编辑距离为准。编辑距离是指将一个字符变为另一个字符所需要更改字符的次数，更改主要包括四种：</p>
+<ul>
+<li>更改字符（javb–&gt;java）</li>
+<li>删除字符（javva–&gt;java）</li>
+<li>插入字符（jaa–&gt;java）</li>
+<li>转置字符（ajva–&gt;java）</li>
+</ul>
+<p>​        为了找到相似的词，模糊查询会在指定的编辑距离中创建搜索关键词的所有可能变化或者扩展的集合，然后进行搜索匹配。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;fuzzy&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &quot;javva&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ids-query"><a href="#ids-query" class="headerlink" title="ids query"></a>ids query</h3><p>根据指定的 id 查询。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;ids&quot;:&#123;</span><br><span class="line">      &quot;values&quot;:  [1,2,3]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考：<a href="https://www.bilibili.com/video/BV1ft4y1e7tq">https://www.bilibili.com/video/BV1ft4y1e7tq</a></p>
+]]></content>
+      <categories>
+        <category>ElasticSearch</category>
+      </categories>
+      <tags>
+        <tag>ElasticSearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ElasticSearch开篇</title>
     <url>/posts/a9e5c1e9.html</url>
     <content><![CDATA[<h1 id="Lucene、ElasticSearch和solr"><a href="#Lucene、ElasticSearch和solr" class="headerlink" title="Lucene、ElasticSearch和solr"></a>Lucene、ElasticSearch和solr</h1><h2 id="Lucene"><a href="#Lucene" class="headerlink" title="Lucene"></a>Lucene</h2><p>​        Lucene 是一个开源、免费、高性能、纯 Java 编写的全文检索引擎，可以算作是开源领域最好的全文检索工具包。</p>
@@ -243,6 +382,18 @@
       </tags>
   </entry>
   <entry>
+    <title>ElasticSearch目录</title>
+    <url>/posts/5fe89e0e.html</url>
+    <content><![CDATA[<p>ES聚合TODO</p>
+]]></content>
+      <categories>
+        <category>ElasticSearch</category>
+      </categories>
+      <tags>
+        <tag>ElasticSearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ElasticSearch相关api介绍</title>
     <url>/posts/c378945.html</url>
     <content><![CDATA[<p><strong>注：</strong>本文中的均为Elasticsearch的地址，例如本地环境为<a href="http://localhost:9200/">http://localhost:9200</a></p>
@@ -366,51 +517,35 @@
       </tags>
   </entry>
   <entry>
-    <title>01.MyBatis面试</title>
-    <url>/posts/d39c0168.html</url>
-    <content><![CDATA[<h4 id="MyBatis是什么？"><a href="#MyBatis是什么？" class="headerlink" title="MyBatis是什么？"></a>MyBatis是什么？</h4><p>MyBatis 是一款优秀的持久层框架，一个半 ORM（对象关系映射）框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生类型、接口和 Java 的 POJO（Plain Old Java Objects，普通老式 Java 对象）为数据库中的记录。</p>
-<h4 id="ORM是什么"><a href="#ORM是什么" class="headerlink" title="ORM是什么"></a>ORM是什么</h4><p>ORM（Object Relational Mapping），对象关系映射，是一种为了解决关系型数据库数据与简单Java对（POJO）的映射关系的技术。简单的说，ORM是通过使用描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中。</p>
-<h4 id="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"><a href="#为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？" class="headerlink" title="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"></a>为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？</h4><p>Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。</p>
-<p>而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。</p>
-<h4 id="MyBatis编程步骤是什么样的？"><a href="#MyBatis编程步骤是什么样的？" class="headerlink" title="MyBatis编程步骤是什么样的？"></a>MyBatis编程步骤是什么样的？</h4><p>1、 创建SqlSessionFactory</p>
-<p>2、 通过SqlSessionFactory创建SqlSession</p>
-<p>3、 通过sqlsession执行数据库操作</p>
-<p>4、 调用session.commit()提交事务</p>
-<p>5、 调用session.close()关闭会话</p>
-<h4 id="MyBatis的工作原理"><a href="#MyBatis的工作原理" class="headerlink" title="MyBatis的工作原理"></a>MyBatis的工作原理</h4><p>在学习 MyBatis 程序之前，需要了解一下 MyBatis 工作原理，以便于理解程序。MyBatis 的工作原理如下图</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0pvdXJXb24vaW1hZ2UvbWFzdGVyL015QmF0aXMlRTYlQTElODYlRTYlOUUlQjYlRTYlODAlQkIlRTclQkIlOTMvTXlCYXRpcyVFNSVCNyVBNSVFNCVCRCU5QyVFNSU4RSU5RiVFNyU5MCU4Ni5wbmc.png" alt="MyBatis工作原理"></p>
-<p>1）读取 MyBatis 配置文件：mybatis-config.xml 为 MyBatis 的全局配置文件，配置了 MyBatis 的运行环境等信息，例如数据库连接信息。</p>
-<p>2）加载映射文件。映射文件即 SQL 映射文件，该文件中配置了操作数据库的 SQL 语句，需要在 MyBatis 配置文件 mybatis-config.xml 中加载。mybatis-config.xml 文件可以加载多个映射文件，每个文件对应数据库中的一张表。</p>
-<p>3）构造会话工厂：通过 MyBatis 的环境等配置信息构建会话工厂 SqlSessionFactory。</p>
-<p>4）创建会话对象：由会话工厂创建 SqlSession 对象，该对象中包含了执行 SQL 语句的所有方法。</p>
-<p>5）Executor 执行器：MyBatis 底层定义了一个 Executor 接口来操作数据库，它将根据 SqlSession 传递的参数动态地生成需要执行的 SQL 语句，同时负责查询缓存的维护。</p>
-<p>6）MappedStatement 对象：在 Executor 接口的执行方法中有一个 MappedStatement 类型的参数，该参数是对映射信息的封装，用于存储要映射的 SQL 语句的 id、参数等信息。</p>
-<p>7）输入参数映射：输入参数类型可以是 Map、List 等集合类型，也可以是基本数据类型和 POJO 类型。输入参数映射过程类似于 JDBC 对 preparedStatement 对象设置参数的过程。</p>
-<p>8）输出结果映射：输出结果类型可以是 Map、 List 等集合类型，也可以是基本数据类型和 POJO 类型。输出结果映射过程类似于 JDBC 对结果集的解析过程。</p>
-<h4 id="和-的区别是什么？"><a href="#和-的区别是什么？" class="headerlink" title="#{}和${}的区别是什么？"></a>#{}和${}的区别是什么？</h4><ul>
-<li><p><strong>${} 是 Properties ⽂件中的变量占位符</strong>，它可以⽤于标签属性值和 sql 内部，属于静态⽂本替换，⽐如${driver}会被静态替换为 com.mysql.jdbc.Driver 。</p>
+    <title>Java整合ElasticSearch</title>
+    <url>/posts/ddf54e92.html</url>
+    <content><![CDATA[<h2 id="ElasticSearch-Java-API-选择"><a href="#ElasticSearch-Java-API-选择" class="headerlink" title="ElasticSearch Java API 选择"></a>ElasticSearch Java API 选择</h2><ul>
+<li><p>直接使用 HTTP 请求</p>
+<p>这个太繁琐了，不介绍。</p>
 </li>
-<li><p><strong>#{} 是 sql 的参数占位符</strong>，Mybatis 会将 sql 中的 #{} 替换为?号，在 sql 执⾏前会使⽤PreparedStatement 的参数设置⽅法，按序给 sql 的?号占位符设置参数值，⽐如ps.setInt(0, parameterValue)， #{item.name} 的取值⽅式为使⽤反射从参数对象中获取item 对象的 name 属性值，相当于 param.getItem().getName() 。</p>
+<li><p><strong>Low Level REST Client</strong></p>
 </li>
 </ul>
-<p>简单来说：**${}是字符串替换，#{}是预编译处理。一般用# {}防止sql注入问题。**</p>
-<h4 id="Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？"><a href="#Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？" class="headerlink" title="Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？"></a>Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？</h4><p>还有很多其他的标签， <resultMap> 、 <parameterMap> 、 <sql> 、 <include> 、 <selectKey> ，加上动态 sql的 9 个标签，<code> trim|where|set|foreach|if|choose|when|otherwise|bind</code> 等，其中sql为⽚段标签，通过 <include> 标签引⼊ sql ⽚段， <selectKey> 为不⽀持⾃增的主键⽣成策略标签。</p>
-<h4 id="如何获取自增主键"><a href="#如何获取自增主键" class="headerlink" title="如何获取自增主键"></a>如何获取自增主键</h4><ul>
-<li>注解</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Insert(&quot;insert into user (name) values  (#&#123;name&#125; )&quot;)</span></span><br><span class="line"><span class="meta">@Options(useGeneratedKeys = true,keyProperty =&quot;id&quot;,keyColumn = &quot;id&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">int</span>  <span class="title">inseartUser</span><span class="params">(User  user)</span></span>;</span><br></pre></td></tr></table></figure>
-
+<p>​        用于 Es 的官方的低级客户端。这种方式允许通过 HTTP 与 Es 集群进行通信，但是请求时候的 JSON 参数和响应的 JSON 参数交给用户去处理。这种方式好处就是兼容所有的 Es 版本。但是就是数据处理比较麻烦。</p>
 <ul>
-<li>xml</li>
+<li><strong>High Level REST Client</strong></li>
 </ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">”indetifyId”</span>  <span class="attr">useGeneratedKeys</span>=<span class="string">”true”</span> <span class="attr">keyProperty</span>=<span class="string">”id”</span> <span class="attr">keyColumn</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
+<p>​        用户 Es 的官方的高级客户端。这种方式允许通过 HTTP 与 Es 集群进行通信，它是基于 Low Level REST Client，但是提供了很多 API，开发者不需要自己去组装参数，也不需要自己去解析响应 JSON 。这种方式使用起来更加直接。但是需要注意，这种方式，所使用的依赖库的版本要和 Es 对应。</p>
+<ul>
+<li><p>TransportClient</p>
+<p>TransportClient 在 Es7 中已经被弃用，在 Es8 中将被完全删除。</p>
+</li>
+<li><p>spring-data-elasticsearch</p>
+<p>印象里这个更新比较慢，经常跟不上elasticsearch的版本，所以暂时不考虑了。</p>
+</li>
+</ul>
+<p>通过上面的分析以及<a href="https://www.elastic.co/guide/en/elasticsearch/client/java-rest/7.x/index.html">官网</a>的推荐，所以还是选择High Level REST Client吧。</p>
 ]]></content>
       <categories>
-        <category>MyBatis</category>
+        <category>ElasticSearch</category>
       </categories>
       <tags>
-        <tag>MyBatis</tag>
+        <tag>ElasticSearch</tag>
       </tags>
   </entry>
   <entry>
@@ -565,23 +700,6 @@
       </tags>
   </entry>
   <entry>
-    <title>MySQL导航</title>
-    <url>/posts/ac0d7049.html</url>
-    <content><![CDATA[<p><a href="./86e336c0.html">01.MySQL基础</a></p>
-<p><a href="./c468c6f9.html">02.MySQL索引</a></p>
-<p><a href="./c468c6f9.html">03.Explain关键字及索引使用分析</a></p>
-<p><a href="./.html">04.待定</a></p>
-<p><a href="./37c83307.html">05.SQL优化</a></p>
-<p><a href="./e4de6087.html">06.行锁原理</a></p>
-]]></content>
-      <categories>
-        <category>MySQL</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>行锁原理</title>
     <url>/posts/e4de6087.html</url>
     <content><![CDATA[<blockquote>
@@ -663,6 +781,71 @@
       </categories>
       <tags>
         <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL导航</title>
+    <url>/posts/ac0d7049.html</url>
+    <content><![CDATA[<p><a href="./86e336c0.html">01.MySQL基础</a></p>
+<p><a href="./c468c6f9.html">02.MySQL索引</a></p>
+<p><a href="./c468c6f9.html">03.Explain关键字及索引使用分析</a></p>
+<p><a href="./.html">04.待定</a></p>
+<p><a href="./37c83307.html">05.SQL优化</a></p>
+<p><a href="./e4de6087.html">06.行锁原理</a></p>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>01.MyBatis面试</title>
+    <url>/posts/d39c0168.html</url>
+    <content><![CDATA[<h4 id="MyBatis是什么？"><a href="#MyBatis是什么？" class="headerlink" title="MyBatis是什么？"></a>MyBatis是什么？</h4><p>MyBatis 是一款优秀的持久层框架，一个半 ORM（对象关系映射）框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生类型、接口和 Java 的 POJO（Plain Old Java Objects，普通老式 Java 对象）为数据库中的记录。</p>
+<h4 id="ORM是什么"><a href="#ORM是什么" class="headerlink" title="ORM是什么"></a>ORM是什么</h4><p>ORM（Object Relational Mapping），对象关系映射，是一种为了解决关系型数据库数据与简单Java对（POJO）的映射关系的技术。简单的说，ORM是通过使用描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中。</p>
+<h4 id="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"><a href="#为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？" class="headerlink" title="为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？"></a>为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？</h4><p>Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。</p>
+<p>而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。</p>
+<h4 id="MyBatis编程步骤是什么样的？"><a href="#MyBatis编程步骤是什么样的？" class="headerlink" title="MyBatis编程步骤是什么样的？"></a>MyBatis编程步骤是什么样的？</h4><p>1、 创建SqlSessionFactory</p>
+<p>2、 通过SqlSessionFactory创建SqlSession</p>
+<p>3、 通过sqlsession执行数据库操作</p>
+<p>4、 调用session.commit()提交事务</p>
+<p>5、 调用session.close()关闭会话</p>
+<h4 id="MyBatis的工作原理"><a href="#MyBatis的工作原理" class="headerlink" title="MyBatis的工作原理"></a>MyBatis的工作原理</h4><p>在学习 MyBatis 程序之前，需要了解一下 MyBatis 工作原理，以便于理解程序。MyBatis 的工作原理如下图</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0pvdXJXb24vaW1hZ2UvbWFzdGVyL015QmF0aXMlRTYlQTElODYlRTYlOUUlQjYlRTYlODAlQkIlRTclQkIlOTMvTXlCYXRpcyVFNSVCNyVBNSVFNCVCRCU5QyVFNSU4RSU5RiVFNyU5MCU4Ni5wbmc.png" alt="MyBatis工作原理"></p>
+<p>1）读取 MyBatis 配置文件：mybatis-config.xml 为 MyBatis 的全局配置文件，配置了 MyBatis 的运行环境等信息，例如数据库连接信息。</p>
+<p>2）加载映射文件。映射文件即 SQL 映射文件，该文件中配置了操作数据库的 SQL 语句，需要在 MyBatis 配置文件 mybatis-config.xml 中加载。mybatis-config.xml 文件可以加载多个映射文件，每个文件对应数据库中的一张表。</p>
+<p>3）构造会话工厂：通过 MyBatis 的环境等配置信息构建会话工厂 SqlSessionFactory。</p>
+<p>4）创建会话对象：由会话工厂创建 SqlSession 对象，该对象中包含了执行 SQL 语句的所有方法。</p>
+<p>5）Executor 执行器：MyBatis 底层定义了一个 Executor 接口来操作数据库，它将根据 SqlSession 传递的参数动态地生成需要执行的 SQL 语句，同时负责查询缓存的维护。</p>
+<p>6）MappedStatement 对象：在 Executor 接口的执行方法中有一个 MappedStatement 类型的参数，该参数是对映射信息的封装，用于存储要映射的 SQL 语句的 id、参数等信息。</p>
+<p>7）输入参数映射：输入参数类型可以是 Map、List 等集合类型，也可以是基本数据类型和 POJO 类型。输入参数映射过程类似于 JDBC 对 preparedStatement 对象设置参数的过程。</p>
+<p>8）输出结果映射：输出结果类型可以是 Map、 List 等集合类型，也可以是基本数据类型和 POJO 类型。输出结果映射过程类似于 JDBC 对结果集的解析过程。</p>
+<h4 id="和-的区别是什么？"><a href="#和-的区别是什么？" class="headerlink" title="#{}和${}的区别是什么？"></a>#{}和${}的区别是什么？</h4><ul>
+<li><p><strong>${} 是 Properties ⽂件中的变量占位符</strong>，它可以⽤于标签属性值和 sql 内部，属于静态⽂本替换，⽐如${driver}会被静态替换为 com.mysql.jdbc.Driver 。</p>
+</li>
+<li><p><strong>#{} 是 sql 的参数占位符</strong>，Mybatis 会将 sql 中的 #{} 替换为?号，在 sql 执⾏前会使⽤PreparedStatement 的参数设置⽅法，按序给 sql 的?号占位符设置参数值，⽐如ps.setInt(0, parameterValue)， #{item.name} 的取值⽅式为使⽤反射从参数对象中获取item 对象的 name 属性值，相当于 param.getItem().getName() 。</p>
+</li>
+</ul>
+<p>简单来说：**${}是字符串替换，#{}是预编译处理。一般用# {}防止sql注入问题。**</p>
+<h4 id="Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？"><a href="#Xml-映射⽂件中，除了常⻅的-select-insert-updae-delete-标签之外，还有哪些标签？" class="headerlink" title="Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？"></a>Xml 映射⽂件中，除了常⻅的 select|insert|updae|delete 标签之外，还有哪些标签？</h4><p>还有很多其他的标签， <resultMap> 、 <parameterMap> 、 <sql> 、 <include> 、 <selectKey> ，加上动态 sql的 9 个标签，<code> trim|where|set|foreach|if|choose|when|otherwise|bind</code> 等，其中sql为⽚段标签，通过 <include> 标签引⼊ sql ⽚段， <selectKey> 为不⽀持⾃增的主键⽣成策略标签。</p>
+<h4 id="如何获取自增主键"><a href="#如何获取自增主键" class="headerlink" title="如何获取自增主键"></a>如何获取自增主键</h4><ul>
+<li>注解</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Insert(&quot;insert into user (name) values  (#&#123;name&#125; )&quot;)</span></span><br><span class="line"><span class="meta">@Options(useGeneratedKeys = true,keyProperty =&quot;id&quot;,keyColumn = &quot;id&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">int</span>  <span class="title">inseartUser</span><span class="params">(User  user)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>xml</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">”indetifyId”</span>  <span class="attr">useGeneratedKeys</span>=<span class="string">”true”</span> <span class="attr">keyProperty</span>=<span class="string">”id”</span> <span class="attr">keyColumn</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>MyBatis</category>
+      </categories>
+      <tags>
+        <tag>MyBatis</tag>
       </tags>
   </entry>
   <entry>
@@ -824,17 +1007,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ElasticSearch目录</title>
-    <url>/posts/5fe89e0e.html</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>ElasticSearch</category>
-      </categories>
-      <tags>
-        <tag>ElasticSearch</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis学习目录</title>
     <url>/posts/207e4c9d.html</url>
     <content><![CDATA[<p><a href="./fe29e710.html">Redis基础</a></p>
@@ -852,32 +1024,181 @@
       </tags>
   </entry>
   <entry>
-    <title>Redis缓存雪崩、缓存穿透、缓存击穿</title>
-    <url>/posts/35743b4b.html</url>
-    <content><![CDATA[<h1 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h1><ul>
-<li><p><strong>缓存雪崩</strong>：当缓存服务器重启或者<strong>大量缓存集中在某一个时间段失效</strong>，这样在失效的时候，大量的请求直接落在了数据库上，造成数据库短时间内承受⼤量请求⽽崩掉。</p>
+    <title>Redis常用命令及数据结构相关操作</title>
+    <url>/posts/ed3b1c3a.html</url>
+    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><blockquote>
+<p>命令参考：<a href="https://www.runoob.com/redis/redis-commands.html">菜鸟教程-Redis</a></p>
+</blockquote>
+<h2 id="redis命令"><a href="#redis命令" class="headerlink" title="redis命令"></a>redis命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">select index		# 切换数据库，总共默认有16个</span><br><span class="line">flushdb		# 删除当前db下的所有数据</span><br><span class="line">flushall		# 删除所有db下的所有数据</span><br><span class="line">shutdown		# 关闭redis</span><br></pre></td></tr></table></figure>
+
+<h2 id="key操作公用命令"><a href="#key操作公用命令" class="headerlink" title="key操作公用命令"></a>key操作公用命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">del key  # 删除key</span><br><span class="line">dump key # 序列化给定key，返回被序列化的值</span><br><span class="line">exists key # 检查key是否存在</span><br><span class="line">expire key second # 为key设定过期时间,以秒计算,可以不写second，默认为秒</span><br><span class="line">ttl key # 返回key剩余时间,-1为永久,-2为失效</span><br><span class="line">persist key # 移除key的过期时间，key将持久保存</span><br><span class="line">keys pattern # 查询所有符号给定模式的key eg：keys *</span><br><span class="line">randomkey # 随机返回一个key</span><br><span class="line">rename key newkey # 修改key的名称</span><br><span class="line">move key db # 移动key至指定数据库中 eg:move a 1</span><br><span class="line">type key # 返回key所储存的值的类型</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>expire key second的<strong>使用场景</strong>：<br>1、限时的优惠活动<br>2、网站数据缓存<br>3、手机验证码<br>4、限制网站访客频率</p>
+</blockquote>
+<h2 id="key的命名建议"><a href="#key的命名建议" class="headerlink" title="key的命名建议"></a>key的命名建议</h2><blockquote>
+<ol>
+<li>key不要太长，尽量不要超过1024字节。不仅消耗内存，也会降低查找的效率</li>
+<li>key不要太短，太短可读性会降低</li>
+<li>在一个项目中，key最好使用统一的命名模式，如user:123:password</li>
+<li>key区分大小写</li>
+</ol>
+</blockquote>
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><p>​        string类型是二进制安全的，redis的string可以包含任何数据，如图像、序列化对象。一个键最多能存储512MB。<code>二进制安全是指，在传输数据的时候，能保证二进制数据的信息安全，也就是不会被篡改、破译；如果被攻击，能够及时检测出来 </code></p>
+<h3 id="常用命令-1"><a href="#常用命令-1" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
+<hr>
+<p><strong>get key</strong>：获取key的值</p>
+<p><strong>del key</strong>：删除指定key</p>
+<p><strong>set key value</strong>：设置key，<strong>已存在的会覆盖</strong></p>
+<p><strong>setnx key value</strong>：当key不存在时设置key的值，已存在不会覆盖。（set if not exists）,分布式锁的问题</p>
+<p><strong>strlen key</strong>：返回key所存储的字符串的长度</p>
+<p><strong>setex</strong>：创建一个key，并且设置他的过期时间</p>
+<p><strong>getset key value</strong>：返回key的旧值,并设定key的值。当key不存在，返回nil</p>
+<p><strong>append key value</strong>：字符串拼接，追加至末尾，如果不存在，为其赋值</p>
+<p><strong>字符串操作</strong></p>
+<hr>
+<p><strong>getrange key start end</strong>：获取key中字符串的子字符串，从start开始，end结束</p>
+<p><strong>setrange key start newValue</strong>：设置<strong>startl开始及其往后的值</strong></p>
+<p><strong>批量操作</strong></p>
+<hr>
+<p>**mget key1 [key2 …]**：获取多个key</p>
+<p>**mset key1 value1 [key2 value2…]**：连续设置值</p>
+<p><strong>msetnx</strong> ：连续设置，如果给定key中有一个已存在，则都不设置</p>
+<p><strong>自增自减</strong></p>
+<hr>
+<p><strong>incr key_name</strong> ：INCR命令key中存储的值+1,如果不存在key，则key中的值话先被初始化为0再加1</p>
+<p><strong>incrby key_name</strong>：key中的值增加1</p>
+<p><strong>decr key_name</strong>：key中的值减去1</p>
+<p><strong>incrby key_name num</strong>：key中的值增加指定num值</p>
+<p><strong>decrby key_name num</strong>：  key中的值减少指定num值</p>
+<h3 id="String应用场景："><a href="#String应用场景：" class="headerlink" title="String应用场景："></a><strong>String应用场景</strong>：</h3><p>1、String通常用于保存单个字符串或JSON字符串数据<br>2、因为String是二进制安全的，所以可以把保密要求高的图片文件内容作为字符串来存储<br>3、计数器：常规Key-Value缓存应用，如微博数、粉丝数。INCR本身就具有原子性特性，所以不会有线程安全问题</p>
+<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><p>​        Redis hash是一个string类型的field和value的映射表，<strong>hash特别适用于存储对象（不能有嵌套对象）</strong>。每个hash可以存储<strong>2<sup>32</sup>-1</strong>(40亿左右)键值对。可以看成key和value的map容器。相比于Json，hash占用很少的内存空间。</p>
+<h3 id="常用命令-2"><a href="#常用命令-2" class="headerlink" title="常用命令"></a><strong><em>常用命令</em></strong></h3><p><strong>基础操作</strong></p>
+<hr>
+<p><strong>hset key field value</strong>：为指定的key设定field和value</p>
+<p>–&gt; hset user name tom  # 为user对象设置一个name属性，值为tom</p>
+<p><strong>hget key field</strong>：获取指定key属性值</p>
+<p>–&gt;hget user name  # 获取user对象name属性的值</p>
+<p><strong>hsetnx  key field value</strong>：当不存在这个key才创建该field</p>
+<p><strong>hgetall key</strong>：返回hash表中所有字段和值</p>
+<p><strong>hkeys key</strong>：获取hash表所有字段<br><strong>hvals key</strong>：获取hash表所有值<br><strong>hlen key</strong>：获取hash表中的字段数量<br><strong>hdel key field [field1]**：删除一个或多个hash表的字段<br>**hexists</strong>：在key里面是否存在指定的field，不存在返回0</p>
+<p><strong>自增(hash这个好像没有自减操作)</strong></p>
+<hr>
+<p><strong>hincrby key field num</strong>：增加某个field指定num值</p>
+<p>–&gt;hincrby user age 2</p>
+<p><strong>hincrbyflost key field num</strong>：增加某个field指定num值（浮点数）</p>
+<p>–&gt;hincrbyfloat user age 2.2</p>
+<p><strong>批量操作</strong></p>
+<hr>
+<p>**hmset key field value[field1,value1]**：设置对象中多个键值对</p>
+<p>–&gt; hmset user age 12 gender 1</p>
+<p>**hmget key field[field1]**：获取对象中多个键值对</p>
+<p>–&gt; hmget user age gender</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a><strong><em>应用场景</em></strong></h3><p>Hash的应用场景，通常用来存储一个用户信息的对象数据。</p>
+<ol>
+<li><p>相比于存储对象的string类型的json串，json串修改单个属性需要将整个值取出来。而hash不需要。</p>
 </li>
-<li><p><strong>缓存穿透</strong>：<strong>key对应的数据在数据源并不存在，每次针对此key的请求从缓存获取不到</strong>，请求都会到数据源，从而可能压垮数据源。比如用一个不存在的用户id获取用户信息，不论缓存还是数据库都没有，若黑客利用此漏洞进行攻击可能压垮数据库。</p>
+<li><p>相比于多个key-value存储对象，hash节省了很多内存空间</p>
 </li>
-<li><p><strong>缓存击穿：key对应的数据存在，但在redis中过期。</strong>例如一个Key非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个Key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库。</p>
+<li><p>如果hash的属性值被删除完，那么hash的key也会被redis删除</p>
 </li>
-</ul>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>处理缓存雪崩的一种方式是在批量往<strong>Redis</strong>存数据的时候，<strong>把每个Key的失效时间都加个随机值</strong>就好了，这样可以保证数据不会在同一时间大面积失效。</p>
-<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><ul>
-<li><p><strong>接口参数校验</strong>：一般处理方式是在接口层增加校验，比如用户鉴权校验，参数做校验，不合法的参数直接返回校验失败信息。</p>
+</ol>
+<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>类似于Java中的LinkedList。</p>
+<h3 id="常用命令-3"><a href="#常用命令-3" class="headerlink" title="常用命令"></a><strong><em>常用命令</em></strong></h3><p><strong>基本操作</strong></p>
+<hr>
+<p><strong>lrange key start end</strong>：列表中指定区间内的元素，以 -1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素，以此类推</p>
+<p><strong>llen key</strong>：获取列表长度</p>
+<p><strong>lindex key index</strong>：获取指定索引的元素，从零开始，-1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素</p>
+<p><strong>lrem</strong>：删除指定个数的同一元素</p>
+<p>–&gt;lrem list 2 3  （删掉了集合中的两个三）</p>
+<p><strong>ltrim key start end</strong> ：对列表进行修改，让列表只保留指定区间的元素，不在指定区间的元素就会被删除（<strong>左闭右开</strong>），从零开始，-1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素</p>
+<p>–&gt;如果list中元素为1 2 3 4 5，则ltrim list 2 3 后list剩余元素为3 4</p>
+<p><strong>lset key index value</strong>：指定索引位置的值（<strong>位置有值会替换</strong>）</p>
+<p><strong>linsert key before|after world value</strong>：在列表元素前或则后插入元素，当指定元素不存在于列表中时，不执行任何操作</p>
+<p><strong>出栈入栈</strong></p>
+<hr>
+<p><strong>lpush key value1 [value2…]**：从左侧插入，右边的先出，</strong>相当于一个栈**</p>
+<p>–&gt; lpush list 1 2 3  注：使用lrange list 0 -1 输出为3 2 1</p>
+<p><strong>rpush key value1 [value2…]</strong>: 从右侧插入，左边的先出</p>
+<p>–&gt; rpush list 1 2 3  注：使用lrange list 0 -1 输出为1 2 3</p>
+<p><strong>lpushx key value</strong>：从左侧插入值，如果list不存在，则不操作</p>
+<p><strong>rpushx key value</strong>：从右侧插入值，如果list不存在，则不操作</p>
+<p><strong>lpop key</strong>：从最左侧移除一个元素</p>
+<p><strong>rpop key</strong>：从最右侧移除一个元素</p>
+<p><strong>blpop key [key1] timeout</strong>：移除并获取列表第一个元素，如果列表没有元素会阻塞列表到等待超时或发现可弹出元素为止</p>
+<p><strong>brpop key [key1] timeout</strong>：移除并获取列表最后一个元素，如果列表没有元素会阻塞列表到等待超时或发现可弹出元素为止</p>
+<h3 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a><strong><em>应用场景</em></strong></h3><ol>
+<li><p>对数据大的集合数据删减</p>
+<p>&nbsp;&nbsp; 列表显示、关注列表、粉丝列表、留言评价…分页、热点新闻等</p>
 </li>
-<li><p><strong>设置默认值</strong>：从缓存取不到的数据，在数据库中也没有取到，这时也可以<strong>将对应Key的Value对写为null、位置错误、稍后重试等，同时设置短点的超时时间</strong>。</p>
+<li><p>任务队列</p>
+<p>&nbsp;&nbsp; list通常用来实现一个消息队列，而且可以确保先后顺序，不必像MySQL那样通过order by来排序</p>
 </li>
-<li><p><strong>布隆过滤器（Bloom Filter）</strong>也能很好的防止缓存穿透的发生，他的原理也很简单就是利用高效的数据结构和算法快速判断出你这个Key是否在数据库中存在，不存在你return就好了，存在你就去查了DB刷新KV再return。<a href="https://www.wmyskxz.com/2020/03/11/redis-5-yi-ji-shu-ju-guo-lu-he-bu-long-guo-lu-qi/">布隆过滤器</a></p>
+</ol>
+<h3 id="性能总结"><a href="#性能总结" class="headerlink" title="性能总结"></a><strong>性能总结</strong></h3><p>它是一个字符串链表，left、right都可以插入添加；<br>如果键不存在，创建新的链表；<br>如果键已存在，新增内容；<br>如果值全移除，对应的键也就消失了。<br>链表的操作无论是头和尾效率都极高，但假如是对中间元素进行操作，效率就很惨淡了。</p>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>唯一、无序</p>
+<h3 id="常用命令-4"><a href="#常用命令-4" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
+<hr>
+<p>**sadd key value1[value2]**：向集合添加成员</p>
+<p><strong>scard key</strong>：返回集合成员个数</p>
+<p><strong>smembers key</strong>：返回集合中所有成员</p>
+<p>**srandmember key [count]**：返回集合中一个或多个随机数</p>
+<p>**srem key member1 [member2]**：移除集合中一个或多个成员</p>
+<p><strong>spop key</strong>：移除并返回集合中的一个随机元素</p>
+<p><strong>smove source destination member</strong>：将member元素从source集合移动到destination集合</p>
+<p>**srandmember key [count]**：随机返回集合中一个或多个值</p>
+<p><strong>集合相关操作</strong></p>
+<hr>
+<p>**sdiff key1 [key2]**：返回给定的第一个集合和其他集合的差集(即在key1中的值而在其他key中找不到)</p>
+<p><strong>sismember key member</strong>：判断memeber元素是否是集合key成员的成员</p>
+<p>**sdiffstore destination key1[key2]**：返回给定的第一个集合与其他的集合的差集并存储在destination中</p>
+<p>–&gt; 例如set1：1 2 3   set2：3 4 5 6   则sdiffstore set3 set1 set2之后，用 smembers set3 获取的结果为1 2</p>
+<p>**sunionstore destination key1 [key2]**：所有给定集合的并集存储在 destination 集合中</p>
+<p>**sinter key1 [key2]**：返回所有集合的交集</p>
+<p>**sunion key1 [key2]**：返回所有集合的并集</p>
+<h3 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a><em>应用场景</em></h3><p>对两个集合间的数据[计算]进行交集、并集、差集运算<br>1、以非常方便的实现如共同关注、共同喜好、二度好友等功能。对上面的所有集合操作，你还可以使用不同的命令选择将结果返回给客户端还是存储到一个新的集合中。<br>2、利用唯一性，可以统计访问网站的所有独立 IP</p>
+<h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><p>有序且不重复。每个元素都会关联一个double类型的分数，Redis通过分数进行从小到大的排序。分数可以重复</p>
+<h3 id="常用命令-5"><a href="#常用命令-5" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
+<hr>
+<p>**zadd key score1 memeber1 [score2 memeber2]**：向集合添加成员及对应分数</p>
+<p>–&gt; zadd zset1 1 “a” 2 “b” 3 “c” 2 “d”</p>
+<p><strong>zcard key</strong>：获取集合中的元素数量</p>
+<p><strong>zcount key min max</strong>：计算在有序集合中指定区间分数的成员数</p>
+<p><strong>zrange key start stop</strong>： 指定输出索引范围内的成员</p>
+<p><strong>zrangebyscore key min max</strong>： 指定输出score区间内的成员</p>
+<p><strong>zrank key member</strong>：返回有序集合指定成员的索引</p>
+<p><strong>zrevrange key start stop</strong>：返回有序集中指定区间内的成员，通过索引，分数从高到底</p>
+<p>**zrem key member [member …]**： 移除有序集合中的一个或多个成员</p>
+<p><strong>zremrangebyrank key start stop</strong>： 移除有序集合中给定的索引区间的所有成员(第一名是0)(低到高排序）</p>
+<p><strong>zremrangebyscore  key min max</strong>： 移除有序集合中给定的分数区间的所有成员</p>
+<h3 id="应用场景-3"><a href="#应用场景-3" class="headerlink" title="应用场景"></a>应用场景</h3><p>常用于排行榜：</p>
+<ol>
+<li><p>如推特可以以发表时间作为score来存储</p>
 </li>
-</ul>
-<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p><strong>设置热点数据永远不过期</strong>，或者<strong>加上互斥锁</strong>就行了。</p>
-<h2 id="Redis-挂掉了，请求全部走数据库解决"><a href="#Redis-挂掉了，请求全部走数据库解决" class="headerlink" title="Redis 挂掉了，请求全部走数据库解决"></a>Redis 挂掉了，请求全部走数据库解决</h2><p>从三个时间段去分析下：</p>
+<li><p>存储成绩</p>
+</li>
+<li><p>用zset来做带权重的队列，让重要的任务先执行</p>
+</li>
+</ol>
+<h2 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;添加指定元素到 HyperLogLog 中。</span><br><span class="line">PFADD key element [element ...] </span><br><span class="line">&#x2F;&#x2F;返回给定 HyperLogLog 的基数估算值。</span><br><span class="line">PFCOUNT key [key ...] </span><br><span class="line">&#x2F;&#x2F;将多个 HyperLogLog 合并为一个 HyperLogLog</span><br><span class="line">PFMERGE destkey sourcekey [sourcekey ...] </span><br></pre></td></tr></table></figure>
+
+<p>神奇的HyperLoglog解决统计问题 - <a href="https://www.wmyskxz.com/2020/03/02/reids-4-shen-qi-de-hyperloglog-jie-jue-tong-ji-wen-ti/">https://www.wmyskxz.com/2020/03/02/reids-4-shen-qi-de-hyperloglog-jie-jue-tong-ji-wen-ti/</a></p>
+<h2 id="GEO"><a href="#GEO" class="headerlink" title="GEO"></a>GEO</h2><p>建议查看：<a href="https://www.wmyskxz.com/2020/03/12/redis-6-geohash-cha-zhao-fu-jin-de-ren/">GeoHash查找附近的人</a></p>
+<h2 id="压缩列表了解吗？"><a href="#压缩列表了解吗？" class="headerlink" title="压缩列表了解吗？"></a>压缩列表了解吗？</h2><p>这是 Redis <strong>为了节约内存</strong> 而使用的一种数据结构，<strong>zset</strong> 和 <strong>hash</strong> 容器对象会在元素个数较少的时候，采用压缩列表（ziplist）进行存储。压缩列表是 <strong>一块连续的内存空间</strong>，元素之间紧挨着存储，没有任何冗余空隙。</p>
+<blockquote>
+<p>因为之前自己也没有学习过，所以找了一篇比较好比较容易理解的文章：</p>
 <ul>
-<li>事前：<strong>Redis</strong> 高可用，主从+哨兵，<strong>Redis cluster</strong>，避免全盘崩溃。</li>
-<li>事中：本地 <strong>ehcache</strong> 缓存 + <strong>Hystrix</strong> 限流+降级，避免<strong>MySQL</strong>被打死。</li>
-<li>事后：<strong>Redis</strong> 持久化 <strong>RDB</strong>+<strong>AOF</strong>，一旦重启，自动从磁盘上加载数据，快速恢复缓存数据。</li>
+<li>图解Redis之数据结构篇——压缩列表 - <a href="https://mp.weixin.qq.com/s/nba0FUEAVRs0vi24KUoyQg">https://mp.weixin.qq.com/s/nba0FUEAVRs0vi24KUoyQg</a></li>
+<li>这一篇稍微底层稍微硬核一点：<a href="http://www.web-lovers.com/redis-source-ziplist.html">http://www.web-lovers.com/redis-source-ziplist.html</a></li>
 </ul>
+</blockquote>
+<h2 id="快速列表-quicklist-了解吗？"><a href="#快速列表-quicklist-了解吗？" class="headerlink" title="快速列表 quicklist 了解吗？"></a>快速列表 quicklist 了解吗？</h2><p>Redis 早期版本存储 list 列表数据结构使用的是压缩列表 ziplist 和普通的双向链表 linkedlist，也就是说当元素少时使用 ziplist，当元素多时用 linkedlist。但考虑到链表的附加空间相对较高，<code>prev</code> 和 <code>next</code> 指针就要占去 <code>16</code> 个字节（64 位操作系统占用 <code>8</code> 个字节），另外每个节点的内存都是单独分配，会家具内存的碎片化，影响内存管理效率。</p>
+<p>后来 Redis 新版本（3.2）对列表数据结构进行了改造，使用 <code>quicklist</code> 代替了 <code>ziplist</code> 和 <code>linkedlist</code>。</p>
+<blockquote>
+<ul>
+<li>Redis列表list 底层原理 - <a href="https://zhuanlan.zhihu.com/p/102422311">https://zhuanlan.zhihu.com/p/102422311</a></li>
+</ul>
+</blockquote>
 ]]></content>
       <categories>
         <category>Redis</category>
@@ -969,6 +1290,41 @@
 <p>如果不Enable AOF，仅靠Master-Slave Replication 实现高可用性也可以。能省掉一大笔IO也减少了rewrite时带来的系统波动。代价是如果Master/Slave同时宕掉，会丢失10几分钟的数据，启动脚本也要比较两个Master/Slave中的RDB文件，载入较新的那个。新浪微博就选用了这种架构。</p>
 </li>
 </ol>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis缓存雪崩、缓存穿透、缓存击穿</title>
+    <url>/posts/35743b4b.html</url>
+    <content><![CDATA[<h1 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h1><ul>
+<li><p><strong>缓存雪崩</strong>：当缓存服务器重启或者<strong>大量缓存集中在某一个时间段失效</strong>，这样在失效的时候，大量的请求直接落在了数据库上，造成数据库短时间内承受⼤量请求⽽崩掉。</p>
+</li>
+<li><p><strong>缓存穿透</strong>：<strong>key对应的数据在数据源并不存在，每次针对此key的请求从缓存获取不到</strong>，请求都会到数据源，从而可能压垮数据源。比如用一个不存在的用户id获取用户信息，不论缓存还是数据库都没有，若黑客利用此漏洞进行攻击可能压垮数据库。</p>
+</li>
+<li><p><strong>缓存击穿：key对应的数据存在，但在redis中过期。</strong>例如一个Key非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个Key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库。</p>
+</li>
+</ul>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>处理缓存雪崩的一种方式是在批量往<strong>Redis</strong>存数据的时候，<strong>把每个Key的失效时间都加个随机值</strong>就好了，这样可以保证数据不会在同一时间大面积失效。</p>
+<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><ul>
+<li><p><strong>接口参数校验</strong>：一般处理方式是在接口层增加校验，比如用户鉴权校验，参数做校验，不合法的参数直接返回校验失败信息。</p>
+</li>
+<li><p><strong>设置默认值</strong>：从缓存取不到的数据，在数据库中也没有取到，这时也可以<strong>将对应Key的Value对写为null、位置错误、稍后重试等，同时设置短点的超时时间</strong>。</p>
+</li>
+<li><p><strong>布隆过滤器（Bloom Filter）</strong>也能很好的防止缓存穿透的发生，他的原理也很简单就是利用高效的数据结构和算法快速判断出你这个Key是否在数据库中存在，不存在你return就好了，存在你就去查了DB刷新KV再return。<a href="https://www.wmyskxz.com/2020/03/11/redis-5-yi-ji-shu-ju-guo-lu-he-bu-long-guo-lu-qi/">布隆过滤器</a></p>
+</li>
+</ul>
+<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p><strong>设置热点数据永远不过期</strong>，或者<strong>加上互斥锁</strong>就行了。</p>
+<h2 id="Redis-挂掉了，请求全部走数据库解决"><a href="#Redis-挂掉了，请求全部走数据库解决" class="headerlink" title="Redis 挂掉了，请求全部走数据库解决"></a>Redis 挂掉了，请求全部走数据库解决</h2><p>从三个时间段去分析下：</p>
+<ul>
+<li>事前：<strong>Redis</strong> 高可用，主从+哨兵，<strong>Redis cluster</strong>，避免全盘崩溃。</li>
+<li>事中：本地 <strong>ehcache</strong> 缓存 + <strong>Hystrix</strong> 限流+降级，避免<strong>MySQL</strong>被打死。</li>
+<li>事后：<strong>Redis</strong> 持久化 <strong>RDB</strong>+<strong>AOF</strong>，一旦重启，自动从磁盘上加载数据，快速恢复缓存数据。</li>
+</ul>
 ]]></content>
       <categories>
         <category>Redis</category>
@@ -1737,190 +2093,6 @@
       </categories>
       <tags>
         <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis常用命令及数据结构相关操作</title>
-    <url>/posts/ed3b1c3a.html</url>
-    <content><![CDATA[<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><blockquote>
-<p>命令参考：<a href="https://www.runoob.com/redis/redis-commands.html">菜鸟教程-Redis</a></p>
-</blockquote>
-<h2 id="redis命令"><a href="#redis命令" class="headerlink" title="redis命令"></a>redis命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">select index		# 切换数据库，总共默认有16个</span><br><span class="line">flushdb		# 删除当前db下的所有数据</span><br><span class="line">flushall		# 删除所有db下的所有数据</span><br><span class="line">shutdown		# 关闭redis</span><br></pre></td></tr></table></figure>
-
-<h2 id="key操作公用命令"><a href="#key操作公用命令" class="headerlink" title="key操作公用命令"></a>key操作公用命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">del key  # 删除key</span><br><span class="line">dump key # 序列化给定key，返回被序列化的值</span><br><span class="line">exists key # 检查key是否存在</span><br><span class="line">expire key second # 为key设定过期时间,以秒计算,可以不写second，默认为秒</span><br><span class="line">ttl key # 返回key剩余时间,-1为永久,-2为失效</span><br><span class="line">persist key # 移除key的过期时间，key将持久保存</span><br><span class="line">keys pattern # 查询所有符号给定模式的key eg：keys *</span><br><span class="line">randomkey # 随机返回一个key</span><br><span class="line">rename key newkey # 修改key的名称</span><br><span class="line">move key db # 移动key至指定数据库中 eg:move a 1</span><br><span class="line">type key # 返回key所储存的值的类型</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>expire key second的<strong>使用场景</strong>：<br>1、限时的优惠活动<br>2、网站数据缓存<br>3、手机验证码<br>4、限制网站访客频率</p>
-</blockquote>
-<h2 id="key的命名建议"><a href="#key的命名建议" class="headerlink" title="key的命名建议"></a>key的命名建议</h2><blockquote>
-<ol>
-<li>key不要太长，尽量不要超过1024字节。不仅消耗内存，也会降低查找的效率</li>
-<li>key不要太短，太短可读性会降低</li>
-<li>在一个项目中，key最好使用统一的命名模式，如user:123:password</li>
-<li>key区分大小写</li>
-</ol>
-</blockquote>
-<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><p>​        string类型是二进制安全的，redis的string可以包含任何数据，如图像、序列化对象。一个键最多能存储512MB。<code>二进制安全是指，在传输数据的时候，能保证二进制数据的信息安全，也就是不会被篡改、破译；如果被攻击，能够及时检测出来 </code></p>
-<h3 id="常用命令-1"><a href="#常用命令-1" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
-<hr>
-<p><strong>get key</strong>：获取key的值</p>
-<p><strong>del key</strong>：删除指定key</p>
-<p><strong>set key value</strong>：设置key，<strong>已存在的会覆盖</strong></p>
-<p><strong>setnx key value</strong>：当key不存在时设置key的值，已存在不会覆盖。（set if not exists）,分布式锁的问题</p>
-<p><strong>strlen key</strong>：返回key所存储的字符串的长度</p>
-<p><strong>setex</strong>：创建一个key，并且设置他的过期时间</p>
-<p><strong>getset key value</strong>：返回key的旧值,并设定key的值。当key不存在，返回nil</p>
-<p><strong>append key value</strong>：字符串拼接，追加至末尾，如果不存在，为其赋值</p>
-<p><strong>字符串操作</strong></p>
-<hr>
-<p><strong>getrange key start end</strong>：获取key中字符串的子字符串，从start开始，end结束</p>
-<p><strong>setrange key start newValue</strong>：设置<strong>startl开始及其往后的值</strong></p>
-<p><strong>批量操作</strong></p>
-<hr>
-<p>**mget key1 [key2 …]**：获取多个key</p>
-<p>**mset key1 value1 [key2 value2…]**：连续设置值</p>
-<p><strong>msetnx</strong> ：连续设置，如果给定key中有一个已存在，则都不设置</p>
-<p><strong>自增自减</strong></p>
-<hr>
-<p><strong>incr key_name</strong> ：INCR命令key中存储的值+1,如果不存在key，则key中的值话先被初始化为0再加1</p>
-<p><strong>incrby key_name</strong>：key中的值增加1</p>
-<p><strong>decr key_name</strong>：key中的值减去1</p>
-<p><strong>incrby key_name num</strong>：key中的值增加指定num值</p>
-<p><strong>decrby key_name num</strong>：  key中的值减少指定num值</p>
-<h3 id="String应用场景："><a href="#String应用场景：" class="headerlink" title="String应用场景："></a><strong>String应用场景</strong>：</h3><p>1、String通常用于保存单个字符串或JSON字符串数据<br>2、因为String是二进制安全的，所以可以把保密要求高的图片文件内容作为字符串来存储<br>3、计数器：常规Key-Value缓存应用，如微博数、粉丝数。INCR本身就具有原子性特性，所以不会有线程安全问题</p>
-<h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><p>​        Redis hash是一个string类型的field和value的映射表，<strong>hash特别适用于存储对象（不能有嵌套对象）</strong>。每个hash可以存储<strong>2<sup>32</sup>-1</strong>(40亿左右)键值对。可以看成key和value的map容器。相比于Json，hash占用很少的内存空间。</p>
-<h3 id="常用命令-2"><a href="#常用命令-2" class="headerlink" title="常用命令"></a><strong><em>常用命令</em></strong></h3><p><strong>基础操作</strong></p>
-<hr>
-<p><strong>hset key field value</strong>：为指定的key设定field和value</p>
-<p>–&gt; hset user name tom  # 为user对象设置一个name属性，值为tom</p>
-<p><strong>hget key field</strong>：获取指定key属性值</p>
-<p>–&gt;hget user name  # 获取user对象name属性的值</p>
-<p><strong>hsetnx  key field value</strong>：当不存在这个key才创建该field</p>
-<p><strong>hgetall key</strong>：返回hash表中所有字段和值</p>
-<p><strong>hkeys key</strong>：获取hash表所有字段<br><strong>hvals key</strong>：获取hash表所有值<br><strong>hlen key</strong>：获取hash表中的字段数量<br><strong>hdel key field [field1]**：删除一个或多个hash表的字段<br>**hexists</strong>：在key里面是否存在指定的field，不存在返回0</p>
-<p><strong>自增(hash这个好像没有自减操作)</strong></p>
-<hr>
-<p><strong>hincrby key field num</strong>：增加某个field指定num值</p>
-<p>–&gt;hincrby user age 2</p>
-<p><strong>hincrbyflost key field num</strong>：增加某个field指定num值（浮点数）</p>
-<p>–&gt;hincrbyfloat user age 2.2</p>
-<p><strong>批量操作</strong></p>
-<hr>
-<p>**hmset key field value[field1,value1]**：设置对象中多个键值对</p>
-<p>–&gt; hmset user age 12 gender 1</p>
-<p>**hmget key field[field1]**：获取对象中多个键值对</p>
-<p>–&gt; hmget user age gender</p>
-<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a><strong><em>应用场景</em></strong></h3><p>Hash的应用场景，通常用来存储一个用户信息的对象数据。</p>
-<ol>
-<li><p>相比于存储对象的string类型的json串，json串修改单个属性需要将整个值取出来。而hash不需要。</p>
-</li>
-<li><p>相比于多个key-value存储对象，hash节省了很多内存空间</p>
-</li>
-<li><p>如果hash的属性值被删除完，那么hash的key也会被redis删除</p>
-</li>
-</ol>
-<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>类似于Java中的LinkedList。</p>
-<h3 id="常用命令-3"><a href="#常用命令-3" class="headerlink" title="常用命令"></a><strong><em>常用命令</em></strong></h3><p><strong>基本操作</strong></p>
-<hr>
-<p><strong>lrange key start end</strong>：列表中指定区间内的元素，以 -1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素，以此类推</p>
-<p><strong>llen key</strong>：获取列表长度</p>
-<p><strong>lindex key index</strong>：获取指定索引的元素，从零开始，-1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素</p>
-<p><strong>lrem</strong>：删除指定个数的同一元素</p>
-<p>–&gt;lrem list 2 3  （删掉了集合中的两个三）</p>
-<p><strong>ltrim key start end</strong> ：对列表进行修改，让列表只保留指定区间的元素，不在指定区间的元素就会被删除（<strong>左闭右开</strong>），从零开始，-1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素</p>
-<p>–&gt;如果list中元素为1 2 3 4 5，则ltrim list 2 3 后list剩余元素为3 4</p>
-<p><strong>lset key index value</strong>：指定索引位置的值（<strong>位置有值会替换</strong>）</p>
-<p><strong>linsert key before|after world value</strong>：在列表元素前或则后插入元素，当指定元素不存在于列表中时，不执行任何操作</p>
-<p><strong>出栈入栈</strong></p>
-<hr>
-<p><strong>lpush key value1 [value2…]**：从左侧插入，右边的先出，</strong>相当于一个栈**</p>
-<p>–&gt; lpush list 1 2 3  注：使用lrange list 0 -1 输出为3 2 1</p>
-<p><strong>rpush key value1 [value2…]</strong>: 从右侧插入，左边的先出</p>
-<p>–&gt; rpush list 1 2 3  注：使用lrange list 0 -1 输出为1 2 3</p>
-<p><strong>lpushx key value</strong>：从左侧插入值，如果list不存在，则不操作</p>
-<p><strong>rpushx key value</strong>：从右侧插入值，如果list不存在，则不操作</p>
-<p><strong>lpop key</strong>：从最左侧移除一个元素</p>
-<p><strong>rpop key</strong>：从最右侧移除一个元素</p>
-<p><strong>blpop key [key1] timeout</strong>：移除并获取列表第一个元素，如果列表没有元素会阻塞列表到等待超时或发现可弹出元素为止</p>
-<p><strong>brpop key [key1] timeout</strong>：移除并获取列表最后一个元素，如果列表没有元素会阻塞列表到等待超时或发现可弹出元素为止</p>
-<h3 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a><strong><em>应用场景</em></strong></h3><ol>
-<li><p>对数据大的集合数据删减</p>
-<p>&nbsp;&nbsp; 列表显示、关注列表、粉丝列表、留言评价…分页、热点新闻等</p>
-</li>
-<li><p>任务队列</p>
-<p>&nbsp;&nbsp; list通常用来实现一个消息队列，而且可以确保先后顺序，不必像MySQL那样通过order by来排序</p>
-</li>
-</ol>
-<h3 id="性能总结"><a href="#性能总结" class="headerlink" title="性能总结"></a><strong>性能总结</strong></h3><p>它是一个字符串链表，left、right都可以插入添加；<br>如果键不存在，创建新的链表；<br>如果键已存在，新增内容；<br>如果值全移除，对应的键也就消失了。<br>链表的操作无论是头和尾效率都极高，但假如是对中间元素进行操作，效率就很惨淡了。</p>
-<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>唯一、无序</p>
-<h3 id="常用命令-4"><a href="#常用命令-4" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
-<hr>
-<p>**sadd key value1[value2]**：向集合添加成员</p>
-<p><strong>scard key</strong>：返回集合成员个数</p>
-<p><strong>smembers key</strong>：返回集合中所有成员</p>
-<p>**srandmember key [count]**：返回集合中一个或多个随机数</p>
-<p>**srem key member1 [member2]**：移除集合中一个或多个成员</p>
-<p><strong>spop key</strong>：移除并返回集合中的一个随机元素</p>
-<p><strong>smove source destination member</strong>：将member元素从source集合移动到destination集合</p>
-<p>**srandmember key [count]**：随机返回集合中一个或多个值</p>
-<p><strong>集合相关操作</strong></p>
-<hr>
-<p>**sdiff key1 [key2]**：返回给定的第一个集合和其他集合的差集(即在key1中的值而在其他key中找不到)</p>
-<p><strong>sismember key member</strong>：判断memeber元素是否是集合key成员的成员</p>
-<p>**sdiffstore destination key1[key2]**：返回给定的第一个集合与其他的集合的差集并存储在destination中</p>
-<p>–&gt; 例如set1：1 2 3   set2：3 4 5 6   则sdiffstore set3 set1 set2之后，用 smembers set3 获取的结果为1 2</p>
-<p>**sunionstore destination key1 [key2]**：所有给定集合的并集存储在 destination 集合中</p>
-<p>**sinter key1 [key2]**：返回所有集合的交集</p>
-<p>**sunion key1 [key2]**：返回所有集合的并集</p>
-<h3 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a><em>应用场景</em></h3><p>对两个集合间的数据[计算]进行交集、并集、差集运算<br>1、以非常方便的实现如共同关注、共同喜好、二度好友等功能。对上面的所有集合操作，你还可以使用不同的命令选择将结果返回给客户端还是存储到一个新的集合中。<br>2、利用唯一性，可以统计访问网站的所有独立 IP</p>
-<h2 id="zset"><a href="#zset" class="headerlink" title="zset"></a>zset</h2><p>有序且不重复。每个元素都会关联一个double类型的分数，Redis通过分数进行从小到大的排序。分数可以重复</p>
-<h3 id="常用命令-5"><a href="#常用命令-5" class="headerlink" title="常用命令"></a>常用命令</h3><p><strong>基础操作</strong></p>
-<hr>
-<p>**zadd key score1 memeber1 [score2 memeber2]**：向集合添加成员及对应分数</p>
-<p>–&gt; zadd zset1 1 “a” 2 “b” 3 “c” 2 “d”</p>
-<p><strong>zcard key</strong>：获取集合中的元素数量</p>
-<p><strong>zcount key min max</strong>：计算在有序集合中指定区间分数的成员数</p>
-<p><strong>zrange key start stop</strong>： 指定输出索引范围内的成员</p>
-<p><strong>zrangebyscore key min max</strong>： 指定输出score区间内的成员</p>
-<p><strong>zrank key member</strong>：返回有序集合指定成员的索引</p>
-<p><strong>zrevrange key start stop</strong>：返回有序集中指定区间内的成员，通过索引，分数从高到底</p>
-<p>**zrem key member [member …]**： 移除有序集合中的一个或多个成员</p>
-<p><strong>zremrangebyrank key start stop</strong>： 移除有序集合中给定的索引区间的所有成员(第一名是0)(低到高排序）</p>
-<p><strong>zremrangebyscore  key min max</strong>： 移除有序集合中给定的分数区间的所有成员</p>
-<h3 id="应用场景-3"><a href="#应用场景-3" class="headerlink" title="应用场景"></a>应用场景</h3><p>常用于排行榜：</p>
-<ol>
-<li><p>如推特可以以发表时间作为score来存储</p>
-</li>
-<li><p>存储成绩</p>
-</li>
-<li><p>用zset来做带权重的队列，让重要的任务先执行</p>
-</li>
-</ol>
-<h2 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;添加指定元素到 HyperLogLog 中。</span><br><span class="line">PFADD key element [element ...] </span><br><span class="line">&#x2F;&#x2F;返回给定 HyperLogLog 的基数估算值。</span><br><span class="line">PFCOUNT key [key ...] </span><br><span class="line">&#x2F;&#x2F;将多个 HyperLogLog 合并为一个 HyperLogLog</span><br><span class="line">PFMERGE destkey sourcekey [sourcekey ...] </span><br></pre></td></tr></table></figure>
-
-<p>神奇的HyperLoglog解决统计问题 - <a href="https://www.wmyskxz.com/2020/03/02/reids-4-shen-qi-de-hyperloglog-jie-jue-tong-ji-wen-ti/">https://www.wmyskxz.com/2020/03/02/reids-4-shen-qi-de-hyperloglog-jie-jue-tong-ji-wen-ti/</a></p>
-<h2 id="GEO"><a href="#GEO" class="headerlink" title="GEO"></a>GEO</h2><p>建议查看：<a href="https://www.wmyskxz.com/2020/03/12/redis-6-geohash-cha-zhao-fu-jin-de-ren/">GeoHash查找附近的人</a></p>
-<h2 id="压缩列表了解吗？"><a href="#压缩列表了解吗？" class="headerlink" title="压缩列表了解吗？"></a>压缩列表了解吗？</h2><p>这是 Redis <strong>为了节约内存</strong> 而使用的一种数据结构，<strong>zset</strong> 和 <strong>hash</strong> 容器对象会在元素个数较少的时候，采用压缩列表（ziplist）进行存储。压缩列表是 <strong>一块连续的内存空间</strong>，元素之间紧挨着存储，没有任何冗余空隙。</p>
-<blockquote>
-<p>因为之前自己也没有学习过，所以找了一篇比较好比较容易理解的文章：</p>
-<ul>
-<li>图解Redis之数据结构篇——压缩列表 - <a href="https://mp.weixin.qq.com/s/nba0FUEAVRs0vi24KUoyQg">https://mp.weixin.qq.com/s/nba0FUEAVRs0vi24KUoyQg</a></li>
-<li>这一篇稍微底层稍微硬核一点：<a href="http://www.web-lovers.com/redis-source-ziplist.html">http://www.web-lovers.com/redis-source-ziplist.html</a></li>
-</ul>
-</blockquote>
-<h2 id="快速列表-quicklist-了解吗？"><a href="#快速列表-quicklist-了解吗？" class="headerlink" title="快速列表 quicklist 了解吗？"></a>快速列表 quicklist 了解吗？</h2><p>Redis 早期版本存储 list 列表数据结构使用的是压缩列表 ziplist 和普通的双向链表 linkedlist，也就是说当元素少时使用 ziplist，当元素多时用 linkedlist。但考虑到链表的附加空间相对较高，<code>prev</code> 和 <code>next</code> 指针就要占去 <code>16</code> 个字节（64 位操作系统占用 <code>8</code> 个字节），另外每个节点的内存都是单独分配，会家具内存的碎片化，影响内存管理效率。</p>
-<p>后来 Redis 新版本（3.2）对列表数据结构进行了改造，使用 <code>quicklist</code> 代替了 <code>ziplist</code> 和 <code>linkedlist</code>。</p>
-<blockquote>
-<ul>
-<li>Redis列表list 底层原理 - <a href="https://zhuanlan.zhihu.com/p/102422311">https://zhuanlan.zhihu.com/p/102422311</a></li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
       </tags>
   </entry>
   <entry>
@@ -2797,9 +2969,9 @@
       </tags>
   </entry>
   <entry>
-    <title>ElasticSearch Mapping</title>
+    <title>ElasticSearch映射</title>
     <url>/posts/9994ac37.html</url>
-    <content><![CDATA[<h1 id="Mapping简介"><a href="#Mapping简介" class="headerlink" title="Mapping简介"></a>Mapping简介</h1><p>​        mapping 是用来定义文档及其字段的存储方式、索引方式的手段，就类似于关系型数据库中的表结构定义。它可以分为两类：</p>
+    <content><![CDATA[<h1 id="映射简介"><a href="#映射简介" class="headerlink" title="映射简介"></a>映射简介</h1><p>​        mappings是用来定义文档及其字段的存储方式、索引方式的手段，就类似于关系型数据库中的表结构定义。它可以分为两类：</p>
 <h2 id="动态映射"><a href="#动态映射" class="headerlink" title="动态映射"></a><strong>动态映射</strong></h2><p>​        动态映射创建出来的映射。es根据存入的文档，自动分析出来文档中字段的类型以及存储方式，这种就是动态映射。默认情况下，文档中如果新增了字段，mappings 中也会自动新增进来。但是有的时候，如果希望新增字段时，能够抛出异常来提醒开发者，这个可以通过 mappings 中 dynamic 属性来配置。</p>
 <p>dynamic 属性有三种取值：</p>
 <ul>
@@ -2962,13 +3134,13 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;group&quot;:&quot;student&quot;</span><br><span class="line">&quot;user.first&quot;:[&quot;san&quot;,&quot;wu&quot;],</span><br><span class="line">&quot;user.last&quot;:[&quot;zhang&quot;,&quot;wang&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>​        扁平化之后，姓名之间的关系没了。这样会导致能搜索这两个人姓名的组合，例如wang san。怎么解决呢？答案就是 nested 类型，nested 对象类型可以保持数组中每个对象的独立性。nested 类型将数组中的每一组对象作为独立隐藏文档来索引，这样每一个嵌套对象都可以独立被索引。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &#123;</span><br><span class="line">  	&quot;user.first&quot;:&quot;san&quot;,</span><br><span class="line">  	&quot;user.last&quot;:&quot;zhang&quot;</span><br><span class="line">  &#125;,&#123;</span><br><span class="line">  	&quot;user.first&quot;:&quot;wu&quot;,</span><br><span class="line">  	&quot;user.last&quot;:&quot;wang&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &#123;</span><br><span class="line">  	&quot;user.first&quot;:&quot;san&quot;,</span><br><span class="line">  	&quot;user.last&quot;:&quot;zhang&quot;</span><br><span class="line">  &#125;,&#123;</span><br><span class="line">  	&quot;user.first&quot;:&quot;wu&quot;,</span><br><span class="line">  	&quot;user.last&quot;:&quot;wang&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="地理类型"><a href="#地理类型" class="headerlink" title="地理类型"></a>地理类型</h2><h3 id="geo-point"><a href="#geo-point" class="headerlink" title="geo_point"></a>geo_point</h3><p>geo_point 就是一个坐标点，定义方式如下：</p>
 <figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT &#123;&#123;domain&#125;&#125;/position</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;location&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;geo_point&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>创建时指定字段类型，先经度后纬度，存储的时候，支持四种方式：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT &#123;&#123;domain&#125;&#125;&#x2F;position&#x2F;_doc&#x2F;1</span><br><span class="line"># 结构一</span><br><span class="line">&#123;</span><br><span class="line">  &quot;location&quot;:&#123;</span><br><span class="line">    &quot;lat&quot;: 34.27,</span><br><span class="line">    &quot;lon&quot;: 108.94</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 结构二</span><br><span class="line">&#123;</span><br><span class="line">  &quot;location&quot;:&quot;34.27,108.94&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 结构三 geo_hash</span><br><span class="line">&#123;</span><br><span class="line">  &quot;location&quot;:&quot;uzbrgzfxuzup&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 结构四</span><br><span class="line">&#123;</span><br><span class="line">  &quot;location&quot;:[108.94,34.27]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT &#123;&#123;domain&#125;&#125;/position/_doc/1</span><br><span class="line"># 结构一</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;location&quot;</span>:&#123;</span><br><span class="line">    <span class="attr">&quot;lat&quot;</span>: <span class="number">34.27</span>,</span><br><span class="line">    <span class="attr">&quot;lon&quot;</span>: <span class="number">108.94</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 结构二</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;location&quot;</span>:<span class="string">&quot;34.27,108.94&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 结构三 geo_hash</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;location&quot;</span>:<span class="string">&quot;uzbrgzfxuzup&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 结构四</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;location&quot;</span>:[<span class="number">108.94</span>,<span class="number">34.27</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="geo-shape"><a href="#geo-shape" class="headerlink" title="geo_shape"></a>geo_shape</h3><table>
 <thead>
@@ -3276,9 +3448,329 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT index_test</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    &quot;dynamic_templates&quot;:[</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;long2integer&quot;:&#123;</span><br><span class="line">          &quot;match_mapping_type&quot;:&quot;long&quot;,</span><br><span class="line">          &quot;mapping&quot;:&#123;</span><br><span class="line">            &quot;type&quot;:&quot;integer&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT index_test&#x2F;_doc&#x2F;1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;count&quot;:12</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>​        存储完成后，默认的会被识别为 long 类型的数据，现在就被识别为 integer 了，再来一个复杂点的：</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">PUT blog</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;dynamic_templates&quot;</span>:[</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;string2long&quot;</span>:&#123;</span><br><span class="line">          <span class="attr">&quot;match_mapping_type&quot;</span>:<span class="string">&quot;string&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;match&quot;</span>:<span class="string">&quot;num_*&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;unmatch&quot;</span>:<span class="string">&quot;*_text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;mapping&quot;</span>:&#123;</span><br><span class="line">            <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;integer&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT blog/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;num_count&quot;</span>:<span class="string">&quot;12&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;num_text&quot;</span>:<span class="string">&quot;mysql&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT blog/_doc/2</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;num_count&quot;</span>:<span class="string">&quot;12&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;num_text&quot;</span>:<span class="string">&quot;mysql&quot;</span>,</span><br><span class="line">  &quot;num_aaa&quot;:999 # 这个会被识别为long,应为他不是字符串类型的</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">PUT index_test</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;dynamic_templates&quot;</span>:[</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;string2long&quot;</span>:&#123;</span><br><span class="line">          <span class="attr">&quot;match_mapping_type&quot;</span>:<span class="string">&quot;string&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;match&quot;</span>:<span class="string">&quot;num_*&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;unmatch&quot;</span>:<span class="string">&quot;*_text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;mapping&quot;</span>:&#123;</span><br><span class="line">            <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;integer&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT index_test/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;num_count&quot;</span>:<span class="string">&quot;12&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;num_text&quot;</span>:<span class="string">&quot;mysql&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT index_test/_doc/2</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;num_count&quot;</span>:<span class="string">&quot;12&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;num_text&quot;</span>:<span class="string">&quot;mysql&quot;</span>,</span><br><span class="line">  &quot;num_aaa&quot;:999 # 这个会被识别为long,应为他不是字符串类型的</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>参考：<a href="https://www.bilibili.com/video/BV1ft4y1e7tq%E5%AF%B9%E5%BA%94%E7%9A%84%E7%AC%94%E8%AE%B0%E3%80%82">https://www.bilibili.com/video/BV1ft4y1e7tq对应的笔记。</a></p>
+]]></content>
+      <categories>
+        <category>ElasticSearch</category>
+      </categories>
+      <tags>
+        <tag>ElasticSearch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ElasticSearch查询进阶</title>
+    <url>/posts/df344a34.html</url>
+    <content><![CDATA[<p>注：本内容参考的是江南一点雨的这个公众号的文章及视频，需要数据源可以直接在他的微信公众号后台回复 <strong>bookdata.json</strong> 下载脚本，数据准备参考上一篇文章，文末有他视频和文章的链接。</p>
+<h1 id="复合查询"><a href="#复合查询" class="headerlink" title="复合查询"></a>复合查询</h1><h3 id="constant-score-query"><a href="#constant-score-query" class="headerlink" title="constant_score query"></a>constant_score query</h3><p>​        当我们不关心检索词项的频率（TF）对搜索结果排序的影响时，可以使用 constant_score 将查询语句或者过滤语句包裹起来。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET books/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;constant_score&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;filter&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;term&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;java&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">&quot;boost&quot;</span>: <span class="number">1.5</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注：</strong>设置了boost后，查询结果中的_score都会变为和他一样的值。</p>
+<h3 id="bool-query"><a href="#bool-query" class="headerlink" title="bool query"></a>bool query</h3><blockquote>
+<p> bool query 可以将任意多个简单查询组装在一起，有四个关键字可供选择，四个关键字所描述的条件可以有一个或者多个。</p>
+</blockquote>
+<ul>
+<li><strong>must</strong>：文档必须匹配 must 选项下的查询条件。</li>
+<li><strong>should</strong>：文档可以匹配 should 下的查询条件，也可以不匹配。</li>
+<li><strong>must_not</strong>：文档必须不满足 must_not 选项下的查询条件。</li>
+<li><strong>filter</strong>：类似于 must，但是 filter 不评分，只是过滤数据。</li>
+</ul>
+<p>​        例如查询 name 属性中必须包含 java，同时书价不在 [0,35] 区间内，info 属性可以包含 程序设计 也可以不包含程序设计：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;must&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;term&quot;: &#123;</span><br><span class="line">            &quot;name&quot;: &#123;</span><br><span class="line">              &quot;value&quot;: &quot;java&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;must_not&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;range&quot;: &#123;</span><br><span class="line">            &quot;price&quot;: &#123;</span><br><span class="line">              &quot;gte&quot;: 0,</span><br><span class="line">              &quot;lte&quot;: 35</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;should&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;match&quot;: &#123;</span><br><span class="line">            &quot;info&quot;: &quot;程序设计&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        这里还涉及到一个关键字，<code>minmum_should_match</code> 参数。<code>minmum_should_match</code> 参数在 es 官网上称作最小匹配度。在之前学习的 <code>multi_match</code> 或者这里的 should 查询中，都可以设置 <code>minmum_should_match</code> 参数。</p>
+<p>假设我们要做一次查询，查询 name 中包含 语言程序设计 关键字的文档：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET books/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;语言程序设计&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        在这个查询过程中，首先会进行分词，分词结果为：语言、程序、设计、程序设计这四个。分词后的 term 会构造成一个 should 的 bool query，每一个 term 都会变成一个 term query 的子句。换句话说，上面的查询和下面的查询等价：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET books/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;bool&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;should&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;term&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">              <span class="attr">&quot;value&quot;</span>: <span class="string">&quot;语言&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;term&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">              <span class="attr">&quot;value&quot;</span>: <span class="string">&quot;程序设计&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;term&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">              <span class="attr">&quot;value&quot;</span>: <span class="string">&quot;程序&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;term&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">              <span class="attr">&quot;value&quot;</span>: <span class="string">&quot;设计&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        在这两个查询语句中，都是文档只需要包含词项中的任意一项即可，文档就回被返回，在 match 查询中，可以通过 operator 参数设置文档必须匹配所有词项。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET books/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>: <span class="string">&quot;语言程序设计&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;operator&quot;</span>: <span class="string">&quot;and&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        如果想匹配一部分词项，就涉及到一个参数，就是 <code>minmum_should_match</code>，即最小匹配度。即至少匹配多少个词。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET books/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;bool&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;should&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;term&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">              <span class="attr">&quot;value&quot;</span>: <span class="string">&quot;语言&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;term&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">              <span class="attr">&quot;value&quot;</span>: <span class="string">&quot;程序设计&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;term&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">              <span class="attr">&quot;value&quot;</span>: <span class="string">&quot;程序&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;term&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">              <span class="attr">&quot;value&quot;</span>: <span class="string">&quot;设计&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;50%&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;from&quot;</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;size&quot;</span>: <span class="number">70</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>**50% 表示词项个数的 50%**，如下两个查询等价（参数 4 是因为查询关键字分词后有 4 项）：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET books/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>: <span class="string">&quot;语言程序设计&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="number">4</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">GET books/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>: <span class="string">&quot;语言程序设计&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;operator&quot;</span>: <span class="string">&quot;and&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="dis-max-query"><a href="#dis-max-query" class="headerlink" title="dis_max query"></a>dis_max query</h3><p>假设现在有两本书：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT blog</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;title&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">&quot;content&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">POST blog/_doc</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;title&quot;</span>:<span class="string">&quot;如何通过Java代码调用ElasticSearch&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;content&quot;</span>:<span class="string">&quot;松哥力荐，这是一篇很好的解决方案&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">POST blog/_doc</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;title&quot;</span>:<span class="string">&quot;初识 MongoDB&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;content&quot;</span>:<span class="string">&quot;简单介绍一下 MongoDB，以及如何通过 Java 调用 MongoDB，MongoDB 是一个不错 NoSQL 解决方案&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在假设搜索 <strong>Java解决方案</strong> 关键字，但是不确定关键字是在 title 还是在 content，所以两者都搜索：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET blog/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;bool&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;should&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;java解决方案&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;content&quot;</span>: <span class="string">&quot;java解决方案&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查询结果如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210224154437001.png" alt="image-20210224154437001"></p>
+<p>​        肉眼观察，感觉第二个和查询关键字相似度更高，但是实际查询结果并非这样。要理解这个原因，我们需要来看下 should query 中的评分策略：</p>
+<ol>
+<li>首先会执行 should 中的两个查询</li>
+<li>对两个查询结果的评分求和</li>
+<li>对求和结果乘以匹配语句总数</li>
+<li>在对第三步的结果除以所有语句总数</li>
+</ol>
+<p>反映到具体的查询中：</p>
+<p><strong>前者</strong></p>
+<ol>
+<li>title 中 包含 java，假设评分是 1.1</li>
+<li>content 中包含解决方案，假设评分是 1.2</li>
+<li>有得分的 query 数量，这里是 2</li>
+<li>总的 query 数量也是 2，最终结果：<code>（1.1+1.2）*2/2=2.3</code></li>
+</ol>
+<p><strong>后者</strong></p>
+<ol>
+<li>title 中 不包含查询关键字，没有得分</li>
+<li>content 中包含解决方案和 java，假设评分是 2</li>
+<li>有得分的 query 数量，这里是 1</li>
+<li>总的 query 数量也是 2，最终结果：<code>2*1/2=1</code></li>
+</ol>
+<p>​        在这种查询中，title 和 content 相当于是相互竞争的关系，所以我们需要找到一个最佳匹配字段。为了解决这一问题，就需要用到 dis_max query（disjunction max query，分离最大化查询）：匹配的文档依然返回，但是只将最佳匹配的评分作为查询的评分。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET blog/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;dis_max&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;queries&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;java解决方案&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;content&quot;</span>: <span class="string">&quot;java解决方案&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查询结果为：</p>
+<img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210224155147615.png" alt="image-20210224155147615" style="zoom: 67%;" />    
+
+<p>​        在 dis_max query 中，还有一个参数 <code>tie_breaker</code>（取值在0～1），在 dis_max query 中，是完全不考虑其他 query 的分数，只是将最佳匹配的字段的评分返回。但是，有的时候，我们又不得不考虑一下其他 query 的分数，此时，可以通过 <code>tie_breaker</code> 来优化 dis_max query。<code>tie_breaker</code> 会将其他 query 的分数，乘以 <code>tie_breaker</code>，然后和分数最高的 query 进行一个综合计算。</p>
+<h3 id="function-score-query"><a href="#function-score-query" class="headerlink" title="function_score query"></a>function_score query</h3><p>​        场景：例如想要搜索附近的餐厅，搜索的关键字是餐厅名字，但是我希望能够将评分较高的餐厅优先展示出来。但是默认的评分策略是没有办法考虑到餐厅评分的，其只是考虑相关性，这个时候可以通过 function_score query 来实现。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT book</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">&quot;votes&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;integer&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT book/_doc/1</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;title&quot;</span>:<span class="string">&quot;Java并发编程&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;votes&quot;</span>:<span class="number">100</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT book/_doc/2</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;title&quot;</span>:<span class="string">&quot;Java多线程详解，Java基础&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;votes&quot;</span>:<span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GET book/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;java&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查询结果如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210224160145932.png" alt="image-20210224160145932"></p>
+<p>​        默认情况下，id 为 2 的记录得分较高，因为他的 title 中包含两个 java。如果我们在查询中，希望能够充分考虑 votes 字段，将 votes 较高的文档优先展示，就可以通过 function_score 来实现。</p>
+<p>具体的思路，就是在旧的得分基础上，根据 votes 的数值进行综合运算，重新得出一个新的评分。具体有几种不同的计算方式：</p>
+<ul>
+<li>weight</li>
+<li>random_score</li>
+<li><strong>script_score</strong></li>
+<li><strong>field_value_factor</strong></li>
+</ul>
+<h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a><strong>weight</strong></h4><p>​        weight 可以对评分设置权重，就是在旧的评分基础上乘以 weight，他其实无法解决我们上面所说的问题。具体用法如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET blog&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;function_score&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;&quot;title&quot;: &quot;java&quot;&#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;functions&quot;: [&#123;&quot;weight&quot;: 10&#125;]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行一下会发现从查询结果可以看到，此时评分会在之前的评分基础上<code>*</code>10</p>
+<h4 id="random-score"><a href="#random-score" class="headerlink" title="random_score"></a>random_score</h4><p>​        <code>random_score</code> 会根据 uid 字段进行 hash 运算，生成分数，使用 <code>random_score</code> 时可以配置一个种子，如果不配置，默认使用当前时间。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET blog/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;function_score&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;match&quot;</span>: &#123;<span class="attr">&quot;title&quot;</span>: <span class="string">&quot;java&quot;</span>&#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">&quot;functions&quot;</span>: [</span><br><span class="line">        &#123;<span class="attr">&quot;random_score&quot;</span>: &#123;&#125;&#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="script-score-重要"><a href="#script-score-重要" class="headerlink" title="script_score(重要)"></a><strong>script_score(重要)</strong></h4><p>自定义评分脚本。假设每个文档的最终得分是旧的分数加上votes。查询方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET blog&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;function_score&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;&quot;title&quot;: &quot;java&quot;&#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;functions&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;script_score&quot;: &#123;</span><br><span class="line">            &quot;script&quot;: &#123;</span><br><span class="line">              &quot;lang&quot;: &quot;painless&quot;,</span><br><span class="line">              &quot;source&quot;: &quot;_score + doc[&#39;votes&#39;].value&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在，最终得分是 <code>(oldScore+votes)*oldScore</code>，如果不想乘以 oldScore，查询方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET blog&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;function_score&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;&quot;title&quot;: &quot;java&quot;&#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;functions&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;script_score&quot;: &#123;</span><br><span class="line">            &quot;script&quot;: &#123;</span><br><span class="line">              &quot;lang&quot;: &quot;painless&quot;,</span><br><span class="line">              &quot;source&quot;: &quot;_score + doc[&#39;votes&#39;].value&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;boost_mode&quot;: &quot;replace&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过 <code>boost_mode</code> 参数，可以设置最终的计算方式。该参数还有其他取值：</p>
+<ul>
+<li>multiply：分数相乘</li>
+<li>sum：分数相加</li>
+<li>avg：求平均数</li>
+<li>max：最大分</li>
+<li>min：最小分</li>
+<li>replace：不进行二次计算</li>
+</ul>
+<h4 id="field-value-factor-重要"><a href="#field-value-factor-重要" class="headerlink" title="field_value_factor(重要)"></a><strong>field_value_factor(重要)</strong></h4><p>​        这个的功能类似于 <code>script_score</code>，但是不用自己写脚本。假设每个文档的最终得分是旧的分数乘以votes。查询方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET blog&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;function_score&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;&quot;title&quot;: &quot;java&quot;&#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;functions&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;field_value_factor&quot;: &#123;</span><br><span class="line">            &quot;field&quot;: &quot;votes&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认的得分就是<code>oldScore*votes</code>，还可以利用 es 内置的函数进行一些更复杂的运算：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET blog&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;function_score&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &#123;</span><br><span class="line">				&quot;match&quot;: &#123;&quot;title&quot;: &quot;java&quot;&#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;functions&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;field_value_factor&quot;: &#123;</span><br><span class="line">            &quot;field&quot;: &quot;votes&quot;,</span><br><span class="line">            &quot;modifier&quot;: &quot;sqrt&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;boost_mode&quot;: &quot;replace&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时，最终的得分是（sqrt(votes)）。modifier 中可以设置内置函数，其他的内置函数还有：</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>默认的，不进行任何计算</td>
+</tr>
+<tr>
+<td>log</td>
+<td>对字段值取对数</td>
+</tr>
+<tr>
+<td>log1p</td>
+<td>字段值加1然后取对数</td>
+</tr>
+<tr>
+<td>log2p</td>
+<td>字段值加2然后取对数</td>
+</tr>
+<tr>
+<td>In</td>
+<td>取字段值的自然对数</td>
+</tr>
+<tr>
+<td>In1p</td>
+<td>字段值加1然后取自然对数</td>
+</tr>
+<tr>
+<td>In2p</td>
+<td>字段值加2然后取自然对数</td>
+</tr>
+<tr>
+<td>sqrt</td>
+<td>字段值求平方根</td>
+</tr>
+<tr>
+<td>square</td>
+<td>字段值的平方</td>
+</tr>
+<tr>
+<td>reciprocal</td>
+<td>倒数</td>
+</tr>
+</tbody></table>
+<p>另外还有个参数 factor ，影响因子。字段值先乘以影响因子，然后再进行计算。以 sqrt 为例，计算方式为 <code>sqrt(factor*votes)</code>：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET blog&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;function_score&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &#123;</span><br><span class="line">				&quot;match&quot;: &#123;&quot;title&quot;: &quot;java&quot;&#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;functions&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;field_value_factor&quot;: &#123;</span><br><span class="line">            &quot;field&quot;: &quot;votes&quot;,</span><br><span class="line">            &quot;modifier&quot;: &quot;sqrt&quot;,</span><br><span class="line">            &quot;factor&quot;: 10</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;boost_mode&quot;: &quot;replace&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还有一个参数 <code>max_boost</code>，控制计算结果的范围：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET blog&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;function_score&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &#123;</span><br><span class="line">				&quot;match&quot;: &#123;&quot;title&quot;: &quot;java&quot;&#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;functions&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;field_value_factor&quot;: &#123;</span><br><span class="line">            &quot;field&quot;: &quot;votes&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;boost_mode&quot;: &quot;sum&quot;,</span><br><span class="line">      &quot;max_boost&quot;: 100</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>max_boost</code> 参数表示 functions 模块中，最终的计算结果上限。如果超过上限，就按照上线计算。</p>
+<h4 id="boosting-query"><a href="#boosting-query" class="headerlink" title="boosting query"></a>boosting query</h4><p>boosting query 中包含三部分：</p>
+<ul>
+<li>positive：得分不变</li>
+<li>negative：降低得分</li>
+<li>negative_boost：降低的权重</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;boosting&quot;: &#123;</span><br><span class="line">      &quot;positive&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;</span><br><span class="line">          &quot;name&quot;: &quot;java&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;negative&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;</span><br><span class="line">          &quot;name&quot;: &quot;2008&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;negative_boost&quot;: 0.5</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行完以后会发现name中包含2008的权重会*0.5</p>
+<h1 id="嵌套查询"><a href="#嵌套查询" class="headerlink" title="嵌套查询"></a>嵌套查询</h1><h2 id="嵌套文档"><a href="#嵌套文档" class="headerlink" title="嵌套文档"></a>嵌套文档</h2><p>​        这里需要了解一下nested相关内容，不清楚的可以到<a href="./9994ac37.html">这里查看</a>，了解完相关概念后，我们执行如下操作：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT movies</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;actors&quot;:&#123;</span><br><span class="line">        &quot;type&quot;: &quot;nested&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT movies&#x2F;_doc&#x2F;1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;:&quot;霸王别姬&quot;,</span><br><span class="line">  &quot;actors&quot;:[</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;name&quot;:&quot;张国荣&quot;,</span><br><span class="line">      &quot;gender&quot;:&quot;男&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;name&quot;:&quot;巩俐&quot;,</span><br><span class="line">      &quot;gender&quot;:&quot;女&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加完以后我们查看文档数量：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET _cat&#x2F;indices?v</span><br></pre></td></tr></table></figure>
+
+<p>查看结果如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20210224165056265.png" alt="image-20210224165056265"></p>
+<p>​        此时你会发现虽然我们就添加一条数据，但是docs.count却是3，这是因为 nested 文档在 es 内部其实也是独立的 lucene 文档，只是在我们查询的时候，es 内部帮我们做了 join 处理，所以最终看起来就像一个独立文档一样。因此这种方案性能并不是特别好。</p>
+<h3 id="嵌套查询-1"><a href="#嵌套查询-1" class="headerlink" title="嵌套查询"></a>嵌套查询</h3><p>这个用来查询嵌套文档：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET movies&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;nested&quot;: &#123;</span><br><span class="line">      &quot;path&quot;: &quot;actors&quot;,</span><br><span class="line">      &quot;query&quot;: &#123;</span><br><span class="line">        &quot;bool&quot;: &#123;</span><br><span class="line">          &quot;must&quot;: [</span><br><span class="line">            &#123;</span><br><span class="line">              &quot;match&quot;: &#123;</span><br><span class="line">                &quot;actors.name&quot;: &quot;张国荣&quot;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              &quot;match&quot;: &#123;</span><br><span class="line">                &quot;actors.gender&quot;: &quot;男&quot;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="父子文档"><a href="#父子文档" class="headerlink" title="父子文档"></a>父子文档</h2><p>相比于嵌套文档，父子文档主要有如下优势：</p>
+<ul>
+<li>更新父文档时，不会重新索引子文档</li>
+<li>创建、修改或者删除子文档时，不会影响父文档或者其他的子文档。</li>
+<li>子文档可以作为搜索结果独立返回。</li>
+</ul>
+<p>例如学生和班级的关系：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT stu_class</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;name&quot;:&#123;</span><br><span class="line">        &quot;type&quot;: &quot;keyword&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;s_c&quot;:&#123;</span><br><span class="line">        &quot;type&quot;: &quot;join&quot;,</span><br><span class="line">        &quot;relations&quot;:&#123;</span><br><span class="line">          &quot;class&quot;:&quot;student&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        <code>s_c</code> 表示父子文档关系的名字，可以自定义。join 表示这是一个父子文档。relations 里边，class 这个位置是 parent名称，student 这个位置是 child名称。接下来，插入两个父文档：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT stu_class&#x2F;_doc&#x2F;1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;:&quot;一班&quot;,</span><br><span class="line">  &quot;s_c&quot;:&#123;</span><br><span class="line">    &quot;name&quot;:&quot;class&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">PUT stu_class&#x2F;_doc&#x2F;2</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;:&quot;二班&quot;,</span><br><span class="line">  &quot;s_c&quot;:&#123;</span><br><span class="line">    &quot;name&quot;:&quot;class&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再来添加三个子文档：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT stu_class&#x2F;_doc&#x2F;3?routing&#x3D;1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;:&quot;zhangsan&quot;,</span><br><span class="line">  &quot;s_c&quot;:&#123;</span><br><span class="line">    &quot;name&quot;:&quot;student&quot;,</span><br><span class="line">    &quot;parent&quot;:1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">PUT stu_class&#x2F;_doc&#x2F;4?routing&#x3D;1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;:&quot;lisi&quot;,</span><br><span class="line">  &quot;s_c&quot;:&#123;</span><br><span class="line">    &quot;name&quot;:&quot;student&quot;,</span><br><span class="line">    &quot;parent&quot;:1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">PUT stu_class&#x2F;_doc&#x2F;5?routing&#x3D;2</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;:&quot;wangwu&quot;,</span><br><span class="line">  &quot;s_c&quot;:&#123;</span><br><span class="line">    &quot;name&quot;:&quot;student&quot;,</span><br><span class="line">    &quot;parent&quot;:2</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        首先大家可以看到，子文档都是独立的文档。特别需要注意的地方是，子文档需要和父文档在同一个分片上，所以 routing 关键字的值为父文档的 id。另外，name 属性表明这是一个子文档。</p>
+<p>父子文档需要注意的地方：</p>
+<ol>
+<li>每个索引只能定义一个 join filed</li>
+<li><strong>父子文档需要在同一个分片上</strong>（查询，修改需要routing）</li>
+<li>可以向一个已经存在的 join filed 上新增关系</li>
+</ol>
+<h3 id="has-child-query"><a href="#has-child-query" class="headerlink" title="has_child query"></a>has_child query</h3><p>通过子文档查询父文档使用 <code>has_child</code> query。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET stu_class&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;has_child&quot;: &#123;</span><br><span class="line">      &quot;type&quot;: &quot;student&quot;,</span><br><span class="line">      &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;</span><br><span class="line">          &quot;name&quot;: &quot;wangwu&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查询 wangwu 所属的班级。</p>
+<h3 id="has-parent-query"><a href="#has-parent-query" class="headerlink" title="has_parent query"></a>has_parent query</h3><p>通过父文档查询子文档：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET stu_class&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;has_parent&quot;: &#123;</span><br><span class="line">      &quot;parent_type&quot;: &quot;class&quot;,</span><br><span class="line">      &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;</span><br><span class="line">          &quot;name&quot;: &quot;二班&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查询二班的学生。但是大家注意，这种查询没有评分。</p>
+<p>可以使用 parent id 查询子文档：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET stu_class&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;parent_id&quot;:&#123;</span><br><span class="line">      &quot;type&quot;:&quot;student&quot;,</span><br><span class="line">      &quot;id&quot;:1</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过 parent id 查询，默认情况下使用相关性计算分数。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>整体上来说：</p>
+<ol>
+<li>普通子对象实现一对多，会损失子文档的边界，子对象之间的属性关系丢失。</li>
+<li>nested 可以解决第 1 点的问题，但是 nested 有两个缺点：更新主文档的时候要全部更新，不支持子文档属于多个主文档。</li>
+<li>父子文档解决 1、2 点的问题，但是它主要适用于写多读少的场景。</li>
+</ol>
+<h1 id="地理位置查询"><a href="#地理位置查询" class="headerlink" title="地理位置查询"></a>地理位置查询</h1><h2 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h2><p>创建一个索引：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT geo</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;name&quot;:&#123;</span><br><span class="line">        &quot;type&quot;: &quot;keyword&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;location&quot;:&#123;</span><br><span class="line">        &quot;type&quot;: &quot;geo_point&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>准备一个 geo.json 文件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&quot;index&quot;:&#123;&quot;_index&quot;:&quot;geo&quot;,&quot;_id&quot;:1&#125;&#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;西安&quot;,&quot;location&quot;:&quot;34.288991865037524,108.9404296875&quot;&#125;</span><br><span class="line">&#123;&quot;index&quot;:&#123;&quot;_index&quot;:&quot;geo&quot;,&quot;_id&quot;:2&#125;&#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;北京&quot;,&quot;location&quot;:&quot;39.926588421909436,116.43310546875&quot;&#125;</span><br><span class="line">&#123;&quot;index&quot;:&#123;&quot;_index&quot;:&quot;geo&quot;,&quot;_id&quot;:3&#125;&#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;上海&quot;,&quot;location&quot;:&quot;31.240985378021307,121.53076171875&quot;&#125;</span><br><span class="line">&#123;&quot;index&quot;:&#123;&quot;_index&quot;:&quot;geo&quot;,&quot;_id&quot;:4&#125;&#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;天津&quot;,&quot;location&quot;:&quot;39.13006024213511,117.20214843749999&quot;&#125;</span><br><span class="line">&#123;&quot;index&quot;:&#123;&quot;_index&quot;:&quot;geo&quot;,&quot;_id&quot;:5&#125;&#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;杭州&quot;,&quot;location&quot;:&quot;30.259067203213018,120.21240234375001&quot;&#125;</span><br><span class="line">&#123;&quot;index&quot;:&#123;&quot;_index&quot;:&quot;geo&quot;,&quot;_id&quot;:6&#125;&#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;武汉&quot;,&quot;location&quot;:&quot;30.581179257386985,114.3017578125&quot;&#125;</span><br><span class="line">&#123;&quot;index&quot;:&#123;&quot;_index&quot;:&quot;geo&quot;,&quot;_id&quot;:7&#125;&#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;合肥&quot;,&quot;location&quot;:&quot;31.840232667909365,117.20214843749999&quot;&#125;</span><br><span class="line">&#123;&quot;index&quot;:&#123;&quot;_index&quot;:&quot;geo&quot;,&quot;_id&quot;:8&#125;&#125;</span><br><span class="line">&#123;&quot;name&quot;:&quot;重庆&quot;,&quot;location&quot;:&quot;29.592565403314087,106.5673828125&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，执行如下命令，批量导入 geo.json 数据：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -XPOST &quot;http:&#x2F;&#x2F;localhost:9200&#x2F;geo&#x2F;_bulk?pretty&quot; -H &quot;content-type:application&#x2F;json&quot; --data-binary @geo.json</span><br></pre></td></tr></table></figure>
+
+<h3 id="geo-distance-query"><a href="#geo-distance-query" class="headerlink" title="geo_distance query"></a>geo_distance query</h3><p>给出一个中心点，查询距离该中心点指定范围内的文档：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET geo&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;must&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;filter&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;geo_distance&quot;: &#123;</span><br><span class="line">            &quot;distance&quot;: &quot;600km&quot;,</span><br><span class="line">            &quot;location&quot;: &#123;</span><br><span class="line">              &quot;lat&quot;: 34.288991865037524,</span><br><span class="line">              &quot;lon&quot;: 108.9404296875</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以(34.288991865037524,108.9404296875) 为圆心，以 600KM 为半径，这个范围内的数据。</p>
+<h3 id="geo-bounding-box-query"><a href="#geo-bounding-box-query" class="headerlink" title="geo_bounding_box query"></a>geo_bounding_box query</h3><p>在某一个矩形内的点，通过两个点锁定一个矩形：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET geo&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;must&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;filter&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;geo_bounding_box&quot;: &#123;</span><br><span class="line">            &quot;location&quot;: &#123;</span><br><span class="line">              &quot;top_left&quot;: &#123;</span><br><span class="line">                &quot;lat&quot;: 32.0639555946604,</span><br><span class="line">                &quot;lon&quot;: 118.78967285156249</span><br><span class="line">              &#125;,</span><br><span class="line">              &quot;bottom_right&quot;: &#123;</span><br><span class="line">                &quot;lat&quot;: 29.98824461550903,</span><br><span class="line">                &quot;lon&quot;: 122.20642089843749</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以南京经纬度作为矩形的左上角，以舟山经纬度作为矩形的右下角，构造出来的矩形中，包含上海和杭州两个城市。</p>
+<h3 id="geo-polygon-query"><a href="#geo-polygon-query" class="headerlink" title="geo_polygon query"></a>geo_polygon query</h3><p>在某一个多边形范围内的查询。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET geo&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;must&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;filter&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;geo_polygon&quot;: &#123;</span><br><span class="line">            &quot;location&quot;: &#123;</span><br><span class="line">              &quot;points&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                  &quot;lat&quot;: 31.793755581217674,</span><br><span class="line">                  &quot;lon&quot;: 113.8238525390625</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                  &quot;lat&quot;: 30.007273923504556,</span><br><span class="line">                  &quot;lon&quot;:114.224853515625</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                  &quot;lat&quot;: 30.007273923504556,</span><br><span class="line">                  &quot;lon&quot;:114.8345947265625</span><br><span class="line">                &#125;</span><br><span class="line">              ]</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>给定多个点，由多个点组成的多边形中的数据。</p>
+<h3 id="geo-shape-query"><a href="#geo-shape-query" class="headerlink" title="geo_shape query"></a>geo_shape query</h3><p><code>geo_shape</code> 用来查询图形，针对 <code>geo_shape</code>，两个图形之间的关系有：相交、包含、不相交。</p>
+<p>新建索引：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT geo_shape</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;name&quot;:&#123;</span><br><span class="line">        &quot;type&quot;: &quot;keyword&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;location&quot;:&#123;</span><br><span class="line">        &quot;type&quot;: &quot;geo_shape&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后添加一条线：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT geo_shape&#x2F;_doc&#x2F;1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;:&quot;西安-郑州&quot;,</span><br><span class="line">  &quot;location&quot;:&#123;</span><br><span class="line">    &quot;type&quot;:&quot;linestring&quot;,</span><br><span class="line">    &quot;coordinates&quot;:[</span><br><span class="line">      [108.9404296875,34.279914398549934],</span><br><span class="line">      [113.66455078125,34.768691457552706]</span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来查询某一个图形中是否包含该线：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET geo_shape&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;must&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;filter&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;geo_shape&quot;: &#123;</span><br><span class="line">            &quot;location&quot;: &#123;</span><br><span class="line">              &quot;shape&quot;: &#123;</span><br><span class="line">                &quot;type&quot;: &quot;envelope&quot;,</span><br><span class="line">                &quot;coordinates&quot;: [</span><br><span class="line">                  [</span><br><span class="line">            106.5234375,</span><br><span class="line">            36.80928470205937</span><br><span class="line">          ],</span><br><span class="line">          [</span><br><span class="line">            115.33447265625,</span><br><span class="line">            32.24997445586331</span><br><span class="line">          ]</span><br><span class="line">                ]</span><br><span class="line">              &#125;,</span><br><span class="line">              &quot;relation&quot;: &quot;within&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>relation 属性表示两个图形的关系：</p>
+<ul>
+<li>within 包含</li>
+<li>intersects 相交</li>
+<li>disjoint 不相交</li>
+</ul>
+<h1 id="特殊查询"><a href="#特殊查询" class="headerlink" title="特殊查询"></a>特殊查询</h1><h3 id="more-like-this-query"><a href="#more-like-this-query" class="headerlink" title="more_like_this query"></a>more_like_this query</h3><p><code>more_like_this</code> query 可以实现基于内容的推荐，给定一篇文章，可以查询出和该文章相似的内容。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;more_like_this&quot;: &#123;</span><br><span class="line">      &quot;fields&quot;: [</span><br><span class="line">        &quot;info&quot;</span><br><span class="line">      ],</span><br><span class="line">      &quot;like&quot;: &quot;大学战略&quot;,</span><br><span class="line">      &quot;min_term_freq&quot;: 1,</span><br><span class="line">      &quot;max_query_terms&quot;: 12</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>fields：要匹配的字段，可以有多个</li>
+<li>like：要匹配的文本</li>
+<li>min_term_freq：词项的最低频率，默认是 2。<strong>特别注意，这个是指词项在要匹配的文本中的频率，而不是 es 文档中的频率</strong></li>
+<li>max_query_terms：query 中包含的最大词项数目</li>
+<li>min_doc_freq：最小的文档频率，搜索的词，至少在多少个文档中出现，少于指定数目，该词会被忽略</li>
+<li>max_doc_freq：最大文档频率</li>
+<li>analyzer：分词器，默认使用字段的分词器</li>
+<li>stop_words：停用词列表</li>
+<li>minmum_should_match</li>
+</ul>
+<h3 id="script-query"><a href="#script-query" class="headerlink" title="script query"></a>script query</h3><p>脚本查询，例如查询所有价格大于 200 的图书：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET books&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;filter&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;script&quot;: &#123;</span><br><span class="line">            &quot;script&quot;: &#123;</span><br><span class="line">              &quot;lang&quot;: &quot;painless&quot;,</span><br><span class="line">              &quot;source&quot;: &quot;if(doc[&#39;price&#39;].size()!&#x3D;0)&#123;doc[&#39;price&#39;].value &gt; 200&#125;&quot;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="percolate-query"><a href="#percolate-query" class="headerlink" title="percolate query"></a>percolate query</h3><p>percolate query 译作渗透查询或者反向查询。</p>
+<ul>
+<li>正常操作：根据查询语句找到对应的文档 query-&gt;document</li>
+<li>percolate query：根据文档，返回与之匹配的查询语句，document-&gt;query</li>
+</ul>
+<p>应用场景：</p>
+<ul>
+<li>价格监控</li>
+<li>库存报警</li>
+<li>股票警告</li>
+<li>…</li>
+</ul>
+<p>例如阈值告警，假设指定字段值大于阈值，报警提示。</p>
+<p>percolate mapping 定义：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT log</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;threshold&quot;:&#123;</span><br><span class="line">        &quot;type&quot;: &quot;long&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;count&quot;:&#123;</span><br><span class="line">        &quot;type&quot;: &quot;long&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;query&quot;:&#123;</span><br><span class="line">        &quot;type&quot;:&quot;percolator&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>percolator 类型相当于 keyword、long 以及 integer 等。</p>
+<p>插入文档：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUT log&#x2F;_doc&#x2F;1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;threshold&quot;:10,</span><br><span class="line">  &quot;query&quot;:&#123;</span><br><span class="line">    &quot;bool&quot;:&#123;</span><br><span class="line">      &quot;must&quot;:&#123;</span><br><span class="line">        &quot;range&quot;:&#123;</span><br><span class="line">          &quot;count&quot;:&#123;</span><br><span class="line">            &quot;gt&quot;:10</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后查询：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">GET log&#x2F;_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;percolate&quot;: &#123;</span><br><span class="line">      &quot;field&quot;: &quot;query&quot;,</span><br><span class="line">      &quot;documents&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;count&quot;:3</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;count&quot;:6</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;count&quot;:90</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;count&quot;:12</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;count&quot;:15</span><br><span class="line">        &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查询结果中会列出不满足条件的文档。</p>
+<p>查询结果中的 <code>_percolator_document_slot</code> 字段表示文档的 position，从 0 开始计。</p>
+<h1 id="参考内容"><a href="#参考内容" class="headerlink" title="参考内容"></a>参考内容</h1><p><a href="https://www.bilibili.com/video/BV1ft4y1e7tq">参考</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzI1NDY0MTkzNQ==&mid=2247491292&idx=1&sn=a67c2d6710a60724a6b897bf182e3d8b&chksm=e9c34cbcdeb4c5aa3b1983a1a64fec827e8b7bd20d0ac33fb11ff5d92e9f23375837648fc95c&cur_album_id=1591614521561923586&scene=189#rd">参考2</a></p>
 ]]></content>
       <categories>
         <category>ElasticSearch</category>
