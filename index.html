@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>D丶Cheng的博客</title><meta name="description" content="D丶Cheng的技术博客"><meta name="author" content="D丶Cheng"><meta name="copyright" content="D丶Cheng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chave-z.github.io/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="website"><meta property="og:title" content="D丶Cheng的博客"><meta property="og:url" content="https://chave-z.github.io/"><meta property="og:site_name" content="D丶Cheng的博客"><meta property="og:description" content="D丶Cheng的技术博客"><meta property="og:image" content="https://chave-z.github.io/null"><meta property="article:published_time" content="2021-12-29T09:47:52.702Z"><meta property="article:modified_time" content="2021-12-29T09:47:52.702Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.1.1',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '天',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: {"limitCount":50,"languages":{"author":"作者: D丶Cheng","link":"链接: ","source":"来源: D丶Cheng的博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2021-12-29 17:47:52'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.1.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/null" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">79</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">16</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/5dekk8.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">D丶Cheng的博客</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="site-info"><h1 id="site_title">D丶Cheng的博客</h1><div id="site_subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/Chave-Z" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:chave_z@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll_down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout_page" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/e7dad272.html" title="并发编程-缓存一致性协议MESI">并发编程-缓存一致性协议MESI</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-11-15T04:00:00.000Z" title="发表于 2021-11-15 12:00:00">2021-11-15</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></span></div><div class="content">概述在我们使用多线程共同执行写操作更改同一个共享变量时，会导致数据运算的不正确性。比较典型就是i++问题，在多线程共同对一个变量进行++操作时，我们很难得到正确的结果：
+
+一个自增运算符是一个复合操作，至少包括三个 JVM 指令：”内存取值”、”寄存器增加 1”、”存值到内存”。这三个指令在 JVM 内部是独 立进行的，中间完全可能会出现多个线程并发进行。
+
+12345678910111213public class TestCounter &#123;    private static int count = 0;    public static void main(String[] args) &#123;        for (int i = 0; i &lt; 10; i++) &#123;            new Thread(() -&gt; &#123;                for (int j = 0; j &lt; 1000; j++) &#123;                    System.out.println(Thread.cur ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/adfc1815.html" title="Synchronized详解">Synchronized详解</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-11-14T12:50:00.000Z" title="发表于 2021-11-14 20:50:00">2021-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></span></div><div class="content">​        在JMM中，我们了解到JVM除了自身提供的对基本数据类型读写操作的原子性外，还可以通过 synchronized、Lock类来实现原子性。而 synchronized、Lock类采用的方案都是序列化访问资源。也就是同一时间只允许一个线程访问临界资源，这种同步也称为同步互斥访问。
+​        总结来说，同步器的本质就是加锁，而加锁目的就是序列化访问临界资源，即同一时刻只能有一个线程访问临界资源(同步互斥访问)。本篇文章，我们先来了解一下Synchronized关键字。
+注：当多个线程执行一个方法时，方法内部的局部变量并不是临界资源，因为这些局部变量是在每个线程的私有栈中，因此不具有共享性，不会导致线程安全问题。
+Synchronized详解
+ Synchronized内置锁是一种对象锁（锁的是对象而非引用），作用的粒度是对象，可以用来实现临界资源的同步互斥访问，是可重入的。        
+
+Synchronized锁分类一般根据加锁位置，我们可以分为如下几种情况：
+
+修饰实例(普通)⽅法：对当前对象加锁。
+
+修饰静态⽅法： 锁是当前类，会作⽤于类的所有对象实例， ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/bd9cf9f0.html" title="JMM&amp;volatile">JMM&amp;volatile</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-11-14T05:00:00.000Z" title="发表于 2021-11-14 13:00:00">2021-11-14</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></span></div><div class="content">Java内存模型(JMM)什么是JMM?​        JMM即Java内存模型(Java Memory Model)，它是一种抽象的概念，并不真实存在，它描述的是一组规则或规范，通过这组规范定义了程序中各个变量（包括实例字段，静态字段和构成数组对象的元素）的访问方式。
+​        JVM运行程序的实体是线程，而每个线程创建时JVM都会为其创建一个工作内存，用于存储线程私有的数据。而Java内存模型中规定所有变量都存储在主内存，主内存是共享内存区域，所有线程都可以访问，但线程对变量的操作(读取赋值等)必须在工作内存中进行。所以线程要将变量从主内存拷贝的自己的工作内存空间，然后对变量进行操作，操作完成后再将变量写回主内存，不能直接操作主内存中的变量。工作内存中存储着主内存中的变量副本拷贝。工作内存是每个线程的私有数据区域，因此不同的线程间无法访问对方的工作内存，线程间的通信(传值)必须通过主内存来完成。
+​        JMM是围绕原子性，有序性、可见性展开。在JMM中主内存属于共享数据区域，从某个程度上讲应该包括了堆和方法区，而工作内存数据线程私有数据区域，从某个程度上讲则应 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/30832841.html" title="并发编程00-目录">并发编程00-目录</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-11-13T13:00:00.000Z" title="发表于 2021-11-13 21:00:00">2021-11-13</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></span></div><div class="content"></div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/c14dcc02.html" title="并发编程-操作系统概述">并发编程-操作系统概述</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-11-13T13:00:00.000Z" title="发表于 2021-11-13 21:00:00">2021-11-13</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></span></div><div class="content">冯诺依曼计算机模型​        现代计算机模型基于-冯诺依曼计算机模型
+​        计算机在运行时，先从内存中取出第一条指令，通过控制器的译码，按指令的要求，从存储器中取出数据进行指定的运算和逻辑操作等加工，然后再按地址把结果送到内存中去。接下来，再取出第二条指令，在控制器的指挥下完成规定操作。依此进行下去。直至遇到停止指令。
+​        程序与数据一样存贮，按程序编排的顺序，一步一步地取出指令，自动地完成指令规定的操作是计算机最基本的工作模型。这一原理最初是由美籍匈牙利数学家冯.诺依曼于1945年提出来的，故称为冯.诺依曼计算机模型。
+计算机五大核心组成部分
+控制器(Control)：是整个计算机的中枢神经，其功能是对程序规定的控制信息进行解释，根据其要求进行控制，调度程序、数据、地址，协调计算机各部分工作及内存与外设的访问等。
+
+运算器(Datapath)：运算器的功能是对数据进行各种算术运算和逻辑运算，即对数据进行加工处理。
+
+存储器(Memory)：存储器的功能是存储程序、数据和各种信号、命令等信息，并在需要时提供这些信息。
+
+输入(Input system)： ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/ca23a95b.html" title="一文搞定分布式事务-Seata">一文搞定分布式事务-Seata</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-03T01:00:00.000Z" title="发表于 2021-02-03 09:00:00">2021-02-03</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/SpringCloud-Alibaba/">SpringCloud Alibaba</a></span></div><div class="content">
+  
+  
+    该文章还未完全完成, 请输入密码查看。
+    
+  
+  249d63f61f66a83e2cce6900f57704ca0dfceed793e38fd205dc88f783a92fd2429b13657273a209948a601c623686989be9a05bab3337fd5d1f504bd904da26ff231e4d12ad89ac3b2ba6429454743f35d728af8969e79689ee548cad8488a91b33ed693ac25ab364311854cd74981431f92302dae06b30be0d467ed3333e49dd0d2ae91880dea031524a0c713a3c1aabb6d522026e38c784772d3853390489c9226482e68812a1136264486930ef53fbfb3d6a8f7aca96bb750f885f90194a325cfd1d2b633de1ed9da76d29ef57725e6bfc436634eec05d72c57b5541cb2d46d6443c32f ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/74013a27.html" title="一文搞定限流容错-Sentinel">一文搞定限流容错-Sentinel</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-02T10:00:00.000Z" title="发表于 2021-02-02 18:00:00">2021-02-02</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/SpringCloud-Alibaba/">SpringCloud Alibaba</a></span></div><div class="content">
+  
+  
+    该文章还未完全完成, 请输入密码查看。
+    
+  
+  249d63f61f66a83e2cce6900f57704ca0dfceed793e38fd205dc88f783a92fd2429b13657273a209948a601c623686989be9a05bab3337fd5d1f504bd904da26ff231e4d12ad89ac3b2ba6429454743f35d728af8969e79689ee548cad8488a91b33ed693ac25ab364311854cd7498146664a693087aed96a968390fee2ca7196d70ecd6701079f13010257176a12366965e66f92881de8bbf4a1ce562d7a11a17a1a5396f9d03ef10c0f4ee83dc11edba2870bf461a264f31a38b8ddd9150de47cb6dba61dca9183bcfc3707ded9f3521d0585556f22a265fc9c74298a6b51d71682170907 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/a21a98bb.html" title="一文搞定OpenFeign">一文搞定OpenFeign</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-02T01:00:00.000Z" title="发表于 2021-02-02 09:00:00">2021-02-02</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/SpringCloud-Alibaba/">SpringCloud Alibaba</a></span></div><div class="content">
+  
+  
+    该文章还未完全完成, 请输入密码查看。
+    
+  
+  249d63f61f66a83e2cce6900f57704ca2a8bc4ce97f3561a5eefb6e05d5bc39c6ec69dfcddd37877852ea897f53d1c7ede4e38b4692e26349d3d8f6b7488e0925549209866021327d14f11d4f700bb6ad092a6d75c6fe547b365fd8752034ed898794a9bd193712591603263018687cf6d9f3d5a1adf252b6bcb9bf363e75867e27d62325e6fa819393dcdb0936d828175b5cd3e99850a7bb1b136d8e59d14625e12cebbd51caa1230d95b6fad6e616ac69d1ff5395cf4cfe0f5b3523b1cf1e54683b012530d5db67ab7fa5905c413cd87d693192d685ea033366a125478c7c69c439bc69a4 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/420f5f4e.html" title="一文搞定负载均衡-Ribbon">一文搞定负载均衡-Ribbon</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-01T11:00:00.000Z" title="发表于 2021-02-01 19:00:00">2021-02-01</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/SpringCloud-Alibaba/">SpringCloud Alibaba</a></span></div><div class="content">
+  
+  
+    该文章还未完全完成, 请输入密码查看。
+    
+  
+  249d63f61f66a83e2cce6900f57704ca2a8bc4ce97f3561a5eefb6e05d5bc39c2543dc215d8a3ace75982923058c5a4c38786796c7d8865d3813097c6f5b99165c814ea8e426de12d3f7625455dc23a47ee5734c39761f945ff19e974022aabc44e6e51725b7a093be4e9f8f67226053964b262e6e3985c3613f5d30cf6b62154d839bbfe433a079eca9cc7b0a1a82a648b1399dc597b821b26c9e1f800bdbdc0c64b705b2619ea8b280cfe968c1b32604eaee305f741faac1b23db4738c6f53e302988f914b3c9556a68e35413975e6392315d89628ac5297c9c41681e227273bfc61d7e3e ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/59008c3f.html" title="Spring Cloud Alibaba入门">Spring Cloud Alibaba入门</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-01T04:00:00.000Z" title="发表于 2021-02-01 12:00:00">2021-02-01</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/SpringCloud-Alibaba/">SpringCloud Alibaba</a></span></div><div class="content">
+  
+  
+    该文章还未完全完成, 请输入密码查看。
+    
+  
+  249d63f61f66a83e2cce6900f57704ca0dfceed793e38fd205dc88f783a92fd2cd0e868bf594155ac43e54869d5344de7ac344e2d67499079bbd1e89a264cdb61101c5b2e06b35f5e5d36f9615d58a1ff75857868735d415ccffe6ba922aba1a0bf4b8104f2a6e7c642b4ae07e04648a8517040b9a1903bc512373140a88533f63a3a408904cba3ac71988dd6258c3f7ef2071505b7336fe5947fc55c376ec491b6e64bf7d03c428b62d4884e6c04cd454df6ec24de6adffddfa0bca68cd73df912b9f3795b427230feb3c38fac0d01875c04f6ffdb03343494f7b8d77031a02205b16cd303 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="/null" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/friend_404.gif'" alt="avatar"/><div class="author-info__name">D丶Cheng</div><div class="author-info__description">D丶Cheng的技术博客</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length_num">79</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length_num">16</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length_num">16</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://gitee.com/Chave-Z"><i class="fab fa-github"></i><span>码云</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Chave-Z" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:chave_z@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/posts/e7dad272.html" title="并发编程-缓存一致性协议MESI">并发编程-缓存一致性协议MESI</a><time datetime="2021-11-15T04:00:00.000Z" title="发表于 2021-11-15 12:00:00">2021-11-15</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/posts/adfc1815.html" title="Synchronized详解">Synchronized详解</a><time datetime="2021-11-14T12:50:00.000Z" title="发表于 2021-11-14 20:50:00">2021-11-14</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/posts/bd9cf9f0.html" title="JMM&amp;volatile">JMM&amp;volatile</a><time datetime="2021-11-14T05:00:00.000Z" title="发表于 2021-11-14 13:00:00">2021-11-14</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/posts/30832841.html" title="并发编程00-目录">并发编程00-目录</a><time datetime="2021-11-13T13:00:00.000Z" title="发表于 2021-11-13 21:00:00">2021-11-13</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/posts/c14dcc02.html" title="并发编程-操作系统概述">并发编程-操作系统概述</a><time datetime="2021-11-13T13:00:00.000Z" title="发表于 2021-11-13 21:00:00">2021-11-13</time></div></div></div></div></div><div class="card-widget card-categories"><div class="card-content"><div class="item-headline"><i class="fas fa-folder-open"></i><span>分类</span></div><ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/ElasticSearch/"><span class="card-category-list-name">ElasticSearch</span><span class="card-category-list-count">9</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/JVM/"><span class="card-category-list-name">JVM</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MyBatis/"><span class="card-category-list-name">MyBatis</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MySQL/"><span class="card-category-list-name">MySQL</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Redis/"><span class="card-category-list-name">Redis</span><span class="card-category-list-count">8</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Spring/"><span class="card-category-list-name">Spring</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Spring-Cloud/"><span class="card-category-list-name">Spring Cloud</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/SpringCloud-Alibaba/"><span class="card-category-list-name">SpringCloud Alibaba</span><span class="card-category-list-count">6</span></a></li>
+            <li class="card-category-list-item more is-center"><a class="card-category-list-link-more" href="/categories/">
+                <span>查看更多</span><i class="fas fa-angle-right"></i></a></li>
+            </ul></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/ElasticSearch/" style="font-size: 1.5em; color: #99a9bf">ElasticSearch</a> <a href="/tags/JVM/" style="font-size: 1.39em; color: #99a4b4">JVM</a> <a href="/tags/MyBatis/" style="font-size: 1.1em; color: #999">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 1.33em; color: #99a2af">MySQL</a> <a href="/tags/Redis/" style="font-size: 1.44em; color: #99a7ba">Redis</a> <a href="/tags/Spring/" style="font-size: 1.27em; color: #99a0a9">Spring</a> <a href="/tags/Spring-Cloud/" style="font-size: 1.21em; color: #999ea4">Spring Cloud</a> <a href="/tags/SpringCloud-Alibaba/" style="font-size: 1.33em; color: #99a2af">SpringCloud Alibaba</a> <a href="/tags/nginx/" style="font-size: 1.1em; color: #999">nginx</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 1.5em; color: #99a9bf">多线程</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 1.27em; color: #99a0a9">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1/" style="font-size: 1.1em; color: #999">微信</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 1.1em; color: #999">消息队列</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 1.33em; color: #99a2af">设计模式</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 1.16em; color: #999b9e">集合</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 1.5em; color: #99a9bf">面试</a></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/11/"><span class="card-archive-list-date">十一月 2021</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/02/"><span class="card-archive-list-date">二月 2021</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/01/"><span class="card-archive-list-date">一月 2021</span><span class="card-archive-list-count">8</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/12/"><span class="card-archive-list-date">十二月 2020</span><span class="card-archive-list-count">11</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/11/"><span class="card-archive-list-date">十一月 2020</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/10/"><span class="card-archive-list-date">十月 2020</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/09/"><span class="card-archive-list-date">九月 2020</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/08/"><span class="card-archive-list-date">八月 2020</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item more is-center"><a class="card-archive-list-link-more" href="/archives/">
+              <span>查看更多</span><i class="fas fa-angle-right"  ></i></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">79</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2019-10-03T06:20:00.000Z"></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">161.4k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2021-12-29T09:47:51.934Z"></div></div></div></div></div></div></div></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By D丶Cheng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/search/local-search.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/js/third-party/canvas-nest.js"></script></div></body></html>

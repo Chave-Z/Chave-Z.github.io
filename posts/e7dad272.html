@@ -1,0 +1,355 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>并发编程-缓存一致性协议MESI | D丶Cheng的博客</title><meta name="description" content="概述在我们使用多线程共同执行写操作更改同一个共享变量时，会导致数据运算的不正确性。比较典型就是i++问题，在多线程共同对一个变量进行++操作时，我们很难得到正确的结果：  一个自增运算符是一个复合操作，至少包括三个 JVM 指令：”内存取值”、”寄存器增加 1”、”存值到内存”。这三个指令在 JVM 内部是独 立进行的，中间完全可能会出现多个线程并发进行。  12345678910111213pu"><meta name="keywords" content="并发编程"><meta name="author" content="D丶Cheng"><meta name="copyright" content="D丶Cheng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chave-z.github.io/posts/e7dad272.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="并发编程-缓存一致性协议MESI"><meta property="og:url" content="https://chave-z.github.io/posts/e7dad272.html"><meta property="og:site_name" content="D丶Cheng的博客"><meta property="og:description" content="概述在我们使用多线程共同执行写操作更改同一个共享变量时，会导致数据运算的不正确性。比较典型就是i++问题，在多线程共同对一个变量进行++操作时，我们很难得到正确的结果：  一个自增运算符是一个复合操作，至少包括三个 JVM 指令：”内存取值”、”寄存器增加 1”、”存值到内存”。这三个指令在 JVM 内部是独 立进行的，中间完全可能会出现多个线程并发进行。  12345678910111213pu"><meta property="og:image" content="https://chave-z.github.io/null"><meta property="article:published_time" content="2021-11-15T04:00:00.000Z"><meta property="article:modified_time" content="2021-12-29T03:30:29.771Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.1.1',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '天',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: {"limitCount":50,"languages":{"author":"作者: D丶Cheng","link":"链接: ","source":"来源: D丶Cheng的博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-12-29 11:30:29'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.1.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/null" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">79</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">16</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BA%BF%E9%94%81"><span class="toc-number">1.1.</span> <span class="toc-text">总线锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE%EF%BC%88MESI%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">缓存一致性协议（MESI）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%BA%A7%E7%BC%93%E5%AD%98%E6%9E%B6%E6%9E%84"><span class="toc-number">1.2.1.</span> <span class="toc-text">多级缓存架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMESI"><span class="toc-number">1.2.2.</span> <span class="toc-text">什么是MESI</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">名词解释</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%A0%B8%E7%BC%93%E5%AD%98%E5%8D%8F%E5%90%8C%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.3.</span> <span class="toc-text">多核缓存协同操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E6%A0%B8%E8%AF%BB%E5%8F%96"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">单核读取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8C%E6%A0%B8%E8%AF%BB%E5%8F%96"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">双核读取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">修改数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE"><span class="toc-number">1.2.3.4.</span> <span class="toc-text">同步数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MESI%E4%BC%98%E5%8C%96%E5%92%8C%E4%BB%96%E4%BB%AC%E5%BC%95%E5%85%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.4.</span> <span class="toc-text">MESI优化和他们引入的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU%E5%88%87%E6%8D%A2%E7%8A%B6%E6%80%81%E9%98%BB%E5%A1%9E%E8%A7%A3%E5%86%B3-%E5%AD%98%E5%82%A8%E7%BC%93%E5%AD%98%EF%BC%88Store-Bufferes%EF%BC%89"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">CPU切换状态阻塞解决-存储缓存（Store Bufferes）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Store-Bufferes"><span class="toc-number">1.2.4.1.1.</span> <span class="toc-text">Store Bufferes</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Store-Bufferes%E7%9A%84%E9%A3%8E%E9%99%A9"><span class="toc-number">1.2.4.1.2.</span> <span class="toc-text">Store Bufferes的风险</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">硬件内存模型</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">D丶Cheng的博客</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">并发编程-缓存一致性协议MESI</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-15T04:00:00.000Z" title="发表于 2021-11-15 12:00:00">2021-11-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-29T03:30:29.771Z" title="更新于 2021-12-29 11:30:29">2021-12-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>在我们使用<code>多线程</code>共同执行<code>写操作</code>更改<code>同一个共享变量</code>时，会导致数据运算的不正确性。比较典型就是i++问题，在多线程共同对一个变量进行++操作时，我们很难得到正确的结果：</p>
+<blockquote>
+<p>一个自增运算符是一个复合操作，至少包括三个 JVM 指令：”内存取值”、”寄存器增加 1”、”存值到内存”。这三个指令在 JVM 内部是独 立进行的，中间完全可能会出现多个线程并发进行。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCounter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">1000</span>; j++) &#123;</span><br><span class="line">                    System.out.println(Thread.currentThread() + <span class="string">&quot;====&gt;&quot;</span> + count++);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了保证数据的正确性，计算机硬件使用了以下两种方式来处理这个问题：</p>
+<ul>
+<li>总线锁</li>
+<li>缓存一致性协议</li>
+</ul>
+<h2 id="总线锁"><a href="#总线锁" class="headerlink" title="总线锁"></a>总线锁</h2><p>​        早期计算机技术不是很发达的时候，为了解决多线程操作数据的并发问题，使用的是<code>总线锁</code>。比如查看被<code>volatile</code>修饰的共享变量的<code>汇编指令</code>，会发现有一个lock的关键字。</p>
+<p>​        虽然<code>总线锁</code>在一定程度上解决了数据操作的并发问题，但是总线锁在使用时，处理器会提供一个<code>LOCK#</code>信号，当一个处理器在总线上输出此信号会独占共享锁，其他处理器的请求将被阻塞。此时，相对其他cpu而言，整体就是一个<code>单核CPU</code>，这样多核CPU的优势就无法发挥，导致处理效率十分低下。</p>
+<h2 id="缓存一致性协议（MESI）"><a href="#缓存一致性协议（MESI）" class="headerlink" title="缓存一致性协议（MESI）"></a>缓存一致性协议（MESI）</h2><p>​        上文中我们了解到总线锁虽然解决了问题，但是仍旧有很大的弊端。为了解决这种<code>互斥问题</code>，后面提出了<code>缓存一致性协议</code>的解决方案。</p>
+<p>​        <code>缓存一致性协议</code>多种多样(MESI、MSI等)，其中最常用的就是<code>MESI缓存一致性协议</code>。</p>
+<h3 id="多级缓存架构"><a href="#多级缓存架构" class="headerlink" title="多级缓存架构"></a>多级缓存架构</h3><p>​        在了解什么是MESI之前，我们有必要先了解一下当前流行的多级缓存架构：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/webp.jpg" alt="img"></p>
+<ul>
+<li>L1 Cache，<strong>分为数据缓存和指令缓存</strong>，逻辑核独占</li>
+<li>L2 Cache，物理核独占，逻辑核共享</li>
+<li>L3 Cache，所有物理核共享</li>
+</ul>
+<p>级别越小的缓存，越接近CPU， 意味着速度越快且容量越少。</p>
+<ul>
+<li>存储器存储空间大小：内存&gt;L3&gt;L2&gt;L1&gt;寄存器；</li>
+<li>存储器速度快慢排序：寄存器&gt;L1&gt;L2&gt;L3&gt;内存；</li>
+</ul>
+<blockquote>
+<p>L1是最接近CPU的，它容量最小，速度最快，每个核上都有一个L1 Cache(准确地说每个核上有两个L1 Cache， 一个存数据 L1d Cache， 一个存指令 L1i Cache)；</p>
+<p>L2 Cache 更大一些，速度要慢一些，一般情况下每个核上都有一个独立的L2 Cache；二级缓存就是一级缓存的缓冲器：一级缓存制造成本很高因此它的容量有限，二级缓存的作用就是存储那些CPU处理时需要用到、一级缓存又无法存储的数据。</p>
+<p>L3 Cache是三级缓存中最大的一级，例如12MB，同时也是最慢的一级，在同一个CPU插槽之间的核共享一个L3 Cache。三级缓存和内存可以看作是二级缓存的缓冲器，它们的容量递增，但单位制造成本却递减。</p>
+<p>当CPU运作时，它首先去L1寻找它所需要的数据，然后去L2，然后去L3。如果三级缓存都没找到它需要的数据，则从内存里获取数据。寻找的路径越长，耗时越长。所以如果要非常频繁的获取某些数据，保证这些数据在L1缓存里。这样速度将非常快。</p>
+</blockquote>
+<h3 id="什么是MESI"><a href="#什么是MESI" class="headerlink" title="什么是MESI"></a>什么是MESI</h3><h4 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h4><p>MESI也就是缓存一致性协议，对应如下四种状态：</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>描述</th>
+<th>监听任务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M 修改 (Modified)</td>
+<td>该Cache line有效，数据被修改了，和内存中的数据不一致，数据只存在于本Cache中。</td>
+<td>缓存行必须时刻监听所有试图读该缓存行相对就主存的操作，这种操作必须在缓存将该缓存行写回主存并将状态变成S（共享）状态之前被延迟执行。</td>
+</tr>
+<tr>
+<td>E 独享、互斥 (Exclusive)</td>
+<td>该Cache line有效，数据和内存中的数据一致，数据只存在于本Cache中。</td>
+<td>缓存行也必须监听其它缓存读主存中该缓存行的操作，一旦有这种操作，该缓存行需要变成S（共享）状态。</td>
+</tr>
+<tr>
+<td>S 共享 (Shared)</td>
+<td>该Cache line有效，数据和内存中的数据一致，数据存在于很多Cache中。</td>
+<td>缓存行也必须监听其它缓存使该缓存行无效或者独享该缓存行的请求，并将该缓存行变成无效（Invalid）。</td>
+</tr>
+<tr>
+<td>I 无效 (Invalid)</td>
+<td>该Cache line无效。</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<p><strong>Cache Line：</strong>缓存存储数据的单元。64字节，每个Cache line有4个状态，可用2个bit表示。</p>
+<p><strong>注意：</strong></p>
+<p>​        <strong>对于M和E状态而言总是精确的，他们在和该缓存行的真正状态是一致的，而S状态可能是非一致的</strong>。如果一个缓存将处于S状态的缓存行作废了，而另一个缓存实际上可能已经独享了该缓存行，但是该缓存却不会将该缓存行升迁为E状态，这是因为其它缓存不会广播他们作废掉该缓存行的通知，同样由于缓存并没有保存该缓存行的copy的数量，因此（即使有这种通知）也没有办法确定自己是否已经独享了该缓存行。</p>
+<p>​        从上面的意义看来E状态是一种投机性的优化：如果一个CPU想修改一个处于S状态的缓存行，总线事务需要将所有该缓存行的copy变成invalid状态，而修改E状态的缓存不需要使用总线事务。</p>
+<p><code>MESI</code>四种工作状态转换逻辑图如下所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20211115220724301.png" alt="MESI协议状态切换过程分析"></p>
+<p>1.触发事件</p>
+<table>
+<thead>
+<tr>
+<th>触发事件</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>本地读取（Local read）</td>
+<td>本地cache读取本地cache数据</td>
+</tr>
+<tr>
+<td>本地写入（Local write）</td>
+<td>本地cache写入本地cache数据</td>
+</tr>
+<tr>
+<td>远端读取（Remote read）</td>
+<td>其他cache读取本地cache数据</td>
+</tr>
+<tr>
+<td>远端写入（Remote write）</td>
+<td>其他cache写入本地cache数据</td>
+</tr>
+</tbody></table>
+<p>2.cache分类：</p>
+<p>前提：所有的cache共同缓存了主内存中的某一条数据。</p>
+<p>本地cache：指当前cpu的cache。</p>
+<p>触发cache：触发读写事件的cache。</p>
+<p>其他cache：指既除了以上两种之外的cache。</p>
+<p>注意：本地的事件触发 本地cache和触发cache为相同。</p>
+<p>上图的切换解释：</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>触发本地读取</th>
+<th>触发本地写入</th>
+<th>触发远端读取</th>
+<th>触发远端写入</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>M状态（修改）</strong></td>
+<td>本地cache:M 触发cache:M其他cache:I</td>
+<td>本地cache:M 触发cache:M其他cache:I</td>
+<td>本地cache:M→E→S触发cache:I→S其他cache:I→S同步主内存后修改为E独享,同步触发、其他cache后本地、触发、其他cache修改为S共享</td>
+<td>本地cache:M→E→S→I触发cache:I→S→E→M其他cache:I→S→I同步和读取一样,同步完成后触发cache改为M，本地、其他cache改为I</td>
+</tr>
+<tr>
+<td><strong>E状态（独享）</strong></td>
+<td>本地cache:E触发cache:E其他cache:I</td>
+<td>本地cache:E→M触发cache:E→M其他cache:I本地cache变更为M,其他cache状态应当是I（无效）</td>
+<td>本地cache:E→S触发cache:I→S其他cache:I→S当其他cache要读取该数据时，其他、触发、本地cache都被设置为S(共享)</td>
+<td>本地cache:E→S→I触发cache:I→S→E→M其他cache:I→S→I当触发cache修改本地cache独享数据时时，将本地、触发、其他cache修改为S共享.然后触发cache修改为独享，其他、本地cache修改为I（无效），触发cache再修改为M</td>
+</tr>
+<tr>
+<td><strong>S状态(共享)</strong></td>
+<td>本地cache:S触发cache:S其他cache:S</td>
+<td>本地cache:S→E→M触发cache:S→E→M其他cache:S→I 当本地cache修改时，将本地cache修改为E,其他cache修改为I,然后再将本地cache为M状态</td>
+<td>本地cache:S触发cache:S其他cache:S</td>
+<td>本地cache:S→I触发cache：S→E→M其他cache:S→I当触发cache要修改本地共享数据时，触发cache修改为E（独享）,本地、其他cache修改为I（无效）,触发cache再次修改为M(修改)</td>
+</tr>
+<tr>
+<td><strong>I状态（无效）</strong></td>
+<td>本地cache:I→S或者I→E触发cache:I→S或者I →E其他cache:E、M、I→S、I本地、触发cache将从I无效修改为S共享或者E独享，其他cache将从E、M、I 变为S或者I</td>
+<td>本地cache:I→S→E→M触发cache:I→S→E→M其他cache:M、E、S→S→I</td>
+<td>既然是本cache是I，其他cache操作与它无关</td>
+<td>既然是本cache是I，其他cache操作与它无关</td>
+</tr>
+</tbody></table>
+<p>下表示意了，当一个cache line的调整的状态的时候，另外一个cache line 需要调整的状态。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>M</th>
+<th>E</th>
+<th>S</th>
+<th><strong>I</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>M</strong></td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>√</td>
+</tr>
+<tr>
+<td><strong>E</strong></td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>√</td>
+</tr>
+<tr>
+<td><strong>S</strong></td>
+<td>×</td>
+<td>×</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td><strong>I</strong></td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody></table>
+<p>举例来说：假设cache 1 中有一个变量x = 0的cache line 处于S状态(共享)。</p>
+<p>那么其他拥有x变量的cache 2、cache 3等x的cache line调整为S状态（共享）或者调整为 I 状态（无效）。</p>
+<h3 id="多核缓存协同操作"><a href="#多核缓存协同操作" class="headerlink" title="多核缓存协同操作"></a><strong>多核缓存协同操作</strong></h3><p>假设有三个CPU A、B、C，对应三个缓存分别是cache a、b、 c。在主内存中定义了x的引用值为0。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20211118212939783.png" alt="image-20211118212939783"></p>
+<h4 id="单核读取"><a href="#单核读取" class="headerlink" title="单核读取"></a><strong>单核读取</strong></h4><p>执行流程是：</p>
+<p>CPU A发出了一条指令，从主内存中读取x。</p>
+<p>从主内存通过bus读取到缓存中（远端读取Remote read）,这是该Cache line修改为E状态（独享）.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20211118213021861.png" alt="image-20211118213021861"></p>
+<h4 id="双核读取"><a href="#双核读取" class="headerlink" title="双核读取"></a><strong>双核读取</strong></h4><p>执行流程是：</p>
+<p>CPU A发出了一条指令，从主内存中读取x。</p>
+<p>CPU A从主内存通过bus读取到 cache a中并将该cache line 设置为E状态。</p>
+<p>CPU B发出了一条指令，从主内存中读取x。</p>
+<p>CPU B试图从主内存中读取x时，CPU A检测到了地址冲突。这时CPU A对相关数据做出响应。此时x 存储于cache a和cache b中，x在chche a和cache b中都被设置为S状态(共享)。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20211118213058810.png" alt="image-20211118213058810"></p>
+<h4 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a><strong>修改数据</strong></h4><p>执行流程是：</p>
+<p>CPU A 计算完成后发指令需要修改x.</p>
+<p>CPU A 将x设置为M状态（修改）并通知缓存了x的CPU B, CPU B将本地cache b中的x设置为I状态(无效)</p>
+<p>CPU A 对x进行赋值。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20211118213134046.png" alt="image-20211118213134046"></p>
+<h4 id="同步数据"><a href="#同步数据" class="headerlink" title="同步数据"></a><strong>同步数据</strong></h4><p>执行流程是：</p>
+<p>CPU B 发出了要读取x的指令。</p>
+<p>CPU B 通知CPU A,CPU A将修改后的数据同步到主内存时cache a 修改为E（独享）</p>
+<p>CPU A同步CPU B的x,将cache a和同步后cache b中的x设置为S状态（共享）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/image-20211118213202758.png" alt="image-20211118213202758"></p>
+<h3 id="MESI优化和他们引入的问题"><a href="#MESI优化和他们引入的问题" class="headerlink" title="MESI优化和他们引入的问题"></a><strong>MESI优化和他们引入的问题</strong></h3><hr>
+<p>​        缓存的一致性消息传递是要时间的，这就使其切换时会产生延迟。当一个缓存被切换状态时其他缓存收到消息完成各自的切换并且发出回应消息这么一长串的时间中CPU都会等待所有缓存响应完成。可能出现的阻塞都会导致各种各样的性能问题和稳定性问题。</p>
+<h4 id="CPU切换状态阻塞解决-存储缓存（Store-Bufferes）"><a href="#CPU切换状态阻塞解决-存储缓存（Store-Bufferes）" class="headerlink" title="CPU切换状态阻塞解决-存储缓存（Store Bufferes）"></a><strong>CPU切换状态阻塞解决-存储缓存（Store Bufferes）</strong></h4><p>​        比如你需要修改本地缓存中的一条信息，那么你必须将I（无效）状态通知到其他拥有该缓存数据的CPU缓存中，并且等待确认。等待确认的过程会阻塞处理器，这会降低处理器的性能。应为这个等待远远比一个指令的执行时间长的多。</p>
+<h5 id="Store-Bufferes"><a href="#Store-Bufferes" class="headerlink" title="Store Bufferes"></a><strong>Store Bufferes</strong></h5><p>​        为了避免这种CPU运算能力的浪费，Store Bufferes被引入使用。处理器把它想要写入到主存的值写到缓存，然后继续去处理其他事情。当所有失效确认（Invalidate Acknowledge）都接收到时，数据才会最终被提交。</p>
+<p>这么做有两个风险</p>
+<h5 id="Store-Bufferes的风险"><a href="#Store-Bufferes的风险" class="headerlink" title="Store Bufferes的风险"></a><strong>Store Bufferes的风险</strong></h5><p>第一、就是处理器会尝试从存储缓存（Store buffer）中读取值，但它还没有进行提交。这个的解决方案称为Store Forwarding，它使得加载的时候，如果存储缓存中存在，则进行返回。</p>
+<p>第二、保存什么时候会完成，这个并没有任何保证。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">value = <span class="number">3</span>；</span><br><span class="line"><span class="keyword">void</span> exeToCPUA()&#123;</span><br><span class="line">  value = <span class="number">10</span>;</span><br><span class="line">  isFinsh = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">exeToCPUB</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(isFinsh)&#123;</span><br><span class="line">    <span class="comment">//value一定等于10？！</span></span><br><span class="line">    assert value == <span class="number">10</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>试想一下开始执行时，CPU A保存着finished在E(独享)状态，而value并没有保存在它的缓存中。（例如，Invalid）。在这种情况下，value会比finished更迟地抛弃存储缓存。完全有可能CPU B读取finished的值为true，而value的值不等于10。</p>
+<p><strong>即isFinsh的赋值在value赋值之前。</strong></p>
+<p>这种在可识别的行为中发生的变化称为重排序（reordings）。注意，这不意味着你的指令的位置被恶意（或者好意）地更改。</p>
+<p>它只是意味着其他的CPU会读到跟程序中写入的顺序不一样的结果。</p>
+<h4 id="硬件内存模型"><a href="#硬件内存模型" class="headerlink" title="硬件内存模型"></a><strong>硬件内存模型</strong></h4><p>执行失效也不是一个简单的操作，它需要处理器去处理。另外，存储缓存（Store Buffers）并不是无穷大的，所以处理器有时需要等待失效确认的返回。这两个操作都会使得性能大幅降低。为了应付这种情况，引入了失效队列。它们的约定如下：</p>
+<ul>
+<li>对于所有的收到的Invalidate请求，Invalidate Acknowlege消息必须立刻发送</li>
+<li>Invalidate并不真正执行，而是被放在一个特殊的队列中，在方便的时候才会去执行。</li>
+<li>处理器不会发送任何消息给所处理的缓存条目，直到它处理Invalidate。</li>
+</ul>
+<p>即便是这样处理器已然不知道什么时候优化是允许的，而什么时候并不允许。</p>
+<p>干脆处理器将这个任务丢给了写代码的人。这就是内存屏障（Memory Barriers）。</p>
+<p><strong>写屏障 Store Memory Barrier(a.k.a. ST, SMB, smp_wmb)是一条告诉处理器在执行这之后的指令之前，应用所有已经在存储缓存（store buffer）中的保存的指令。</strong></p>
+<p><strong>读屏障Load Memory Barrier (a.k.a. LD, RMB, smp_rmb)是一条告诉处理器在执行任何的加载前，先应用所有已经在失效队列中的失效操作的指令。</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">executedOnCpu0</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    value = <span class="number">10</span>;</span><br><span class="line">    <span class="comment">//在更新数据之前必须将所有存储缓存（store buffer）中的指令执行完毕。</span></span><br><span class="line">    storeMemoryBarrier();</span><br><span class="line">    finished = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">executedOnCpu1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(!finished);</span><br><span class="line">    <span class="comment">//在读取之前将所有失效队列中关于该数据的指令执行完毕。</span></span><br><span class="line">    loadMemoryBarrier();</span><br><span class="line">    assert value == <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">D丶Cheng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://chave-z.github.io/posts/e7dad272.html">https://chave-z.github.io/posts/e7dad272.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://chave-z.github.io" target="_blank">D丶Cheng的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></div><div class="post_share"><div class="social-share" data-image="/null" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/adfc1815.html"><img class="next-cover" src="/null" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Synchronized详解</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/30832841.html" title="并发编程00-目录"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-13</div><div class="title">并发编程00-目录</div></div></a></div><div><a href="/posts/c14dcc02.html" title="并发编程-操作系统概述"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-13</div><div class="title">并发编程-操作系统概述</div></div></a></div><div><a href="/posts/bd9cf9f0.html" title="JMM&volatile"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-14</div><div class="title">JMM&volatile</div></div></a></div><div><a href="/posts/adfc1815.html" title="Synchronized详解"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-14</div><div class="title">Synchronized详解</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By D丶Cheng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/search/local-search.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/js/third-party/canvas-nest.js"></script></div></body></html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>D丶Cheng的博客</title><meta name="description" content="D丶Cheng的技术博客"><meta name="author" content="D丶Cheng"><meta name="copyright" content="D丶Cheng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chave-z.github.io/page/3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="website"><meta property="og:title" content="D丶Cheng的博客"><meta property="og:url" content="https://chave-z.github.io/page/3/"><meta property="og:site_name" content="D丶Cheng的博客"><meta property="og:description" content="D丶Cheng的技术博客"><meta property="og:image" content="https://chave-z.github.io/null"><meta property="article:published_time" content="2021-12-29T09:47:52.738Z"><meta property="article:modified_time" content="2021-12-29T09:47:52.738Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.1.1',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '天',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: {"limitCount":50,"languages":{"author":"作者: D丶Cheng","link":"链接: ","source":"来源: D丶Cheng的博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2021-12-29 17:47:52'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.1.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/null" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">79</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">16</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/5dekk8.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">D丶Cheng的博客</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="site-info"><h1 id="site_title">D丶Cheng的博客</h1><div id="site_subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/Chave-Z" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:chave_z@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll_down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout_page" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/b296eb6f.html" title="设计模式目录">设计模式目录</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-30T02:00:00.000Z" title="发表于 2020-12-30 10:00:00">2020-12-30</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></span></div><div class="content">设计模式的原则
+
+
+设计原则名称
+定 义
+
+
+
+单一职责原则
+一个类只负责一个功能领域中的相应职责
+
+
+开闭原则
+软件实体应对扩展开放，而对修改关闭
+
+
+里氏代换原则
+所有引用基类对象的地方能够透明地使用其子类的对象
+
+
+依赖倒转原则
+抽象不应该依赖于细节，细节应该依赖于抽象
+
+
+接口隔离原则
+使用多个专门的接口，而不使用单一的总接口
+
+
+合成复用原则
+尽量使用对象组合，而不是继承来达到复用的目的
+
+
+迪米特法则
+一个软件实体应当尽可能少地与其他实体发生相互作用
+
+
+啰嗦几句：​        很久以前就看了设计模式，也写了几篇笔记。虽然写的很长很细，但是还是感觉不太好，于是打算重写。这次就分为3大类写吧，分别为创建型模式、结构型模式和行为型模式。写一篇23种设计模式汇总或者分为23篇总感觉可能会让读者产生内容太多或太长的错觉，从而导致直接吃灰的结果。（反正我就是这样的，🤣）。
+​        废话不多说，目录如下，没链接就表示拖更了🤣。
+创建型模式
+结构型模式
+行为型模式
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/c6024536.html" title="ELK分布式日志解决方案">ELK分布式日志解决方案</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-07T04:00:00.000Z" title="发表于 2020-12-07 12:00:00">2020-12-07</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/ElasticSearch/">ElasticSearch</a></span></div><div class="content">简介
+ELK，包含三款产品，Elasticsearch、Logstash、Kibana，可在项目中作为日志框架使用。
+
+各模块的功能如下：
+
+应用服务生产日志，通过Logger产生日志并输出。
+Logstash收集日志，通过http接收应用服务产生的日志。
+Elasticsearch为日志提供全文检索功能。
+kibana为Elasticsearch提供图形化界面。
+
+安装过程elasticsearch、logstash、kibana安装为了简化安装步骤，本文使用docker-compose安装elk，所以需要先安装好docker与docker-compose。如果想自主安装，可以自行百度。
+1. 新建logstash配置文件我创建的为/opt/elk/logstash/logstash-springboot.conf文件，可以自行调整，但是要和下文docker-compose中的对应上
+1234567891011121314input &#123;  tcp &#123;    mode =&gt; &quot;server&quot;    host =&gt; &quot;0.0. ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/ddf54e92.html" title="Java整合ElasticSearch">Java整合ElasticSearch</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-04T04:00:00.000Z" title="发表于 2020-12-04 12:00:00">2020-12-04</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/ElasticSearch/">ElasticSearch</a></span></div><div class="content">ElasticSearch Java API 选择
+直接使用 HTTP 请求
+这个太繁琐了，不介绍。
+
+Low Level REST Client
+
+
+​        用于 Es 的官方的低级客户端。这种方式允许通过 HTTP 与 Es 集群进行通信，但是请求时候的 JSON 参数和响应的 JSON 参数交给用户去处理。这种方式好处就是兼容所有的 Es 版本。但是就是数据处理比较麻烦。
+
+High Level REST Client
+
+​        用户 Es 的官方的高级客户端。这种方式允许通过 HTTP 与 Es 集群进行通信，它是基于 Low Level REST Client，但是提供了很多 API，开发者不需要自己去组装参数，也不需要自己去解析响应 JSON 。这种方式使用起来更加直接。但是需要注意，这种方式，所使用的依赖库的版本要和 Es 对应。
+
+TransportClient
+TransportClient 在 Es7 中已经被弃用，在 Es8 中将被完全删除。
+
+spring-data-elasticsearch
+印象里这个更新比较慢，经常跟不上elastics ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/df344a34.html" title="ElasticSearch查询进阶">ElasticSearch查询进阶</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-04T04:00:00.000Z" title="发表于 2020-12-04 12:00:00">2020-12-04</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/ElasticSearch/">ElasticSearch</a></span></div><div class="content">注：本内容参考的是江南一点雨的这个公众号的文章及视频，需要数据源可以直接在他的微信公众号后台回复 bookdata.json 下载脚本，数据准备参考上一篇文章，文末有他视频和文章的链接。
+复合查询constant_score query​        当我们不关心检索词项的频率（TF）对搜索结果排序的影响时，可以使用 constant_score 将查询语句或者过滤语句包裹起来。
+12345678910111213GET books/_search&#123;  &quot;query&quot;: &#123;    &quot;constant_score&quot;: &#123;      &quot;filter&quot;: &#123;        &quot;term&quot;: &#123;          &quot;name&quot;: &quot;java&quot;        &#125;      &#125;,      &quot;boost&quot;: 1.5    &#125;  &#125;&#125;
+
+注：设置了boost后，查 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/8c3e686f.html" title="ElasticSearch基础查询">ElasticSearch基础查询</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-03T04:00:00.000Z" title="发表于 2020-12-03 12:00:00">2020-12-03</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/ElasticSearch/">ElasticSearch</a></span></div><div class="content">注：本内容参考的是江南一点雨的这个公众号的，需要数据源可以直接在他的微信公众号后台回复 bookdata.json 下载脚本。
+准备工作
+下载数据源
+
+创建索引
+
+
+1234567891011121314151617181920212223242526272829PUT books&#123; &quot;mappings&quot;: &#123;   &quot;properties&quot;: &#123;     &quot;name&quot;:&#123;       &quot;type&quot;: &quot;text&quot;,       &quot;analyzer&quot;: &quot;ik_max_word&quot;     &#125;,     &quot;publish&quot;:&#123;       &quot;type&quot;: &quot;text&quot;,       &quot;analyzer&quot;: &quot;ik_max_word&quot;     &#125;,     &quot;type&quot ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/9994ac37.html" title="ElasticSearch映射">ElasticSearch映射</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-02T04:00:00.000Z" title="发表于 2020-12-02 12:00:00">2020-12-02</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/ElasticSearch/">ElasticSearch</a></span></div><div class="content">映射简介​        mappings是用来定义文档及其字段的存储方式、索引方式的手段，就类似于关系型数据库中的表结构定义。它可以分为两类：
+动态映射​        动态映射创建出来的映射。es根据存入的文档，自动分析出来文档中字段的类型以及存储方式，这种就是动态映射。默认情况下，文档中如果新增了字段，mappings 中也会自动新增进来。但是有的时候，如果希望新增字段时，能够抛出异常来提醒开发者，这个可以通过 mappings 中 dynamic 属性来配置。
+dynamic 属性有三种取值：
+
+true，默认即此。自动添加新字段。
+false，忽略新字段。
+strict，严格模式，发现新字段会抛出异常。
+
+在新建索引时使用即可，操作如下：
+1234567891011121314PUT &#123;&#123;domain&#125;&#125;/index_test&#123;  &quot;mappings&quot;: &#123;    &quot;dynamic&quot;:&quot;strict&quot;,    &quot;properties&quot;:  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/a0be6b60.html" title="ElasticSearch分词及中文分词器">ElasticSearch分词及中文分词器</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-01T10:00:00.000Z" title="发表于 2020-12-01 18:00:00">2020-12-01</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/ElasticSearch/">ElasticSearch</a></span></div><div class="content">Elasticsearch默认分词什么是分词?​        分词就是把文本转换为一个个的单词，分词称之为analysis。 es默认只对英文语句做分词，中文不支持，每个中文字都会被拆分为独立的个体。
+​        分词api为
+1234567891011POST /_analyze&#123;  	&quot;analyzer&quot;: &quot;standard&quot;,    &quot;text&quot;: &quot;text文本&quot;&#125;POST /my_doc/_analyze&#123;    &quot;analyzer&quot;: &quot;standard&quot;,    &quot;field&quot;: &quot;name&quot;,    &quot;text&quot;: &quot;text文本&quot;&#125;
+
+es内置分词器
+standard：默认分词，区分中英文。英文按照空格切分同时大小转小写，中文按照单个词分词。
+
+
+
+simple：先按空格分词，大写转为小写，不是英文不再分词，数字会被剔除。 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/c378945.html" title="ElasticSearch相关api介绍">ElasticSearch相关api介绍</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-01T06:00:00.000Z" title="发表于 2020-12-01 14:00:00">2020-12-01</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/ElasticSearch/">ElasticSearch</a></span></div><div class="content">注：本文中的均为Elasticsearch的地址，例如本地环境为http://localhost:9200
+集群查看集群健康度1GET &#123;&#123;domain&#125;&#125;&#x2F;_cluster&#x2F;health 
+
+查看集群状态1&#123;&#123;domain&#125;&#125;&#x2F;_cluster&#x2F;state
+
+索引 Index​        ES会索引所有字段，经过处理后写入一个倒排索引。查找数据的时候，直接查找该索引。所以，ES数据管理的顶层单位就叫做 Index（索引）。它是单个数据库的同义词。每个 Index （即数据库）的名字必须是小写。
+查看所有索引1234GET _cat&#x2F;indices?vhealth status index      uuid                   pri rep docs.count docs.deleted store.size pri.store.sizeyellow open   index_test OQnPg2LhRbyZ5b5FcFO4lw   ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/a9e5c1e9.html" title="ElasticSearch开篇">ElasticSearch开篇</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-01T04:01:00.000Z" title="发表于 2020-12-01 12:01:00">2020-12-01</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/ElasticSearch/">ElasticSearch</a></span></div><div class="content">Lucene、ElasticSearch和solrLucene​        Lucene 是一个开源、免费、高性能、纯 Java 编写的全文检索引擎，可以算作是开源领域最好的全文检索工具包。
+​        在实际开发中，Lucene 几乎适用于任何需要全文检索的场景，所以 Lucene 先后发展出好多语言版本，例如 C++、C#、Python 等。
+​        早在 2005 年，Lucene 就升级为 Apache 顶级开源项目。它的作者是 Doug Cutting，有的人可能没听过这这个人，不过你肯定听过他的另一个大名鼎鼎的作品 Hadoop。
+​        不过需要注意的是，Lucene 只是一个工具包，并非一个完整的搜索引擎，开发者可以基于 Lucene 来开发完整的搜索引擎。比较著名的有 Solr、ElasticSearch，不过在分布式和大数据环境下，ElasticSearch 更胜一筹。
+Lucene 主要有如下特点：
+
+简单
+跨语言
+强大的搜索引擎
+索引速度快
+索引文件兼容不同平台
+
+ElasticSearch​        ElasticSearc ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/posts/5fe89e0e.html" title="ElasticSearch目录">ElasticSearch目录</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-01T04:00:00.000Z" title="发表于 2020-12-01 12:00:00">2020-12-01</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/ElasticSearch/">ElasticSearch</a></span></div><div class="content">ES聚合TODO
+</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/2/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="/null" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/friend_404.gif'" alt="avatar"/><div class="author-info__name">D丶Cheng</div><div class="author-info__description">D丶Cheng的技术博客</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length_num">79</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length_num">16</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length_num">16</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://gitee.com/Chave-Z"><i class="fab fa-github"></i><span>码云</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Chave-Z" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:chave_z@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/posts/e7dad272.html" title="并发编程-缓存一致性协议MESI">并发编程-缓存一致性协议MESI</a><time datetime="2021-11-15T04:00:00.000Z" title="发表于 2021-11-15 12:00:00">2021-11-15</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/posts/adfc1815.html" title="Synchronized详解">Synchronized详解</a><time datetime="2021-11-14T12:50:00.000Z" title="发表于 2021-11-14 20:50:00">2021-11-14</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/posts/bd9cf9f0.html" title="JMM&amp;volatile">JMM&amp;volatile</a><time datetime="2021-11-14T05:00:00.000Z" title="发表于 2021-11-14 13:00:00">2021-11-14</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/posts/30832841.html" title="并发编程00-目录">并发编程00-目录</a><time datetime="2021-11-13T13:00:00.000Z" title="发表于 2021-11-13 21:00:00">2021-11-13</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/posts/c14dcc02.html" title="并发编程-操作系统概述">并发编程-操作系统概述</a><time datetime="2021-11-13T13:00:00.000Z" title="发表于 2021-11-13 21:00:00">2021-11-13</time></div></div></div></div></div><div class="card-widget card-categories"><div class="card-content"><div class="item-headline"><i class="fas fa-folder-open"></i><span>分类</span></div><ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/ElasticSearch/"><span class="card-category-list-name">ElasticSearch</span><span class="card-category-list-count">9</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/JVM/"><span class="card-category-list-name">JVM</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MyBatis/"><span class="card-category-list-name">MyBatis</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/MySQL/"><span class="card-category-list-name">MySQL</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Redis/"><span class="card-category-list-name">Redis</span><span class="card-category-list-count">8</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Spring/"><span class="card-category-list-name">Spring</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Spring-Cloud/"><span class="card-category-list-name">Spring Cloud</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/SpringCloud-Alibaba/"><span class="card-category-list-name">SpringCloud Alibaba</span><span class="card-category-list-count">6</span></a></li>
+            <li class="card-category-list-item more is-center"><a class="card-category-list-link-more" href="/categories/">
+                <span>查看更多</span><i class="fas fa-angle-right"></i></a></li>
+            </ul></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/ElasticSearch/" style="font-size: 1.5em; color: #99a9bf">ElasticSearch</a> <a href="/tags/JVM/" style="font-size: 1.39em; color: #99a4b4">JVM</a> <a href="/tags/MyBatis/" style="font-size: 1.1em; color: #999">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 1.33em; color: #99a2af">MySQL</a> <a href="/tags/Redis/" style="font-size: 1.44em; color: #99a7ba">Redis</a> <a href="/tags/Spring/" style="font-size: 1.27em; color: #99a0a9">Spring</a> <a href="/tags/Spring-Cloud/" style="font-size: 1.21em; color: #999ea4">Spring Cloud</a> <a href="/tags/SpringCloud-Alibaba/" style="font-size: 1.33em; color: #99a2af">SpringCloud Alibaba</a> <a href="/tags/nginx/" style="font-size: 1.1em; color: #999">nginx</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 1.5em; color: #99a9bf">多线程</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 1.27em; color: #99a0a9">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1/" style="font-size: 1.1em; color: #999">微信</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 1.1em; color: #999">消息队列</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 1.33em; color: #99a2af">设计模式</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 1.16em; color: #999b9e">集合</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 1.5em; color: #99a9bf">面试</a></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/11/"><span class="card-archive-list-date">十一月 2021</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/02/"><span class="card-archive-list-date">二月 2021</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/01/"><span class="card-archive-list-date">一月 2021</span><span class="card-archive-list-count">8</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/12/"><span class="card-archive-list-date">十二月 2020</span><span class="card-archive-list-count">11</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/11/"><span class="card-archive-list-date">十一月 2020</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/10/"><span class="card-archive-list-date">十月 2020</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/09/"><span class="card-archive-list-date">九月 2020</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/08/"><span class="card-archive-list-date">八月 2020</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item more is-center"><a class="card-archive-list-link-more" href="/archives/">
+              <span>查看更多</span><i class="fas fa-angle-right"  ></i></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">79</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2019-10-03T06:20:00.000Z"></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">161.4k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2021-12-29T09:47:51.934Z"></div></div></div></div></div></div></div></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By D丶Cheng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/search/local-search.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/js/third-party/canvas-nest.js"></script></div></body></html>
