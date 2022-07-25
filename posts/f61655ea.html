@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DockerFile | D丶Cheng的博客</title><meta name="description" content="DockerFile 简介Docker 创建镜像主要有三种：  基于本地模板来导入；  基于已有的镜像创建；  基于 Dockerfile 来创建；   基于本地模板导入（了解）12345678910111213141516171819#通过导入操作系统模板文件可以生成镜像，模板可以从OPENVZ开源项目下载，下载地址为 http:&#x2F;&#x2F;openvz.org&#x2F;Download&#x2F;template&#x2F;pr"><meta name="keywords" content="Docker"><meta name="author" content="D丶Cheng"><meta name="copyright" content="D丶Cheng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chave-z.github.io/posts/f61655ea.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="DockerFile"><meta property="og:url" content="https://chave-z.github.io/posts/f61655ea.html"><meta property="og:site_name" content="D丶Cheng的博客"><meta property="og:description" content="DockerFile 简介Docker 创建镜像主要有三种：  基于本地模板来导入；  基于已有的镜像创建；  基于 Dockerfile 来创建；   基于本地模板导入（了解）12345678910111213141516171819#通过导入操作系统模板文件可以生成镜像，模板可以从OPENVZ开源项目下载，下载地址为 http:&#x2F;&#x2F;openvz.org&#x2F;Download&#x2F;template&#x2F;pr"><meta property="og:image" content="https://chave-z.github.io/null"><meta property="article:published_time" content="2022-05-05T04:00:00.000Z"><meta property="article:modified_time" content="2022-07-25T07:29:51.464Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.1.1',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '天',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: {"limitCount":50,"languages":{"author":"作者: D丶Cheng","link":"链接: ","source":"来源: D丶Cheng的博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2022-07-25 15:29:51'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.1.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/null" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">92</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">17</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">17</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#DockerFile-%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">DockerFile 简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%9C%AC%E5%9C%B0%E6%A8%A1%E6%9D%BF%E5%AF%BC%E5%85%A5%EF%BC%88%E4%BA%86%E8%A7%A3%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">基于本地模板导入（了解）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%B7%B2%E6%9C%89%E7%9A%84%E9%95%9C%E5%83%8F%E5%88%9B%E5%BB%BA%EF%BC%88commit%E6%96%B9%E5%BC%8F%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">基于已有的镜像创建（commit方式）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%85%8E%E7%94%A8-docker-commit"><span class="toc-number">1.2.1.</span> <span class="toc-text">慎用 docker commit</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dockerfile%E6%96%B9%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">Dockerfile方式</span></a></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">D丶Cheng的博客</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">DockerFile</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-05T04:00:00.000Z" title="发表于 2022-05-05 12:00:00">2022-05-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-25T07:29:51.464Z" title="更新于 2022-07-25 15:29:51">2022-07-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Docker/">Docker</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="DockerFile-简介"><a href="#DockerFile-简介" class="headerlink" title="DockerFile 简介"></a>DockerFile 简介</h1><p>Docker 创建镜像主要有三种：</p>
+<ol>
+<li><p>基于本地模板来导入；</p>
+</li>
+<li><p>基于已有的镜像创建；</p>
+</li>
+<li><p>基于 Dockerfile 来创建；</p>
+</li>
+</ol>
+<h2 id="基于本地模板导入（了解）"><a href="#基于本地模板导入（了解）" class="headerlink" title="基于本地模板导入（了解）"></a>基于本地模板导入（了解）</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">通过导入操作系统模板文件可以生成镜像，模板可以从OPENVZ开源项目下载，下载地址为 http://openvz.org/Download/template/precreated</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 下载镜像</span></span><br><span class="line">[root@localhost opt]# wget http://download.openvz.org/template/precreated/debian-7.0-x86-minimal.tar.gz</span><br><span class="line">--2022-05-05 12:05:03--  http://download.openvz.org/template/precreated/debian-7.0-x86-minimal.tar.gz</span><br><span class="line">正在解析主机 download.openvz.org (download.openvz.org)... 130.117.225.97</span><br><span class="line">正在连接 download.openvz.org (download.openvz.org)|130.117.225.97|:80... 已连接。</span><br><span class="line">已发出 HTTP 请求，正在等待回应... 200 OK</span><br><span class="line">长度：88436521 (84M) [application/x-gzip]</span><br><span class="line">正在保存至: “debian-7.0-x86-minimal.tar.gz”</span><br><span class="line"></span><br><span class="line"><span class="meta">100%</span><span class="bash">[=================================================================================================================&gt;] 88,436,521  1.32MB/s 用时 49s    </span></span><br><span class="line">2022-05-05 12:05:53 (1.70 MB/s) - 已保存 “debian-7.0-x86-minimal.tar.gz” [88436521/88436521])</span><br><span class="line"><span class="meta">#</span><span class="bash"> 导入</span></span><br><span class="line">[root@localhost opt]# cat debian-7.0-x86-minimal.tar.gz | docker import - debian:1.0</span><br><span class="line">sha256:dc9713284f84bcdab70c18baafb73c5327add3776dd1c175f92f48e416ee9a86</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看</span></span><br><span class="line">[root@localhost opt]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED          SIZE</span><br><span class="line">debian        1.0     dc9713284f84   19 seconds ago   215MB</span><br></pre></td></tr></table></figure>
+
+<h2 id="基于已有的镜像创建（commit方式）"><a href="#基于已有的镜像创建（commit方式）" class="headerlink" title="基于已有的镜像创建（commit方式）"></a>基于已有的镜像创建（commit方式）</h2><p>我们所使用的一般都来自于 Docker Hub 的镜像。直接使用这些镜像是可以满足一定的需求，而当这些镜像无法直接满足需求时，我们就需要定制这些镜像。</p>
+<p>镜像是多层存储，每一层是在前一层的基础上进行的修改；而容器同样也是多层存储，是在以镜像为基础层，在其基础上加一层作为容器运行时的存储层。</p>
+<p><strong>自定义镜像我们一般使用Dockfile的方式，虽然commit方式也行，但是不推荐。</strong></p>
+<blockquote>
+<p>commit 可以方便我们理解镜像是如何构成的，下面我们以nginx为例，来介绍一下这个过程。</p>
+</blockquote>
+<p>首先我们启动一个nginx容器：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@caojiarui0 ~]# docker run --name nginx -p 80:80 -d nginx </span><br><span class="line">ff968fb18a4c364f5334930eb192657e09763f47731ce9e4</span><br></pre></td></tr></table></figure>
+
+<p>此时我们就可以通过<a href="http://localhost去nginx首页了（服务器或虚拟机测试需要将localhost改为对应的ip地址）。下面我们修改一下这个首页的内容：">http://localhost去nginx首页了（服务器或虚拟机测试需要将localhost改为对应的ip地址）。下面我们修改一下这个首页的内容：</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@caojiarui0 ~]<span class="comment"># docker exec -it nginx bash</span></span><br><span class="line">root@ff968fb18a4c:/<span class="comment"># echo &#x27;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&#x27; &gt; /usr/share/nginx/html/index.html</span></span><br><span class="line">root@ff968fb18a4c:/<span class="comment"># exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+
+<p>再次访问网页，我们可以看到如下内容：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Chave-Z/picture@master/data/202108191643821.png" alt="image-20210819164302794"></p>
+<p>我们修改了容器的文件，也就是改动了容器的存储层。可以通过 <code>docker diff</code> 命令看到具体的改动。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@caojiarui0 ~]<span class="comment"># docker diff nginx</span></span><br><span class="line">C /root</span><br><span class="line">A /root/.bash_history</span><br><span class="line">C /var</span><br><span class="line">C /var/cache</span><br><span class="line">C /var/cache/nginx</span><br><span class="line">A /var/cache/nginx/fastcgi_temp</span><br><span class="line">A /var/cache/nginx/proxy_temp</span><br><span class="line">A /var/cache/nginx/scgi_temp</span><br><span class="line">A /var/cache/nginx/uwsgi_temp</span><br><span class="line">A /var/cache/nginx/client_temp</span><br><span class="line">C /run</span><br><span class="line">A /run/nginx.pid</span><br><span class="line">C /etc</span><br><span class="line">C /etc/nginx</span><br><span class="line">C /etc/nginx/conf.d</span><br><span class="line">C /etc/nginx/conf.d/default.conf</span><br><span class="line">C /usr</span><br><span class="line">C /usr/share</span><br><span class="line">C /usr/share/nginx</span><br><span class="line">C /usr/share/nginx/html</span><br><span class="line">C /usr/share/nginx/html/index.html</span><br></pre></td></tr></table></figure>
+
+<p>现在我们定制好了变化，我们希望能将其保存下来形成镜像。</p>
+<p>要知道，当我们运行一个容器的时候（如果不使用卷的话），我们做的任何文件修改都会被记录于容器存储层里。而 Docker 提供了一个 <code>docker commit</code> 命令，可以将容器的存储层保存下来成为镜像。换句话说，就是在原有镜像的基础上，再叠加上容器的存储层，并构成新的镜像。以后我们运行这个新镜像的时候，就会拥有原有容器最后的文件变化。</p>
+<p><code>docker commit</code> 的语法格式为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit [选项] &lt;容器ID或容器名&gt; [&lt;仓库名&gt;[:&lt;标签&gt;]]</span><br></pre></td></tr></table></figure>
+
+<p>我们可以用下面的命令将容器保存为镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@caojiarui0 ~]<span class="comment"># docker commit \</span></span><br><span class="line">&gt;     --author <span class="string">&quot;Cheng&quot;</span> \</span><br><span class="line">&gt;     --message <span class="string">&quot;修改了默认网页&quot;</span> \</span><br><span class="line">&gt;     nginx \</span><br><span class="line">&gt;     nginx:v2</span><br><span class="line">sha256:d6728ce2859dbe154cfd35b8b174b8f2bfa378021440b2adfca</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们就能通过<code>docker image ls </code>查看到这个镜像了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@caojiarui0 ~]<span class="comment"># docker image ls nginx </span></span><br><span class="line">REPOSITORY   TAG       IMAGE ID       CREATED          SIZE</span><br><span class="line">nginx        v2        d6728ce2859d   51 seconds ago   133MB</span><br><span class="line">nginx        latest    dd34e67e3371   45 hours ago     133MB</span><br></pre></td></tr></table></figure>
+
+<p>我们还可以用 <code>docker history</code> 具体查看镜像内的历史记录，如果比较 <code>docker history nginx:latest</code> 的历史记录，会发现新增了我们刚刚提交的这一层。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@caojiarui0 ~]<span class="comment"># docker history nginx:v2</span></span><br><span class="line">IMAGE          CREATED              CREATED BY                                      SIZE      COMMENT</span><br><span class="line">d6728ce2859d   About a minute ago   nginx -g daemon off;                            1.19kB    修改了默认网页</span><br><span class="line">dd34e67e3371   45 hours ago         /bin/sh -c <span class="comment">#(nop)  CMD [&quot;nginx&quot; &quot;-g&quot; &quot;daemon…   0B   </span></span><br><span class="line">&lt;missing&gt;      45 hours ago         /bin/sh -c <span class="comment">#(nop)  STOPSIGNAL SIGQUIT           0B   </span></span><br><span class="line">&lt;missing&gt;      45 hours ago         /bin/sh -c <span class="comment">#(nop)  EXPOSE 80                    0B        </span></span><br><span class="line">&lt;missing&gt;      45 hours ago         /bin/sh -c <span class="comment">#(nop)  ENTRYPOINT [&quot;/docker-entr…   0B        </span></span><br><span class="line">&lt;missing&gt;      45 hours ago         /bin/sh -c <span class="comment">#(nop) COPY file:09a214a3e07c919a…   4.61kB    </span></span><br><span class="line">&lt;missing&gt;      45 hours ago         /bin/sh -c <span class="comment">#(nop) COPY file:0fd5fca330dcd6a7…   1.04kB    </span></span><br><span class="line">&lt;missing&gt;      45 hours ago         /bin/sh -c <span class="comment">#(nop) COPY file:0b866ff3fc1ef5b0…   1.96kB    </span></span><br><span class="line">&lt;missing&gt;      45 hours ago         /bin/sh -c <span class="comment">#(nop) COPY file:65504f71f5855ca0…   1.2kB     </span></span><br><span class="line">&lt;missing&gt;      45 hours ago         /bin/sh -c <span class="built_in">set</span> -x     &amp;&amp; addgroup --system -…   63.9MB    </span><br><span class="line">&lt;missing&gt;      45 hours ago         /bin/sh -c <span class="comment">#(nop)  ENV PKG_RELEASE=1~buster     0B        </span></span><br><span class="line">&lt;missing&gt;      45 hours ago         /bin/sh -c <span class="comment">#(nop)  ENV NJS_VERSION=0.6.1        0B        </span></span><br><span class="line">&lt;missing&gt;      45 hours ago         /bin/sh -c <span class="comment">#(nop)  ENV NGINX_VERSION=1.21.1     0B     </span></span><br><span class="line">&lt;missing&gt;      45 hours ago         /bin/sh -c <span class="comment">#(nop)  LABEL maintainer=NGINX Do…   0B    </span></span><br><span class="line">&lt;missing&gt;      2 days ago           /bin/sh -c <span class="comment">#(nop)  CMD [&quot;bash&quot;]                 0B   </span></span><br><span class="line">&lt;missing&gt;      2 days ago           /bin/sh -c <span class="comment">#(nop) ADD file:87b4e60fe3af680c6…   69.3MB </span></span><br></pre></td></tr></table></figure>
+
+<p>然后启动这个新的镜像，并访问<a href="http://localhost:81，可以发现nginx首页内容就是我们之前修改过的内容">http://localhost:81，可以发现nginx首页内容就是我们之前修改过的内容</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx2 -d -p 81:80 nginx:v2</span><br></pre></td></tr></table></figure>
+
+<p>所以我们使用 <code>docker commit</code> 命令来定制镜像是<strong>手动操作给旧的镜像添加了新的一层，形成新的镜像</strong>，对镜像多层存储应该有了更直观的感觉。</p>
+<h3 id="慎用-docker-commit"><a href="#慎用-docker-commit" class="headerlink" title="慎用 docker commit"></a>慎用 <code>docker commit</code></h3><p>使用 <code>docker commit</code> 命令虽然可以比较直观的帮助理解镜像分层存储的概念，但是实际环境中并不会这样使用。</p>
+<p>首先，如果仔细观察之前的 <code>docker diff webserver</code> 的结果，你会发现除了真正想要修改的 <code>/usr/share/nginx/html/index.html</code> 文件外，由于命令的执行，还有很多文件被改动或添加了。这还仅仅是最简单的操作，如果是安装软件包、编译构建，那会有大量的无关内容被添加进来，将会导致镜像极为臃肿。</p>
+<p>此外，使用 <code>docker commit</code> 意味着所有对镜像的操作都是黑箱操作，生成的镜像也被称为 <strong>黑箱镜像</strong>，换句话说，就是除了制作镜像的人知道执行过什么命令、怎么生成的镜像，别人根本无从得知。而且，即使是这个制作镜像的人，过一段时间后也无法记清具体的操作。这种黑箱镜像的维护工作是非常痛苦的。</p>
+<p>而且，回顾之前提及的镜像所使用的分层存储的概念，除当前层外，之前的每一层都是不会发生改变的，换句话说，任何修改的结果仅仅是在当前层进行标记、添加、修改，而不会改动上一层。如果使用 <code>docker commit</code> 制作镜像，以及后期修改的话，每一次修改都会让镜像更加臃肿一次，所删除的上一层的东西并不会丢失，会一直如影随形的跟着这个镜像，即使根本无法访问到。这会让镜像更加臃肿。</p>
+<h2 id="Dockerfile方式"><a href="#Dockerfile方式" class="headerlink" title="Dockerfile方式"></a>Dockerfile方式</h2></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">D丶Cheng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://chave-z.github.io/posts/f61655ea.html">https://chave-z.github.io/posts/f61655ea.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://chave-z.github.io" target="_blank">D丶Cheng的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Docker/">Docker</a></div><div class="post_share"><div class="social-share" data-image="/null" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/8a8d1ac6.html"><img class="prev-cover" src="/null" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">docker容器数据卷与网络</div></div></a></div><div class="next-post pull-right"><a href="/posts/5ae6092.html"><img class="next-cover" src="/null" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">docker基础</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/5ae6092.html" title="docker基础"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-04</div><div class="title">docker基础</div></div></a></div><div><a href="/posts/8a8d1ac6.html" title="docker容器数据卷与网络"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-07</div><div class="title">docker容器数据卷与网络</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By D丶Cheng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/search/local-search.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/js/third-party/canvas-nest.js"></script></div></body></html>
