@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Redis持久化 | D丶Cheng的博客</title><meta name="description" content="Redis持久化 Redis 的读写都是在内存中，所以它的性能较高，但在内存中的数据会随着服务器的重启而丢失，为了保证数据不丢失，我们需要将内存中的数据存储到磁盘，以便 Redis 重启时能够从磁盘中恢复原有的数据，而整个过程就叫做 Redis 持久化。  注：下文中所有直接通过命令开启的配置都无需重启 Redis 服务，但是 Redis 服务重启，则之前使用命令行设置的配置就会失效。 持久化的几"><meta name="keywords" content="Redis"><meta name="author" content="D丶Cheng"><meta name="copyright" content="D丶Cheng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chave-z.github.io/posts/119ed1dc.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="Redis持久化"><meta property="og:url" content="https://chave-z.github.io/posts/119ed1dc.html"><meta property="og:site_name" content="D丶Cheng的博客"><meta property="og:description" content="Redis持久化 Redis 的读写都是在内存中，所以它的性能较高，但在内存中的数据会随着服务器的重启而丢失，为了保证数据不丢失，我们需要将内存中的数据存储到磁盘，以便 Redis 重启时能够从磁盘中恢复原有的数据，而整个过程就叫做 Redis 持久化。  注：下文中所有直接通过命令开启的配置都无需重启 Redis 服务，但是 Redis 服务重启，则之前使用命令行设置的配置就会失效。 持久化的几"><meta property="og:image" content="https://chave-z.github.io/null"><meta property="article:published_time" content="2020-06-04T05:00:00.000Z"><meta property="article:modified_time" content="2022-12-08T01:12:31.747Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.1.1',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '天',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: {"limitCount":50,"languages":{"author":"作者: D丶Cheng","link":"链接: ","source":"来源: D丶Cheng的博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2022-12-08 09:12:31'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.1.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/null" onerror="onerror=null;src='https://cdn.staticaly.com/gh/Chave-Z/picture@master/data/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">93</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">17</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">17</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">Redis持久化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">持久化的几种方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RDB%EF%BC%88Redis-DataBase%EF%BC%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">RDB（Redis DataBase）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Fork"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">Fork</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">持久化触发条件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E8%A7%A6%E5%8F%91"><span class="toc-number">1.1.1.5.</span> <span class="toc-text">手动触发</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#bgsave-%E5%91%BD%E4%BB%A4"><span class="toc-number">1.1.1.5.1.</span> <span class="toc-text">bgsave 命令</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A7%A6%E5%8F%91"><span class="toc-number">1.1.1.6.</span> <span class="toc-text">自动触发</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5%E8%A7%A6%E5%8F%91"><span class="toc-number">1.1.1.6.1.</span> <span class="toc-text">主从同步触发</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E6%81%A2%E5%A4%8D"><span class="toc-number">1.1.1.7.</span> <span class="toc-text">RDB文件如何恢复</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB%E6%8C%81%E4%B9%85%E5%8C%96%E7%A6%81%E7%94%A8"><span class="toc-number">1.1.1.8.</span> <span class="toc-text">RDB持久化禁用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB%E4%BC%98%E5%8A%BF"><span class="toc-number">1.1.1.9.</span> <span class="toc-text">RDB优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RDB%E5%8A%A3%E5%8A%BF"><span class="toc-number">1.1.1.10.</span> <span class="toc-text">RDB劣势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.1.1.11.</span> <span class="toc-text">使用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AOF%EF%BC%88Append-Only-File%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">AOF（Append Only File）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-1"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#aof%E6%8C%81%E4%B9%85%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AD%96%E7%95%A5%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">aof持久化的一些策略配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">触发条件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A7%A6%E5%8F%91-1"><span class="toc-number">1.1.2.3.1.</span> <span class="toc-text">自动触发</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E8%A7%A6%E5%8F%91-1"><span class="toc-number">1.1.2.3.2.</span> <span class="toc-text">手动触发</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AOF-%E6%96%87%E4%BB%B6%E9%87%8D%E5%86%99"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">AOF 文件重写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88AOF%E9%9C%80%E8%A6%81%E9%87%8D%E5%86%99"><span class="toc-number">1.1.2.5.</span> <span class="toc-text">为什么AOF需要重写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AOF-%E9%87%8D%E5%86%99%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.1.2.6.</span> <span class="toc-text">AOF 重写实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AOF%E9%87%8D%E5%86%99%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.2.7.</span> <span class="toc-text">AOF重写流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AOF%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D"><span class="toc-number">1.1.2.8.</span> <span class="toc-text">AOF如何进行数据恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A3%E5%B8%B8%E6%81%A2%E5%A4%8D%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.2.8.1.</span> <span class="toc-text">正常恢复流程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%87%E4%BB%B6%E5%8A%A0%E8%BD%BD%E8%A7%84%E5%88%99"><span class="toc-number">1.1.2.8.2.</span> <span class="toc-text">持久化文件加载规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E6%81%A2%E5%A4%8D%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.2.8.3.</span> <span class="toc-text">异常恢复流程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AOF%E4%BC%98%E5%8A%BF"><span class="toc-number">1.1.2.9.</span> <span class="toc-text">AOF优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AOF%E5%8A%A3%E5%8A%BF"><span class="toc-number">1.1.2.10.</span> <span class="toc-text">AOF劣势</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">1.1.3.</span> <span class="toc-text">混合持久化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96%E5%BC%80%E5%90%AF"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">混合持久化开启</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E6%B5%8B"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">实测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">混合持久化流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.1.3.4.</span> <span class="toc-text">混合持久化优缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-number">1.1.3.4.1.</span> <span class="toc-text">混合持久化优点：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">1.1.3.4.2.</span> <span class="toc-text">混合持久化缺点：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.2.</span> <span class="toc-text">最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%8E%A7%E5%88%B6%E6%8C%81%E4%B9%85%E5%8C%96%E5%BC%80%E5%85%B3"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">1) 控制持久化开关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%B8%BB%E4%BB%8E%E9%83%A8%E7%BD%B2"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">2) 主从部署</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">3) 使用混合持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%E6%9B%B4%E9%AB%98%E7%9A%84%E6%9C%BA%E5%99%A8"><span class="toc-number">1.2.0.4.</span> <span class="toc-text">4) 使用配置更高的机器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.2.1.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">D丶Cheng的博客</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 所有文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Redis持久化</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-06-04T05:00:00.000Z" title="发表于 2020-06-04 13:00:00">2020-06-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-12-08T01:12:31.747Z" title="更新于 2022-12-08 09:12:31">2022-12-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Redis/">Redis</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>18分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h1><blockquote>
+<p>Redis 的读写都是在内存中，所以它的性能较高，但在内存中的数据会随着服务器的重启而丢失，为了保证数据不丢失，我们需要将内存中的数据存储到磁盘，以便 Redis 重启时能够从磁盘中恢复原有的数据，而整个过程就叫做 Redis 持久化。</p>
+</blockquote>
+<p><strong>注</strong>：下文中所有直接通过命令开启的配置都无需重启 Redis 服务，但是 Redis 服务重启，则之前使用命令行设置的配置就会失效。</p>
+<h2 id="持久化的几种方式"><a href="#持久化的几种方式" class="headerlink" title="持久化的几种方式"></a>持久化的几种方式</h2><p>Redis 持久化拥有以下三种方式：</p>
+<ul>
+<li><strong>快照方式</strong>（RDB, Redis DataBase）将某一个时刻的内存数据，以二进制的方式写入磁盘；</li>
+<li><strong>文件追加方式</strong>（AOF, Append Only File），记录所有的操作命令，并以文本的形式追加到文件中；</li>
+<li><strong>混合持久化方式</strong>，Redis 4.0 之后新增的方式，混合持久化是结合了 RDB 和 AOF 的优点，在写入的时候，先把当前的数据以 RDB 的形式写入文件的开头，再将后续的操作命令以 AOF 的格式存入文件，这样既能保证 Redis 重启时的速度，又能减低数据丢失的风险。</li>
+</ul>
+<h3 id="RDB（Redis-DataBase）"><a href="#RDB（Redis-DataBase）" class="headerlink" title="RDB（Redis DataBase）"></a>RDB（Redis DataBase）</h3><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在指定的时间间隔内生成内存中整个数据集的持久化快照。快照文件以二进制的形式被存储在当前文件夹中，默认名称为<code>dump.rdb</code>，可以通过dir和dbfilename参数来修改默认值。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Redis会<strong>单独创建（fork）一个子进程来进行持久化</strong>，会先将数据<strong>写入到一个临时文件</strong>中，待<strong>持久化过程都结束了，再用这个临时文件替换上次持久化好的文件</strong>。&nbsp;&nbsp;整个过程中，主进程是不进行任何的IO操作的，这就确保了极高的性能。</p>
+<h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> redis是基于内存的数据库，可以通过设置该值定期写入磁盘。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 注释掉“save”这一行配置项就可以让保存数据库功能失效</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 900秒（15分钟）内至少1个key值改变（则进行数据库保存--持久化） </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 300秒（5分钟）内至少10个key值改变（则进行数据库保存--持久化） </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 60秒（1分钟）内至少10000个key值改变（则进行数据库保存--持久化）</span></span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">当RDB持久化出现错误后，是否依然进行继续进行工作，yes：不能进行工作，no：可以继续进行工作，可以通过info中的rdb_last_bgsave_status了解RDB持久化是否有错误</span></span><br><span class="line">stop-writes-on-bgsave-error yes</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">使用压缩rdb文件，rdb文件压缩使用LZF压缩算法，yes：压缩，但是需要一些cpu的消耗。no：不压缩，需要更多的磁盘空间</span></span><br><span class="line">rdbcompression yes</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">表示写入文件和读取文件时是否开启 RDB 文件检查，检查是否有无损坏，默认为yes，如果在启动时检查发现损坏，则停市启动。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">从rdb格式的第五个版本开始，在rdb文件的末尾会带上CRC64的校验和。这跟有利于文件的容错性，但是在保存rdb文件的时候，会有大概10%的性能损耗，所以如果你追求高性能，可以关闭该配置。</span></span><br><span class="line">rdbchecksum yes</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">rdb文件的名称</span></span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">数据目录，数据库的写入会在这个目录。rdb、aof文件也会写在这个目录</span></span><br><span class="line">dir /data</span><br></pre></td></tr></table></figure>
+
+<h4 id="Fork"><a href="#Fork" class="headerlink" title="Fork"></a>Fork</h4><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fork的作用相当于复制一个与当前进程一样的进程。但是是一个全新的进程，并作为原进程的子进程。</p>
+<h4 id="持久化触发条件"><a href="#持久化触发条件" class="headerlink" title="持久化触发条件"></a>持久化触发条件</h4><blockquote>
+<p>RDB 的持久化触发方式有两类：一类是手动触发，另一类是自动触发。</p>
+</blockquote>
+<h4 id="手动触发"><a href="#手动触发" class="headerlink" title="手动触发"></a>手动触发</h4><p>手动触发分为手动执行save和bgsave两种，主要区别是<strong>后者不会阻碍主线程的执行</strong>。</p>
+<ul>
+<li><p><strong>save命令</strong></p>
+<p>在客户端中执行 <code>save</code> 命令，就会触发 Redis 的持久化，但同时也是使 Redis 处于阻塞状态，直到 RDB 持久化完成，才会响应其他客户端发来的命令，所以<strong>在生产环境一定要慎用</strong>。</p>
+</li>
+<li><h5 id="bgsave-命令"><a href="#bgsave-命令" class="headerlink" title="bgsave 命令"></a>bgsave 命令</h5><p>bgsave（background save）既后台保存的意思， 它和 <code>save</code> 命令最大的区别就是 <code>bgsave</code> 会 fork() 一个子进程来执行持久化，整个过程中只有在 fork() 子进程时有短暂的阻塞，当子进程被创建之后，Redis 的主进程就可以响应其他客户端的请求了，相对于整个流程都阻塞的 <code>save</code> 命令来说，显然 <code>bgsave</code> 命令更适合我们使用。</p>
+</li>
+</ul>
+<h4 id="自动触发"><a href="#自动触发" class="headerlink" title="自动触发"></a>自动触发</h4><ol>
+<li><p><strong>save m n （配置）</strong></p>
+<blockquote>
+<p>表示在m秒内，有n个键发生改变，则自动触发持久化</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 详细说明见上文配置文件处</span></span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>flushall命令</strong></p>
+<p><code>flushall</code> 命令用于清空 Redis 数据库，在生产环境下一定慎用，当 Redis 执行了 <code>flushall</code> 命令之后，则会触发自动持久化，把 RDB 文件清空</p>
+</li>
+<li><p><strong>shutdown命令</strong></p>
+<p>注：安全退出，也会生成快照文件（和异常退出形成对比，比如：kill杀死进程的方式）</p>
+</li>
+<li><h5 id="主从同步触发"><a href="#主从同步触发" class="headerlink" title="主从同步触发"></a>主从同步触发</h5><p>在 Redis 主从复制中，当从节点执行全量复制操作时，主节点会执行 <code>bgsave</code> 命令，并将 RDB 文件发送给从节点，该过程会自动触发 Redis 持久化。</p>
+</li>
+</ol>
+<h4 id="RDB文件如何恢复"><a href="#RDB文件如何恢复" class="headerlink" title="RDB文件如何恢复"></a>RDB文件如何恢复</h4><blockquote>
+<p>当 Redis 服务器启动时，如果 Redis 配置中的dir目录存在 RDB 文件 dump.rdb，Redis 就会自动加载 RDB 文件恢复持久化数据。 如果 配置中的dir目录没有 dump.rdb 文件，请先将 dump.rdb 文件移动到 Redis 的根目录。</p>
+</blockquote>
+<h4 id="RDB持久化禁用"><a href="#RDB持久化禁用" class="headerlink" title="RDB持久化禁用"></a>RDB持久化禁用</h4><p>禁用持久化可以提高 Redis 的执行效率，如果对数据丢失不敏感的情况下，可以注释save相关的配置或在连接客户端的情况下，执行 <code>config set save &quot;&quot;</code> 命令即可禁用 Redis 的持久化。</p>
+<h4 id="RDB优势"><a href="#RDB优势" class="headerlink" title="RDB优势"></a>RDB优势</h4><ol>
+<li>恢复数据的速度很快，适合大规模的数据恢复，而又对部分数据不敏感的情况</li>
+<li>dump.db文件是一个压缩的二进制文件，文件暂用空间小</li>
+<li><strong>RDB</strong>对<strong>Redis</strong>的性能影响非常小，是因为在同步数据的时候他只是<strong>fork</strong>了一个子进程去做持久化的，而且他在数据恢复的时候速度比<strong>AOF</strong>来的快。</li>
+<li>与 AOF 格式的文件相比，RDB 文件可以更快的重启。</li>
+</ol>
+<h4 id="RDB劣势"><a href="#RDB劣势" class="headerlink" title="RDB劣势"></a>RDB劣势</h4><ol>
+<li><strong>RDB</strong>都是快照文件，都是默认五分钟甚至更久的时间才会生成一次，这意味着你这次同步到下次同步这中间五分钟的数据都很可能全部丢失掉。<strong>AOF</strong>则最多丢一秒的数据，<strong>数据完整性</strong>上高下立判。</li>
+<li>当fork的时候，内存的中的数据会被克隆一份，大致两倍的膨胀需要考虑。而且，当数据过大时，fork操作占用过多的系统资源，比如你公司在做秒杀的时候他刚好在这个时候<strong>fork</strong>了一个子进程去生成一个大快照，造成主服务器进程假死几率就很高了。</li>
+</ol>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ol>
+<li>数据备份</li>
+<li>可容忍部分数据丢失</li>
+<li>跨数据中心的容灾备份</li>
+</ol>
+<h3 id="AOF（Append-Only-File）"><a href="#AOF（Append-Only-File）" class="headerlink" title="AOF（Append Only File）"></a>AOF（Append Only File）</h3><p>使用 RDB 持久化有一个风险，它可能会造成最新数据丢失的风险。因为 RDB 的持久化有一定的时间间隔，在这个时间段内如果 Redis 服务意外终止的话，就会造成最新的数据全部丢失。</p>
+<p>可能会操作 Redis 服务意外终止的条件：</p>
+<ul>
+<li>安装 Redis 的机器停止运行，蓝屏或者系统崩溃；</li>
+<li>安装 Redis 的机器出现电源故障，例如突然断电；</li>
+<li>使用 <code>kill -9 Redis_PID</code> 等。</li>
+</ul>
+<p>那么如何与之匹配的解决方案就是使用AOF。</p>
+<h4 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h4><p>以日志的形式来记录每个写操作，将Redis执行过的所有写指令记录下来（读操作补不可记录），只许追加文件但不可以改写文件，redis启动之初会读取改文件重新构建数据，保存的是appendonly.aof文件</p>
+<h4 id="aof持久化的一些策略配置"><a href="#aof持久化的一些策略配置" class="headerlink" title="aof持久化的一些策略配置"></a>aof持久化的一些策略配置</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 开启aof机制，默认为no</span></span><br><span class="line">appendonly yes</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定aof文件名称</span></span><br><span class="line">appendfilename myaoffile.aof</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">aof持久化策略的配置</span></span><br><span class="line"><span class="meta">#</span><span class="bash">no表示不执行fsync，由操作系统保证数据同步到磁盘，速度最快。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">always表示每次写入都执行fsync，以保证数据同步到磁盘。</span></span><br><span class="line"><span class="meta">#</span><span class="bash">everysec表示每秒执行一次fsync，可能会导致丢失这1s数据。</span></span><br><span class="line">appendfsync everysec</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">数据目录，数据库的写入会在这个目录。rdb、aof文件也会写在这个目录</span></span><br><span class="line">dir /data</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 是否开启启动时加载 AOF 文件效验，默认值是 yes，表示尽可能的加载 AOF 文件，忽略错误部分信息，并启动 Redis 服务。如果值为 no，则表示，停止启动 Redis，用户必须手动修复 AOF 文件才能正常启动 Redis 服务。</span></span><br><span class="line">aof-load-truncated yes</span><br></pre></td></tr></table></figure>
+
+<h4 id="触发条件"><a href="#触发条件" class="headerlink" title="触发条件"></a>触发条件</h4><p>同样的，在AOF 持久化开启之后，只要满足一定条件，就会触发 AOF 持久化。AOF 的触发条件分为两种：自动触发和手动触发。</p>
+<h5 id="自动触发-1"><a href="#自动触发-1" class="headerlink" title="自动触发"></a>自动触发</h5><p>有两种情况可以自动触发 AOF 持久化，分为是：<strong>满足 AOF 设置的策略触发</strong>和<strong>满足 AOF 重写触发。</strong>其中，AOF 重写触发会在本文的后半部分详细介绍，这里重点来说 AOF 持久化策略都有哪些。 AOF 持久化策略，分为以下三种：</p>
+<ul>
+<li>always：每条 Redis 操作命令都会写入磁盘，最多丢失一条数据；</li>
+<li>everysec：每秒钟写入一次磁盘，最多丢失一秒的数据；</li>
+<li>no：不设置写入磁盘的规则，根据当前操作系统来决定何时写入磁盘，Linux 默认 30s 写入一次数据至磁盘。</li>
+</ul>
+<h5 id="手动触发-1"><a href="#手动触发-1" class="headerlink" title="手动触发"></a>手动触发</h5><p>在客户端执行 <code>bgrewriteaof</code> 命令就可以手动触发 AOF 持久化</p>
+<h4 id="AOF-文件重写"><a href="#AOF-文件重写" class="headerlink" title="AOF 文件重写"></a>AOF 文件重写</h4><blockquote>
+<p>AOF 是通过记录 Redis 的执行命令来持久化（保存）数据的，所以随着时间的流逝 AOF 文件会越来越多，这样不仅增加了服务器的存储压力，也会造成 Redis 重启速度变慢，为了解决这个问题 Redis 提供了 AOF 重写的功能。</p>
+</blockquote>
+<h4 id="为什么AOF需要重写"><a href="#为什么AOF需要重写" class="headerlink" title="为什么AOF需要重写"></a>为什么AOF需要重写</h4><p>AOF 重写指的是它会直接读取 Redis 服务器当前的状态，并压缩保存为 AOF 文件。例如，我们增加了一个计数器，并对它做了 99 次修改，如果不做 AOF 重写的话，那么持久化文件中就会有 100 条记录执行命令的信息，而 <strong>AOF 重写之后，之后记录一条此计数器最终的结果信息，这样就去除了所有的无效信息</strong>。</p>
+<h4 id="AOF-重写实现"><a href="#AOF-重写实现" class="headerlink" title="AOF 重写实现"></a>AOF 重写实现</h4><p>对于触发aof重写机制也可以通过配置文件来进行设置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> aof自动重写配置。当目前aof文件大小超过上一次重写的aof文件大小的百分之多少进行重写，即当aof文件增长到一定大小的时候Redis能够调用bgrewriteaof对日志文件进行重写。当前AOF文件大小是上次日志重写得到AOF文件大小的二倍（设置为100）时，自动启动新的日志重写过程。</span></span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置允许重写的最小aof文件大小，默认是 64mb，避免了达到约定百分比但尺寸仍然很小的情况还要重写</span></span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br></pre></td></tr></table></figure>
+
+<p>当aop重写时会引发重写和持久化追加同时发生的问题，可以通过<code>no-appendfsync-on-rewrite no</code>进行配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在aof重写或者写入rdb文件的时候，会执行大量IO，此时对于everysec和always的aof模式来说，执行fsync会造成阻塞过长时间，no-appendfsync-on-rewrite字段设置为默认设置为no，是最安全的方式，不会丢失数据，但是要忍受阻塞的问题。如果对延迟要求很高的应用，这个字段可以设置为yes，，设置为yes表示rewrite期间对新写操作不fsync,暂时存在内存中,不会造成阻塞的问题（因为没有磁盘竞争），等rewrite完成后再写入，这个时候redis会丢失数据。Linux的默认fsync策略是30秒。可能丢失30秒数据。因此，如果应用系统无法忍受延迟，而可以容忍少量的数据丢失，则设置为yes。如果应用系统无法忍受数据丢失，则设置为no。</span></span><br><span class="line">no-appendfsync-on-rewrite no</span><br></pre></td></tr></table></figure>
+
+<h4 id="AOF重写流程"><a href="#AOF重写流程" class="headerlink" title="AOF重写流程"></a>AOF重写流程</h4><p>AOF 文件重写是生成一个全新的文件，并把当前数据的最少操作命令保存到新文件上，当把所有的数据都保存至新文件之后，Redis 会交换两个文件，并把最新的持久化操作命令追加到新文件上。</p>
+<h4 id="AOF如何进行数据恢复"><a href="#AOF如何进行数据恢复" class="headerlink" title="AOF如何进行数据恢复"></a>AOF如何进行数据恢复</h4><h5 id="正常恢复流程"><a href="#正常恢复流程" class="headerlink" title="正常恢复流程"></a>正常恢复流程</h5><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;只要开启了 AOF 持久化，并将文件放到dir指定的文件夹下，当redis启动的时候会自动加载数据，注意：<code>aof文件的优先级比dump大</code>。</p>
+<h5 id="持久化文件加载规则"><a href="#持久化文件加载规则" class="headerlink" title="持久化文件加载规则"></a><strong>持久化文件加载规则</strong></h5><ul>
+<li>如果只开启了 AOF 持久化，Redis 启动时只会加载 AOF 文件（appendonly.aof），进行数据恢复；</li>
+<li>如果只开启了 RDB 持久化，Redis 启动时只会加载 RDB 文件（dump.rdb），进行数据恢复；</li>
+<li>如果同时开启了 RDB 和 AOF 持久化，Redis 启动时只会加载 AOF 文件（appendonly.aof），进行数据恢复。</li>
+</ul>
+<p>在 AOF 开启的情况下，即使 AOF 文件不存在，只有 RDB 文件，也不会加载 RDB 文件。 AOF 和 RDB 的加载流程如下图所示：</p>
+<p><img src="https://cdn.staticaly.com/gh/Chave-Z/picture@master/redis/202212080902038.png" alt="image.png"></p>
+<h5 id="异常恢复流程"><a href="#异常恢复流程" class="headerlink" title="异常恢复流程"></a>异常恢复流程</h5><p>在 AOF 写入文件时如果服务器崩溃，或者是 AOF 存储已满的情况下，AOF 的最后一条命令可能被截断，这就是异常的 AOF 文件。</p>
+<ul>
+<li><p><strong>简单异常</strong></p>
+<p>在 AOF 文件异常的情况下，如果为修改 Redis 的配置文件，也就是使用 <code>aof-load-truncated</code> 等于 <code>yes</code> 的配置，Redis 在启动时会忽略最后一条命令，并顺利启动 Redis，执行结果如下：</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">* Reading RDB preamble from AOF file...</span><br><span class="line">* Reading the remaining AOF tail...</span><br><span class="line"><span class="meta">#</span><span class="bash"> !!! Warning: short <span class="built_in">read</span> <span class="keyword">while</span> loading the AOF file !!!</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> !!! Truncating the AOF at offset 439 !!!</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> AOF loaded anyway because aof-load-truncated is enabled</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>复杂异常数据</strong></li>
+</ul>
+<blockquote>
+<p>AOF 文件可能出现更糟糕的情况，当 AOF 文件不仅被截断，而且中间的命令也被破坏，这个时候再启动 Redis 会提示错误信息并中止运行。</p>
+</blockquote>
+<p>解决方案如下：</p>
+<ol>
+<li><p>首先使用 AOF 修复工具，检测出现的问题，在命令行中输入 <code>redis-check-aof</code> 命令，它会跳转到出现问题的命令行，这个时候可以尝试手动修复此文件；</p>
+<p>eg：使用了flushall这个命令，此刻持久化文件中就会有这么一条命令记录，把它删掉就可以了</p>
+</li>
+<li><p>如果无法手动修复，我们可以使用 <code>redis-check-aof --fix</code> 自动修复 AOF 异常文件，<strong>不过执行此命令，可能会导致异常部分至文件末尾的数据全部被丢弃。</strong></p>
+</li>
+</ol>
+<h4 id="AOF优势"><a href="#AOF优势" class="headerlink" title="AOF优势"></a>AOF优势</h4><ol>
+<li>根据不同的策略，可以实现每秒，每一次修改操作的同步持久化，就算在最恶劣的情况下只会丢失不会超过两秒数据。</li>
+<li><strong>AOF</strong>在对日志文件进行操作的时候是以<code>append-only</code>的方式去写的，他只是追加的方式写数据，自然就少了很多磁盘寻址的开销了，写入性能惊人，文件也不容易破损。</li>
+<li>当文件太大时，会触发重写机制，确保文件不会太大。</li>
+<li>文件可以简单的读懂，比如通过<strong>flushall</strong>误操作清空了所有的数据，只要这个时候后台重写还没发生，马上拷贝一份<strong>AOF</strong>日志文件，把最后一条<strong>flushall</strong>命令删了就完事了。</li>
+</ol>
+<h4 id="AOF劣势"><a href="#AOF劣势" class="headerlink" title="AOF劣势"></a>AOF劣势</h4><ol>
+<li><strong>AOF文件的大小太大</strong>，就算有重写机制，但重写所造成的阻塞问题是不可避免的</li>
+<li><strong>AOF</strong>开启后，<strong>Redis</strong>支持写的<strong>QPS</strong>会比<strong>RDB</strong>支持写的要低，最坏的情况是每秒都要去异步刷新一次日志<strong>fsync</strong>，当然即使这样性能还是很高。</li>
+</ol>
+<h3 id="混合持久化"><a href="#混合持久化" class="headerlink" title="混合持久化"></a>混合持久化</h3><p>RDB 和 AOF 持久化各有利弊，RDB 可能会导致一定时间内的数据丢失，而 AOF 由于文件较大则会影响 Redis 的启动速度，为了能同时使用 RDB 和 AOF 各种的优点，Redis 4.0 之后新增了混合持久化的方式。</p>
+<p><strong>在开启混合持久化的情况下，AOF 重写时会把 Redis 的持久化数据，以 RDB 的格式写入到 AOF 文件的开头，之后的数据再以 AOF 的格式化追加的文件的末尾。</strong></p>
+<p>混合持久化的数据存储结构如下图所示：</p>
+<p><img src="https://cdn.staticaly.com/gh/Chave-Z/picture@master/redis/202212080902183.png" alt="image.png"></p>
+<h4 id="混合持久化开启"><a href="#混合持久化开启" class="headerlink" title="混合持久化开启"></a>混合持久化开启</h4><p>混合持久化开启只需要将配置文件中的 <code>aof-use-rdb-preamble no</code> 改为 <code>aof-use-rdb-preamble yes</code> 即可，也可使用命令 <code>config set aof-use-rdb-preamble yes</code>开启。</p>
+<h4 id="实测"><a href="#实测" class="headerlink" title="实测"></a>实测</h4><p>当在混合持久化关闭的情况下，使用 <code>bgrewriteaof</code> 触发 AOF 文件重写之后，查看 appendonly.aof 文件的持久化日志，如下所示：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt;  config set aof-use-rdb-preamble no</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt;  config get aof-use-rdb-preamble</span><br><span class="line">1) &quot;aof-use-rdb-preamble&quot;</span><br><span class="line">2) &quot;no&quot;</span><br><span class="line">127.0.0.1:6379&gt; bgrewriteaof</span><br><span class="line">Background append only file rewriting started</span><br><span class="line">127.0.0.1:6379&gt; exit</span><br><span class="line">/bin # cat ../data/appendonly.aof </span><br><span class="line">*2</span><br><span class="line"><span class="meta">$</span><span class="bash">6</span></span><br><span class="line">SELECT</span><br><span class="line"><span class="meta">$</span><span class="bash">1</span></span><br><span class="line">0</span><br><span class="line">*3</span><br><span class="line"><span class="meta">$</span><span class="bash">3</span></span><br><span class="line">SET</span><br><span class="line"><span class="meta">$</span><span class="bash">2</span></span><br><span class="line">k1</span><br><span class="line"><span class="meta">$</span><span class="bash">7</span></span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，当混合持久化关闭的情况下 AOF 持久化文件存储的为标准的 AOF 格式的文件。 </p>
+<p>当混合持久化开启的模式下，使用 <code>bgrewriteaof</code> 命令触发 AOF 文件重写，得到 appendonly.aof 的文件内容如下图所示：</p>
+<p><img src="https://cdn.staticaly.com/gh/Chave-Z/picture@master/redis/202212080911152.png" alt="image-20221208091135073"></p>
+<p>可以看出 appendonly.aof 文件存储的内容是 <code>REDIS</code> 开头的 RDB 格式的内容，并非为 AOF 格式的日志。</p>
+<p><strong>Tips</strong>：AOF 格式的开头是 *，而 RDB 格式的开头是 REDIS。</p>
+<h4 id="混合持久化流程"><a href="#混合持久化流程" class="headerlink" title="混合持久化流程"></a>混合持久化流程</h4><p>混合持久化的加载流程如下：</p>
+<ol>
+<li>判断是否开启 AOF 持久化，开启继续执行后续流程，未开启执行加载 RDB 文件的流程；</li>
+<li>判断 appendonly.aof 文件是否存在，文件存在则执行后续流程；</li>
+<li>判断 AOF 文件开头是 RDB 的格式, 先加载 RDB 内容再加载剩余的 AOF 内容；</li>
+<li>判断 AOF 文件开头不是 RDB 的格式，直接以 AOF 格式加载整个文件。</li>
+</ol>
+<p>![image.png](<a target="_blank" rel="noopener" href="https://learn.lianglianglee.com/%E4%B8%93%E6%A0%8F/Redis">https://learn.lianglianglee.com/专栏/Redis</a> 核心原理与实战/assets/2020-02-24-122601.png)</p>
+<h4 id="混合持久化优缺点"><a href="#混合持久化优缺点" class="headerlink" title="混合持久化优缺点"></a>混合持久化优缺点</h4><h5 id="混合持久化优点："><a href="#混合持久化优点：" class="headerlink" title="混合持久化优点："></a><strong>混合持久化优点：</strong></h5><ul>
+<li>混合持久化结合了 RDB 和 AOF 持久化的优点，开头为 RDB 的格式，使得 Redis 可以更快的启动，同时结合 AOF 的优点，有减低了大量数据丢失的风险。</li>
+</ul>
+<h5 id="混合持久化缺点："><a href="#混合持久化缺点：" class="headerlink" title="混合持久化缺点："></a><strong>混合持久化缺点：</strong></h5><ul>
+<li>AOF 文件中添加了 RDB 格式的内容，使得 AOF 文件的可读性变得很差；</li>
+<li>兼容性差，如果开启混合持久化，那么此混合持久化 AOF 文件，就不能用在 Redis 4.0 之前版本了。</li>
+</ul>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><p>持久化虽然保证了数据不丢失，但同时拖慢了 Redis 的运行速度，那怎么更合理的使用 Redis 的持久化功能呢？ Redis 持久化可从以下几个方面考虑。</p>
+<h4 id="1-控制持久化开关"><a href="#1-控制持久化开关" class="headerlink" title="1) 控制持久化开关"></a>1) 控制持久化开关</h4><p>使用者可根据实际的业务情况考虑，如果对数据的丢失不敏感的情况下，可考虑关闭 Redis 的持久化，这样所以的键值操作都在内存中，就可以保证最高效率的运行 Redis 了。 持久化关闭操作：</p>
+<ul>
+<li>关闭 RDB 持久化，使用命令： <code>config set save &quot;&quot;</code></li>
+<li>关闭 AOF 和 混合持久化，使用命令： <code>config set appendonly no</code></li>
+</ul>
+<h4 id="2-主从部署"><a href="#2-主从部署" class="headerlink" title="2) 主从部署"></a>2) 主从部署</h4><p>使用主从部署，一台用于响应主业务，一台用于数据持久化，这样就可能让 Redis 更加高效的运行。</p>
+<h4 id="3-使用混合持久化"><a href="#3-使用混合持久化" class="headerlink" title="3) 使用混合持久化"></a>3) 使用混合持久化</h4><p>混合持久化结合了 RDB 和 AOF 的优点，Redis 5.0 默认是开启的。</p>
+<h4 id="4-使用配置更高的机器"><a href="#4-使用配置更高的机器" class="headerlink" title="4) 使用配置更高的机器"></a>4) 使用配置更高的机器</h4><p>Redis 对 CPU 的要求并不高，反而是对内存和磁盘的要求很高，因为 Redis 大部分时候都在做读写操作，使用更多的内存和更快的磁盘，对 Redis 性能的提高非常有帮助。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li><p>如果你只希望你的数据在服务器运行的时候存在，可以不使用任何的持久化方式</p>
+</li>
+<li><p>一般建议同时开启两种持久化方式。AOF进行数据的持久化，确保数据不会丢失太多，而RDB更适合用于备份数据库，留着一个做万一的手段。</p>
+</li>
+<li><p><strong>性能建议：</strong></p>
+<p>因为RDB文件只用做后备用途，建议只在slave上持久化RDB文件，而且只要在15分钟备份一次就够了，只保留900 1这条规则。</p>
+<p>如果Enalbe AOF,好处是在最恶劣情况下也只会丢失不超过两秒数据，启动脚本较简单只load自己的AOF文件就可以了。</p>
+<p>代价：</p>
+<p>1、带来了持续的IO；</p>
+<p>2、AOF rewrite的最后将rewrite过程中产生的新数据写到新文件造成的阻塞几乎是不可避免的。只要硬盘许可，应该尽量减少AOF rewrite的频率，AOF重写的基础大小默认值64M太小了，可以设到5G以上。默认超过原大小100%大小时重写可以改到适当的数值。</p>
+<p>如果不Enable AOF，仅靠Master-Slave Replication 实现高可用性也可以。能省掉一大笔IO也减少了rewrite时带来的系统波动。代价是如果Master/Slave同时宕掉，会丢失10几分钟的数据，启动脚本也要比较两个Master/Slave中的RDB文件，载入较新的那个。新浪微博就选用了这种架构。</p>
+</li>
+</ol>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">D丶Cheng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://chave-z.github.io/posts/119ed1dc.html">https://chave-z.github.io/posts/119ed1dc.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://chave-z.github.io" target="_blank">D丶Cheng的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Redis/">Redis</a></div><div class="post_share"><div class="social-share" data-image="/null" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/b7e51ad7.html"><img class="prev-cover" src="/null" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Redis主从复制</div></div></a></div><div class="next-post pull-right"><a href="/posts/35743b4b.html"><img class="next-cover" src="/null" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Redis缓存雪崩、缓存穿透、缓存击穿</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/af9b4eba.html" title="Redis-知识汇总"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-06-01</div><div class="title">Redis-知识汇总</div></div></a></div><div><a href="/posts/b7e51ad7.html" title="Redis主从复制"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-06-04</div><div class="title">Redis主从复制</div></div></a></div><div><a href="/posts/207e4c9d.html" title="Redis学习目录"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-06-01</div><div class="title">Redis学习目录</div></div></a></div><div><a href="/posts/fe29e710.html" title="Redis基础"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-06-02</div><div class="title">Redis基础</div></div></a></div><div><a href="/posts/ed3b1c3a.html" title="Redis常用命令及数据结构相关操作"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-06-02</div><div class="title">Redis常用命令及数据结构相关操作</div></div></a></div><div><a href="/posts/35743b4b.html" title="Redis缓存雪崩、缓存穿透、缓存击穿"><img class="cover" src="/null"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-06-03</div><div class="title">Redis缓存雪崩、缓存穿透、缓存击穿</div></div></a></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2022 By D丶Cheng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/search/local-search.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="/js/third-party/canvas-nest.js"></script></div></body></html>
